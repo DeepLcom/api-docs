@@ -1,0 +1,15 @@
+export const Test = () => {
+    useEffect(() => {
+        console.log("inside text.mdx")
+    }, [])
+
+    const [count, setCount] = useState(0);
+
+    return (
+        <div>
+            <button onClick={() => setCount(count + 1)}>increment</button>
+            <div>{count}</div>
+            <button onClick={() => setCount(count - 1)}>decrement</button>
+        </div>
+    )
+}
