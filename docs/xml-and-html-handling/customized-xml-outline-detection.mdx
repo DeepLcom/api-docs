@@ -1,0 +1,51 @@
+---
+title: "Customized XML Outline Detection"
+---
+
+Automatic detection of the XML structure will not always yield the best results in all XML files. You can disable this automatic mechanism by setting the `outline_detection=0` and selecting the tags that should be considered structure tags. This will split sentences using the `splitting_tags` parameter.
+
+In the example below, we achieve the same results as the automatic engine by disabling automatic detection and setting the parameters manually:
+
+Outline detection example
+
+Parameters
+
+Copy
+
+```
+tag_handling=xml, split_sentences=nonewlines, outline_detection=0, splitting_tags=par,title
+```
+
+Example request
+
+Copy
+
+```
+<document>
+  <meta>
+    <title>A document's title</title>
+  </meta>
+  <content>
+    <par>This is the first sentence. Followed by a second one.</par>
+    <par>This is the third sentence.</par>
+  </content>
+</document>
+```
+
+Example response
+
+Copy
+
+```
+<document>
+  <meta>
+    <title>Der Titel eines Dokuments</title>
+  </meta>
+  <content>
+    <par>Das ist der erste Satz. Gefolgt von einem zweiten.</par>
+    <par>Dies ist der dritte Satz.</par>
+  </content>
+</document>
+```
+
+While this approach is slightly more complicated, it allows for greater control over the structure of the translation output.

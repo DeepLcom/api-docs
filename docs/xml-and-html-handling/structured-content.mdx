@@ -1,0 +1,151 @@
+---
+title: "Structured XML Content"
+---
+
+When enabling `tag_handling` by setting it to `xml`, the DeepL API is able to process structured XML content. This includes whole XML files, as the following example shows.
+
+Please note that for XML structured content in classic models, we set the parameter `split_sentences` to `nonewlines` to make sure that newlines do not alter the results. The response is beautified for better readability.
+
+Please note that for next-gen models, the parameter `split_sentences`passed by the user is ignored and a value of `nonewlines`is used for maximum translation quality.
+
+Parameters and corresponding results:
+
+Example
+
+Parameters
+
+Copy
+
+```
+tag_handling=xml, split_sentences=nonewlines
+```
+
+Example request
+
+Copy
+
+```
+<document>
+  <meta>
+    <title>A document's title</title>
+  </meta>
+  <content>
+    <par>This is the first sentence. Followed by a second one.</par>
+    <par>This is the third sentence.</par>
+  </content>
+</document>
+```
+
+Example response
+
+Copy
+
+```
+<document>
+  <meta>
+    <title>Der Titel eines Dokuments</title>
+  </meta>
+  <content>
+    <par>Das ist der erste Satz. Gefolgt von einem zweiten.</par>
+    <par>Dies ist der dritte Satz.</par>
+  </content>
+</document>
+```
+
+Before sentences are translated, the XML file is parsed, and tags containing textual content other than white space are identified, in order to reproduce the XML structure in the translation.
+
+In the example above, the `title` and the two `par` tags are found to contain text. These tags are considered sentence splitters. Therefore, each of the following three texts is treated separately:
+
+* *A document's title*
+
+* *This is the first sentence. Followed by a second one.*
+
+* *This is the third sentence.*
+
+The second text is further split, as it contains two separate sentences. Each sentence is then translated separately and tags within the sentences (used here for formatting) are applied to the corresponding words in the translation.
+
+### Splitting on New Lines
+
+Please note that newlines will split sentences. You should therefore clean files to avoid breaking sentences or set the parameter `split_sentences=nonewlines` .
+
+Incorrect translation due to new lines
+
+Request
+
+Copy
+
+```
+<div>She bought oat
+biscuits.</div>
+```
+
+Response
+
+Copy
+
+```
+<div>Sie kaufte Hafer
+Kekse.</div>
+```
+
+ℹ️ Here, the two parts of the sentence have been translated separately and resulted in an error: "oat biscuits" has been translated as "Hafer Kekse" instead of "Haferkekse".
+
+### Restricting Splitting
+
+For some XML files, finding tags with textual content and splitting sentences using those tags won't yield the best translation results. The following examples show the difference in results when the engine splits sentences on `par` tags and proceed to translate the parts separately, as opposed to translating the sentence as a whole.
+
+As this can lead to bad translations, this type of structure should either be avoided, or the `non_splitting_tags` parameter should be set.
+
+Restricted SplittingWith Splitting
+
+Parameters
+
+Copy
+
+```
+tag_handling=xml, non_splitting_tags=par
+```
+
+Request
+
+Copy
+
+```
+<par>The firm said it had been </par><par> conducting an internal investigation.</par>
+```
+
+Response
+
+Copy
+
+```
+<par>Die Firma sagte, dass sie</par><par> eine interne Untersuchung durchgeführt</par><par> habe</par><par>.</par>
+```
+
+ℹ️ This time, the sentence is translated as a whole. The XML tags are now considered markup and copied into the translated sentence. As the translation of the words "had been" has moved to another position in the German sentence, the two `par` tags are duplicated (which is expected here).
+
+Parameters
+
+Copy
+
+```
+tag_handling=xml
+```
+
+Request
+
+Copy
+
+```
+<par>The firm said it had been </par><par> conducting an internal investigation.</par>
+```
+
+Response
+
+Copy
+
+```
+<par>Die Firma sagte, es sei eine gute Idee gewesen.</par><par> Durchführung einer internen Untersuchung.</par>
+```
+
+ℹ️ Translating separately results in an incorrect translation. As this can lead to bad translations, this type of structure should either be avoided, or the `non_splitting_tags` parameter should be set.

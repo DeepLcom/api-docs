@@ -1,0 +1,140 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "DeepL Documentation",
+  "colors": {
+    "primary": "#0f2b46",
+    "light": "#ffffff",
+    "dark": "#0f2b46"
+  },
+  "background": {
+    "color": {
+      "light": "#F5F5F5"
+    }
+  },
+  "appearance": {
+    "default": "light",
+    "strict": true
+  },
+  "fonts": {
+    "heading": {
+      "family": "Roboto Light",
+      "source": "https://mintlify-assets.b-cdn.net/fonts/roboto-light.woff2",
+      "format": "woff2"
+    },
+    "body": {
+      "family": "Roboto Light",
+      "source": "https://mintlify-assets.b-cdn.net/fonts/roboto-light.woff2",
+      "format": "woff2"
+    }
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Home",
+        "pages": [
+          "home"
+        ]
+      },
+      {
+        "tab": "Get Started",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "docs",
+              "docs/getting-started/about",
+              "docs/getting-started/auth",
+              "docs/getting-started/managing-api-keys"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "API Reference",
+            "pages": [
+            {
+              "group": "Translate text",
+              "pages": [
+                "docs/api-reference/translate",
+                "docs/api-reference/translate/request-translation"
+               
+              ]
+            },
+            {
+              "group": "Translate documents",
+              "pages": [
+                "docs/api-reference/document",
+                "docs/api-reference/document/upload-and-translate-a-document",
+                "docs/api-reference/document/check-document-status"
+              ]
+            }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Learning",
+        "groups": [
+          { 
+            "group": "Cookbook",
+            "pages": [
+              "docs/learning-how-tos/cookbook",
+              "docs/learning-how-tos/cookbook/google-sheets",
+              "docs/learning-how-tos/cookbook/context-parameter-examples"
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Blog",
+          "href": "https://www.deepl.com/en/blog",
+          "icon": "newspaper"
+        },
+        {
+          "anchor": "DeepL Web Translator",
+          "icon": "language",
+          "href": "https://www.deepl.com/translator"
+        },
+        {
+          "anchor": "Create Free API Account",
+          "icon": "user",
+          "href": "https://www.deepl.com/en/pro#developer"
+        }
+      ]
+    }
+  },
+  "logo": {
+    "light": "/logo/logo.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Contact Us",
+        "href": "https://www.deepl.com/contact-us"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Start free trial",
+      "href": "https://www.deepl.com/en/pro"
+    }
+  },
+  "footer": {
+    "socials": {
+      "x": "https://twitter.com/DeepLcom",
+      "facebook": "https://www.facebook.com/DeepLcom/",
+      "linkedin": "https://www.linkedin.com/company/linkedin-com-company-deepl/",
+      "github": "https://github.com/DeepLcom",
+      "instagram": "https://www.instagram.com/deeplhq/"
+    }
+  }
+}

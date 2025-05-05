@@ -1,0 +1,106 @@
+---
+title: "March 2025: Deprecating GET Requests To /Translate And Authenticating With Auth\_key"
+---
+
+**Important:** The deprecations described on this page apply to both the `v1` (CAT tool) and `v2` API versions.
+
+## Change Notice
+
+On or after March 14, 2025, DeepL will deprecate two little-used API features.
+
+* **You will no longer be able to send GET requests or query parameters to the&#x20;**`/translate`**&#x20;endpoint.&#x20;**&#x47;oing forward, `/translate` will accept only POST requests with data included in the request body.
+
+* **You will no longer be able to authenticate a request to any endpoint by sending an API key in a query parameter.&#x20;**&#x49;nstead, send your API key in an HTTP header named `Authorization` .
+
+* **If you use one of DeepL's officially-supported client libraries, you won't be negatively affected by the breaking changes and do not need to update your application.** Specifically, we've confirmed the following client library versions:
+
+  * [deepl-php](https://github.com/deeplcom/deepl-php): 1.0.0+
+
+  * [deepl-python](https://github.com/deeplcom/deepl-python): 1.0.0+
+
+  * [deepl-java](https://github.com/DeepLcom/deepl-java): 1.0.0+
+
+  * [deepl-dotnet](https://github.com/DeepLcom/deepl-dotnet): 1.0.0+
+
+  * [deepl-node](https://github.com/DeepLcom/deepl-node): 1.1.0+
+
+  * [deepl-rb](https://github.com/DeepLcom/deepl-rb): 3.0.0+ (the first version where DeepL took over ownership of the Ruby client library)
+
+### Use POST for /translate
+
+Going forward, you will need to send requests to the `/translate` endpoint using POST, not GET. This also means you will not be able to send such requests using only a URL. You will need to send data in the request body, not in query parameters.
+
+[This example from the documentation](https://developers.deepl.com/docs/api-reference/translate) shows an HTTP POST request to translate the English sentence "Hello, world!" into German.
+
+Copy
+
+```
+POST /v2/translate HTTP/2 
+Host: api.deepl.com
+Authorization: DeepL-Auth-Key [yourAuthKey]
+User-Agent: YourApp/1.2.3
+Content-Length: 45
+Content-Type: application/json
+{"text":["Hello, world!"],"target_lang":"DE"}
+```
+
+Going forward, the API will reject a GET request like this.
+
+Copy
+
+```
+GET /v2/translate?text=Hello%2C%20world!&target_lang=DE HTTP/2
+Host: api.deepl.com
+Authorization: DeepL-Auth-Key [yourAuthKey]
+User-Agent: YourApp/1.2.3
+```
+
+Similarly, the API will reject a request made with a URL and query string.
+
+Copy
+
+```
+https://api.deepl.com/v2/translate?auth_key=yourAuthKey&text=Hello%2C%20world!&target_lang=DE
+```
+
+### Authenticate with an HTTP header
+
+Going forward, you will need to authorize any API request, to any endpoint, by including your API key in an HTTP header named `Authorization`, like this:
+
+Copy
+
+```
+Authorization: DeepL-Auth-Key [yourAuthKey]
+```
+
+[See above](/docs/resources/breaking-changes-change-notices/march-2025-deprecating-get-requests-to-translate-and-authenticating-with-auth_key#use-post-for-translate) for an example. For detailed information on authorization and how to use the `Authorization` header, please see [the documentation](https://developers.deepl.com/docs/getting-started/auth).
+
+Going forward, you will not be able to authorize any request, to any endpoint, by including your API key in an `auth_key` query parameter.
+
+### Why is DeepL doing this now?
+
+#### Use POST for /translate
+
+It is a standard API practice to use GET to request data and POST to send data. To request a translation, one must send data, making POST the customary choice. By disallowing GET and query params for this endpoint, we bring our API in line with industry best practices.
+
+Additionally, data sent in query parameters is less secure than data sent in a POST body, as URLs with query parameters may be stored in browser history, discovered in logs, and more. This change helps us make the API more efficient and more private for everyone.
+
+#### Authenticate with an HTTP header
+
+Similarly, the API best practice is to authenticate a request by including the API key in an HTTP header. Sending an API key in a GET request or in a URL risks exposing the API key to the public via logs or other means. For privacy and security reasons, we must disallow this practice.
+
+### What if I continue to use a deprecated feature?
+
+After the date above, translation requests that use GET or query parameters will fail. Requests to any API endpoint that attempt to authenticate with the old `auth_key` parameter will fail as well.
+
+### What action should I take so that I’m not affected?
+
+If you develop your own application using the DeepL API:
+
+* Ensure your code is not using either of the deprecated features.
+
+If you’re using a third-party plugin that is powered by the DeepL API:
+
+* Update to the most recent version of the plugin. If you experience trouble, contact the plugin provider to make sure they are aware of these deprecations.
+
+For further questions, please visit [our support page](https://support.deepl.com).

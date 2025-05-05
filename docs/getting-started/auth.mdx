@@ -1,0 +1,41 @@
+---
+title: "Access And Authentication"
+description: "Learn where to find your authentication key and how to access the DeepL API."
+---
+
+The DeepL API is accessible through an HTTP interface as well as a selection of programming language-specific client libraries.
+
+The API endpoints accept both form-encoded (`Content-Type: application/x-www-form-urlencoded`) and JSON-encoded (`Content-Type: application/json`) request bodies, and return JSON-encoded responses.
+
+One exception regarding content type is the `/document` endpoint when uploading a document. Because this includes a file upload, it must be an HTTP POST request with content type `multipart/form-data`. Content type `multipart/form-data` should not be used with other endpoints such as `/translate`. It is only officially supported when used to upload a document via the `/document` endpoint.
+
+There is a header size limit of 16 KiB (16\*1024 bytes) for all requests.
+
+<Info>
+Please note: the API endpoint is different for the Free API and Pro API. You may have to adapt your code when using the code samples provided here!
+
+Free API -> `https://api-free.deepl.com` <br />
+Pro API -> `https://api.deepl.com`
+</Info>
+
+### Authentication
+
+You need an authentication key to access the API. You can find your key in the ["API Keys" tab in your account](https://www.deepl.com/your-account/keys). It is important to keep your keys confidential. You should not use an API key in publicly-distributed code.
+
+DeepL API Free authentication keys can be identified easily by the suffix ":fx" (e.g., 279a2e9d-83b3-c416-7e2d-f721593e42a0:fx)
+
+<Info>
+Keep your API key secure at all times. Do not use it in client-side code.
+</Info>
+
+If your authentication key becomes compromised, you also deactivate it and create a new key in [the "API Keys" tab](https://www.deepl.com/your-account/keys).
+
+Learn more about managing your DeepL API keys [here](/docs/getting-started/managing-api-keys).
+
+The authentication key is provided by setting the *Authorization* HTTP header to `DeepL-Auth-Key [yourAuthKey]`.
+
+#### API Versions
+
+The current API version is v2, meaning that all request paths start with `/v2/`.
+
+It is the only supported version, with the exception of CAT tool integrations, which need to use the version 1 API that is not documented here. If you intend to integrate DeepL Pro into a CAT tool or another tool assisting translation, please contact [cat-tool.support@DeepL.com](mailto:cat-tool.support@DeepL.com).

@@ -1,0 +1,2190 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "DeepL API Documentation",
+      "description": "The DeepL API provides programmatic access to DeepL’s language AI technology.\n\nNote: this OpenAPI spec is embedded into our API documentation and has shortened descriptions.",
+      "termsOfService": "https://www.deepl.com/pro-license",
+      "contact": {
+        "name": "DeepL - Contact us",
+        "url": "https://www.deepl.com/contact-us"
+      },
+      "version": "2.18.0"
+    },
+    "externalDocs": {
+      "description": "DeepL Pro - Plans and pricing",
+      "url": "https://www.deepl.com/pro#developer"
+    },
+    "servers": [
+      {
+        "url": "https://api.deepl.com/v2",
+        "description": "DeepL API Pro"
+      },
+      {
+        "url": "https://api-free.deepl.com/v2",
+        "description": "DeepL API Free"
+      }
+    ],
+    "tags": [
+      {
+        "name": "TranslateText",
+        "description": "The text-translation API currently consists of a single endpoint, `translate`, which is described below."
+      },
+      {
+        "name": "TranslateDocuments",
+        "description": "The document translation API allows you to translate whole documents and supports the following file types and extensions:\n  * `docx` - Microsoft Word Document\n  * `pptx` - Microsoft PowerPoint Document\n  * `xlsx` - Microsoft Excel Document\n  * `pdf` - Portable Document Format\n  * `htm / html` - HTML Document\n  * `txt` - Plain Text Document\n  * `xlf / xliff` - XLIFF Document, version 2.1\n  * `srt` - SRT Document"
+      },
+      {
+        "name": "RephraseText",
+        "description": "The `rephrase` endpoint  is used to make corrections and adjustments to texts based on style or tone."
+      },
+      {
+        "name": "ManageGlossaries",
+        "description": "The *glossary* functions allow you to create, inspect, and delete glossaries.\nGlossaries created with the glossary function can be used in translate requests by specifying the\n`glossary_id` parameter.\nIf you encounter issues, please let us know at support@DeepL.com.\n\nThe DeepL API supports glossaries in any combination of two languages from the following list, enabling a total of\n120 possible glossary language pairs:\n\n- DA (Danish)\n- DE (German)\n- EN (English)\n- ES (Spanish)\n- FR (French)\n- IT (Italian)\n- JA (Japanese)\n- KO (Korean)\n- NB (Norwegian (bokmål))\n- NL (Dutch)\n- PL (Polish)\n- PT (Portuguese)\n- RO (Romanian)\n- RU (Russian)\n- SV (Swedish)\n- ZH (Chinese)"
+      },
+      {
+        "name": "MetaInformation",
+        "description": "Information about API usage and value ranges"
+      }
+    ],
+    "x-hideTryItPanel": true,
+    "x-codeSamples": false,
+    "paths": {
+      "/translate": {
+        "post": {
+          "tags": [
+            "TranslateText"
+          ],
+          "summary": "Request Translation",
+          "operationId": "translateText",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "text",
+                    "target_lang"
+                  ],
+                  "properties": {
+                    "text": {
+                      "description": "Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be specified\nmany times in a single request, within the request size limit (128KiB). Translations are returned\nin the same order as they are requested.",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "Hello, World!"
+                      }
+                    },
+                    "source_lang": {
+                      "$ref": "#/components/schemas/SourceLanguage"
+                    },
+                    "target_lang": {
+                      "$ref": "#/components/schemas/TargetLanguageText"
+                    },
+                    "context": {
+                      "$ref": "#/components/schemas/Context"
+                    },
+                    "show_billed_characters": {
+                      "$ref": "#/components/schemas/ShowBilledCharacters"
+                    },
+                    "split_sentences": {
+                      "$ref": "#/components/schemas/SplitSentencesOption"
+                    },
+                    "preserve_formatting": {
+                      "$ref": "#/components/schemas/PreserveFormattingOption"
+                    },
+                    "formality": {
+                      "$ref": "#/components/schemas/Formality"
+                    },
+                    "model_type": {
+                      "$ref": "#/components/schemas/ModelType"
+                    },
+                    "glossary_id": {
+                      "description": "Specify the glossary to use for the translation. **Important:** This requires the `source_lang`\nparameter to be set. The language pair of the glossary has to match the language pair of the\nrequest.",
+                      "type": "string",
+                      "example": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7"
+                    },
+                    "tag_handling": {
+                      "$ref": "#/components/schemas/TagHandlingOption"
+                    },
+                    "outline_detection": {
+                      "$ref": "#/components/schemas/OutlineDetectionOption"
+                    },
+                    "non_splitting_tags": {
+                      "description": "Comma-separated list of XML tags which never split sentences.",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "non_splitting_tag"
+                      }
+                    },
+                    "splitting_tags": {
+                      "description": "Comma-separated list of XML tags which always cause splits.",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "splitting_tag"
+                      }
+                    },
+                    "ignore_tags": {
+                      "description": "Comma-separated list of XML tags that indicate text not to be translated.",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "ignore_tag"
+                      }
+                    }
+                  }
+                }
+              },
+              "application/x-www-form-urlencoded": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "text",
+                    "target_lang"
+                  ],
+                  "properties": {
+                    "text": {
+                      "description": "Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be specified many times in a single request, within the request size limit (128KiB). Translations are returned in the same order as they are requested.",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "Hello, World!"
+                      }
+                    },
+                    "source_lang": {
+                      "$ref": "#/components/schemas/SourceLanguage"
+                    },
+                    "target_lang": {
+                      "$ref": "#/components/schemas/TargetLanguageText"
+                    },
+                    "context": {
+                      "$ref": "#/components/schemas/Context"
+                    },
+                    "show_billed_characters": {
+                      "$ref": "#/components/schemas/ShowBilledCharacters"
+                    },
+                    "split_sentences": {
+                      "$ref": "#/components/schemas/SplitSentencesOption"
+                    },
+                    "preserve_formatting": {
+                      "$ref": "#/components/schemas/PreserveFormattingOptionStr"
+                    },
+                    "formality": {
+                      "$ref": "#/components/schemas/Formality"
+                    },
+                    "model_type": {
+                      "$ref": "#/components/schemas/ModelType"
+                    },
+                    "glossary_id": {
+                      "description": "Specify the glossary to use for the translation. **Important:** This requires the `source_lang`\nparameter to be set. The language pair of the glossary has to match the language pair of the\nrequest.",
+                      "type": "string",
+                      "example": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7"
+                    },
+                    "tag_handling": {
+                      "$ref": "#/components/schemas/TagHandlingOption"
+                    },
+                    "outline_detection": {
+                      "$ref": "#/components/schemas/OutlineDetectionOptionStr"
+                    },
+                    "non_splitting_tags": {
+                      "description": "Comma-separated list of XML tags which never split sentences.",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "non_splitting_tag"
+                      }
+                    },
+                    "splitting_tags": {
+                      "description": "Comma-separated list of XML tags which always cause splits.",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "splitting_tag"
+                      }
+                    },
+                    "ignore_tags": {
+                      "description": "Comma-separated list of XML tags that indicate text not to be translated.",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "ignore_tag"
+                      }
+                    }
+                  }
+                },
+                "encoding": {
+                  "text": {
+                    "style": "form",
+                    "explode": true
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "The translate function returns a JSON representation of the translations in the order the text parameters have been specified.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "translations": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "detected_source_language": {
+                              "description": "The language detected in the source text. It reflects the value of the `source_lang` parameter, when specified.",
+                              "type": "string",
+                              "example": "EN"
+                            },
+                            "text": {
+                              "description": "The translated text.",
+                              "type": "string",
+                              "example": "Hallo, Welt!"
+                            },
+                            "billed_characters": {
+                              "description": "Number of characters counted by DeepL for billing purposes. Only present if the show_billed_characters parameter is set to true.",
+                              "type": "integer",
+                              "example": 42
+                            },
+                            "model_type_used": {
+                              "description": "Indicates the translation model used. Only present if model_type parameter is included in the request.",
+                              "type": "string",
+                              "example": "quality_optimized"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "$ref": "#/components/responses/BadRequest"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "404": {
+              "$ref": "#/components/responses/NotFound"
+            },
+            "413": {
+              "$ref": "#/components/responses/PayloadTooLarge"
+            },
+            "414": {
+              "$ref": "#/components/responses/URITooLong"
+            },
+            "429": {
+              "$ref": "#/components/responses/TooManyRequests"
+            },
+            "456": {
+              "$ref": "#/components/responses/QuotaExceeded"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalServerError"
+            },
+            "504": {
+              "$ref": "#/components/responses/ServiceUnavailable"
+            },
+            "529": {
+              "$ref": "#/components/responses/TooManyRequests"
+            }
+          },
+          "security": [
+            {
+              "auth_header": []
+            }
+          ]
+        }
+      },
+      "/document": {
+        "post": {
+          "tags": [
+            "TranslateDocuments"
+          ],
+          "summary": "Upload and Translate a Document",
+          "operationId": "translateDocument",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "multipart/form-data": {
+                "examples": {
+                  "Basic": {
+                    "summary": "Basic Document Translation",
+                    "value": {
+                      "target_lang": "DE",
+                      "file": "@document.docx"
+                    }
+                  },
+                  "Glossary": {
+                    "summary": "Using a Glossary",
+                    "value": {
+                      "source_lang": "EN",
+                      "target_lang": "DE",
+                      "file": "@document.docx",
+                      "glossary_id": "[yourGlossaryId]"
+                    }
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "target_lang",
+                    "file"
+                  ],
+                  "properties": {
+                    "source_lang": {
+                      "$ref": "#/components/schemas/SourceLanguage"
+                    },
+                    "target_lang": {
+                      "$ref": "#/components/schemas/TargetLanguage"
+                    },
+                    "file": {
+                      "type": "string",
+                      "format": "binary",
+                      "description": "The document file to be translated. The file name should be included in this part's content disposition. As an alternative, the filename parameter can be used. The following file types and extensions are supported:\n  * `docx` - Microsoft Word Document\n  * `pptx` - Microsoft PowerPoint Document\n  * `xlsx` - Microsoft Excel Document\n  * `pdf` - Portable Document Format\n  * `htm / html` - HTML Document\n  * `txt` - Plain Text Document\n  * `xlf / xliff` - XLIFF Document, version 2.1\n  * `srt` - SRT Document"
+                    },
+                    "filename": {
+                      "type": "string",
+                      "description": "The name of the uploaded file. Can be used as an alternative to including the file name in the file part's content disposition."
+                    },
+                    "output_format": {
+                      "type": "string",
+                      "description": "File extension of desired format of translated file, for example: `docx`. If unspecified, by default the translated file will be in the same format as the input file.\n"
+                    },
+                    "formality": {
+                      "$ref": "#/components/schemas/Formality"
+                    },
+                    "glossary_id": {
+                      "$ref": "#/components/schemas/GlossaryId"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "The document function returns a JSON object containing the ID and encryption key assigned to the uploaded document. Once received by the server, uploaded documents are immediately encrypted using a uniquely generated encryption key. This key is not persistently stored on the server. Therefore, it must be stored by the client and sent back to the server with every subsequent request that refers to this particular document.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "document_id": {
+                        "description": "A unique ID assigned to the uploaded document and the translation process. Must be used when referring to this particular document in subsequent API requests.",
+                        "type": "string",
+                        "example": "04DE5AD98A02647D83285A36021911C6"
+                      },
+                      "document_key": {
+                        "description": "A unique key that is used to encrypt the uploaded document as well as the resulting translation on the server side. Must be provided with every subsequent API request regarding this particular document.",
+                        "type": "string",
+                        "example": "0CB0054F1C132C1625B392EADDA41CB754A742822F6877173029A6C487E7F60A"
+                      }
+                    }
+                  },
+                  "example": {
+                    "document_id": "04DE5AD98A02647D83285A36021911C6",
+                    "document_key": "0CB0054F1C132C1625B392EADDA41CB754A742822F6877173029A6C487E7F60A"
+                  }
+                }
+              }
+            },
+            "400": {
+              "$ref": "#/components/responses/BadRequest"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "404": {
+              "$ref": "#/components/responses/NotFound"
+            },
+            "413": {
+              "$ref": "#/components/responses/PayloadTooLarge"
+            },
+            "429": {
+              "$ref": "#/components/responses/TooManyRequests"
+            },
+            "456": {
+              "$ref": "#/components/responses/QuotaExceeded"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalServerError"
+            },
+            "504": {
+              "$ref": "#/components/responses/ServiceUnavailable"
+            },
+            "529": {
+              "$ref": "#/components/responses/TooManyRequests"
+            }
+          },
+          "security": [
+            {
+              "auth_header": []
+            }
+          ]
+        }
+      },
+      "/document/{document_id}": {
+        "post": {
+          "tags": [
+            "TranslateDocuments"
+          ],
+          "summary": "Check Document Status",
+          "operationId": "getDocumentStatus",
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/DocumentID"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/x-www-form-urlencoded": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentKey"
+                },
+                "examples": {
+                  "basic": {
+                    "summary": "Basic",
+                    "value": {
+                      "document_key": "0CB0054F1C132C1625B392EADDA41CB754A742822F6877173029A6C487E7F60A"
+                    }
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentKey"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "The document status request returns a JSON object containing the document ID that was used in the request as well as string indicating the current status of the translation process. While the translation is running, the estimated number of seconds remaining until the process is done is also included in the response.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "required": [
+                      "document_id",
+                      "status"
+                    ],
+                    "properties": {
+                      "document_id": {
+                        "description": "A unique ID assigned to the uploaded document and the requested translation process. The same ID that was used when requesting the translation status.",
+                        "type": "string",
+                        "example": "04DE5AD98A02647D83285A36021911C6"
+                      },
+                      "status": {
+                        "description": "A short description of the state the document translation process is currently in. Possible values are:\n * `queued` - the translation job is waiting in line to be processed\n * `translating` - the translation is currently ongoing\n * `done` - the translation is done and the translated document is ready for download\n * `error` - an irrecoverable error occurred while translating the document",
+                        "type": "string",
+                        "example": "done",
+                        "enum": [
+                          "queued",
+                          "translating",
+                          "done",
+                          "error"
+                        ]
+                      },
+                      "seconds_remaining": {
+                        "description": "Estimated number of seconds until the translation is done.\nThis parameter is only included while `status` is `\"translating\"`.",
+                        "type": "integer"
+                      },
+                      "billed_characters": {
+                        "description": "The number of characters billed to your account. The characters will only be billed after a successful download request.",
+                        "type": "integer",
+                        "example": 1337
+                      },
+                      "error_message": {
+                        "description": "A short description of the error, if available.\nNote that the content is subject to change.\nThis parameter may be included if an error occurred during translation.",
+                        "type": "string",
+                        "example": "Only available if document status is error"
+                      }
+                    }
+                  },
+                  "examples": {
+                    "translating": {
+                      "summary": "Translating",
+                      "value": {
+                        "document_id": "04DE5AD98A02647D83285A36021911C6",
+                        "status": "translating",
+                        "seconds_remaining": 20
+                      }
+                    },
+                    "done": {
+                      "summary": "Done",
+                      "value": {
+                        "document_id": "04DE5AD98A02647D83285A36021911C6",
+                        "status": "done",
+                        "billed_characters": 1337
+                      }
+                    },
+                    "queued": {
+                      "summary": "Queued",
+                      "value": {
+                        "document_id": "04DE5AD98A02647D83285A36021911C6",
+                        "status": "queued"
+                      }
+                    },
+                    "error": {
+                      "summary": "Error",
+                      "value": {
+                        "document_id": "04DE5AD98A02647D83285A36021911C6",
+                        "status": "error",
+                        "message": "Source and target language are equal."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "$ref": "#/components/responses/BadRequest"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "404": {
+              "$ref": "#/components/responses/NotFound"
+            },
+            "413": {
+              "$ref": "#/components/responses/PayloadTooLarge"
+            },
+            "429": {
+              "$ref": "#/components/responses/TooManyRequests"
+            },
+            "456": {
+              "$ref": "#/components/responses/QuotaExceeded"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalServerError"
+            },
+            "504": {
+              "$ref": "#/components/responses/ServiceUnavailable"
+            },
+            "529": {
+              "$ref": "#/components/responses/TooManyRequests"
+            }
+          },
+          "security": [
+            {
+              "auth_header": []
+            }
+          ]
+        }
+      },
+      "/document/{document_id}/result": {
+        "post": {
+          "tags": [
+            "TranslateDocuments"
+          ],
+          "summary": "Download Translated Document",
+          "operationId": "downloadDocument",
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/DocumentID"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/x-www-form-urlencoded": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentKey"
+                },
+                "examples": {
+                  "basic": {
+                    "summary": "Basic",
+                    "value": {
+                      "document_key": "0CB0054F1C132C1625B392EADDA41CB754A742822F6877173029A6C487E7F60A"
+                    }
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentKey"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "The document is provided as a download. There is no other data included in the response besides the document data. The content type used in the response corresponds to the document type.",
+              "content": {
+                "application/octet-stream": {
+                  "schema": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "examples": {
+                    "OK": {
+                      "summary": "OK",
+                      "description": "binary document data"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "$ref": "#/components/responses/BadRequest"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "404": {
+              "$ref": "#/components/responses/NotFound404DocTransDownload"
+            },
+            "413": {
+              "$ref": "#/components/responses/PayloadTooLarge"
+            },
+            "429": {
+              "$ref": "#/components/responses/TooManyRequests"
+            },
+            "456": {
+              "$ref": "#/components/responses/QuotaExceeded"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalServerError"
+            },
+            "503": {
+              "$ref": "#/components/responses/ServiceUnavailable503DocTransDownload"
+            },
+            "504": {
+              "$ref": "#/components/responses/ServiceUnavailable"
+            },
+            "529": {
+              "$ref": "#/components/responses/TooManyRequests"
+            }
+          },
+          "security": [
+            {
+              "auth_header": []
+            }
+          ]
+        }
+      },
+      "/glossary-language-pairs": {
+        "get": {
+          "tags": [
+            "ManageGlossaries"
+          ],
+          "summary": "List Language Pairs Supported by Glossaries",
+          "description": "Retrieve the list of language pairs supported by the glossary feature.",
+          "operationId": "listGlossaryLanguages",
+          "responses": {
+            "200": {
+              "description": "A JSON object containing the language pairs in its `supported_languages` property.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "supported_languages": {
+                        "type": "array",
+                        "description": "The list of supported languages",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "source_lang",
+                            "target_lang"
+                          ],
+                          "properties": {
+                            "source_lang": {
+                              "description": "The language in which the source texts in the glossary are specified.",
+                              "type": "string",
+                              "example": "en"
+                            },
+                            "target_lang": {
+                              "description": "The language in which the target texts in the glossary are specified.",
+                              "type": "string",
+                              "example": "de"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "supported_languages": [
+                      {
+                        "source_lang": "de",
+                        "target_lang": "en"
+                      },
+                      {
+                        "source_lang": "en",
+                        "target_lang": "de"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "400": {
+              "$ref": "#/components/responses/BadRequestGlossaries"
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/ForbiddenGlossaries"
+            },
+            "404": {
+              "$ref": "#/components/responses/NotFound"
+            },
+            "413": {
+              "$ref": "#/components/responses/PayloadTooLarge"
+            },
+            "415": {
+              "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
+            },
+            "429": {
+              "$ref": "#/components/responses/TooManyRequests"
+            },
+            "456": {
+              "$ref": "#/components/responses/QuotaExceeded"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalServerError"
+            },
+            "503": {
+              "$ref": "#/components/responses/ServiceUnavailable"
+            },
+            "529": {
+              "$ref": "#/components/responses/TooManyRequests"
+            }
+          },
+          "security": [
+            {
+              "auth_header": []
+            }
+          ]
+        }
+      },
+      "/glossaries": {
+        "post": {
+          "tags": [
+            "ManageGlossaries"
+          ],
+          "summary": "Create a Glossary",
+          "operationId": "createGlossary",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateGlossaryParameters"
+                },
+                "examples": {
+                  "Basic": {
+                    "value": {
+                      "name": "My Glossary",
+                      "source_lang": "en",
+                      "target_lang": "de",
+                      "entries": "Hello\tGuten Tag",
+                      "entries_format": "tsv"
+                    }
+                  }
+                }
+              },
+              "application/x-www-form-urlencoded": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateGlossaryParameters"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "The function for creating a glossary returns a JSON object containing the ID of the newly created glossary and a boolean flag that indicates if the created glossary can already be used in translate requests.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Glossary"
+                  }
+                }
+              }
+            },
+            "400": {
+              "$ref": "#/components/responses/BadRequestGlossaries"
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/ForbiddenGlossaries"
+            },
+            "404": {
+              "$ref": "#/components/responses/NotFound"
+            },
+            "413": {
+              "$ref": "#/components/responses/PayloadTooLarge"
+            },
+            "415": {
+              "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
+            },
+            "429": {
+              "$ref": "#/components/responses/TooManyRequests"
+            },
+            "456": {
+              "$ref": "#/components/responses/QuotaExceeded"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalServerError"
+            },
+            "503": {
+              "$ref": "#/components/responses/ServiceUnavailable"
+            },
+            "529": {
+              "$ref": "#/components/responses/TooManyRequests"
+            }
+          },
+          "security": [
+            {
+              "auth_header": []
+            }
+          ]
+        },
+        "get": {
+          "tags": [
+            "ManageGlossaries"
+          ],
+          "summary": "List all Glossaries",
+          "operationId": "listGlossaries",
+          "description": "List all glossaries and their meta-information, but not the glossary entries.",
+          "responses": {
+            "200": {
+              "description": "JSON object containing a the glossaries.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "glossaries": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/Glossary"
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "glossaries": [
+                      {
+                        "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+                        "name": "My Glossary",
+                        "ready": true,
+                        "source_lang": "EN",
+                        "target_lang": "DE",
+                        "creation_time": "2021-08-03T14:16:18.329Z",
+                        "entry_count": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "400": {
+              "$ref": "#/components/responses/BadRequestGlossaries"
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/ForbiddenGlossaries"
+            },
+            "404": {
+              "$ref": "#/components/responses/NotFound"
+            },
+            "413": {
+              "$ref": "#/components/responses/PayloadTooLarge"
+            },
+            "415": {
+              "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
+            },
+            "429": {
+              "$ref": "#/components/responses/TooManyRequests"
+            },
+            "456": {
+              "$ref": "#/components/responses/QuotaExceeded"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalServerError"
+            },
+            "503": {
+              "$ref": "#/components/responses/ServiceUnavailable"
+            },
+            "529": {
+              "$ref": "#/components/responses/TooManyRequests"
+            }
+          },
+          "security": [
+            {
+              "auth_header": []
+            }
+          ]
+        }
+      },
+      "/glossaries/{glossary_id}": {
+        "get": {
+          "tags": [
+            "ManageGlossaries"
+          ],
+          "summary": "Retrieve Glossary Details",
+          "description": "Retrieve meta information for a single glossary, omitting the glossary entries.",
+          "operationId": "getGlossary",
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/GlossaryID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "JSON object containing the glossary meta-information.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Glossary"
+                  },
+                  "example": {
+                    "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+                    "name": "My Glossary",
+                    "ready": true,
+                    "source_lang": "EN",
+                    "target_lang": "DE",
+                    "creation_time": "2021-08-03T14:16:18.329Z",
+                    "entry_count": 1
+                  }
+                }
+              }
+            },
+            "400": {
+              "$ref": "#/components/responses/BadRequestGlossaries"
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/ForbiddenGlossaries"
+            },
+            "404": {
+              "$ref": "#/components/responses/NotFound"
+            },
+            "413": {
+              "$ref": "#/components/responses/PayloadTooLarge"
+            },
+            "415": {
+              "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
+            },
+            "429": {
+              "$ref": "#/components/responses/TooManyRequests"
+            },
+            "456": {
+              "$ref": "#/components/responses/QuotaExceeded"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalServerError"
+            },
+            "503": {
+              "$ref": "#/components/responses/ServiceUnavailable"
+            },
+            "529": {
+              "$ref": "#/components/responses/TooManyRequests"
+            }
+          },
+          "security": [
+            {
+              "auth_header": []
+            }
+          ]
+        },
+        "delete": {
+          "tags": [
+            "ManageGlossaries"
+          ],
+          "summary": "Delete a Glossary",
+          "description": "Deletes the specified glossary.",
+          "operationId": "deleteGlossary",
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/GlossaryID"
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Returns no content upon success."
+            },
+            "400": {
+              "$ref": "#/components/responses/BadRequestGlossaries"
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/ForbiddenGlossaries"
+            },
+            "404": {
+              "$ref": "#/components/responses/NotFound"
+            },
+            "413": {
+              "$ref": "#/components/responses/PayloadTooLarge"
+            },
+            "415": {
+              "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
+            },
+            "429": {
+              "$ref": "#/components/responses/TooManyRequests"
+            },
+            "456": {
+              "$ref": "#/components/responses/QuotaExceeded"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalServerError"
+            },
+            "503": {
+              "$ref": "#/components/responses/ServiceUnavailable"
+            },
+            "529": {
+              "$ref": "#/components/responses/TooManyRequests"
+            }
+          },
+          "security": [
+            {
+              "auth_header": []
+            }
+          ]
+        }
+      },
+      "/glossaries/{glossary_id}/entries": {
+        "get": {
+          "tags": [
+            "ManageGlossaries"
+          ],
+          "summary": "Retrieve Glossary Entries",
+          "operationId": "getGlossaryEntries",
+          "description": "List the entries of a single glossary in the format specified by the `Accept` header.",
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/GlossaryID"
+            },
+            {
+              "name": "Accept",
+              "in": "header",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "text/tab-separated-values"
+                ],
+                "default": "text/tab-separated-values"
+              },
+              "description": "The requested format of the returned glossary entries. Currently, supports only `text/tab-separated-values`.",
+              "examples": {
+                "tsv": {
+                  "summary": "Tab-separated Values",
+                  "value": {
+                    "in": "header",
+                    "Accept": "text/tab-separated-values"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "The entries in the requested format.",
+              "content": {
+                "text/tab-separated-values": {
+                  "example": "Hello!\tGuten Tag!"
+                }
+              }
+            },
+            "400": {
+              "$ref": "#/components/responses/BadRequestGlossaries"
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/ForbiddenGlossaries"
+            },
+            "404": {
+              "$ref": "#/components/responses/NotFound"
+            },
+            "413": {
+              "$ref": "#/components/responses/PayloadTooLarge"
+            },
+            "415": {
+              "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
+            },
+            "429": {
+              "$ref": "#/components/responses/TooManyRequests"
+            },
+            "456": {
+              "$ref": "#/components/responses/QuotaExceeded"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalServerError"
+            },
+            "503": {
+              "$ref": "#/components/responses/ServiceUnavailable"
+            },
+            "529": {
+              "$ref": "#/components/responses/TooManyRequests"
+            }
+          },
+          "security": [
+            {
+              "auth_header": []
+            }
+          ]
+        }
+      },
+      "/write/rephrase": {
+        "post": {
+          "tags": [
+            "RephraseText"
+          ],
+          "summary": "Request text improvement",
+          "operationId": "rephraseText",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "text"
+                  ],
+                  "properties": {
+                    "text": {
+                      "description": "Text to be improved. Only UTF-8-encoded plain text is supported. Improvements are returned in the same order as they are requested.",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "this is a example sentence to imprve"
+                      }
+                    },
+                    "target_lang": {
+                      "$ref": "#/components/schemas/TargetLanguageWrite"
+                    },
+                    "writing_style": {
+                      "$ref": "#/components/schemas/WritingStyle"
+                    },
+                    "tone": {
+                      "$ref": "#/components/schemas/WritingTone"
+                    }
+                  }
+                }
+              },
+              "application/x-www-form-urlencoded": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "text"
+                  ],
+                  "properties": {
+                    "text": {
+                      "description": "Text to be improved. Only UTF-8-encoded plain text is supported. Improvements are returned in the same order as they are requested.",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "this is a example sentence to imprve"
+                      }
+                    },
+                    "target_lang": {
+                      "$ref": "#/components/schemas/TargetLanguageWrite"
+                    },
+                    "writing_style": {
+                      "$ref": "#/components/schemas/WritingStyle"
+                    },
+                    "tone": {
+                      "$ref": "#/components/schemas/WritingTone"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful text improvement.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "improvements": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "detected_source_language": {
+                              "description": "The language detected in the source text.",
+                              "type": "string",
+                              "example": "en"
+                            },
+                            "text": {
+                              "description": "The improved text.",
+                              "type": "string",
+                              "example": "This is a sample sentence to improve."
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "auth_header": []
+            }
+          ]
+        }
+      },
+      "/usage": {
+        "get": {
+          "tags": [
+            "MetaInformation"
+          ],
+          "summary": "Check Usage and Limits",
+          "operationId": "getUsage",
+          "responses": {
+            "200": {
+              "description": "The account's usage and limits.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "character_count": {
+                        "description": "Characters translated so far in the current billing period.",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 180118
+                      },
+                      "character_limit": {
+                        "description": "Current maximum number of characters that can be translated per billing period. If cost control is set, the cost control limit will be returned in this field.",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1250000
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "$ref": "#/components/responses/BadRequest"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "404": {
+              "$ref": "#/components/responses/NotFound"
+            },
+            "413": {
+              "$ref": "#/components/responses/PayloadTooLarge"
+            },
+            "429": {
+              "$ref": "#/components/responses/TooManyRequests"
+            },
+            "456": {
+              "$ref": "#/components/responses/QuotaExceeded"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalServerError"
+            },
+            "504": {
+              "$ref": "#/components/responses/ServiceUnavailable"
+            },
+            "529": {
+              "$ref": "#/components/responses/TooManyRequests"
+            }
+          },
+          "security": [
+            {
+              "auth_header": []
+            }
+          ]
+        }
+      },
+      "/languages": {
+        "get": {
+          "tags": [
+            "MetaInformation"
+          ],
+          "summary": "Retrieve Supported Languages",
+          "operationId": "getLanguages",
+          "parameters": [
+            {
+              "name": "type",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "source",
+                  "target"
+                ],
+                "default": "source"
+              },
+              "description": "Supported values are \"source\" or \"target\". If type parameter is not included, defaults to \"source\".",
+              "examples": {
+                "target": {
+                  "summary": "Target Languages",
+                  "value": {
+                    "in": "query",
+                    "type": "target"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "JSON array where each item represents a supported language.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "language",
+                        "name"
+                      ],
+                      "properties": {
+                        "language": {
+                          "description": "The language code of the given language.",
+                          "type": "string",
+                          "example": "DE"
+                        },
+                        "name": {
+                          "description": "Name of the language in English.",
+                          "type": "string",
+                          "example": "German"
+                        },
+                        "supports_formality": {
+                          "description": "Denotes formality support in case of a target language listing.",
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "language": "BG",
+                      "name": "Bulgarian",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "CS",
+                      "name": "Czech",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "DA",
+                      "name": "Danish",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "DE",
+                      "name": "German",
+                      "supports_formality": true
+                    },
+                    {
+                      "language": "EL",
+                      "name": "Greek",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "EN-GB",
+                      "name": "English (British)",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "EN-US",
+                      "name": "English (American)",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "ES",
+                      "name": "Spanish",
+                      "supports_formality": true
+                    },
+                    {
+                      "language": "ET",
+                      "name": "Estonian",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "FI",
+                      "name": "Finnish",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "FR",
+                      "name": "French",
+                      "supports_formality": true
+                    },
+                    {
+                      "language": "HU",
+                      "name": "Hungarian",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "ID",
+                      "name": "Indonesian",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "IT",
+                      "name": "Italian",
+                      "supports_formality": true
+                    },
+                    {
+                      "language": "JA",
+                      "name": "Japanese",
+                      "supports_formality": true
+                    },
+                    {
+                      "language": "KO",
+                      "name": "Korean",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "LT",
+                      "name": "Lithuanian",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "LV",
+                      "name": "Latvian",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "NB",
+                      "name": "Norwegian (Bokmål)",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "NL",
+                      "name": "Dutch",
+                      "supports_formality": true
+                    },
+                    {
+                      "language": "PL",
+                      "name": "Polish",
+                      "supports_formality": true
+                    },
+                    {
+                      "language": "PT-BR",
+                      "name": "Portuguese (Brazilian)",
+                      "supports_formality": true
+                    },
+                    {
+                      "language": "PT-PT",
+                      "name": "Portuguese (European)",
+                      "supports_formality": true
+                    },
+                    {
+                      "language": "RO",
+                      "name": "Romanian",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "RU",
+                      "name": "Russian",
+                      "supports_formality": true
+                    },
+                    {
+                      "language": "SK",
+                      "name": "Slovak",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "SL",
+                      "name": "Slovenian",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "SV",
+                      "name": "Swedish",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "TR",
+                      "name": "Turkish",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "UK",
+                      "name": "Ukrainian",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "ZH",
+                      "name": "Chinese (simplified)",
+                      "supports_formality": false
+                    },
+                    {
+                      "language": "ZH-HANS",
+                      "name": "Chinese (simplified)",
+                      "supports_formality": false
+                    }
+                  ]
+                }
+              }
+            },
+            "400": {
+              "$ref": "#/components/responses/BadRequest"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "404": {
+              "$ref": "#/components/responses/NotFound"
+            },
+            "413": {
+              "$ref": "#/components/responses/PayloadTooLarge"
+            },
+            "429": {
+              "$ref": "#/components/responses/TooManyRequests"
+            },
+            "456": {
+              "$ref": "#/components/responses/QuotaExceeded"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalServerError"
+            },
+            "504": {
+              "$ref": "#/components/responses/ServiceUnavailable"
+            },
+            "529": {
+              "$ref": "#/components/responses/TooManyRequests"
+            }
+          },
+          "security": [
+            {
+              "auth_header": []
+            }
+          ]
+        }
+      }
+    },
+    "components": {
+      "parameters": {
+        "DocumentID": {
+          "name": "document_id",
+          "description": "The document ID that was sent to the client when the document was uploaded to the API.",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "example": "04DE5AD98A02647D83285A36021911C6"
+        },
+        "GlossaryID": {
+          "name": "glossary_id",
+          "description": "A unique ID assigned to the glossary.",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        "SourceLanguage": {
+          "name": "source_lang",
+          "in": "query",
+          "schema": {
+            "$ref": "#/components/schemas/SourceLanguage"
+          }
+        },
+        "TargetLanguage": {
+          "name": "target_lang",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/TargetLanguage"
+          }
+        }
+      },
+      "responses": {
+        "BadRequest": {
+          "description": "Bad request. Please check error message and your parameters."
+        },
+        "BadRequestGlossaries": {
+          "description": "Bad request. Please check error message and your parameters.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "description": "Generic description of the error.",
+                    "type": "string"
+                  },
+                  "detail": {
+                    "description": "More specific description of the error.",
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "message": "Invalid glossary entries provided",
+                "detail": "Key with the index 1 (starting at position 13) duplicates key with the index 0 (starting at position 0)"
+              }
+            }
+          }
+        },
+        "Unauthorized": {
+          "description": "Authorization failed. Please supply a valid `DeepL-Auth-Key` via the `Authorization` header."
+        },
+        "Forbidden": {
+          "description": "Authorization failed. Please supply a valid `DeepL-Auth-Key` via the `Authorization` header."
+        },
+        "ForbiddenGlossaries": {
+          "description": "Forbidden. The access to the requested resource is denied, because of insufficient access rights."
+        },
+        "NotFound": {
+          "description": "The requested resource could not be found."
+        },
+        "NotFound404DocTransDownload": {
+          "description": "Trying to download a document using a non-existing document ID or the wrong document key will result in a 404 error. As stated above, documents can only be downloaded once before they are deleted from the server and their document ID is invalidated.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentTranslationError"
+              },
+              "examples": {
+                "NotFound": {
+                  "summary": "Not Found",
+                  "value": {
+                    "message": "Document not found"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "PayloadTooLarge": {
+          "description": "The request size exceeds the limit."
+        },
+        "URITooLong": {
+          "description": "The request URL is too long. You can avoid this error by using a POST request instead of a GET request, and sending the parameters in the HTTP body."
+        },
+        "UnsupportedMediaTypeGlossaries": {
+          "description": "The requested entries format specified in the `Accept` header is not supported."
+        },
+        "TooManyRequests": {
+          "description": "Too many requests. Please wait and resend your request."
+        },
+        "QuotaExceeded": {
+          "description": "Quota exceeded. The character limit has been reached."
+        },
+        "InternalServerError": {
+          "description": "Internal error."
+        },
+        "ServiceUnavailable": {
+          "description": "Resource currently unavailable. Try again later."
+        },
+        "ServiceUnavailable503DocTransDownload": {
+          "description": "A 503 result will be returned if the user tries to download a translated document that is currently being processed and is not yet ready for download.\nPlease make sure to check that the document status is 'done' before trying to send a download request.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentTranslationError"
+              },
+              "examples": {
+                "AlreadyDownloaded": {
+                  "summary": "Already Downloaded",
+                  "value": {
+                    "message": "Document already downloaded"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "auth_header": {
+          "type": "apiKey",
+          "description": "Authentication with `Authorization` header and `DeepL-Auth-Key` authentication scheme",
+          "name": "Authorization",
+          "in": "header"
+        }
+      },
+      "schemas": {
+        "Context": {
+          "description": "Additional context that can influence a translation but is not translated itself.\n\nCharacters included in the `context` parameter will not be counted toward billing.",
+          "type": "string",
+          "example": "This is context."
+        },
+        "CreateGlossaryParameters": {
+          "type": "object",
+          "required": [
+            "name",
+            "source_lang",
+            "target_lang",
+            "entries",
+            "entries_format"
+          ],
+          "properties": {
+            "name": {
+              "description": "Name to be associated with the glossary.",
+              "type": "string",
+              "example": "My Glossary"
+            },
+            "source_lang": {
+              "$ref": "#/components/schemas/GlossarySourceLanguage"
+            },
+            "target_lang": {
+              "$ref": "#/components/schemas/GlossaryTargetLanguage"
+            },
+            "entries": {
+              "description": "The entries of the glossary. The entries have to be specified in the format provided by the `entries_format` parameter.",
+              "type": "string",
+              "example": "Hello\tGuten Tag"
+            },
+            "entries_format": {
+              "description": "The format in which the glossary entries are provided. Formats currently available:\n- `tsv` (default) - tab-separated values\n- `csv` - comma-separated values\n\nSee [Supported Glossary Formats](https://developers.deepl.com/docs/api-reference/glossaries#formats) for details about each format.",
+              "type": "string",
+              "enum": [
+                "tsv",
+                "csv"
+              ],
+              "example": "tsv",
+              "default": "tsv"
+            }
+          }
+        },
+        "DocumentTranslationError": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "detailed error message"
+            }
+          }
+        },
+        "DocumentKey": {
+          "type": "object",
+          "required": [
+            "document_key"
+          ],
+          "properties": {
+            "document_key": {
+              "description": "The document encryption key that was sent to the client when the document was uploaded to the API.",
+              "type": "string",
+              "example": "0CB0054F1C132C1625B392EADDA41CB754A742822F6877173029A6C487E7F60A"
+            }
+          }
+        },
+        "Formality": {
+          "description": "Sets whether the translated text should lean towards formal or informal language.\nThis feature is only available for certain target languages. Setting this parameter \nwith a target language that does not support formality will fail, unless one of the \n`prefer_...` options are used.\nPossible options are:\n  * `default` (default)\n  * `more` - for a more formal language\n  * `less` - for a more informal language\n  * `prefer_more` - for a more formal language if available, otherwise fallback to default formality\n  * `prefer_less` - for a more informal language if available, otherwise fallback to default formality",
+          "type": "string",
+          "enum": [
+            "default",
+            "more",
+            "less",
+            "prefer_more",
+            "prefer_less"
+          ],
+          "default": "default",
+          "example": "prefer_more"
+        },
+        "ModelType": {
+          "type": "string",
+          "description": "Specifies which DeepL model should be used for translation.",
+          "enum": [
+            "quality_optimized",
+            "prefer_quality_optimized",
+            "latency_optimized"
+          ]
+        },
+        "GlossaryId": {
+          "type": "string",
+          "description": "A unique ID assigned to a glossary.",
+          "example": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7"
+        },
+        "Glossary": {
+          "type": "object",
+          "properties": {
+            "glossary_id": {
+              "$ref": "#/components/schemas/GlossaryId"
+            },
+            "name": {
+              "description": "Name associated with the glossary.",
+              "type": "string"
+            },
+            "ready": {
+              "description": "Indicates if the newly created glossary can already be used in `translate` requests.\nIf the created glossary is not yet ready, you have to wait and check the `ready` status\nof the glossary before using it in a `translate` request.",
+              "type": "boolean"
+            },
+            "source_lang": {
+              "$ref": "#/components/schemas/GlossarySourceLanguage"
+            },
+            "target_lang": {
+              "$ref": "#/components/schemas/GlossaryTargetLanguage"
+            },
+            "creation_time": {
+              "description": "The creation time of the glossary in the ISO 8601-1:2019 format (e.g.: `2021-08-03T14:16:18.329Z`).",
+              "type": "string",
+              "format": "date-time"
+            },
+            "entry_count": {
+              "description": "The number of entries in the glossary.",
+              "type": "integer"
+            }
+          },
+          "example": {
+            "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+            "ready": true,
+            "name": "My Glossary",
+            "source_lang": "en",
+            "target_lang": "de",
+            "creation_time": "2021-08-03T14:16:18.329Z",
+            "entry_count": 1
+          }
+        },
+        "GlossarySourceLanguage": {
+          "type": "string",
+          "description": "The language in which the source texts in the glossary are specified.",
+          "enum": [
+            "da",
+            "de",
+            "en",
+            "es",
+            "fr",
+            "it",
+            "ja",
+            "ko",
+            "nb",
+            "nl",
+            "pl",
+            "pt",
+            "ro",
+            "ru",
+            "sv",
+            "zh"
+          ],
+          "example": "en"
+        },
+        "GlossaryTargetLanguage": {
+          "type": "string",
+          "description": "The language in which the target texts in the glossary are specified.",
+          "enum": [
+            "da",
+            "de",
+            "en",
+            "es",
+            "fr",
+            "it",
+            "ja",
+            "ko",
+            "nb",
+            "nl",
+            "pl",
+            "pt",
+            "ro",
+            "ru",
+            "sv",
+            "zh"
+          ],
+          "example": "de"
+        },
+        "OutlineDetectionOption": {
+          "description": "Disable the automatic detection of XML structure by setting the `outline_detection` parameter \nto `false` and selecting the tags that should be considered structure tags. This will split sentences \nusing the `splitting_tags` parameter.",
+          "type": "boolean",
+          "default": true
+        },
+        "OutlineDetectionOptionStr": {
+          "description": "Disable the automatic detection of XML structure by setting the `outline_detection` parameter \nto `false` and selecting the tags that should be considered structure tags. This will split sentences \nusing the `splitting_tags` parameter.",
+          "type": "string",
+          "default": "1",
+          "enum": [
+            "0"
+          ]
+        },
+        "PreserveFormattingOption": {
+          "description": "Sets whether the translation engine should respect the original formatting, even if it would usually \ncorrect some aspects.",
+          "type": "boolean",
+          "default": false
+        },
+        "PreserveFormattingOptionStr": {
+          "description": "Sets whether the translation engine should respect the original formatting, even if it would usually \ncorrect some aspects.",
+          "type": "string",
+          "enum": [
+            "0",
+            "1"
+          ],
+          "default": "0"
+        },
+        "ShowBilledCharacters": {
+          "description": "When true, the response will include the billed_characters parameter, giving the \nnumber of characters from the request that will be counted by DeepL for billing purposes.",
+          "type": "boolean"
+        },
+        "SplitSentencesOption": {
+          "description": "Sets whether the translation engine should first split the input into sentences. \n\nPossible values are:\n  * 0 - no splitting at all, whole input is treated as one sentence\n  * 1 (default when tag_handling is not set to html) - splits on punctuation and on newlines\n  * nonewlines (default when tag_handling=html) - splits on punctuation only, ignoring newlines ",
+          "type": "string",
+          "enum": [
+            "0",
+            "1",
+            "nonewlines"
+          ],
+          "default": "1",
+          "example": "1"
+        },
+        "SourceLanguage": {
+          "type": "string",
+          "description": "Language of the text to be translated. If this parameter is omitted, the API will attempt to \ndetect the language of the text and translate it.",
+          "enum": [
+            "BG",
+            "CS",
+            "DA",
+            "DE",
+            "EL",
+            "EN",
+            "ES",
+            "ET",
+            "FI",
+            "FR",
+            "HU",
+            "ID",
+            "IT",
+            "JA",
+            "KO",
+            "LT",
+            "LV",
+            "NB",
+            "NL",
+            "PL",
+            "PT",
+            "RO",
+            "RU",
+            "SK",
+            "SL",
+            "SV",
+            "TR",
+            "UK",
+            "ZH"
+          ],
+          "example": "EN"
+        },
+        "TagHandlingOption": {
+          "description": "Sets which kind of tags should be handled. Options currently available:\n * `xml`\n * `html`",
+          "type": "string",
+          "enum": [
+            "xml",
+            "html"
+          ],
+          "example": "html"
+        },
+        "NonSplittingTagCommaSeparatedList": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/TagCommaSeparatedList"
+            }
+          ],
+          "description": "Comma-separated list of XML tags which never split sentences."
+        },
+        "NonSplittingTagList": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/TagList"
+            }
+          ],
+          "description": "List of XML tags which never split sentences.\n\n\nFor some XML files, finding tags with textual content and splitting sentences using those tags won't yield the best results. The following example shows the engine splitting sentences on `par` tags and proceeding to translate the parts separately, resulting in an incorrect translation:\n * Example request:\n```\n<par>The firm said it had been </par><par> conducting an internal investigation.</par>\n```\n * Example response:\n```\n<par>Die Firma sagte, es sei eine gute Idee gewesen.</par><par> Durchführung einer internen Untersuchung.</par>\n```\n\n\nAs this can lead to bad translations, this type of structure should either be avoided, or the `non_splitting_tags` parameter should be set. The following example shows the same call, with the parameter set to `par`:\n * Example request:\n```\n<par>The firm said it had been </par><par> conducting an internal investigation.</par>\n```\n * Example response:\n```\n<par>Die Firma sagte, dass sie</par><par> eine interne Untersuchung durchgeführt</par><par> habe</par><par>.</par>\n```\n\n\nThis time, the sentence is translated as a whole. The XML tags are now considered markup and copied into the translated sentence. As the translation of the words \"had been\" has moved to another position in the German sentence, the two par tags are duplicated (which is expected here)."
+        },
+        "SplittingTagCommaSeparatedList": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/TagCommaSeparatedList"
+            }
+          ],
+          "description": "Comma-separated list of XML tags which always cause splits.\n\n\nSee the example in the `outline_detection` parameter's description."
+        },
+        "SplittingTagList": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/TagList"
+            }
+          ],
+          "description": "List of XML tags which always cause splits.\n\n\nSee the example in the `outline_detection` parameter's description."
+        },
+        "IgnoreTagCommaSeparatedList": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/TagCommaSeparatedList"
+            }
+          ],
+          "description": "Comma-separated list of XML tags that indicate text not to be translated."
+        },
+        "IgnoreTagList": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/TagList"
+            }
+          ],
+          "description": "List of XML tags that indicate text not to be translated."
+        },
+        "TagCommaSeparatedList": {
+          "description": "Comma-separated list of XML tags.",
+          "type": "string",
+          "example": "a,p,span"
+        },
+        "TagList": {
+          "description": "List of XML tags.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "a",
+            "p",
+            "span"
+          ]
+        },
+        "TargetLanguage": {
+          "type": "string",
+          "description": "The language into which the text should be translated.",
+          "enum": [
+            "BG",
+            "CS",
+            "DA",
+            "DE",
+            "EL",
+            "EN-GB",
+            "EN-US",
+            "ES",
+            "ET",
+            "FI",
+            "FR",
+            "HU",
+            "ID",
+            "IT",
+            "JA",
+            "KO",
+            "LT",
+            "LV",
+            "NB",
+            "NL",
+            "PL",
+            "PT-BR",
+            "PT-PT",
+            "RO",
+            "RU",
+            "SK",
+            "SL",
+            "SV",
+            "TR",
+            "UK",
+            "ZH",
+            "ZH-HANS"
+          ],
+          "example": "DE"
+        },
+        "TargetLanguageText": {
+          "type": "string",
+          "description": "The language into which the text should be translated.",
+          "enum": [
+            "AR",
+            "BG",
+            "CS",
+            "DA",
+            "DE",
+            "EL",
+            "EN-GB",
+            "EN-US",
+            "ES",
+            "ET",
+            "FI",
+            "FR",
+            "HU",
+            "ID",
+            "IT",
+            "JA",
+            "KO",
+            "LT",
+            "LV",
+            "NB",
+            "NL",
+            "PL",
+            "PT-BR",
+            "PT-PT",
+            "RO",
+            "RU",
+            "SK",
+            "SL",
+            "SV",
+            "TR",
+            "UK",
+            "ZH",
+            "ZH-HANS",
+            "ZH-HANT"
+          ],
+          "example": "DE"
+        },
+        "TargetLanguageWrite": {
+          "type": "string",
+          "description": "The language for the text improvement.",
+          "enum": [
+            "de",
+            "en",
+            "en-GB",
+            "en-US",
+            "es",
+            "fr",
+            "it",
+            "pt",
+            "pt-BR",
+            "pt-PT"
+          ],
+          "example": "de"
+        },
+        "WritingStyle": {
+          "type": "string",
+          "description": "Specify a style to rephrase your text in a way that fits your audience and goals.\nThe `prefer_` prefix allows falling back to the default style if the language does not yet support styles.",
+          "enum": [
+            "academic",
+            "business",
+            "casual",
+            "default",
+            "simple",
+            "prefer_academic",
+            "prefer_business",
+            "prefer_casual",
+            "prefer_simple"
+          ]
+        },
+        "WritingTone": {
+          "type": "string",
+          "description": "Specify the desired tone for your text.\nThe `prefer_` prefix allows falling back to the default tone if the language does not yet support tones.",
+          "enum": [
+            "confident",
+            "default",
+            "diplomatic",
+            "enthusiastic",
+            "friendly",
+            "prefer_confident",
+            "prefer_diplomatic",
+            "prefer_enthusiastic",
+            "prefer_friendly"
+          ]
+        }
+      }
+    }
+  }

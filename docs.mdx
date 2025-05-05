@@ -1,0 +1,120 @@
+---
+title: "Introduction"
+description: "Welcome to the developer home of DeepL API."
+---
+
+## Get an API Key and Get Started
+
+New user? Follow these quick steps to get started with the DeepL API.
+
+<AccordionGroup>
+<Accordion title="Step 1: Sign up for the DeepL API at https://www.deepl.com/en/pro#developer">
+After logging in, you will find your API keys at [https://www.deepl.com/en/your-account/keys](https://www.deepl.com/en/your-account/keys)
+</Accordion>
+<Accordion title="Step 2: Test your API key with a request.">
+Here are a few simple options that you can start with. Choose any one and replace`{YOUR_API_KEY}`with your own key.
+<Tabs>
+<Tab title="Curl">
+Open a terminal.
+
+```sh Set the API key
+export API_KEY={YOUR_API_KEY}
+```
+
+```sh Sample request
+curl -X POST https://api.deepl.com/v2/translate \
+  --header "Content-Type: application/json" \
+  --header "Authorization: DeepL-Auth-Key $API_KEY" \
+  --data '{
+    "text": ["Hello world!"], 
+    "target_lang": "DE"
+}'
+```
+
+```json Sample response
+{
+  "translations": [
+    {
+      "detected_source_language": "EN",
+      "text": "Hallo, Welt!"
+    }
+  ]
+}
+```
+</Tab>
+<Tab title="Python">
+Choose a local directory to work in.
+
+```sh Install client library
+pip install deepl
+```
+
+```py Sample Request File
+import deepl
+
+auth_key = "{YOUR_API_KEY}"
+translator = deepl.Translator(auth_key)
+
+result = translator.translate_text("Hello, world!", target_lang="DE")
+print(result.text)
+```
+
+```text Sample Response
+Hallo, Welt!
+```
+</Tab>
+<Tab title="NodeJS">
+Choose a local directory to work in.
+
+```sh Install client library
+npm install deepl-node
+```
+
+```sh Sample Request File
+import * as deepl from 'deepl-node';
+
+const authKey = "{YOUR_API_KEY}";
+const translator = new deepl.Translator(authKey);
+
+(async () => {
+    const result = await translator.translateText('Hello, world!', null, 'de');
+    console.log(result.text);
+})();
+```
+
+```text Sample Response
+Hallo, Welt!
+```
+</Tab>
+</Tabs>
+
+Note: If you are on a free API account, you can replace `https://api.deepl.com` with `https://api-free.deepl.com`.
+</Accordion>
+<Accordion title="Step 3: Keep building with our client libraries and how-to guides.">
+You can use our API with popular programming languages (Python, JavaScript, .NET, PHP, Java, Ruby). Click [here](/docs/api-reference/client-libraries) to learn more about our client libraries. You can also click [here](/docs/learning-how-tos/examples-and-guides) to find more examples and guides.
+</Accordion>
+</AccordionGroup>
+
+## Start Developing
+
+* [Cookbook](/docs/learning-how-tos/cookbook) - Explore a large variety of examples from both internal and external contributors for using the DeepL API for different applications.
+
+* [Guides](/docs/learning-how-tos/examples-and-guides) - Discover additional examples and guides for using the DeepL API.
+
+* [Your First API Request](/docs/getting-started/your-first-api-request) - Get started quickly with DeepL.
+
+## Community and Support
+
+* [Release Notes](https://developers.deepl.com/docs/resources/release-notes) - Check out the new features in recent DeepL API releases.
+
+<CardGroup cols={3}>
+<Card icon="circle-question" href="https://support.deepl.com/">
+Support Center
+</Card>
+<Card icon="discord" href="https://discord.gg/deepl">
+Discord Community
+</Card>
+<Card icon="signal-stream" href="https://www.deeplstatus.com/">
+Status Page
+</Card>
+</CardGroup>

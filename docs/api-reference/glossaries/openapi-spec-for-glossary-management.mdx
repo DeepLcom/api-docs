@@ -1,0 +1,687 @@
+---
+title: "OpenAPI Spec For Glossary Management"
+---
+
+This page contains *only* a set of guides that is auto-generated from [DeepL's OpenAPI file](https://github.com/DeepLcom/openapi/tree/main).
+
+For more detail about glossary management, including information about request parameters, please see the [Manage glossaries](/docs/api-reference/glossaries) entry.
+
+### List Language Pairs Supported by Glossaries
+
+get
+
+https\://api.deepl.com/v2/glossary-language-pairs
+
+Retrieve the list of language pairs supported by the glossary feature.
+
+Authorizations
+
+Responses
+
+200
+
+A JSON object containing the language pairs in its \`supported\_languages\` property.
+
+application/json
+
+400
+
+Bad request. Please check error message and your parameters.
+
+application/json
+
+401
+
+Authorization failed. Please supply a valid \`DeepL-Auth-Key\` via the \`Authorization\` header.
+
+403
+
+Forbidden. The access to the requested resource is denied, because of insufficient access rights.
+
+404
+
+The requested resource could not be found.
+
+413
+
+The request size exceeds the limit.
+
+415
+
+The requested entries format specified in the \`Accept\` header is not supported.
+
+429
+
+Too many requests. Please wait and resend your request.
+
+456
+
+Quota exceeded. The character limit has been reached.
+
+500
+
+Internal error.
+
+503
+
+Resource currently unavailable. Try again later.
+
+529
+
+Too many requests. Please wait and resend your request.
+
+200
+
+400
+
+401
+
+403
+
+404
+
+413
+
+415
+
+429
+
+456
+
+500
+
+503
+
+529
+
+Copy
+
+```
+{
+  "supported_languages": [
+    {
+      "source_lang": "de",
+      "target_lang": "en"
+    },
+    {
+      "source_lang": "en",
+      "target_lang": "de"
+    }
+  ]
+}
+```
+
+A JSON object containing the language pairs in its `supported_languages` property.
+
+### Create a glossary
+
+### Create a Glossary
+
+post
+
+https\://api.deepl.com/v2/glossaries
+
+Authorizations
+
+Body
+
+application/json
+
+application/jsonapplication/x-www-form-urlencoded
+
+namestringrequired
+
+Name to be associated with the glossary.
+
+Example: `My Glossary`
+
+source\_langstring · enumrequired
+
+The language in which the source texts in the glossary are specified.
+
+Example: `en`Available options: `da``de``en``es``fr``it``ja``ko``nb``nl``pl``pt``ro``ru``sv``zh`
+
+target\_langstring · enumrequired
+
+The language in which the target texts in the glossary are specified.
+
+Example: `de`Available options: `da``de``en``es``fr``it``ja``ko``nb``nl``pl``pt``ro``ru``sv``zh`
+
+entriesstringrequired
+
+The entries of the glossary. The entries have to be specified in the format provided by the `entries_format` parameter.
+
+Example: `Hello Guten Tag`
+
+entries\_formatstring · enumrequired
+
+The format in which the glossary entries are provided. Formats currently available:
+
+* `tsv` (default) - tab-separated values
+* `csv` - comma-separated values
+
+See [Supported Glossary Formats](https://developers.deepl.com/docs/api-reference/glossaries#formats) for details about each format.
+
+Default: `tsv`Example: `tsv`Available options: `tsv``csv`
+
+Responses
+
+201
+
+The function for creating a glossary returns a JSON object containing the ID of the newly created glossary and a boolean flag that indicates if the created glossary can already be used in translate requests.
+
+application/json
+
+400
+
+Bad request. Please check error message and your parameters.
+
+application/json
+
+401
+
+Authorization failed. Please supply a valid \`DeepL-Auth-Key\` via the \`Authorization\` header.
+
+403
+
+Forbidden. The access to the requested resource is denied, because of insufficient access rights.
+
+404
+
+The requested resource could not be found.
+
+413
+
+The request size exceeds the limit.
+
+415
+
+The requested entries format specified in the \`Accept\` header is not supported.
+
+429
+
+Too many requests. Please wait and resend your request.
+
+456
+
+Quota exceeded. The character limit has been reached.
+
+500
+
+Internal error.
+
+503
+
+Resource currently unavailable. Try again later.
+
+529
+
+Too many requests. Please wait and resend your request.
+
+201
+
+400
+
+401
+
+403
+
+404
+
+413
+
+415
+
+429
+
+456
+
+500
+
+503
+
+529
+
+Copy
+
+```
+{
+  "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+  "ready": true,
+  "name": "My Glossary",
+  "source_lang": "en",
+  "target_lang": "de",
+  "creation_time": "2021-08-03T14:16:18.329Z",
+  "entry_count": 1
+}
+```
+
+The function for creating a glossary returns a JSON object containing the ID of the newly created glossary and a boolean flag that indicates if the created glossary can already be used in translate requests.
+
+### List all glossaries
+
+### List all Glossaries
+
+get
+
+https\://api.deepl.com/v2/glossaries
+
+List all glossaries and their meta-information, but not the glossary entries.
+
+Authorizations
+
+Responses
+
+200
+
+JSON object containing a the glossaries.
+
+application/json
+
+400
+
+Bad request. Please check error message and your parameters.
+
+application/json
+
+401
+
+Authorization failed. Please supply a valid \`DeepL-Auth-Key\` via the \`Authorization\` header.
+
+403
+
+Forbidden. The access to the requested resource is denied, because of insufficient access rights.
+
+404
+
+The requested resource could not be found.
+
+413
+
+The request size exceeds the limit.
+
+415
+
+The requested entries format specified in the \`Accept\` header is not supported.
+
+429
+
+Too many requests. Please wait and resend your request.
+
+456
+
+Quota exceeded. The character limit has been reached.
+
+500
+
+Internal error.
+
+503
+
+Resource currently unavailable. Try again later.
+
+529
+
+Too many requests. Please wait and resend your request.
+
+200
+
+400
+
+401
+
+403
+
+404
+
+413
+
+415
+
+429
+
+456
+
+500
+
+503
+
+529
+
+Copy
+
+```
+{
+  "glossaries": [
+    {
+      "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+      "name": "My Glossary",
+      "ready": true,
+      "source_lang": "EN",
+      "target_lang": "DE",
+      "creation_time": "2021-08-03T14:16:18.329Z",
+      "entry_count": 1
+    }
+  ]
+}
+```
+
+JSON object containing a the glossaries.
+
+### Retrieve Glossary Details
+
+get
+
+https\://api.deepl.com/v2/glossaries/\{glossary\_id}
+
+Retrieve meta information for a single glossary, omitting the glossary entries.
+
+Authorizations
+
+Path parameters
+
+glossary\_idstringrequired
+
+A unique ID assigned to the glossary.
+
+Responses
+
+200
+
+JSON object containing the glossary meta-information.
+
+application/json
+
+400
+
+Bad request. Please check error message and your parameters.
+
+application/json
+
+401
+
+Authorization failed. Please supply a valid \`DeepL-Auth-Key\` via the \`Authorization\` header.
+
+403
+
+Forbidden. The access to the requested resource is denied, because of insufficient access rights.
+
+404
+
+The requested resource could not be found.
+
+413
+
+The request size exceeds the limit.
+
+415
+
+The requested entries format specified in the \`Accept\` header is not supported.
+
+429
+
+Too many requests. Please wait and resend your request.
+
+456
+
+Quota exceeded. The character limit has been reached.
+
+500
+
+Internal error.
+
+503
+
+Resource currently unavailable. Try again later.
+
+529
+
+Too many requests. Please wait and resend your request.
+
+200
+
+400
+
+401
+
+403
+
+404
+
+413
+
+415
+
+429
+
+456
+
+500
+
+503
+
+529
+
+Copy
+
+```
+{
+  "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+  "name": "My Glossary",
+  "ready": true,
+  "source_lang": "EN",
+  "target_lang": "DE",
+  "creation_time": "2021-08-03T14:16:18.329Z",
+  "entry_count": 1
+}
+```
+
+JSON object containing the glossary meta-information.
+
+### Retrieve Glossary Entries
+
+get
+
+https\://api.deepl.com/v2/glossaries/\{glossary\_id}/entries
+
+List the entries of a single glossary in the format specified by the `Accept` header.
+
+Authorizations
+
+Path parameters
+
+glossary\_idstringrequired
+
+A unique ID assigned to the glossary.
+
+Header parameters
+
+Acceptstring · enumoptional
+
+The requested format of the returned glossary entries. Currently, supports only `text/tab-separated-values`.
+
+Default: `text/tab-separated-values`Example: `{"summary":"Tab-separated Values","value":{"in":"header","Accept":"text/tab-separated-values"}}`Available options: `text/tab-separated-values`
+
+Responses
+
+200
+
+The entries in the requested format.
+
+text/tab-separated-values
+
+400
+
+Bad request. Please check error message and your parameters.
+
+application/json
+
+401
+
+Authorization failed. Please supply a valid \`DeepL-Auth-Key\` via the \`Authorization\` header.
+
+403
+
+Forbidden. The access to the requested resource is denied, because of insufficient access rights.
+
+404
+
+The requested resource could not be found.
+
+413
+
+The request size exceeds the limit.
+
+415
+
+The requested entries format specified in the \`Accept\` header is not supported.
+
+429
+
+Too many requests. Please wait and resend your request.
+
+456
+
+Quota exceeded. The character limit has been reached.
+
+500
+
+Internal error.
+
+503
+
+Resource currently unavailable. Try again later.
+
+529
+
+Too many requests. Please wait and resend your request.
+
+200
+
+400
+
+401
+
+403
+
+404
+
+413
+
+415
+
+429
+
+456
+
+500
+
+503
+
+529
+
+Copy
+
+```
+Hello!	Guten Tag!
+```
+
+The entries in the requested format.
+
+### Delete a Glossary
+
+delete
+
+https\://api.deepl.com/v2/glossaries/\{glossary\_id}
+
+Deletes the specified glossary.
+
+Authorizations
+
+Path parameters
+
+glossary\_idstringrequired
+
+A unique ID assigned to the glossary.
+
+Responses
+
+204
+
+Returns no content upon success.
+
+400
+
+Bad request. Please check error message and your parameters.
+
+application/json
+
+401
+
+Authorization failed. Please supply a valid \`DeepL-Auth-Key\` via the \`Authorization\` header.
+
+403
+
+Forbidden. The access to the requested resource is denied, because of insufficient access rights.
+
+404
+
+The requested resource could not be found.
+
+413
+
+The request size exceeds the limit.
+
+415
+
+The requested entries format specified in the \`Accept\` header is not supported.
+
+429
+
+Too many requests. Please wait and resend your request.
+
+456
+
+Quota exceeded. The character limit has been reached.
+
+500
+
+Internal error.
+
+503
+
+Resource currently unavailable. Try again later.
+
+529
+
+Too many requests. Please wait and resend your request.
+
+204
+
+400
+
+401
+
+403
+
+404
+
+413
+
+415
+
+429
+
+456
+
+500
+
+503
+
+529
+
+```
+No Content
+```
+
+Returns no content upon success.

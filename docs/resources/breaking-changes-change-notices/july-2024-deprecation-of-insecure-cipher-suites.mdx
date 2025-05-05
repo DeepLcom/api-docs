@@ -1,0 +1,92 @@
+---
+title: "July 2024: Deprecation Of Insecure Cipher Suites"
+---
+
+## Change Notice
+
+On or after July 29, 2024, DeepL will deprecate support for insecure cipher suites. Affected customers will need to upgrade their TLS library so that it doesn't use a cipher suite that we’ll be deprecating.
+
+If you are using an insecure cipher suite and do not make this update, you’ll no longer be able to use the DeepL API from the deprecation date onward.
+
+Update on August 8, 2024: The deadline for this cipher deprecation has been extended to Monday, September 2, 2024.
+
+Please be sure to update your applications before September 2. We will not be able to extend the deadline any further.
+
+### Which cipher suites are being deprecated for the DeepL API?
+
+On or after July 29, 2024, we will be deprecating the following three cipher suites:
+
+* TLS\_ECDHE\_RSA\_WITH\_AES\_256\_CBC\_SHA384 (0xc028)
+
+* TLS\_ECDHE\_RSA\_WITH\_AES\_256\_CBC\_SHA (0xc014)
+
+* TLS\_ECDHE\_RSA\_WITH\_AES\_128\_CBC\_SHA (0xc013)
+
+This means that any application with a TLS library:
+
+* That uses one of these cipher suites
+
+* *And&#x20;*&#x64;oes not support any of the cipher suites that will continue to be supported by DeepL
+
+...will no longer be able to connect to the DeepL API.
+
+### Why is DeepL doing this now?
+
+The cipher suites that we’re deprecating have a historical track record of security weaknesses. They're still vulnerable to attacks that may enable a bad actor to decrypt data. We consider this to be an unacceptable security risk, especially given our commitment to keeping our customers’ data secure.
+
+After deprecating the ciphers listed above, the DeepL API will accept the same set of cipher suites supported by our web translator ([deepl.com](https://www.deepl.com)) today.
+
+### What happens if a user continues to use a deprecated cipher suite?
+
+If you continue to use one of the cipher suites we’re deprecating, you won’t be able to access the DeepL API. This means that, for example, CAT tool plugins would no longer work properly.
+
+### What cipher suites will be supported after deprecation?
+
+We will continue to support the following cipher suites after deprecation:
+
+* TLS 1.3 (suites in server-preferred order)
+
+  * TLS\_AES\_256\_GCM\_SHA384 (0x1302)
+
+  * TLS\_CHACHA20\_POLY1305\_SHA256 (0x1303)
+
+  * TLS\_AES\_128\_GCM\_SHA256 (0x1301)
+
+* TLS 1.2 (suites in server-preferred order)
+
+  * TLS\_ECDHE\_RSA\_WITH\_AES\_256\_GCM\_SHA384
+
+  * TLS\_ECDHE\_RSA\_WITH\_AES\_128\_GCM\_SHA256
+
+### What action should I take so that I’m not affected?
+
+**If you’re a developer of your own application with the DeepL API:**
+
+* Ensure the TLS library you’re using supports one of the ciphers listed above
+
+If you’re using a third-party plugin that is powered by the DeepL API:
+
+* Update to the most recent version of the plugin Ask the plugin provider to upgrade their TLS library so that one of the cipher suites listed above is supported
+
+### How can I test my application after making changes to ensure I’m using a supported cipher suite?
+
+September 2024 update: because the cipher deprecation has been carried out according to schedule, the endpoint below is obsolete and is no longer available for use.
+
+We created a test endpoint at `api-test-tls.deepl.com` that only supports the cipher suites that will still be available after the deprecation of insecure suites.
+
+You can send a test request to this endpoint to be sure that you’re using a supported cipher suite. If you receive a translation response back from the DeepL API, then you should not be affected by the deprecation.
+
+Below is an example cURL request using the test endpoint that Pro API users can use. Please remember to replace the \[yourAuthKey] placeholder with your API key.
+
+Copy
+
+```
+curl -X POST 'https://api-test-tls.deepl.com/v2/translate' \
+  --header "Authorization: DeepL-Auth-Key [yourAuthKey]" \
+  --header "Content-Type: application/json" \
+  --data \
+'{
+  "target_lang": "DE",
+  "text" : ["Hello, world!"]
+}'
+```
