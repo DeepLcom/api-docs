@@ -123,6 +123,16 @@
                   ]
                 }
                 ]
+              },
+              {
+                "group": "Guides",
+                "pages": [
+                  "docs/documentation/learning-how-tos/guides/",
+                  "docs/documentation/learning-how-tos/guides/deepl-mcp-server",
+                  "docs/documentation/learning-how-tos/guides/first-things-to-try-with-the-deepl-api",
+                  "docs/documentation/learning-how-tos/guides/glossaries-in-the-real-world",
+                  "docs/documentation/learning-how-tos/guides/placeholder-tags"
+                ]
               }
             ]
           }
