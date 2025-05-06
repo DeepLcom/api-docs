@@ -30,62 +30,160 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "tabs": [
+    "versions": [
       {
-        "tab": "Home",
-        "pages": [
-          "home"
-        ]
-      },
-      {
-        "tab": "Get Started",
-        "groups": [
+        "version": "Latest API Versions",
+        "tabs": [
           {
-            "group": "Getting Started",
+            "tab": "Home",
             "pages": [
-              "docs",
-              "docs/getting-started/about",
-              "docs/getting-started/auth",
-              "docs/getting-started/managing-api-keys"
+              "home"
+            ]
+          },
+          {
+            "tab": "Get Started",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  "docs",
+                  "docs/getting-started/about",
+                  "docs/getting-started/auth",
+                  "docs/getting-started/managing-api-keys"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "API Reference",
+            "groups": [
+              {
+                "group": "API Reference",
+                "pages": [
+                {
+                  "group": "Translate text",
+                  "pages": [
+                    "docs/api-reference/translate",
+                    "docs/api-reference/translatetext/request-translation"
+                  ]
+                },
+                {
+                  "group": "Translate documents",
+                  "pages": [
+                    "docs/api-reference/document",
+                    "docs/api-reference/translatedocuments/upload-and-translate-a-document",
+                    "docs/api-reference/translatedocuments/check-document-status"
+                  ]
+                },
+                {
+                  "group": "Manage multilingual glossaries",
+                  "pages": [
+                    "docs/api-reference/managemultilingualglossaries/create-a-glossary",
+                    "docs/api-reference/managemultilingualglossaries/delete-a-glossary",
+                    "docs/api-reference/managemultilingualglossaries/deletes-the-dictionary-associated-with-the-given-language-pair-with-the-given-glossary-id",
+                    "docs/api-reference/managemultilingualglossaries/edit-glossary-details",
+                    "docs/api-reference/managemultilingualglossaries/list-all-glossaries",
+                    "docs/api-reference/managemultilingualglossaries/replaces-or-creates-a-dictionary-in-the-glossary-with-the-specified-entries",
+                    "docs/api-reference/managemultilingualglossaries/retrieve-glossary-details",
+                    "docs/api-reference/managemultilingualglossaries/retrieve-glossary-entries"
+                  ]
+                },
+                {
+                  "group": "Rephrase text",
+                  "pages": [
+                    "docs/api-reference/improve-text",
+                    "docs/api-reference/rephrasetext/request-text-improvement"
+                  ]
+                },
+                {
+                  "group": "Retrieve usage & quota",
+                  "pages": [
+                    "docs/api-reference/usage-and-quota",
+                    "docs/api-reference/metainformation/check-usage-and-limits"
+                  ]
+                },
+                {
+                  "group": "Retrieve languages",
+                  "pages": [
+                    "docs/api-reference/languages",
+                    "docs/api-reference/metainformation/retrieve-supported-languages"
+                  ]
+                }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Learning",
+            "groups": [
+              { 
+                "group": "Cookbook",
+                "pages": [
+                  "docs/learning-how-tos/cookbook",
+                  "docs/learning-how-tos/cookbook/google-sheets",
+                  "docs/learning-how-tos/cookbook/context-parameter-examples"
+                ]
+              }
             ]
           }
         ]
       },
       {
-        "tab": "API Reference",
-        "groups": [
+        "version": "Legacy API Versions",
+        "tabs": [
           {
-            "group": "API Reference",
+            "tab": "Home",
             "pages": [
-            {
-              "group": "Translate text",
-              "pages": [
-                "docs/api-reference/translate",
-                "docs/api-reference/translate/request-translation"
-               
-              ]
-            },
-            {
-              "group": "Translate documents",
-              "pages": [
-                "docs/api-reference/document",
-                "docs/api-reference/document/upload-and-translate-a-document",
-                "docs/api-reference/document/check-document-status"
-              ]
-            }
+              "home"
             ]
-          }
-        ]
-      },
-      {
-        "tab": "Learning",
-        "groups": [
-          { 
-            "group": "Cookbook",
-            "pages": [
-              "docs/learning-how-tos/cookbook",
-              "docs/learning-how-tos/cookbook/google-sheets",
-              "docs/learning-how-tos/cookbook/context-parameter-examples"
+          },
+          {
+            "tab": "Get Started",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  "docs",
+                  "docs/getting-started/about",
+                  "docs/getting-started/auth",
+                  "docs/getting-started/managing-api-keys"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "API Reference",
+            "groups": [
+              {
+                "group": "API Reference",
+                "pages": [
+                  {
+                    "group": "Manage Monolingual Glossaries",
+                    "pages": [
+                      "docs/api-reference/glossaries",
+                      "docs/api-reference/manageglossaries/create-a-glossary",
+                      "docs/api-reference/manageglossaries/delete-a-glossary",
+                      "docs/api-reference/manageglossaries/list-all-glossaries",
+                      "docs/api-reference/manageglossaries/list-language-pairs-supported-by-glossaries",
+                      "docs/api-reference/manageglossaries/retrieve-glossary-details",
+                      "docs/api-reference/manageglossaries/retrieve-glossary-entries"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Learning",
+            "groups": [
+              { 
+                "group": "Cookbook",
+                "pages": [
+                  "docs/learning-how-tos/cookbook",
+                  "docs/learning-how-tos/cookbook/google-sheets",
+                  "docs/learning-how-tos/cookbook/context-parameter-examples"
+                ]
+              }
             ]
           }
         ]
