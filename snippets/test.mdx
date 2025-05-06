@@ -1,0 +1,60 @@
+export const Test = () => {
+
+    const fetchData = async () => {
+        try {
+            const response = await fetch("https://s.deepl.dev/web/statistics", {
+                "headers": {
+                "accept": "*/*",
+                "accept-language": "en-US,en;q=0.9",
+                "content-type": "application/json",
+                "sec-ch-ua-mobile": "?0",
+                "sec-fetch-dest": "empty",
+                "sec-fetch-mode": "cors",
+                },
+                "referrerPolicy": "strict-origin-when-cross-origin",
+                "body": JSON.stringify({
+                "instanceId": "6fdc5445-27a8-43f6-afbe-d74133d46a78",
+                "sessionId": "f9084a9b-c9b3-42a4-bf70-fe3faa0873a0",
+                "eventId": 290,
+                "pageId": 110,
+                "url": window.location.href,
+                "interfaceLanguage": "en",
+                "userAgent": "pears",
+                "screenInfo": {
+                    "widthCssPixel": 3440,
+                    "heightCssPixel": 1440,
+                    "viewportWidthCssPixel": 1720,
+                    "viewportHeightCssPixel": 648,
+                    "devicePixelRatio": 1
+                },
+                "browserLanguage": "en-US",
+            }),
+                "method": "POST",
+                "mode": "cors",
+                "credentials": "omit"
+            });
+            
+            if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            console.log('Fetched data:', data);
+            return data;
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    };
+
+    useEffect(() => {
+        console.log("inside text.mdx")
+        fetchData();
+    }, [])
+
+    return (
+        <div>
+            <button onClick={() => fetchData()}>fire analytic</button>
+        </div>
+    )
+}

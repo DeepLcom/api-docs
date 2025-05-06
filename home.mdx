@@ -2,7 +2,7 @@
 mode: "custom"
 ---
 
-import { IntroCard } from '/snippets/intro-card.mdx';
+import { Test } from '/snippets/test.mdx';
 
 export function openSearch() {
   document.getElementById('search-bar-entry').click();
@@ -49,12 +49,13 @@ export function openSearch() {
 <p className="text-4xl mb-4 text-primary-dark dark:text-white text-center">Let's <span className="text-[#A69EFE]">Get Started</span></p>
 
 <CardGroup cols={3}>
-<Card title="Grab an API Key" href="/docs" icon="gear-code" iconType="solid" horizontal/>
-<Card title="Authentication" href="/docs/getting-started/auth" icon="lock-keyhole" iconType="solid" horizontal />
-<Card title="Cookbooks" href="/docs/learning-how-tos/cookbook" icon="book" iconType="solid" horizontal />
-</CardGroup>
-<CardGroup cols={2}>
-<Card title="Translate Text" href="/docs/api-reference/translate" icon="input-text" iconType="solid" horizontal />
-<Card title="Translate Documents" href="/docs/api-reference/document" icon="file-export" iconType="solid" horizontal />
-</CardGroup>
+  <Card title="Grab an API Key" href="/docs" icon="gear-code" iconType="solid" horizontal/>
+  <Card title="Authentication" href="/docs/getting-started/auth" icon="lock-keyhole" iconType="solid" horizontal />
+  <Card title="Cookbooks" href="/docs/learning-how-tos/cookbook" icon="book" iconType="solid" horizontal />
+  </CardGroup>
+  <CardGroup cols={2}>
+  <Card title="Translate Text" href="/docs/api-reference/translate" icon="input-text" iconType="solid" horizontal />
+  <Card title="Translate Documents" href="/docs/api-reference/document" icon="file-export" iconType="solid" horizontal />
+  </CardGroup>
+  <Test/>
 </div>

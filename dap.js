@@ -46,5 +46,3 @@ const fetchData = async () => {
     console.error('Fetch error:', error);
   }
 };
-
-fetchData();
