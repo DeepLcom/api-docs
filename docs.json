@@ -62,6 +62,16 @@
                       "docs/documentation/learning-how-tos/cookbook/google-sheets",
                       "docs/documentation/learning-how-tos/cookbook/context-parameter-examples"
                     ]
+                  },
+                  {
+                    "group": "Guides",
+                    "pages": [
+                      "docs/documentation/learning-how-tos/guides/",
+                      "docs/documentation/learning-how-tos/guides/deepl-mcp-server",
+                      "docs/documentation/learning-how-tos/guides/first-things-to-try-with-the-deepl-api",
+                      "docs/documentation/learning-how-tos/guides/glossaries-in-the-real-world",
+                      "docs/documentation/learning-how-tos/guides/placeholder-tags"
+                    ]
                   }
                 ]
               }
@@ -123,16 +133,6 @@
                   ]
                 }
                 ]
-              },
-              {
-                "group": "Guides",
-                "pages": [
-                  "docs/documentation/learning-how-tos/guides/",
-                  "docs/documentation/learning-how-tos/guides/deepl-mcp-server",
-                  "docs/documentation/learning-how-tos/guides/first-things-to-try-with-the-deepl-api",
-                  "docs/documentation/learning-how-tos/guides/glossaries-in-the-real-world",
-                  "docs/documentation/learning-how-tos/guides/placeholder-tags"
-                ]
               }
             ]
           }
@@ -168,6 +168,16 @@
                       "docs/documentation/learning-how-tos/cookbook",
                       "docs/documentation/learning-how-tos/cookbook/google-sheets",
                       "docs/documentation/learning-how-tos/cookbook/context-parameter-examples"
+                    ]
+                  },
+                  {
+                    "group": "Guides",
+                    "pages": [
+                      "docs/documentation/learning-how-tos/guides/",
+                      "docs/documentation/learning-how-tos/guides/deepl-mcp-server",
+                      "docs/documentation/learning-how-tos/guides/first-things-to-try-with-the-deepl-api",
+                      "docs/documentation/learning-how-tos/guides/glossaries-in-the-real-world",
+                      "docs/documentation/learning-how-tos/guides/placeholder-tags"
                     ]
                   }
                 ]
