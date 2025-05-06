@@ -34,7 +34,7 @@
       {
         "tab": "Home",
         "pages": [
-          "home"
+          "docs/home"
         ]
       },
       {
@@ -43,7 +43,7 @@
           {
             "group": "Getting Started",
             "pages": [
-              "docs",
+              "docs/getting-started/intro",
               "docs/getting-started/about",
               "docs/getting-started/auth",
               "docs/getting-started/managing-api-keys"
