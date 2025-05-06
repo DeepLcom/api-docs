@@ -94,11 +94,6 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Blog",
-          "href": "https://www.deepl.com/en/blog",
-          "icon": "newspaper"
-        },
-        {
           "anchor": "DeepL Web Translator",
           "icon": "language",
           "href": "https://www.deepl.com/translator"
