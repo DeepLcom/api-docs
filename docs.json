@@ -228,5 +228,10 @@
       "github": "https://github.com/DeepLcom",
       "instagram": "https://www.instagram.com/deeplhq/"
     }
+  },
+  "api": {
+    "examples": {
+      "languages": ["curL"]
+    }
   }
 }
