@@ -374,6 +374,13 @@
           {
             "auth_header": []
           }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Python SDK",
+            "source": "import deepl \n\nauth_key = \"<api-key>\" \ndeepl_client = deepl.DeepLClient(auth_key) \nresponse = deepl_client.translate_text(\"Hello, world!\", target_lang=\"FR\") \nprint(response.text)"
+          }
         ]
       }
     },
