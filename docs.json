@@ -253,5 +253,10 @@
     "examples": {
       "languages": ["curL"]
     }
+  },
+  "integrations": {
+    "telemetry": {
+      "enabled": false
+    }
   }
 }
