@@ -14,7 +14,7 @@
   },
   "appearance": {
     "default": "light",
-    "strict": true
+    "strict": false
   },
   "fonts": {
     "heading": {
