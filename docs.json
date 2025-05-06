@@ -43,10 +43,10 @@
           {
             "group": "Getting Started",
             "pages": [
-              "docs/getting-started/intro",
-              "docs/getting-started/about",
-              "docs/getting-started/auth",
-              "docs/getting-started/managing-api-keys"
+              "docs/documentation/getting-started/intro",
+              "docs/documentation/getting-started/about",
+              "docs/documentation/getting-started/auth",
+              "docs/documentation/getting-started/managing-api-keys"
             ]
           },
           {
@@ -55,9 +55,9 @@
               { 
                 "group": "Cookbook",
                 "pages": [
-                  "docs/learning-how-tos/cookbook",
-                  "docs/learning-how-tos/cookbook/google-sheets",
-                  "docs/learning-how-tos/cookbook/context-parameter-examples"
+                  "docs/documentation/learning-how-tos/cookbook",
+                  "docs/documentation/learning-how-tos/cookbook/google-sheets",
+                  "docs/documentation/learning-how-tos/cookbook/context-parameter-examples"
                 ]
               }
             ]
