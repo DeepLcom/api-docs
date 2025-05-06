@@ -38,7 +38,7 @@
         ]
       },
       {
-        "tab": "Get Started",
+        "tab": "Documentation",
         "groups": [
           {
             "group": "Getting Started",
@@ -47,6 +47,19 @@
               "docs/getting-started/about",
               "docs/getting-started/auth",
               "docs/getting-started/managing-api-keys"
+            ]
+          },
+          {
+            "group": "Learning & How Tos",
+            "pages": [
+              { 
+                "group": "Cookbook",
+                "pages": [
+                  "docs/learning-how-tos/cookbook",
+                  "docs/learning-how-tos/cookbook/google-sheets",
+                  "docs/learning-how-tos/cookbook/context-parameter-examples"
+                ]
+              }
             ]
           }
         ]
@@ -73,19 +86,6 @@
                 "docs/api-reference/document/check-document-status"
               ]
             }
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Learning",
-        "groups": [
-          { 
-            "group": "Cookbook",
-            "pages": [
-              "docs/learning-how-tos/cookbook",
-              "docs/learning-how-tos/cookbook/google-sheets",
-              "docs/learning-how-tos/cookbook/context-parameter-examples"
             ]
           }
         ]
