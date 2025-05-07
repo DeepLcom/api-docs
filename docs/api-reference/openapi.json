@@ -76,7 +76,8 @@
                     "items": {
                       "type": "string",
                       "example": "Hello, World!"
-                    }
+                    },
+                    "default": "Hello, World!"
                   },
                   "source_lang": {
                     "$ref": "#/components/schemas/SourceLanguageText"
@@ -2895,7 +2896,8 @@
           "UK",
           "ZH"
         ],
-        "example": "EN"
+        "example": "EN",
+        "default": "EN"
       },
       "TagHandlingOption": {
         "description": "Sets which kind of tags should be handled. Options currently available:\n * `xml`: Enable XML tag handling; see [XML Handling](https://www.deepl.com/docs-api/xml).\n * `html`: Enable HTML tag handling; see [HTML Handling](https://www.deepl.com/docs-api/html).",
@@ -3048,7 +3050,8 @@
           "ZH-HANS",
           "ZH-HANT"
         ],
-        "example": "DE"
+        "example": "DE",
+        "default": "DE"
       },
       "TargetLanguageWrite": {
         "type": "string",
