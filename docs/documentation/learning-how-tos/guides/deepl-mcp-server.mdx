@@ -9,9 +9,9 @@ public: true
 
 # DeepL MCP Server: How to Build and Use Translation in LLM Applications
 
-<div className="bg-neutral-200 px-10 py-2">
-This cookbook is intended for developers who want to learn how to build an MCP server using the DeepL API. If you're looking to simply use a pre-built DeepL MCP server without building it yourself, please go directly to the [GitHub repository](https://github.com/DeepLcom/deepl-mcp-server) for installation instructions.
-</div>
+<Note>
+  This cookbook is intended for developers who want to learn how to build an MCP server using the DeepL API. If you're looking to simply use a pre-built DeepL MCP server without building it yourself, please go directly to the [GitHub repository](https://github.com/DeepLcom/deepl-mcp-server) for installation instructions.
+</Note>
 
 Large Language Models excel at many tasks but may not provide optimal translations for all languages. By combining the DeepL API with the Model Context Protocol (MCP), you can provide Claude and other MCP-compatible clients with access to DeepL's specialized translation capabilities, bringing in the ability to provide translations across numerous languages.
 
@@ -219,12 +219,9 @@ To use your DeepL MCP server with Claude Desktop:
 
 In case it worked, deepl should show up as one of the available tools within the "Search and Tools" menu.&#x20;
 
-
-<img src="/images/claude-desktop-menu.jpeg" alt=""/>
-
-<div class="flex items-center justify-center m-0">
-  <p class="p-0 m-0">Your MCP should show up in the "Search and Tools" menu.</p>
-</div>
+<Frame caption='Your MCP should show up in the "Search and Tools" menu.'>
+  <img src="/assets/images/claude-desktop-menu.jpeg" alt=""/>
+</Frame>
 
 ### Testing Your Server
 
@@ -237,11 +234,10 @@ You can test your server's capabilities by asking Claude Desktop translation-rel
 
 Although it isn't an exact science, mentioning the keyword "DeepL" helps Claude understand that we want to use that tool during the interaction.
 
-<img src="/images/claude-desktop-keyword-trigger.jpeg" alt=""/>
+<Frame caption='Using the "DeepL" keyword triggers Claude to use the DeepL MCP tools.'>
+  <img src="/assets/images/claude-desktop-keyword-trigger.jpeg" alt=""/>
+</Frame>
 
-<div class="flex items-center justify-center m-0">
-  <p class="p-0 m-0">Using the "DeepL" keyword triggers Claude to use the DeepL MCP tools.</p>
-</div>
 
 ### Understanding the Code
 
