@@ -74,6 +74,12 @@
                     ]
                   }
                 ]
+              },
+              {
+                "group": "Resources",
+                "pages": [
+                  "docs/documentation/resources/release-notes"
+                ]
               }
             ]
           },
@@ -180,6 +186,12 @@
                       "docs/documentation/learning-how-tos/guides/placeholder-tags"
                     ]
                   }
+                ]
+              },
+              {
+                "group": "Resources",
+                "pages": [
+                  "docs/documentation/resources/release-notes"
                 ]
               }
             ]
