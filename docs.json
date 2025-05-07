@@ -258,5 +258,19 @@
     "telemetry": {
       "enabled": false
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/docs/testUrl/:page*",
+      "destination": "/docs/documentation/getting-started/:page*"
+    },
+    {
+      "source": "/docs/:page*",
+      "destination": "/docs/documentation/getting-started/intro"
+    },
+    {
+      "source": ":page*",
+      "destination": "/docs/home"
+    }
+  ]
 }
