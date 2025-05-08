@@ -270,11 +270,5 @@
     "telemetry": {
       "enabled": false
     }
-  },
-  "redirects": [
-    {
-      "source": "/:page*",
-      "destination": "/docs/home"
-    }
-  ]
+  }
 }
