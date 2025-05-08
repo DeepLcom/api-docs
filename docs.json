@@ -101,6 +101,7 @@
                   "pages": [
                     "docs/api-reference/document",
                     "docs/api-reference/translatedocuments/upload-and-translate-a-document",
+                    "docs/api-reference/translatedocuments/download-translated-document",
                     "docs/api-reference/translatedocuments/check-document-status"
                   ]
                 },
