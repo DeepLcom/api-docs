@@ -264,7 +264,15 @@
   },
   "api": {
     "examples": {
-      "languages": ["curL"]
+      "languages": ["curl"]
+    },
+    "playground": {
+      "proxy": true
+    }
+  },
+  "errors": {
+    "404": {
+      "redirect": false
     }
   },
   "integrations": {
