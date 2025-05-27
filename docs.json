@@ -255,7 +255,7 @@
       "languages": ["curl"]
     },
     "playground": {
-      "proxy": true
+      "proxy": false
     }
   },
   "errors": {
