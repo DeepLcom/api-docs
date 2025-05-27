@@ -35,12 +35,6 @@
         "version": "Latest API Version",
         "tabs": [
           {
-            "tab": "Home",
-            "pages": [
-              "docs/home"
-            ]
-          },
-          {
             "tab": "Documentation",
             "groups": [
               {
@@ -267,7 +261,7 @@
       "languages": ["curl"]
     },
     "playground": {
-      "proxy": false
+      "proxy": true
     }
   },
   "errors": {
