@@ -28,7 +28,7 @@
       "format": "woff2"
     }
   },
-  "favicon": "/__assets/favicon.svg",
+  "favicon": "/_assets/favicon.svg",
   "navigation": {
     "versions": [
       {
@@ -40,10 +40,10 @@
               {
                 "group": "Getting Started",
                 "pages": [
-                  "docs/documentation/getting-started/intro",
-                  "docs/documentation/getting-started/about",
-                  "docs/documentation/getting-started/auth",
-                  "docs/documentation/getting-started/managing-api-keys"
+                  "docs/getting-started/intro",
+                  "docs/getting-started/about",
+                  "docs/getting-started/auth",
+                  "docs/getting-started/managing-api-keys"
                 ]
               },
               {
@@ -52,19 +52,19 @@
                   { 
                     "group": "Cookbook",
                     "pages": [
-                      "docs/documentation/learning-how-tos/cookbook",
-                      "docs/documentation/learning-how-tos/cookbook/google-sheets",
-                      "docs/documentation/learning-how-tos/cookbook/context-parameter-examples"
+                      "docs/learning-how-tos/cookbook",
+                      "docs/learning-how-tos/cookbook/google-sheets",
+                      "docs/learning-how-tos/cookbook/context-parameter-examples"
                     ]
                   },
                   {
                     "group": "Guides",
                     "pages": [
-                      "docs/documentation/learning-how-tos/guides/",
-                      "docs/documentation/learning-how-tos/guides/deepl-mcp-server",
-                      "docs/documentation/learning-how-tos/guides/first-things-to-try-with-the-deepl-api",
-                      "docs/documentation/learning-how-tos/guides/glossaries-in-the-real-world",
-                      "docs/documentation/learning-how-tos/guides/placeholder-tags"
+                      "docs/learning-how-tos/guides/",
+                      "docs/learning-how-tos/guides/deepl-mcp-server",
+                      "docs/learning-how-tos/guides/first-things-to-try-with-the-deepl-api",
+                      "docs/learning-how-tos/guides/glossaries-in-the-real-world",
+                      "docs/learning-how-tos/guides/placeholder-tags"
                     ]
                   }
                 ]
@@ -72,7 +72,7 @@
               {
                 "group": "Resources",
                 "pages": [
-                  "docs/documentation/resources/release-notes"
+                  "docs/resources/release-notes"
                 ]
               }
             ]
@@ -86,51 +86,51 @@
                 {
                   "group": "Translate text",
                   "pages": [
-                    "docs/api-reference/translate",
-                    "docs/api-reference/translatetext/request-translation"
+                    "api-reference/translate",
+                    "api-reference/translate/request-translation"
                   ]
                 },
                 {
                   "group": "Translate documents",
                   "pages": [
-                    "docs/api-reference/document",
-                    "docs/api-reference/translatedocuments/upload-and-translate-a-document",
-                    "docs/api-reference/translatedocuments/download-translated-document",
-                    "docs/api-reference/translatedocuments/check-document-status"
+                    "api-reference/document",
+                    "api-reference/document/upload-and-translate-a-document",
+                    "api-reference/document/download-translated-document",
+                    "api-reference/document/check-document-status"
                   ]
                 },
                 {
                   "group": "Manage multilingual glossaries",
                   "pages": [
-                    "docs/api-reference/managemultilingualglossaries/create-a-glossary",
-                    "docs/api-reference/managemultilingualglossaries/delete-a-glossary",
-                    "docs/api-reference/managemultilingualglossaries/deletes-the-dictionary-associated-with-the-given-language-pair-with-the-given-glossary-id",
-                    "docs/api-reference/managemultilingualglossaries/edit-glossary-details",
-                    "docs/api-reference/managemultilingualglossaries/list-all-glossaries",
-                    "docs/api-reference/managemultilingualglossaries/replaces-or-creates-a-dictionary-in-the-glossary-with-the-specified-entries",
-                    "docs/api-reference/managemultilingualglossaries/retrieve-glossary-details",
-                    "docs/api-reference/managemultilingualglossaries/retrieve-glossary-entries"
+                    "api-reference/multilingual-glossaries/create-a-glossary",
+                    "api-reference/multilingual-glossaries/delete-a-glossary",
+                    "api-reference/multilingual-glossaries/deletes-the-dictionary-associated-with-the-given-language-pair-with-the-given-glossary-id",
+                    "api-reference/multilingual-glossaries/edit-glossary-details",
+                    "api-reference/multilingual-glossaries/list-all-glossaries",
+                    "api-reference/multilingual-glossaries/replaces-or-creates-a-dictionary-in-the-glossary-with-the-specified-entries",
+                    "api-reference/multilingual-glossaries/retrieve-glossary-details",
+                    "api-reference/multilingual-glossaries/retrieve-glossary-entries"
                   ]
                 },
                 {
                   "group": "Rephrase text",
                   "pages": [
-                    "docs/api-reference/improve-text",
-                    "docs/api-reference/rephrasetext/request-text-improvement"
+                    "api-reference/improve-text",
+                    "api-reference/improve-text/request-text-improvement"
                   ]
                 },
                 {
                   "group": "Retrieve usage & quota",
                   "pages": [
-                    "docs/api-reference/usage-and-quota",
-                    "docs/api-reference/metainformation/check-usage-and-limits"
+                    "api-reference/usage-and-quota",
+                    "api-reference/usage-and-quota/check-usage-and-limits"
                   ]
                 },
                 {
                   "group": "Retrieve languages",
                   "pages": [
-                    "docs/api-reference/languages",
-                    "docs/api-reference/metainformation/retrieve-supported-languages"
+                    "api-reference/languages",
+                    "api-reference/languages/retrieve-supported-languages"
                   ]
                 }
                 ]
@@ -148,10 +148,10 @@
               {
                 "group": "Getting Started",
                 "pages": [
-                  "docs/documentation/getting-started/intro",
-                  "docs/documentation/getting-started/about",
-                  "docs/documentation/getting-started/auth",
-                  "docs/documentation/getting-started/managing-api-keys"
+                  "docs/getting-started/intro",
+                  "docs/getting-started/about",
+                  "docs/getting-started/auth",
+                  "docs/getting-started/managing-api-keys"
                 ]
               },
               {
@@ -160,19 +160,19 @@
                   { 
                     "group": "Cookbook",
                     "pages": [
-                      "docs/documentation/learning-how-tos/cookbook",
-                      "docs/documentation/learning-how-tos/cookbook/google-sheets",
-                      "docs/documentation/learning-how-tos/cookbook/context-parameter-examples"
+                      "docs/learning-how-tos/cookbook",
+                      "docs/learning-how-tos/cookbook/google-sheets",
+                      "docs/learning-how-tos/cookbook/context-parameter-examples"
                     ]
                   },
                   {
                     "group": "Guides",
                     "pages": [
-                      "docs/documentation/learning-how-tos/guides/",
-                      "docs/documentation/learning-how-tos/guides/deepl-mcp-server",
-                      "docs/documentation/learning-how-tos/guides/first-things-to-try-with-the-deepl-api",
-                      "docs/documentation/learning-how-tos/guides/glossaries-in-the-real-world",
-                      "docs/documentation/learning-how-tos/guides/placeholder-tags"
+                      "docs/learning-how-tos/guides/",
+                      "docs/learning-how-tos/guides/deepl-mcp-server",
+                      "docs/learning-how-tos/guides/first-things-to-try-with-the-deepl-api",
+                      "docs/learning-how-tos/guides/glossaries-in-the-real-world",
+                      "docs/learning-how-tos/guides/placeholder-tags"
                     ]
                   }
                 ]
@@ -180,7 +180,7 @@
               {
                 "group": "Resources",
                 "pages": [
-                  "docs/documentation/resources/release-notes"
+                  "docs/resources/release-notes"
                 ]
               }
             ]
@@ -194,13 +194,13 @@
                   {
                     "group": "Manage Monolingual Glossaries",
                     "pages": [
-                      "docs/api-reference/glossaries",
-                      "docs/api-reference/manageglossaries/create-a-glossary",
-                      "docs/api-reference/manageglossaries/delete-a-glossary",
-                      "docs/api-reference/manageglossaries/list-all-glossaries",
-                      "docs/api-reference/manageglossaries/list-language-pairs-supported-by-glossaries",
-                      "docs/api-reference/manageglossaries/retrieve-glossary-details",
-                      "docs/api-reference/manageglossaries/retrieve-glossary-entries"
+                      "api-reference/glossaries",
+                      "api-reference/glossaries/create-a-glossary",
+                      "api-reference/glossaries/delete-a-glossary",
+                      "api-reference/glossaries/list-all-glossaries",
+                      "api-reference/glossaries/list-language-pairs-supported-by-glossaries",
+                      "api-reference/glossaries/retrieve-glossary-details",
+                      "api-reference/glossaries/retrieve-glossary-entries"
                     ]
                   }
                 ]
@@ -263,6 +263,12 @@
       "redirect": false
     }
   },
+  "redirects": [
+  {
+    "source": "/docs/api-reference/:page*",
+    "destination": "/api-reference/:page*"
+  }
+  ],
   "integrations": {
     "telemetry": {
       "enabled": false
