@@ -143,12 +143,6 @@
         "version": "Legacy API Versions",
         "tabs": [
           {
-            "tab": "Home",
-            "pages": [
-              "docs/home"
-            ]
-          },
-          {
             "tab": "Documentation",
             "groups": [
               {
