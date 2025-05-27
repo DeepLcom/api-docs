@@ -22,6 +22,18 @@
     {
       "url": "https://api-free.deepl.com",
       "description": "DeepL API Free"
+    },
+    {
+      "url": "http://localhost:5678",
+      "description": "INTERNAL ONLY - LOCAL DEPLOYMENT"
+    },
+    {
+      "url": "https://api-dev.deepl.com/",
+      "description": "INTERNAL ONLY - DEV DEPLOYMENT"
+    },
+    {
+      "url": "https://api-test.deepl.com/",
+      "description": "INTERNAL ONLY - TEST DEPLOYMENT"
     }
   ],
   "tags": [
