@@ -28,7 +28,7 @@
       "format": "woff2"
     }
   },
-  "favicon": "/assets/favicon.svg",
+  "favicon": "/__assets/favicon.svg",
   "navigation": {
     "versions": [
       {
@@ -232,8 +232,8 @@
     }
   },
   "logo": {
-    "light": "/assets/logo/logo.svg",
-    "dark": "/assets/logo/dark.svg"
+    "light": "/_assets/logo/logo.svg",
+    "dark": "/_assets/logo/dark.svg"
   },
   "navbar": {
     "links": [
