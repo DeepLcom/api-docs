@@ -177,21 +177,7 @@
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "DeepL Web Translator",
-          "icon": "language",
-          "href": "https://www.deepl.com/translator"
-        },
-        {
-          "anchor": "Create Free API Account",
-          "icon": "user",
-          "href": "https://www.deepl.com/en/pro#developer"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
     "light": "/_assets/logo/logo.svg",
@@ -200,13 +186,17 @@
   "navbar": {
     "links": [
       {
+        "label": "DeepL Web Translator",
+        "href": "https://www.deepl.com/translator"
+      },
+      {
         "label": "Contact Us",
         "href": "https://www.deepl.com/contact-us"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Start free trial",
+      "label": "Create free API account",
       "href": "https://www.deepl.com/en/pro"
     }
   },
