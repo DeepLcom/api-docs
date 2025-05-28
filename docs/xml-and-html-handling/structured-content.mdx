@@ -10,85 +10,67 @@ Please note that for next-gen models, the parameter `split_sentences`passed by t
 
 Parameters and corresponding results:
 
-Example
+<Tabs>
+  <Tab title="Example">
+    ``` Parameters
+    tag_handling=xml, split_sentences=nonewlines
+    ```
 
-Parameters
+    ```markup Example request
+    <document>
+      <meta>
+        <title>A document's title</title>
+      </meta>
+      <content>
+        <par>This is the first sentence. Followed by a second one.</par>
+        <par>This is the third sentence.</par>
+      </content>
+    </document>
+    ```
 
-Copy
-
-```
-tag_handling=xml, split_sentences=nonewlines
-```
-
-Example request
-
-Copy
-
-```
-<document>
-  <meta>
-    <title>A document's title</title>
-  </meta>
-  <content>
-    <par>This is the first sentence. Followed by a second one.</par>
-    <par>This is the third sentence.</par>
-  </content>
-</document>
-```
-
-Example response
-
-Copy
-
-```
-<document>
-  <meta>
-    <title>Der Titel eines Dokuments</title>
-  </meta>
-  <content>
-    <par>Das ist der erste Satz. Gefolgt von einem zweiten.</par>
-    <par>Dies ist der dritte Satz.</par>
-  </content>
-</document>
-```
+    ```markup Example response
+    <document>
+      <meta>
+        <title>Der Titel eines Dokuments</title>
+      </meta>
+      <content>
+        <par>Das ist der erste Satz. Gefolgt von einem zweiten.</par>
+        <par>Dies ist der dritte Satz.</par>
+      </content>
+    </document>
+    ```
+  </Tab>
+</Tabs>
 
 Before sentences are translated, the XML file is parsed, and tags containing textual content other than white space are identified, in order to reproduce the XML structure in the translation.
 
 In the example above, the `title` and the two `par` tags are found to contain text. These tags are considered sentence splitters. Therefore, each of the following three texts is treated separately:
 
-* *A document's title*
-
-* *This is the first sentence. Followed by a second one.*
-
-* *This is the third sentence.*
+- _A document's title_
+- _This is the first sentence. Followed by a second one._
+- _This is the third sentence._
 
 The second text is further split, as it contains two separate sentences. Each sentence is then translated separately and tags within the sentences (used here for formatting) are applied to the corresponding words in the translation.
 
 ### Splitting on New Lines
 
-Please note that newlines will split sentences. You should therefore clean files to avoid breaking sentences or set the parameter `split_sentences=nonewlines` .
+Please note that newlines will split sentences. You should therefore clean files to avoid breaking sentences or set the parameter `split_sentences=nonewlines`.
 
-Incorrect translation due to new lines
+<Card title="Incorrect translation due to new lines" horizontal={false}>
+  ```markup Request
+  <div>She bought oat
+  biscuits.</div>
+  ```
 
-Request
+  ```markup Response
+  <div>Sie kaufte Hafer
+  Kekse.</div>
+  ```
 
-Copy
-
-```
-<div>She bought oat
-biscuits.</div>
-```
-
-Response
-
-Copy
-
-```
-<div>Sie kaufte Hafer
-Kekse.</div>
-```
-
-ℹ️ Here, the two parts of the sentence have been translated separately and resulted in an error: "oat biscuits" has been translated as "Hafer Kekse" instead of "Haferkekse".
+  <Note>
+    Here, the two parts of the sentence have been translated separately and resulted in an error: "oat biscuits" has been translated as "Hafer Kekse" instead of "Haferkekse".
+  </Note>
+</Card>
 
 ### Restricting Splitting
 
@@ -148,4 +130,6 @@ Copy
 <par>Die Firma sagte, es sei eine gute Idee gewesen.</par><par> Durchführung einer internen Untersuchung.</par>
 ```
 
-ℹ️ Translating separately results in an incorrect translation. As this can lead to bad translations, this type of structure should either be avoided, or the `non_splitting_tags` parameter should be set.
+<Note>
+  Translating separately results in an incorrect translation. As this can lead to bad translations, this type of structure should either be avoided, or the `non_splitting_tags` parameter should be set.
+</Note>
