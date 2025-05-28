@@ -135,8 +135,6 @@ To [improve text](/docs/getting-started/your-first-api-request#text-improvement)
 
 The text improvement endpoint (DeepL API for Write) is currently only available to **Pro API** subscribers via the v2 endpoint.
 
-<RequestExample>
-
 ```bash Example cURL request
 curl -X POST 'https://api.deepl.com/v2/write/rephrase' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
@@ -149,10 +147,6 @@ curl -X POST 'https://api.deepl.com/v2/write/rephrase' \
 }'
 ```
 
-</RequestExample>
-
-<ResponseExample>
-
 ```json Example response
 {
   "improvements": [
@@ -164,5 +158,3 @@ curl -X POST 'https://api.deepl.com/v2/write/rephrase' \
   ]
 }
 ```
-
-</ResponseExample>
