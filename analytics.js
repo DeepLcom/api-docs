@@ -21,7 +21,7 @@ const sendToDAP = async (getPayload) => {
 
 const onPageLoad = () => {
   sendToDAP(() => ({
-    instanceId: "1111111111-1111-1111-1111-111111111111", // TODO figure out how to get the instance_id
+    instanceId: "11111111-1111-1111-1111-111111111111", // TODO figure out how to get the instance_id
     sessionId: "00000000-0000-0000-0000-000000000000", // TODO remove when new table is created
     eventId: 290, // TODO update 
     pageId: 110, // TODO update
