@@ -67,9 +67,40 @@
             ]
           },
           {
+            "group": "Best Practices",
+            "pages": [
+              "docs/best-practices/cors-requests",
+              "docs/best-practices/cost-control",
+              "docs/best-practices/error-handling",
+              "docs/best-practices/language-detection",
+              "docs/best-practices/working-with-context"
+            ]
+          },
+          {
+            "group": "XML and HTML handling",
+            "pages": [
+              "docs/xml-and-html-handling/customized-xml-outline-detection",
+              "docs/xml-and-html-handling/html",
+              "docs/xml-and-html-handling/structured-content",
+              "docs/xml-and-html-handling/xml"
+            ]
+          },
+          {
             "group": "Resources",
             "pages": [
-              "docs/resources/release-notes"
+              "docs/resources/release-notes",
+              "docs/resources/breaking-changes-change-notices",
+              "docs/resources/language-release-process",
+              "docs/resources/usage-limits",
+              {
+                "group": "Breaking changes (Change Notices)",
+                "pages": [
+                  "docs/resources/breaking-changes-change-notices/july-2024-deprecation-of-insecure-cipher-suites",
+                  "docs/resources/breaking-changes-change-notices/march-2025-deprecating-get-requests-to-translate-and-authenticating-with-auth-key"
+                ]
+              },
+              "docs/resources/open-api-spec",
+              "docs/resources/deepl-developer-community"
             ]
           }
         ]
