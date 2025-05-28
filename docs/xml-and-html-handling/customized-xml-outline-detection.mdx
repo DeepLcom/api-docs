@@ -6,46 +6,36 @@ Automatic detection of the XML structure will not always yield the best results 
 
 In the example below, we achieve the same results as the automatic engine by disabling automatic detection and setting the parameters manually:
 
-Outline detection example
+<Tabs>
+  <Tab title="Outline detection example">
+    ``` Parameters
+    tag_handling=xml, split_sentences=nonewlines, outline_detection=0, splitting_tags=par,title
+    ```
 
-Parameters
+    ```markup Example request
+    <document>
+      <meta>
+        <title>A document's title</title>
+      </meta>
+      <content>
+        <par>This is the first sentence. Followed by a second one.</par>
+        <par>This is the third sentence.</par>
+      </content>
+    </document>
+    ```
 
-Copy
-
-```
-tag_handling=xml, split_sentences=nonewlines, outline_detection=0, splitting_tags=par,title
-```
-
-Example request
-
-Copy
-
-```
-<document>
-  <meta>
-    <title>A document's title</title>
-  </meta>
-  <content>
-    <par>This is the first sentence. Followed by a second one.</par>
-    <par>This is the third sentence.</par>
-  </content>
-</document>
-```
-
-Example response
-
-Copy
-
-```
-<document>
-  <meta>
-    <title>Der Titel eines Dokuments</title>
-  </meta>
-  <content>
-    <par>Das ist der erste Satz. Gefolgt von einem zweiten.</par>
-    <par>Dies ist der dritte Satz.</par>
-  </content>
-</document>
-```
+    ```markup Example response
+    <document>
+      <meta>
+        <title>Der Titel eines Dokuments</title>
+      </meta>
+      <content>
+        <par>Das ist der erste Satz. Gefolgt von einem zweiten.</par>
+        <par>Dies ist der dritte Satz.</par>
+      </content>
+    </document>
+    ```
+  </Tab>
+</Tabs>
 
 While this approach is slightly more complicated, it allows for greater control over the structure of the translation output.
