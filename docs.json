@@ -56,7 +56,8 @@
                 "pages": [
                   "docs/learning-how-tos/cookbook",
                   "docs/learning-how-tos/cookbook/google-sheets",
-                  "docs/learning-how-tos/cookbook/context-parameter-examples"
+                  "docs/learning-how-tos/cookbook/context-parameter-examples",
+                  "docs/learning-how-tos/cookbook/automating-indie-game-localization-with-the-deepl-api-and-godot"
                 ]
               },
               {

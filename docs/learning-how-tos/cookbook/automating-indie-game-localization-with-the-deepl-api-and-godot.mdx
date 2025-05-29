@@ -1,0 +1,144 @@
+---
+title: "Automating Indie Game Localization with the DeepL API and Godot"
+description: "Efficiently translate content for a global audience and widen your game's reach"
+---
+
+## Why Automate Game Localization?
+
+As a game developer, reaching a global audience of people who speak other languages can significantly boost your game's visibility, player base, and overall success. Unfortunately, translating game content into multiple languages can easily be out of scope for solo devs, hobbyists, or indie studios. By combining the [open source Godot game engine](https://godotengine.org/) and the DeepL API, you can automate translations, localize your game's UI and dialogue, and easily reach a much wider audience.&#x20;
+
+In this blog post, we'll explore how to set up an automated translation system within Godot itself. This is a basic workflow example that you'll need to adapt for your own needs, use cases, and project setup, but we hope you can take some inspiration from it.
+
+### Setting Up Your Translation Script
+
+#### Godot Script Overview
+
+Our Godot 4.3 script leverages the DeepL API to translate predefined game text into multiple languages. It outputs these translations in a CSV format compatible with Godot, ready for use in your game.
+
+Here's a breakdown of the script, which is written in Godot's built-in GDScript language. You can attach it to any kind of Godot node.
+
+#### Step 1: Define Languages and Originals
+
+First, specify the languages you want to translate into and the original texts:
+
+```gdscript
+var languages = [
+    "DE", "ES", "JA" 
+]
+
+var originals = [
+    {"key": "player_greeting", "original": "Hey there, ready for an adventure?", "context": "Player character; Initial interaction"},
+    {"key": "exit", "original": "Press 'Exit' to leave.", "context": "Instruction; Button label for exiting the game"},
+    {"key": "score", "original": "Your score is:", "context": "Result; Displayed after completing a level"},
+]
+```
+
+#### Step 2: Initialize Translation Process
+
+When the script's node is ready, it initializes the translation process automatically. If you expand this script for your own needs you may want to attach this functionality to a button event so it doesn't run every time the script does.
+
+```gdscript
+func _ready():
+    on_translate()
+```
+
+These functions set up the translation structure for each language and loop through our list of desired target languages to send the requests to the DeepL API:
+
+```gdscript
+func on_translate():
+    for lang in languages:
+        translations[lang] = {}
+    start_translations()
+    
+func start_translations():
+    for original in originals:
+        request_translation(
+            original["key"],
+            original["original"],
+            original["context"]
+	)
+```
+
+#### Step 3: Request Translations
+
+For each original text, the script requests translations from the DeepL API. We're passing the additional `context`  for each string, as well as the  `prefer_less` formality option to maintain a lighthearted and casual tone for our game.
+
+```gdscript
+func request_translation(key, original_text, context_text):
+    for lang in languages:
+        var http_request = HTTPRequest.new()
+        add_child(http_request)
+        http_request.connect("request_completed", _on_HTTPRequest_request_completed.bind(key, original_text, lang))
+        
+        var request_body = {
+            "text": [original_text],
+            "target_lang": lang,
+            "context": context_text,
+            "formality": "prefer_less"
+        }
+        var json = JSON.new()
+        var json_content = json.stringify(request_body)
+        var headers = ["Content-Type: application/json", "Authorization: DeepL-Auth-Key " + API_KEY]
+        http_request.request(API_URL, headers, HTTPClient.METHOD_POST, json_content)
+        translations_pending += 1
+```
+
+#### Step 4: Handle Translation Responses
+
+Once the API responds, the script processes the translations:
+
+```gdscript
+func _on_HTTPRequest_request_completed(result, response_code, headers, body, key, original_text, target_lang):
+    translations_pending -= 1
+    print("Translation progress: ", originals.size() * languages.size() - translations_pending, "/", originals.size() * languages.size())
+    
+    if response_code == 200:
+        var json = JSON.new()
+        json.parse(body.get_string_from_utf8())
+        var response = json.get_data()
+        translations[target_lang][key] = response["translations"][0]["text"]
+    else:
+        print("HTTP request failed with response code: ", response_code)
+    
+    if translations_pending == 0:
+        save_new_translations()
+```
+
+#### Step 5: Save Translations to CSV
+
+Finally, the script saves translations in a [CSV format that Godot can read natively](https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/importing_translations.html):
+
+```gdscript
+func save_new_translations():
+    var file_path = "res://translations/translations.csv"
+    var file_content = "keys"
+    
+    for lang: String in languages:
+        file_content += "," + lang.to_lower()
+    file_content += "\n"
+    
+    for original in originals:
+        file_content += original["key"]
+        for lang in languages:
+            var translation = translations[lang][original["key"]]
+            file_content += ",\"" + translation.replace("\"", "\"\"") + "\""
+        file_content += "\n"
+    
+    save_to_file(file_path, file_content)
+    print("Translations saved to: " + file_path)
+```
+
+This will produce a `.csv` file with the following content:
+
+```csv
+keys,de,es,ja
+player_greeting,"Hallo, bist du bereit für ein Abenteuer?","Hola, ¿preparado para una aventura?","やあ、冒険の準備はいいかい？"
+exit,"Drücke ""Beenden"", um das Spiel zu verlassen.","Pulsa ""Salir"" para salir.","'Exit'を押して退出してください。"
+score,"Dein Ergebnis ist:","Tu puntuación es:","あなたのスコアは:"
+```
+
+### Wrapping Up
+
+As you expand your game, consider developing a more sophisticated system to handle larger amounts of content. You could implement batch processing, caching of existing translations, a Godot-based UI for entering and editing original content, advanced error handling, and dynamic language selection.
+
+This is just a quick example of how you can incorporate the DeepL API into a game project to enable effortless translation of your game's dialogue and other text content, allowing even solo developers access to an efficient and scaleable localization process that will enable their projects to reach players all over the world.
