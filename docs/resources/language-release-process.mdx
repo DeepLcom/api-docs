@@ -1,27 +1,23 @@
 ---
 title: "Language Release Process"
+description: "Here's what API users can expect when DeepL adds translation support for a new language or language variant."
 ---
 
 On a regular basis, DeepL adds translation support for new languages or language variants. In this article, we describe the process we'll follow with a new language or variant release.
 
 * We will add the language code for the newly supported language or variant to the “Source languages” and “Target languages” lists on the [Supported languages](/docs/getting-started/supported-languages) page in the API documentation. We’ll include a note on that page if the language or variant does *not* support both text and document translation.
-
 * If a newly added language or variant supports both text and document translation, we will add the language or variant to the `/languages` endpoint response. Note that for language variants, we do not use a single, consistent format for the variant code:
-
   * In some cases, a variant is primarily used in a specific region, and so a 2-letter region code is the best way to identify the variant. For English and Portuguese variants, we use a 2-letter region code (e.g. `EN-US`, `PT-BR`).
-
   * In other cases, a variant is used widely across multiple regions, and so a single 2-letter region code isn’t the best way to identify the variant. For simplified and traditional Chinese variants, we use a variant code that is not region-specific (e.g. `ZH-HANS`, `ZH-HANT`). The decision of what variant code to use will depend on the characteristics of the variant itself, and variant codes will be selected by DeepL on a case-by-case basis.
-
 * In cases where a new language code with a variant duplicates the behavior of an existing language code without a variant (e.g. `ZH-HANS` was recently added as a language code for translating into simplified Chinese, along with `ZH`):
-
   * In the `/languages` endpoint response, we will continue to return both language codes in two separate dicts with the same value in the `“name”` field.
-
   * For backwards compatibility, we will continue to support the original language code (in this example, `ZH`) for text and document translation.
-
 * We will add the language code for the newly supported language or variant to our [OpenAPI spec](https://github.com/DeepLcom/openapi/).
 
+<Info>
 **Note about the&#x20;**`/languages`**&#x20;endpoint:** In the future, we plan to extend the language information returned by the API.
 
 This will allow us to specify whether a language supports both text and document translation, whether a language code is considered deprecated because it’s been duplicated by a variant language code, and so on.
 
 The additional metadata would also allow us, for example, to add languages like `AR` and `ZH-HANT` to the languages endpoint even before document translation is supported.
+</Info>

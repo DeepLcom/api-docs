@@ -1,14 +1,24 @@
 ---
 title: "Release Notes"
+description: "Brief summaries of recent DeepL API releases, such as support for new languages and document formats, new API parameters, and more."
 ---
 
 <Update label="In active development">
-- API key-level character limits
-- Improvements to the `/usage`endpoint ([API reference](/docs/api-reference/usage-and-quota))
+- Creation of an admin API, making it possible to eventually e.g. retrieve usage analytics and manage API keys programmatically
+- Add more events to audit logs for Pro API customers (API key management, cost control and usage limit changes)
+</Update>
+
+<Update label="Q2 2025">
+- Added support for new language: TH (Thai). For this release, this language will only support text translation. See [here](../getting-started/supported-languages.md) for more information.
+- Added support for new languages: HE (Hebrew) and VI (Vietnamese). For this release, these languages will be available for Pro v2 API in next-gen models only. See [here](../getting-started/supported-languages.md) for more information.
+- Added improvements to API glossaries, including the ability to edit glossaries and create multilingual glossaries. Learn more [here](../api-reference/glossaries/).
+- Improvements to the `/usage` endpoint for Pro API customers ([API reference](../api-reference/usage-and-quota/))
+- Improvements to key-level usage reporting, making it possible to pull reports with a custom date range and to group data by calendar day. Learn more [here](../getting-started/managing-api-keys.md#get-api-key-level-usage).&#x20;
 </Update>
 
 <Update label="Q1 2025">
-- DeepL API for Write is generally available to Pro API customers, making it possible to improve texts in (at the time of release) 6 different languages. Learn more and get started [here](/docs/api-reference/improve-text).
+- Added support for API key-level usage limits, making it possible to set a character limit at the API key-level. Learn more [here](../getting-started/managing-api-keys.md#set-api-key-level-usage-limits).
+- DeepL API for Write is generally available to Pro API customers, making it possible to improve texts in (at the time of release) 6 different languages. Learn more and get started [here](../api-reference/improve-text/).
 </Update>
 
 <Update label="Q4 2024">

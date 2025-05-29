@@ -1,90 +1,29 @@
 ---
-title: "Usage And Limits"
+title: "Usage and Limits"
 ---
 
 ### API Limits
 
-Type of limit
-
-Maximum limit
-
-Header size
-
-16 KiB (16\*1024 bytes)
-
-Total request size
-
-128 KiB (128\*1024 bytes)
-
-Character count
-
-500,000 characters per month for DeepL API Free
+| Type of limit      | Maximum limit                                   |
+| ------------------ | ----------------------------------------------- |
+| Header size        | 16 KiB (16\*1024 bytes)                         |
+| Total request size | 128 KiB (128\*1024 bytes)                       |
+| Character count    | 500,000 characters per month for DeepL API Free |
 
 ### Maximum Upload Limits Per Document Format
 
-File Format
+| File Format           | DeepL API Free                 | DeepL API Pro                    |
+| --------------------- | ------------------------------ | -------------------------------- |
+| Word (.docx / .doc)   | 10 MB<br />500,000 characters  | 30 MB<br />1 million characters  |
+| PowerPoint (.pptx)    | 10 MB <br />500,000 characters | 30 MB<br />1 million characters  |
+| Excel (.xlsx)         | 10 MB <br />500,000 characters | 30 MB<br />1 million characters  |
+| PDF (.pdf)            | 10 MB <br />500,000 characters | 30 MB<br />1 million characters  |
+| Text (.txt)           | 1 MB<br />500,000 characters   | 1 MB <br />1 million characters  |
+| HTML (.html)          | 5 MB<br />500,000 characters   | 5 MB<br />1 million characters   |
+| XLIFF (.xlf/.xliff)\* | 10 MB<br />500,000 characters  | 10 MB<br />1 million characters  |
+| SRT (.srt)            | 150 KB<br />500,000 characters | 150 KB<br />1 million characters |
 
-DeepL API Free
-
-DeepL API Pro
-
-Word (.docx / .doc)
-
-10 MB 500,000 characters
-
-30 MB
-
-1 million characters
-
-PowerPoint (.pptx)
-
-10 MB 500,000 characters
-
-30 MB
-
-1 million characters
-
-Excel (.xlsx)
-
-10 MB 500,000 characters
-
-30 MB 1 million characters
-
-PDF (.pdf)
-
-10 MB 500,000 characters
-
-30 MB
-
-1 million characters
-
-Text (.txt)
-
-1 MB 500,000 characters
-
-1 MB 1 million characters
-
-HTML (.html)
-
-5 MB 500,000 characters
-
-5 MB 1 million characters
-
-XLIFF (.xlf/.xliff)\*
-
-10 MB 500,000 characters
-
-10 MB
-
-1 million characters
-
-SRT (.srt)
-
-150 KB 500,000 characters
-
-150 KB 1 million characters
-
-\*Please note that DeepL only supports .xliff files with the version 2.1.
+*Please note that DeepL only supports .xliff files with the version 2.1.
 
 ### Your Usage
 
@@ -93,86 +32,3 @@ Retrieve usage information within the current billing period together with the c
 Usage is returned and tracked for translated characters. Note that for [text translation](/docs/api-reference/translate), characters are still counted toward billing when the source and target languages are equal.
 
 Character usage includes both text and document translations, and is measured by the source text length in Unicode code points. For example, "A", "Δ", "あ", and "深" are each counted as a single character.
-
-### Check Usage and Limits
-
-get
-
-https\://api.deepl.com/v2/usage
-
-Authorizations
-
-Responses
-
-200
-
-The account's usage and limits.
-
-application/json
-
-400
-
-Bad request. Please check error message and your parameters.
-
-403
-
-Authorization failed. Please supply a valid \`DeepL-Auth-Key\` via the \`Authorization\` header.
-
-404
-
-The requested resource could not be found.
-
-413
-
-The request size exceeds the limit.
-
-429
-
-Too many requests. Please wait and resend your request.
-
-456
-
-Quota exceeded. The character limit has been reached.
-
-500
-
-Internal error.
-
-504
-
-Resource currently unavailable. Try again later.
-
-529
-
-Too many requests. Please wait and resend your request.
-
-200
-
-400
-
-403
-
-404
-
-413
-
-429
-
-456
-
-500
-
-504
-
-529
-
-Copy
-
-```
-{
-  "character_count": 180118,
-  "character_limit": 1250000
-}
-```
-
-The account's usage and limits.

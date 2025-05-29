@@ -66,9 +66,9 @@ Please note that newlines will split sentences. You should therefore clean files
   Kekse.</div>
   ```
 
-  <Note>
+  <Info>
     Here, the two parts of the sentence have been translated separately and resulted in an error: "oat biscuits" has been translated as "Hafer Kekse" instead of "Haferkekse".
-  </Note>
+  </Info>
 </Card>
 
 ### Restricting Splitting
@@ -91,9 +91,9 @@ As this can lead to bad translations, this type of structure should either be av
     <par>Die Firma sagte, dass sie</par><par> eine interne Untersuchung durchgeführt</par><par> habe</par><par>.</par>
     ```
 
-    <Note>
+    <Info>
       This time, the sentence is translated as a whole. The XML tags are now considered markup and copied into the translated sentence. As the translation of the words "had been" has moved to another position in the German sentence, the two `par` tags are duplicated (which is expected here).
-    </Note>
+    </Info>
   </Tab>
   <Tab title="With Splitting">
     ```text Parameters
@@ -108,8 +108,8 @@ As this can lead to bad translations, this type of structure should either be av
     <par>Die Firma sagte, es sei eine gute Idee gewesen.</par><par> Durchführung einer internen Untersuchung.</par>
     ```
 
-    <Note>
+    <Info>
       Translating separately results in an incorrect translation. As this can lead to bad translations, this type of structure should either be avoided, or the `non_splitting_tags` parameter should be set.
-    </Note>
+    </Info>
   </Tab>
 </Tabs>
