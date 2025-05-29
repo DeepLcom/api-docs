@@ -1,5 +1,7 @@
 ---
 title: "First Things To Try With The DeepL API"
+sidebarTitle: "DeepL API 101"
+description: "New around here? We've got you covered"
 public: true
 ---
 
@@ -15,15 +17,13 @@ Most people’s first experience of the translation power of DeepL is by transla
 
 Open up your terminal and paste the following in (making sure you replace \[yourAuthKey] with your own):
 
-Copy
-
-```
+```bash
 curl -X POST 'https://api-free.deepl.com/v2/translate' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
 --header 'Content-Type: application/json' \
 --data '{
     "text": [
-    "Hello, world!"
+        "Hello, world!"
     ],
     "target_lang": "DE"
 }'
@@ -45,9 +45,8 @@ The best bit? [DeepL already has an official workspace](https://www.postman.com/
 
 Just like translating text, the DeepL API also has the functionality to translate entire documents, meaning you don’t need to copy, paste, translate and back again. The DeepL API supports a [huge range of document formats](https://developers.deepl.com/docs/api-reference/document), and just like sending a text translation request, you only need a small amount of code:
 
-Copy
 
-```
+```bash
 curl -X POST 'https://api-free.deepl.com/v2/document' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
 --form 'target_lang=DE' \
@@ -68,7 +67,9 @@ Right now, client libraries are available for .NET, PHP, Node, Python, Ruby and 
 
 Created a killer app powered by DeepL? Want to ask what the best what practise is for integrating using C#? [The official DeepL Developer Community on Discord is the place to go](https://discord.gg/deepl).
 
-<img className="block dark:hidden" src="/_assets/images/discord-logo-black.png"/>
-<img className="hidden dark:block" src="/_assets/images/discord-logo-white.png"/>
+<div class="flex justify-center">
+    <img className="block dark:hidden" src="/_assets/images/discord-logo-black.png" width="440"/>
+    <img className="hidden dark:block" src="/_assets/images/discord-logo-white.png" width="440"/>
+</div>
 
 As well as finding other community members - and maybe helping them with their own questions - you’ll also find community exclusive events to attend and even a DeepL staffer or two talking about all things API development.

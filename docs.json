@@ -63,11 +63,11 @@
               {
                 "group": "Guides",
                 "pages": [
-                  "docs/learning-how-tos/guides/",
-                  "docs/learning-how-tos/guides/deepl-mcp-server",
-                  "docs/learning-how-tos/guides/first-things-to-try-with-the-deepl-api",
-                  "docs/learning-how-tos/guides/glossaries-in-the-real-world",
-                  "docs/learning-how-tos/guides/placeholder-tags"
+                  "docs/learning-how-tos/examples-and-guides/",
+                  "docs/learning-how-tos/examples-and-guides/placeholder-tags",
+                  "docs/learning-how-tos/examples-and-guides/first-things-to-try-with-the-deepl-api",
+                  "docs/learning-how-tos/examples-and-guides/glossaries-in-the-real-world",
+                  "docs/learning-how-tos/examples-and-guides/deepl-mcp-server-how-to-build-and-use-translation-in-llm-applications"
                 ]
               }
             ]
