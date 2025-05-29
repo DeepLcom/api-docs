@@ -19,7 +19,9 @@ const sendToDAP = async (getPayload) => {
   }
 }
 
-const onPageLoad = () => {
+const sendPageview = (eventType, url) => {
+  console.log(`[${eventType}]: ${url}`); // TODO update 
+
   sendToDAP(() => ({
     instanceId: "11111111-1111-1111-1111-111111111111", // TODO figure out how to get the instance_id
     sessionId: "00000000-0000-0000-0000-000000000000", // TODO remove when new table is created
@@ -33,9 +35,57 @@ const onPageLoad = () => {
         heightCssPixel: window.screen.height,
         viewportWidthCssPixel: window.innerWidth,
         viewportHeightCssPixel: window.innerHeight,
-        devicePixelRatio: window.devicePixelRatio || 1
+        devicePixelRatio: window.devicePixelRatio
     }
   }))
 }
 
+/*
+========================
+  Navigation Tracking
+========================
+*/
+
+let lastTrackedUrl = null;
+
+function sendPageviewDeduped(eventType) {
+  const currentUrl = window.location.href;
+  if (currentUrl === lastTrackedUrl) return; // Skip duplicate
+  lastTrackedUrl = currentUrl;
+
+  sendPageview(eventType, currentUrl)
+}
+
+const setupNavigationTrackers = () => {
+  const _pushState = history.pushState;
+  const _replaceState = history.replaceState;
+
+  history.pushState = function (...args) {
+    _pushState.apply(this, args);
+    sendPageviewDeduped('navigation:pushState');
+  };
+
+  history.replaceState = function (...args) {
+    _replaceState.apply(this, args);
+    sendPageviewDeduped('navigation:replaceState');
+  };
+
+  window.addEventListener('popstate', () => {
+    sendPageviewDeduped('navigation:popstate');
+  });
+
+  window.addEventListener('hashchange', () => {
+    sendPageviewDeduped('navigation:hashchange');
+  });
+}
+
+/*
+========================
+  On Page Load
+========================
+*/
+const onPageLoad = () => {
+  setupNavigationTrackers();
+  sendPageviewDeduped('navigation:newPageLoad')
+}
 onPageLoad()
