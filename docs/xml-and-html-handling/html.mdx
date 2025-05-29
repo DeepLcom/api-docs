@@ -1,10 +1,13 @@
 ---
 title: "HTML Handling"
+description: "Learn how to translate HTML content with the DeepL API."
 ---
 
 By default, the translation engine does not take HTML tags into account. By setting the `tag_handling` parameter to `html`, the API will process HTML input by extracting the text out of the structure, splitting it into individual sentences, translating them, and placing them back into the HTML structure.
 
-For the translation of (non-HTML) XML content please see [XML Handling](/docs/xml-and-html-handling/xml)
+<Note>
+  For the translation of (non-HTML) XML content please see [XML Handling](/docs/xml-and-html-handling/xml)
+</Note>
 
 ### Splitting of newlines
 
@@ -18,26 +21,24 @@ Please note that for next-gen models, the parameter `split_sentences`passed by t
 
 To prevent the translation of elements in the HTML structure, the translation engine respects the `translate="no"` and `class="notranslate"` attributes. In the following example, the `translate="no"` attribute is used to prevent translation of the paragraph:
 
-<Tabs>
-  <Tab title="Disable translation of elements example">
-    ```markup Example request
-    <!DOCTYPE html>
-    <html>
-      <body>
-        <h1>My First Heading</h1>
-        <p translate="no">My first paragraph.</p>
-      </body>
-    </html>
-    ```
+<Card title="Disable translation of elements example">
+  ```markup Example request
+  <!DOCTYPE html>
+  <html>
+    <body>
+      <h1>My First Heading</h1>
+      <p translate="no">My first paragraph.</p>
+    </body>
+  </html>
+  ```
 
-    ```markup Example response
-    <!DOCTYPE html>
-    <html>
-      <body>
-        <h1>Meine erste Überschrift</h1>
-        <p translate="no">My first paragraph.</p>
-      </body>
-    </html>
-    ```
-  </Tab>
-</Tabs>
+  ```markup Example response
+  <!DOCTYPE html>
+  <html>
+    <body>
+      <h1>Meine erste Überschrift</h1>
+      <p translate="no">My first paragraph.</p>
+    </body>
+  </html>
+  ```
+</Card>
