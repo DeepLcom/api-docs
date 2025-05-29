@@ -1,9 +1,9 @@
 const STATISTICS_URL = "https://s.deepl.dev/web/statistics"
 
-const sendToDAP = async (getPayload) => {
+const baseRequest = async (targetUrl, getPayload) => {
   try {
     const response = await fetch(
-      STATISTICS_URL, 
+      targetUrl, 
       {
         headers: {
           "content-type": "application/json",
@@ -19,25 +19,45 @@ const sendToDAP = async (getPayload) => {
   }
 }
 
-const sendPageview = (eventType, url) => {
-  console.log(`[${eventType}]: ${url}`); // TODO update 
+const requestToDAP = (eventType, extraFields) => {
+  console.log(`[${eventType}]: ${JSON.stringify(extraFields)}`); // TODO update 
 
-  sendToDAP(() => ({
-    instanceId: "11111111-1111-1111-1111-111111111111", // TODO figure out how to get the instance_id
-    sessionId: "00000000-0000-0000-0000-000000000000", // TODO remove when new table is created
-    eventId: 290, // TODO update 
-    pageId: 110, // TODO update
-    url: window.location.href,
-    userAgent: navigator.userAgent,
-    interfaceLanguage: navigator.language,
-    screenInfo: {
+  baseRequest(
+    STATISTICS_URL,
+    () => ({
+      instanceId: "11111111-1111-1111-1111-111111111111", // TODO figure out how to get the instance_id
+      sessionId: "00000000-0000-0000-0000-000000000000", // TODO remove when new table is created
+      eventId: 290, // TODO update 
+      pageId: 110, // TODO update
+      userAgent: navigator.userAgent,
+      interfaceLanguage: navigator.language,
+      screenInfo: {
         widthCssPixel: window.screen.width,
         heightCssPixel: window.screen.height,
         viewportWidthCssPixel: window.innerWidth,
         viewportHeightCssPixel: window.innerHeight,
         devicePixelRatio: window.devicePixelRatio
-    }
+      },
+      referrer: document.referrer,
+      ...extraFields
   }))
+}
+
+const sendPageview = (eventType, url) => {
+  requestToDAP(eventType, 
+    {
+      url: url
+    })
+}
+
+const sendNetworkRequest = (eventType, requestUrl, body) => {
+  requestToDAP(eventType,
+    {
+      url: window.location.href,
+      // TODO add the fields below to the table
+      outgoing_request_url: requestUrl,
+      outgoing_request_body: body
+    })
 }
 
 /*
@@ -81,11 +101,32 @@ const setupNavigationTrackers = () => {
 
 /*
 ========================
+  Network Request Tracking
+========================
+*/
+const setupNetworkRequestTracking = () => {
+  const originalOpen = XMLHttpRequest.prototype.open;
+  const originalSend = XMLHttpRequest.prototype.send;
+
+  XMLHttpRequest.prototype.open = function(method, url) {
+    this._recordedUrl = url;
+    return originalOpen.apply(this, arguments);
+  };
+
+  XMLHttpRequest.prototype.send = function(body) {
+    sendNetworkRequest("network:newRequest", this._recordedUrl, body)
+    return originalSend.apply(this, arguments);
+  };
+}
+
+/*
+========================
   On Page Load
 ========================
 */
 const onPageLoad = () => {
   setupNavigationTrackers();
+  setupNetworkRequestTracking();
   sendPageviewDeduped('navigation:newPageLoad')
 }
 onPageLoad()
