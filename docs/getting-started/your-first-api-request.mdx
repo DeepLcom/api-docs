@@ -135,26 +135,28 @@ To [improve text](/docs/getting-started/your-first-api-request#text-improvement)
 
 The text improvement endpoint (DeepL API for Write) is currently only available to **Pro API** subscribers via the v2 endpoint.
 
-```bash Example cURL request
-curl -X POST 'https://api.deepl.com/v2/write/rephrase' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
---header 'Content-Type: application/json' \
---data '{
-  "text": [
-    "I could relly use sum help with edits on thiss text !"
-  ],
-  "target_lang": "en-US"
-}'
-```
+<Card title="Write API example: cURL">
+  ```bash Example cURL request
+  curl -X POST 'https://api.deepl.com/v2/write/rephrase' \
+  --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "text": [
+      "I could relly use sum help with edits on thiss text !"
+    ],
+    "target_lang": "en-US"
+  }'
+  ```
 
-```json Example response
-{
-  "improvements": [
-    {
-      "text": "I could really use some help with editing this text!",
-      "target_language": "en-US",
-      "detected_source_language": "en"
-    }
-  ]
-}
-```
+  ```json Example response
+  {
+    "improvements": [
+      {
+        "text": "I could really use some help with editing this text!",
+        "target_language": "en-US",
+        "detected_source_language": "en"
+      }
+    ]
+  }
+  ```
+</Card>
