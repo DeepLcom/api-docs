@@ -31,7 +31,8 @@ Before you begin, you'll need:
 * Node.js installed on your system
 * Basic familiarity with JavaScript/Node.js
 
-#### Step 1: Initialize Your Project
+<Steps>
+<Step title="Initialize Your Project">
 
 First, let's set up a new Node.js project:
 
@@ -54,8 +55,8 @@ Here's what each dependency does:
 * `zod`: A TypeScript-first schema validation library that we'll use to define our tool parameters
 
 The Model Context Protocol (MCP) enables AI systems to access external tools, providing them with specialized capabilities beyond their built-in functionality. For translation tasks, this is particularly valuable as it combines DeepL's translation expertise with Claude's conversational abilities.
-
-#### Step 2: Create Your Server Implementation
+</Step>
+<Step title="Create Your Server Implementation">
 
 The `McpServer` class is the core of our implementation. It handles all the protocol-specific details of communicating with MCP clients. The `StdioServerTransport` uses standard input/output streams for communication, which works well with Claude Desktop's execution model where it spawns separate processes for each server.
 
@@ -94,8 +95,8 @@ main().catch((error) => {
   process.exit(1);
 });
 ```
-
-#### Step 3: Implement DeepL API Helper Functions
+</Step>
+<Step title="Implement DeepL API Helper Functions">
 
 Let's add some helper functions to manage language lists and validation. These helper functions serve several important purposes:
 
@@ -138,8 +139,8 @@ async function getTargetLanguages() {
   return targetLanguagesCache;
 }
 ```
-
-#### Step 4: Define MCP Tools
+</Step>
+<Step title="Define MCP Tools">
 
 Let's define one of the most important tools our server will provide - the translation tool. For brevity, we'll only show one implementation, but the complete code includes additional tools like `get-source-languages`, `get-target-languages`, and `rephrase-text`.
 
@@ -184,7 +185,8 @@ server.tool(
 ```
 
 For the complete implementation of all tools, including `get-source-languages`, `get-target-languages`, and `rephrase-text`, please refer to the [GitHub repository](https://github.com/DeepLcom/deepl-mcp-server).
-
+</Step>
+</Steps>
 ### Connecting to Claude Desktop
 
 To use your DeepL MCP server with Claude Desktop:
