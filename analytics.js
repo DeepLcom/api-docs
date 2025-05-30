@@ -110,11 +110,25 @@ const setupNetworkRequestTracking = () => {
 
   XMLHttpRequest.prototype.open = function(method, url) {
     this._recordedUrl = url;
+    sendNetworkRequest("network:newRequest", this._recordedUrl, "");
     return originalOpen.apply(this, arguments);
   };
 
   XMLHttpRequest.prototype.send = function(body) {
-    sendNetworkRequest("network:newRequest", this._recordedUrl, body)
+    const xhr = this;
+    console.log("REQUEST DETAILS:", this._recordedUrl, body)
+
+    const originalOnReadyStateChange = this.onreadystatechange;
+    this.onreadystatechange = function() {
+      if (this.readyState === 4) { // DONE
+        console.log("RESPONSE DETAILS:", this.status, this._recordedUrl, this.responseText)
+        // sendNetworkRequest("network:response", this._recordedUrl, this.responseText);
+      }
+      if (originalOnReadyStateChange) {
+        originalOnReadyStateChange.apply(this, arguments);
+      }
+    };
+
     return originalSend.apply(this, arguments);
   };
 }
