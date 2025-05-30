@@ -1,5 +1,6 @@
 ---
-title: "Your First API Request"
+title: "Your first API request"
+description: "Make your first API requests to translate and improve text with the DeepL API."
 public: true
 ---
 
@@ -11,137 +12,123 @@ To [translate text](/docs/api-reference/translate), you can use the `/translate`
 
 We included text translation examples for our [client libraries](/docs/api-reference/client-libraries), too, just to give you an idea of what they look like.
 
-cURLHTTP RequestPythonPHPC#Node.jsJava
+<Tabs>
+  <Tab title="cURL">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
+    ```bash Example request
+    curl -X POST 'https://api.deepl.com/v2/translate' \
+    --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "text": [
+        "Hello, world!"
+      ],
+      "target_lang": "DE"
+    }'
+    ```
 
-Example request
-
-Copy
-
-```
-curl -X POST 'https://api.deepl.com/v2/translate' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
---header 'Content-Type: application/json' \
---data '{
-  "text": [
-    "Hello, world!"
-  ],
-  "target_lang": "DE"
-}'
-```
-
-Example response
-
-Copy
-
-```
-{
-  "translations": [
+    ```json Example response
     {
-      "detected_source_language": "EN",
-      "text": "Hallo, Welt!"
+      "translations": [
+        {
+          "detected_source_language": "EN",
+          "text": "Hallo, Welt!"
+        }
+      ]
     }
-  ]
-}
-```
+    ```
+  </Tab>
+  <Tab title="HTTP Request">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
+    ```http Example request
+    POST /v2/translate HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey] 
+    User-Agent: YourApp/1.2.3
+    Content-Length: 45
+    Content-Type: application/json
+    
+    {"text":["Hello, world!"],"target_lang":"DE"}
+    ```
 
-Copy
-
-```
-POST /v2/translate HTTP/2
-Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
-User-Agent: YourApp/1.2.3
-Content-Length: 45
-Content-Type: application/json
-
-{"text":["Hello, world!"],"target_lang":"DE"}
-```
-
-Copy
-
-```
-{
-  "translations": [
+    ```json Example response
     {
-      "detected_source_language": "EN",
-      "text": "Hallo, Welt!"
+      "translations": [
+        {
+          "detected_source_language": "EN",
+          "text": "Hallo, Welt!"
+        }
+      ]
     }
-  ]
-}
-```
-
-Copy
-
-```
-import deepl
-
-auth_key = "f63c02c5-f056-..."  # Replace with your key
-translator = deepl.Translator(auth_key)
-
-result = translator.translate_text("Hello, world!", target_lang="FR")
-print(result.text)  # "Bonjour, le monde !"
-```
-
-Copy
-
-```
-$authKey = "f63c02c5-f056-..."; // Replace with your key
-$translator = new \DeepL\Translator($authKey);
-
-$result = $translator->translateText('Hello, world!', null, 'fr');
-echo $result->text; // Bonjour, le monde!
-```
-
-Copy
-
-```
-var authKey = "f63c02c5-f056-..."; // Replace with your key
-var translator = new Translator(authKey);
-
-// Translate text into a target language, in this case, French:
-var translatedText = await translator.TranslateTextAsync(
-      "Hello, world!",
-      LanguageCode.English,
-      LanguageCode.French);
-Console.WriteLine(translatedText); // "Bonjour, le monde !"
-// Note: printing or converting the result to a string uses the output text.
-```
-
-Copy
-
-```
-import * as deepl from 'deepl-node';
-
-const authKey = "f63c02c5-f056-..."; // Replace with your key
-const translator = new deepl.Translator(authKey);
-
-(async () => {
-    const result = await translator.translateText('Hello, world!', null, 'fr');
-    console.log(result.text); // Bonjour, le monde !
-})();
-```
-
-Copy
-
-```
-import com.deepl.api.*;
-
-class Example {
-    Translator translator;
-
-    public Example() throws Exception {
-        String authKey = "f63c02c5-f056-...";  // Replace with your key
-        translator = new Translator(authKey);
-        TextResult result =
-                translator.translateText("Hello, world!", null, "fr");
-        System.out.println(result.getText()); // "Bonjour, le monde !"
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```python
+    import deepl
+    
+    auth_key = "f63c02c5-f056-..."  # Replace with your key
+    translator = deepl.Translator(auth_key)
+    
+    result = translator.translate_text("Hello, world!", target_lang="FR")
+    print(result.text)  # "Bonjour, le monde !"
+    ```
+  </Tab>
+  <Tab title="PHP">
+    ```php
+    $authKey = "f63c02c5-f056-..."; // Replace with your key
+    $translator = new \DeepL\Translator($authKey);
+    
+    $result = $translator->translateText('Hello, world!', null, 'fr');
+    echo $result->text; // Bonjour, le monde!
+    ```
+  </Tab>
+  <Tab title="C#">
+    ```csharp
+    var authKey = "f63c02c5-f056-..."; // Replace with your key
+    var translator = new Translator(authKey);
+    
+    // Translate text into a target language, in this case, French:
+    var translatedText = await translator.TranslateTextAsync(
+          "Hello, world!",
+          LanguageCode.English,
+          LanguageCode.French);
+    Console.WriteLine(translatedText); // "Bonjour, le monde !"
+    // Note: printing or converting the result to a string uses the output text.
+    ```
+  </Tab>
+  <Tab title="Node.js">
+    ```javascript
+    import * as deepl from 'deepl-node';
+    
+    const authKey = "f63c02c5-f056-..."; // Replace with your key
+    const translator = new deepl.Translator(authKey);
+    
+    (async () => {
+        const result = await translator.translateText('Hello, world!', null, 'fr');
+        console.log(result.text); // Bonjour, le monde !
+    })();
+    ```
+  </Tab>
+  <Tab title="Java">
+    ```java
+    import com.deepl.api.*;
+    
+    class Example {
+        Translator translator;
+    
+        public Example() throws Exception {
+            String authKey = "f63c02c5-f056-...";  // Replace with your key
+            translator = new Translator(authKey);
+            TextResult result =
+                    translator.translateText("Hello, world!", null, "fr");
+            System.out.println(result.getText()); // "Bonjour, le monde !"
+        }
     }
-}
-```
+    ```
+  </Tab>
+</Tabs>
 
 ### Text improvement
 
@@ -149,36 +136,28 @@ To [improve text](/docs/getting-started/your-first-api-request#text-improvement)
 
 The text improvement endpoint (DeepL API for Write) is currently only available to **Pro API** subscribers via the v2 endpoint.
 
-Write API example: cURL
+<Card title="Write API example: cURL">
+  ```bash Example cURL request
+  curl -X POST 'https://api.deepl.com/v2/write/rephrase' \
+  --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "text": [
+      "I could relly use sum help with edits on thiss text !"
+    ],
+    "target_lang": "en-US"
+  }'
+  ```
 
-Example cURL request
-
-Copy
-
-```
-curl -X POST 'https://api.deepl.com/v2/write/rephrase' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
---header 'Content-Type: application/json' \
---data '{
-  "text": [
-    "I could relly use sum help with edits on thiss text !"
-  ],
-  "target_lang": "en-US"
-}'
-```
-
-Example response
-
-Copy
-
-```
-{
-  "improvements": [
-    {
-      "text": "I could really use some help with editing this text!",
-      "target_language": "en-US",
-      "detected_source_language": "en"
-    }
-  ]
-}
-```
+  ```json Example response
+  {
+    "improvements": [
+      {
+        "text": "I could really use some help with editing this text!",
+        "target_language": "en-US",
+        "detected_source_language": "en"
+      }
+    ]
+  }
+  ```
+</Card>

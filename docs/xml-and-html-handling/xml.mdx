@@ -1,80 +1,52 @@
 ---
-title: "XML Handling"
+title: "XML handling"
+description: "Learn how to translate XML content with the DeepL API."
 ---
 
 By default, the translation engine does not take tags into account. By setting the `tag_handling` parameter to `xml`, the API will process XML input by extracting the text out of the structure, splitting it into individual sentences, translating them, and placing them back into the XML structure.
 
-For the translation of HTML content please see [HTML Handling](/docs/xml-and-html-handling/html)
+<Info>
+  For the translation of HTML content please see [HTML Handling](/docs/xml-and-html-handling/html)
+</Info>
 
 ### Sentences with Markup
 
 If you want to translate text where individual parts are marked up, you can simply activate the XML engine by setting `tag_handling` to `xml`. The following examples show marked-up text and how it will be translated:
 
-Basic ExampleWith AttributesNested TagsPlaceholder Tag
-
-Request
-
-Copy
-
-```
-Press <i>Continue</i> to advance to the next page.
-```
-
-Response
-
-Copy
-
-```
-Drücken Sie <i>Weiter</i>, um zur nächsten Seite zu gelangen.
-```
-
-Request
-
-Copy
-
-```
-<x id="17">Please welcome the participants</x> to today's meeting.
-```
-
-Response
-
-Copy
-
-```
-<x id="17">Bitte begrüßen Sie die Teilnehmer</x> des heutigen Treffens.
-```
-
-Request
-
-Copy
-
-```
-The firm said it had been conducting an <a>internal <b>investigation</b></a> for several months.
-```
-
-Response
-
-Copy
-
-```
-Das Unternehmen sagte, dass es seit mehreren Monaten eine <a>interne <b>Untersuchung</b></a>durchgeführt habe.
-```
-
-Request
-
-Copy
-
-```
-Artificial intelligence<a/> is already shaping our everyday<b></b> lives.
-```
-
-Response
-
-Copy
-
-```
-Künstliche Intelligenz<a/> prägt bereits heute unseren Alltag<b></b>.
-```
+<Tabs>
+  <Tab title="Basic Example">
+    ```markup Request
+    Press <i>Continue</i> to advance to the next page.
+    ```
+    ```markup Response
+    Drücken Sie <i>Weiter</i>, um zur nächsten Seite zu gelangen.
+    ```
+  </Tab>
+  <Tab title="With Attributes">
+    ```markup Request
+    <x id="17">Please welcome the participants</x> to today's meeting.
+    ```
+    ```markup Response
+    <x id="17">Bitte begrüßen Sie die Teilnehmer</x> des heutigen Treffens.
+    ```
+  </Tab>
+  <Tab title="Nested Tags">
+  ```markup Request
+  The firm said it had been conducting an <a>internal <b>investigation</b></a> for several months.
+  ```
+  ```markup Response
+  Das Unternehmen sagte, dass es seit mehreren Monaten eine <a>interne <b>Untersuchung</b></a>durchgeführt habe.
+  ```
+  </Tab>
+  <Tab title="Placeholder Tag">
+  ```markup Request
+  Artificial intelligence<a/> is already shaping our everyday<b></b> lives.
+  ```
+  ```markup Response
+  Künstliche Intelligenz<a/> prägt bereits heute unseren Alltag<b></b>.
+  ```
+  </Tab>
+</Tabs>
 
 In general, placeholders are associated with the words preceding or following them in the source sentence and are then applied to their respective translations in the target sentence.
 
@@ -82,28 +54,14 @@ In general, placeholders are associated with the words preceding or following th
 
 To ensure that elements in the original text are not altered in translation (e.g. trademarks or product names), use the `ignore_tags` parameter and specify a tag for this function.
 
-Example: ignore \<x> tag
-
-Parameters
-
-Copy
-
-```
-tag_handling=xml, ignore_tags=x
-```
-
-Request
-
-Copy
-
-```
-Please open the page <x>Settings</x> to configure your system.
-```
-
-Response
-
-Copy
-
-```
-Bitte öffnen Sie die Seite <x>Settings</x> um Ihr System zu konfigurieren.
-```
+<Card title="Example: ignore \<x\> tag">
+  ```text Parameters
+  tag_handling=xml, ignore_tags=x
+  ```
+  ```markup Request
+  Please open the page <x>Settings</x> to configure your system.
+  ```
+  ```markup Response
+  Bitte öffnen Sie die Seite <x>Settings</x> um Ihr System zu konfigurieren.
+  ```
+</Card>

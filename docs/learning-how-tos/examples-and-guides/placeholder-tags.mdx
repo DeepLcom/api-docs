@@ -1,5 +1,6 @@
 ---
-title: "Mustache Placeholder Tags"
+title: "Mustache placeholder tags"
+description: "An example for working with placeholder tags—in this case, Mustache tags."
 public: true
 ---
 
@@ -16,11 +17,8 @@ A similar approach could be used for other types of placeholder tags that are no
 Below is a summary of the Mustache example, and for more detail, you can refer to the [example's README](https://github.com/DeepLcom/deepl-python/blob/main/examples/mustache/README.md).
 
 * The input Mustache template is parsed to separate the literal text from the Mustache tags.
-
 * The template is modified to replace all Mustache tags with placeholder XML tags. Unique IDs are attached to each placeholder tag to identify them in the translated XML.
-
 * The XML template is translated using DeepL API with XML tag handling activated.
-
 * The translated XML is parsed to identify placeholder tags and replace them with the original Mustache tags.
 
 Please note when using Mustache or other placeholder tags, the translation engine would not know the context or meaning of a tag (i.e. the engine would not know if a tag will populate a name, or an address, or a color, or a numerical value, etc). This lack of context might affect the quality of the translation output.

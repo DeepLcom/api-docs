@@ -43,6 +43,7 @@
               "docs/getting-started/managing-api-keys",
               "docs/getting-started/your-first-api-request",
               "docs/getting-started/test-your-api-requests-with-postman",
+              "docs/getting-started/supported-languages",
               "docs/getting-started/pre-production-checklist",
               "docs/getting-started/alpha-and-beta-features"
             ]
@@ -55,17 +56,18 @@
                 "pages": [
                   "docs/learning-how-tos/cookbook",
                   "docs/learning-how-tos/cookbook/google-sheets",
-                  "docs/learning-how-tos/cookbook/context-parameter-examples"
+                  "docs/learning-how-tos/cookbook/context-parameter-examples",
+                  "docs/learning-how-tos/cookbook/automating-indie-game-localization-with-the-deepl-api-and-godot"
                 ]
               },
               {
                 "group": "Guides",
                 "pages": [
-                  "docs/learning-how-tos/guides/",
-                  "docs/learning-how-tos/guides/deepl-mcp-server",
-                  "docs/learning-how-tos/guides/first-things-to-try-with-the-deepl-api",
-                  "docs/learning-how-tos/guides/glossaries-in-the-real-world",
-                  "docs/learning-how-tos/guides/placeholder-tags"
+                  "docs/learning-how-tos/examples-and-guides/",
+                  "docs/learning-how-tos/examples-and-guides/placeholder-tags",
+                  "docs/learning-how-tos/examples-and-guides/first-things-to-try-with-the-deepl-api",
+                  "docs/learning-how-tos/examples-and-guides/glossaries-in-the-real-world",
+                  "docs/learning-how-tos/examples-and-guides/deepl-mcp-server-how-to-build-and-use-translation-in-llm-applications"
                 ]
               }
             ]
@@ -98,7 +100,7 @@
                 "pages": [
                   "docs/resources/breaking-changes-change-notices",
                   "docs/resources/breaking-changes-change-notices/july-2024-deprecation-of-insecure-cipher-suites",
-                  "docs/resources/breaking-changes-change-notices/march-2025-deprecating-get-requests-to-translate-and-authenticating-with-auth-key"
+                  "docs/resources/breaking-changes-change-notices/march-2025-deprecating-get-requests-to-translate-and-authenticating-with-auth_key"
                 ]
               },
               "docs/resources/language-release-process",
