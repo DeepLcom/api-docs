@@ -166,7 +166,7 @@
               ]
             },
             {
-              "group": "Retrieve usage & quota",
+              "group": "Retrieve usage and quota",
               "pages": [
                 "api-reference/usage-and-quota",
                 "api-reference/usage-and-quota/check-usage-and-limits"
