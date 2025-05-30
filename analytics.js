@@ -50,13 +50,13 @@ const sendPageview = (eventType, url) => {
     })
 }
 
-const sendNetworkRequest = (eventType, requestUrl, body) => {
+const sendOutgoingNetworkResponse = (eventType, requestUrl, status) => {
   requestToDAP(eventType,
     {
       url: window.location.href,
       // TODO add the fields below to the table
-      outgoing_request_url: requestUrl,
-      outgoing_request_body: body
+      outgoing_network_response_url: requestUrl,
+      outgoing_network_response_status: status,
     })
 }
 
@@ -114,7 +114,19 @@ const setupNetworkRequestTracking = () => {
   };
 
   XMLHttpRequest.prototype.send = function(body) {
-    sendNetworkRequest("network:newRequest", this._recordedUrl, body)
+    // Note: we cannot log the request or response body because of sensitive info
+
+    const originalOnReadyStateChange = this.onreadystatechange;
+    this.onreadystatechange = function() {
+      if (this.readyState === 4) { // DONE
+        sendOutgoingNetworkResponse("network:outgoingNetworkResponse", this._recordedUrl, this.status)
+      }
+      if (originalOnReadyStateChange) {
+        originalOnReadyStateChange.apply(this, arguments);
+      }
+    };
+
+
     return originalSend.apply(this, arguments);
   };
 }
