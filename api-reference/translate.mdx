@@ -99,28 +99,28 @@ Content-Type: application/json
 import deepl
 
 auth_key = "f63c02c5-f056-..."  # Replace with your key
-translator = deepl.Translator(auth_key)
+deepl_client = deepl.DeepLClient(auth_key)
 
-result = translator.translate_text("Hello, world!", target_lang="FR")
+result = deepl_client.translate_text("Hello, world!", target_lang="FR")
 print(result.text)  # "Bonjour, le monde !"
 ```
 </Tab>
 <Tab title="PHP">
 ```php Example request: text translation (without glossary)
 $authKey = "f63c02c5-f056-..."; // Replace with your key
-$translator = new \DeepL\Translator($authKey);
+$deeplClient = new \DeepL\DeepLClient($authKey);
 
-$result = $translator->translateText('Hello, world!', null, 'fr');
+$result = $deeplClient->translateText('Hello, world!', null, 'fr');
 echo $result->text; // Bonjour, le monde!
 ```
 </Tab>
 <Tab title="C#">
 ```cs Example request: text translation (without glossary)
 var authKey = "f63c02c5-f056-..."; // Replace with your key
-var translator = new Translator(authKey);
+var deeplClient = new DeepLClient(authKey);
 
 // Translate text into a target language, in this case, French:
-var translatedText = await translator.TranslateTextAsync(
+var translatedText = await deeplClient.TranslateTextAsync(
       "Hello, world!",
       LanguageCode.English,
       LanguageCode.French);
@@ -133,10 +133,10 @@ Console.WriteLine(translatedText); // "Bonjour, le monde !"
 import * as deepl from 'deepl-node';
 
 const authKey = "f63c02c5-f056-..."; // Replace with your key
-const translator = new deepl.Translator(authKey);
+const deeplClient = new deepl.DeepLClient(authKey);
 
 (async () => {
-    const result = await translator.translateText('Hello, world!', null, 'fr');
+    const result = await deeplClient.translateText('Hello, world!', null, 'fr');
     console.log(result.text); // Bonjour, le monde !
 })();
 ```
@@ -146,13 +146,13 @@ const translator = new deepl.Translator(authKey);
 import com.deepl.api.*;
 
 class Example {
-    Translator translator;
+    DeepLClient deeplClient;
 
     public Example() throws Exception {
         String authKey = "f63c02c5-f056-...";  // Replace with your key
-        translator = new Translator(authKey);
+        deeplClient = new DeepLClient(authKey);
         TextResult result =
-                translator.translateText("Hello, world!", null, "fr");
+                deeplClient.translateText("Hello, world!", null, "fr");
         System.out.println(result.getText()); // "Bonjour, le monde !"
     }
 }
