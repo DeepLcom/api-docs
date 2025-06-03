@@ -1,0 +1,131 @@
+---
+title: "Managing DeepL API keys"
+description: "A guide covering multiple API keys for Pro API and Free API users"
+public: true
+---
+
+<Info>
+**Notice**: This page is out-of-date and will soon be removed. Please refer to the ["Managing API Keys"](/docs/getting-started/managing-api-keys.mdx) guide in our documentation instead.
+</Info>
+
+## Introducing multiple API keys
+It’s now possible to create multiple, simultaneously active API keys in a single API subscription. This article provides an overview of API key management capabilities. 
+
+Support for multiple API keys was added as one of the most-requested features from our users. Before support was added, it was possible to have only one active API key per subscription, and creating a new API key would simultaneously invalidate the existing one.  
+
+Example use cases for multiple API keys include: 
+
+* Creating a unique key for each environment (e.g., development vs. test vs. production) or for each team working with the DeepL API, so a key that is compromised and needs to be revoked and recreated does not affect other environments or teams.  
+* Rotating in a new API key in production with no downtime. With multiple API keys, it’s possible to create a new key, then add the new key to your production environment, then revoke the old key only after the new key is live.  
+
+You can find and manage your API keys in the “API keys” tab when signed into your DeepL API account.
+
+![](/_assets/images/multiple-api-keys-home.png)
+
+### Create new key
+
+Creates a new API key. You can optionally give an API key a name of your choosing during the creation process. If you do not name the key, the name “DeepL API Key” will be given to the key automatically. 
+
+<Frame caption="Assigning a name during the API key creation process">
+![](/_assets/images/multiple-api-keys-create-and-name.png)
+</Frame>
+
+Giving your API keys a name during the key creation process makes it possible for you to search for the key by name using the search bar on the “API keys” tab:
+
+<Frame caption='Using the search bar to filter for all API keys containing "Team B"'>
+![](/_assets/images/multiple-api-keys-search.png)
+</Frame>
+
+After creating a key, a popup with the newly created key will appear. You can copy the key from this popup and use the key immediately. You can also copy the key from the table in the “API keys” tab at any time.  
+
+<Frame caption='Confirmation that API key was successfully created.'>
+![](/_assets/images/multiple-api-keys-key-created.png)
+</Frame>
+
+Free API subscribers can create up to 2 simultaneously active API keys. 
+
+Pro API subscribers can create up to 25 simultaneously active API keys. 
+
+### Deactivate key
+Deactivates an active API key. IMPORTANT: an API key will stop working immediately when it is deactivated. After a key is deactivated, it cannot be reactivated—deactivating a key is permanent! 
+
+<Frame caption='Selecting the "Deactivate Key" option'>
+![](/_assets/images/multiple-api-keys-deactivate-key-menu-option.png)
+</Frame>
+
+<Frame caption='Confirming API key deactivation'>
+![](/_assets/images/multiple-api-keys-deactivate-key-confirmation.png)
+</Frame>
+<Info>
+In the previous API key user interface (shown below), clicking the "Create new Authentication Key" button would simultaneously deactivate your current key and create a new key. 
+
+In the new API key user interface (the "API Keys" tab), you'll need to carry out two separate actions—creation of a new key and deactivation of the old key—if you want to both deactivate the current key and create a new one.
+</Info>
+<Frame caption="DeepL's previous API key user interface">
+![](/_assets/images/deepl-api-key-old-interface.png)
+</Frame>
+
+### Rename key
+Allows you to edit the name of an API key. Note that it is possible for two keys to have the same name.  
+
+Both active and revoked keys can be renamed. 
+
+<Frame caption="Renaming an API key">
+![](/_assets/images/multiple-api-keys-rename-key.png)
+</Frame>
+
+### Copy key
+Copies the API key to your clipboard. For security reasons, we do not show the full key in the table in the “API Keys” tab. Copying and pasting a key is the only way to see the full key. Both active and revoked keys can be copied.  
+
+<Frame caption="Click on this icon to copy an API key">
+![](/_assets/images/multiple-api-keys-rename-key.png)
+</Frame>
+
+### Download a report with key-level usage
+Generates a CSV report with key-level characters translated for the specified time period. The following time periods are currently supported:
+
+* Last 24 hours
+* Last 7 days (including current day)
+* Last 30 days (including current day)
+* Current month (including current day)
+* Last month
+* Current usage period (including current day)
+* Last usage period
+
+<Info>
+Please note that document translation data is only included in reports with a time period starting on or after May 16, 2024 00:00 UTC. Text translation data is included for all time periods.
+</Info>
+
+Key-level usage is not broken out on invoices and is only available via CSV export at this time.
+
+To download a report with key-level usage, first click on the “Download key-level usage report” button on the [API Keys tab](https://www.deepl.com/en/your-account/keys) or the “Download report” link on the [Usage tab](https://www.deepl.com/en/your-account/usage).
+
+You can then select a time period and click the “Download your report” button to download your CSV report. 
+
+### Frequently asked questions 
+#### Why do I see deactivated keys in the "API Keys" tab? I have not yet used the new multiple API keys interface.
+Starting in December 2023, if you created a new API key using our previous API key interface by clicking "Create new Authentication Key" (pictured below for reference), the old key's status was set to "deactivated", and we are including deactivated keys in the multiple API keys interface. You can rename the keys if you'd find it helpful to do so.
+
+<Frame caption="DeepL's previous API key user interface. Starting in December 2023, keys that were regenerated via this interface were labeled as &quot;Deactivated&quot; and will be shown in the multiple API keys user interface.">
+![](/_assets/images/deepl-api-key-old-interface.png)
+</Frame>
+
+#### Can I see key-level consumption reporting (in other words, the number of characters translated by each API key)?
+Yes, it’s possible to export a CSV report with key-level usage reporting. Please see “Download a report with key-level usage” above.
+
+Key-level consumption is also not broken out in your invoices. 
+
+#### Can I set a cost control limit per API key?
+We don’t currently offer API key-level cost control. Pro API users can still set cost control at the subscription level.  
+
+#### Are glossaries scoped to a specific API key? In other words, if I use Key A to create a glossary, can I only use Key A to translate with that glossary?
+
+Glossaries are not scoped in any way to a specific API key. Every active API key in your account can be used to manage or translate with any of your glossaries. 
+
+#### Does creating multiple API keys impact the limit of 1000 glossaries that I can create in my API subscription? 
+The 1000 glossaries limit exists at the subscription level and is not at all impacted by creating multiple API keys.  
+
+#### Can I see when an API key was last used?
+No, it’s not possible to see when an API key was last used. However, this is a piece of information we’re considering adding in the future.  
+#### Can I create multiple CAT tool keys within a single Advanced or Ultimate (non-API) subscription?
+No, it’s not possible to create multiple CAT tool keys within a single Advanced or Ultimate subscription. This capability is available only to Free API and Pro API customers.  

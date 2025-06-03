@@ -22,11 +22,11 @@ description: "Brief summaries of recent DeepL API releases, such as support for 
 </Update>
 
 <Update label="Q4 2024">
-- Added the `model_type` parameter, allowing users to translate text with DeepL's "next-gen" translation models. More information can be found [here](/docs/api-reference/translate#about-the-model_type-parameter).
+- Added the `model_type` parameter, allowing users to translate text with DeepL's "next-gen" translation models. More information can be found [here](/api-reference/translate#about-the-model_type-parameter).
 </Update>
 
 <Update label="Q3 2024">
-- Added the `show_billed_characters` parameter for text translation, allowing users to optionally include the number of billed characters in the API response. [Learn more here](/docs/api-reference/translate#request-body-descriptions).
+- Added the `show_billed_characters` parameter for text translation, allowing users to optionally include the number of billed characters in the API response. [Learn more here](/api-reference/translate#request-body-descriptions).
 - Added support for a new language for text translation: ZH-HANT (Traditional Chinese). As of this initial release, document translation is not supported for Traditional Chinese. More information is available [here](/docs/getting-started/supported-languages).
 - An official Ruby client library, evolved from a community-written library by Daniel Herzog. You can download it [here](https://rubygems.org/gems/deepl-rb) or find the source code on our [GitHub page](https://github.com/DeepLcom/deepl-rb).
 </Update>
@@ -36,50 +36,50 @@ description: "Brief summaries of recent DeepL API releases, such as support for 
 - Added support for API key-level usage reporting. More information is available in the [multiple API keys guide](https://developers.deepl.com/multiple-api-keys#download-a-report-with-key-level-usage).
 - Launched DeepL Pro in [165 new markets](https://www.deepl.com/en/blog/deepl-pro-expands-165-new-markets), bringing the total number of markets where DeepL Pro is available to 228. This means users with billing addresses in these markets can create DeepL Pro API and Free API subscriptions.
 - Added support for new glossary languages: DA (Danish), NB (Norwegian Bokmål), and Swedish (SV).
-- Moved the `context` parameter from [alpha](/docs/getting-started/alpha-and-beta-features) status to general availability. More information about the context parameter is available in the "Request body descriptions" table [here](/docs/api-reference/translate).
-- Added support for SRT (`srt`) files in [document translation](/docs/api-reference/document).
+- Moved the `context` parameter from [alpha](/docs/getting-started/alpha-and-beta-features) status to general availability. More information about the context parameter is available in the "Request body descriptions" table [here](/api-reference/translate).
+- Added support for SRT (`srt`) files in [document translation](/api-reference/document).
 </Update>
 
 <Update label="Q1 2024">
 - Added support for multiple API keys in a single account for Pro API and Free API users. More information is available in the [multiple API keys guide](https://developers.deepl.com/multiple-api-keys).
 - Added support for a new language for text translation: AR (Arabic). As of this initial release, document translation is not supported for Arabic. More information is available [here](/docs/getting-started/supported-languages).
-- Added support for Korean (KO) as a [glossary](/docs/api-reference/glossaries) language, increasing the number of supported glossary language pairs from 55 to 66.
+- Added support for Korean (KO) as a [glossary](/api-reference/glossaries) language, increasing the number of supported glossary language pairs from 55 to 66.
 </Update>
 
 <Update label="Q4 2023">
-- Added support for Microsoft Excel (`xlsx`) files in [document translation](/docs/api-reference/document).
-- Released the `context` parameter as an [alpha feature](/docs/getting-started/alpha-and-beta-features) for text translation (see [Request Body Descriptions table](/docs/api-reference/translate#request-body-descriptions) for more information).
+- Added support for Microsoft Excel (`xlsx`) files in [document translation](/api-reference/document).
+- Released the `context` parameter as an [alpha feature](/docs/getting-started/alpha-and-beta-features) for text translation (see [Request Body Descriptions table](/api-reference/translate#request-body-descriptions) for more information).
 </Update>
 
 <Update label="Q3 2023">
 - Launched DeepL Pro in South Korea ([blog post here](https://www.deepl.com/en/blog/deepl-pro-available-in-south-korea)). This means users with billing addresses in South Korea can [create DeepL Pro API and Free API subscriptions](https://www.deepl.com/ko/pro#developer).
-- Added support for Portuguese (PT), Russian (RU), and Chinese (ZH) as [glossary](/docs/api-reference/glossaries) languages, increasing the number of supported glossary language pairs from 28 to 55.
+- Added support for Portuguese (PT), Russian (RU), and Chinese (ZH) as [glossary](/api-reference/glossaries) languages, increasing the number of supported glossary language pairs from 28 to 55.
 - Added support for JSON-encoded requests for all remaining endpoints (*note that document upload for document translation still requires&#x20;*`multipart/form-data`).
 </Update>
 
 <Update label="Q2 2023">
 - Added support for user-provided http clients in [PHP client library](https://github.com/DeepLcom/deepl-php).
 - Released an official [DeepL API Postman collection](https://www.postman.com/deepl-api/workspace/deepl-api-developers/overview).
-- Added formality support for Japanese (JA) in [text](/docs/api-reference/translate) and [document](/docs/api-reference/document) translation.
+- Added formality support for Japanese (JA) in [text](/api-reference/translate) and [document](/api-reference/document) translation.
 - Released in-house PDF translation; removed requirement to send data to the US when translating PDF documents ([blog post](https://www.deepl.com/en/blog/deepl-launches-in-house-pdf-translation-for-improved-security-and-efficiency)).
 </Update>
 
 <Update label="Q1 2023">
 - Released an official [DeepL Custom Connector](https://support.deepl.com/hc/en-us/articles/8644041855516-DeepL-API-custom-connector-for-Microsoft-Power-Automate) for Microsoft Power Automate.
 - Added support for glossaries in any combination of two languages from the following list: EN (English), DE (German), FR (French), IT (Italian), PL (Polish), NL (Dutch), ES (Spanish, JA (Japanese). This represents an increase from 8 to 28 supported glossary language pairs.
-- Added XLIFF as a [document translation](/docs/api-reference/document) format (*note that only documents from version 2.0 are supported, and there is no support for the legacy 1.2 format*).
+- Added XLIFF as a [document translation](/api-reference/document) format (*note that only documents from version 2.0 are supported, and there is no support for the legacy 1.2 format*).
 - Added support for new languages for text and document translation: KO (Korean) and NB (Norwegian Bokmål). [Blog post here](https://www.deepl.com/en/blog/welcome-korean-and-norwegian).
 </Update>
 
 <Update label="Q4 2022">
 - Moved [HTML handling](/docs/xml-and-html-handling/html) out of beta after fixing the most commonly reported user issues.
 - Released an official [Java client library](https://github.com/DeepLcom/deepl-java).
-- Added support for JSON-encoded requests for [text translation](/docs/api-reference/translate), [usage](/docs/api-reference/usage-and-quota), and [languages](/docs/api-reference/languages) endpoints.
+- Added support for JSON-encoded requests for [text translation](/api-reference/translate), [usage](/api-reference/usage-and-quota), and [languages](/api-reference/languages) endpoints.
 </Update>
 
 <Update label="Q3 2022">
 - Released an official [PHP client library](https://github.com/DeepLcom/deepl-php).
-- Added support for a new language for [text](/docs/api-reference/translate) and [document](/docs/api-reference/document) translation: UK (Ukrainian). [Blog post here](https://www.deepl.com/en/blog/deepl-learns-ukrainian).
+- Added support for a new language for [text](/api-reference/translate) and [document](/api-reference/document) translation: UK (Ukrainian). [Blog post here](https://www.deepl.com/en/blog/deepl-learns-ukrainian).
 </Update>
 
 <Update label="Before Q3 2022">
@@ -87,7 +87,7 @@ description: "Brief summaries of recent DeepL API releases, such as support for 
 - Released an official [NodeJS client library](https://github.com/DeepLcom/deepl-node).
 - Released an official [.NET client library](https://github.com/DeepLcom/deepl-dotnet).
 - Released an official [Python client library](https://github.com/DeepLcom/deepl-python).
-- Added support for [glossaries](/docs/api-reference/glossaries) in the DeepL API.
+- Added support for [glossaries](/api-reference/glossaries) in the DeepL API.
 - Released an open-source sample project for [translating with DeepL in Google Sheets](https://github.com/DeepLcom/google-sheets-example).
 - ...and much more :)
 </Update>

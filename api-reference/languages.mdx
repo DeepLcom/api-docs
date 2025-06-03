@@ -1,36 +1,32 @@
 ---
 title: "Retrieve Languages"
 sidebarTitle: "Overview"
+description: "API reference for retrieving supported languages with the DeepL API."
 ---
 
 Get all currently supported source and target languages that can be used for text and document translation.
 
-As of April 2025, supported languages for [text improvement](/docs/api-reference/improve-text) (DeepL API for Write) have not yet been added to the `/languages` endpoint; we'll be extending the `/languages` endpoint in the near future to include this information.
-
-To get languages available for glossaries, please see [here](/docs/api-reference/glossaries).
-
-We also provide a spec that is auto-generated from DeepL's OpenAPI file. [You can find it here](/docs/api-reference/languages/openapi-spec-for-retrieving-languages).
+<Info>
+  As of April 2025, supported languages for [text improvement](/api-reference/improve-text) (DeepL API for Write) have not yet been added to the `/languages` endpoint; we'll be extending the `/languages` endpoint in the near future to include this information.
+</Info>
+<Info>
+  To get languages available for glossaries, please see [here](/api-reference/multilingual-glossaries).
+</Info>
+We also provide a spec that is auto-generated from DeepL's OpenAPI file. [You can find it here](/api-reference/languages/retrieve-supported-languages).
 
 To understand how we'll update the `/languages` endpoint when we add translation support for a new language or language variant, please see [this article](/docs/resources/language-release-process).
 
-cURLHTTP Request
+<Tabs>
+<Tab title="cURL">
 
 The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
 
-Example request: supported target languages
-
-Copy
-
-```
+```sh Example request: supported target languages
 curl -X GET 'https://api.deepl.com/v2/languages?type=target' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
 ```
 
-Example response
-
-Copy
-
-```
+```json Example response
 [
   {
     "language": "AR",
@@ -204,23 +200,15 @@ Copy
   }
 ]
 ```
-
-Example request: supported target languages
-
-Copy
-
-```
+</Tab>
+<Tab title="HTTP Request">
+```http Example request: supported target languages
 GET /v2/languages?type=target HTTP/2
 Host: api.deepl.com
 Authorization: DeepL-Auth-Key [yourAuthKey] 
 User-Agent: YourApp/1.2.3
 ```
-
-Example response
-
-Copy
-
-```
+```json Example response
 [
   {
     "language": "BG",
@@ -384,13 +372,10 @@ Copy
   }
 ]
 ```
-
+</Tab>
+</Tabs>
 ### Query parameters
 
-Query parameter
-
-Description
-
-`type` (*optional*)
-
-Supported values are `source` or `target`. If type parameter is not included, defaults to `source`. Type: `enum`
+<ParamField query="type" type="enum">
+Supported values are `source` or `target`. If type parameter is not included, defaults to `source`.
+</ParamField>
