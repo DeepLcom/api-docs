@@ -129,13 +129,21 @@
               "pages": [
                 "api-reference/document",
                 "api-reference/document/upload-and-translate-a-document",
-                "api-reference/document/download-translated-document",
-                "api-reference/document/check-document-status"
+                "api-reference/document/check-document-status",
+                "api-reference/document/download-translated-document"
+              ]
+            },
+            {
+              "group": "Improve text",
+              "pages": [
+                "api-reference/improve-text",
+                "api-reference/improve-text/request-text-improvement"
               ]
             },
             {
               "group": "Glossaries",
               "pages": [
+                "api-reference/multilingual-glossaries",
                 "api-reference/multilingual-glossaries/create-a-glossary",
                 "api-reference/multilingual-glossaries/delete-a-glossary",
                 "api-reference/multilingual-glossaries/deletes-the-dictionary-associated-with-the-given-language-pair-with-the-given-glossary-id",
@@ -148,6 +156,7 @@
                   "group": "Manage Monolingual Glossaries",
                   "pages": [
                     "api-reference/glossaries",
+                    "api-reference/glossaries/v2-vs-v3-endpoints",
                     "api-reference/glossaries/create-a-glossary",
                     "api-reference/glossaries/delete-a-glossary",
                     "api-reference/glossaries/list-all-glossaries",
@@ -156,13 +165,6 @@
                     "api-reference/glossaries/retrieve-glossary-entries"
                   ]
                 }
-              ]
-            },
-            {
-              "group": "Rephrase text",
-              "pages": [
-                "api-reference/improve-text",
-                "api-reference/improve-text/request-text-improvement"
               ]
             },
             {
@@ -177,6 +179,12 @@
               "pages": [
                 "api-reference/languages",
                 "api-reference/languages/retrieve-supported-languages"
+              ]
+            },
+            {
+              "group": "Client libraries",
+              "pages": [
+                "api-reference/client-libraries"
               ]
             }
             ]
@@ -231,6 +239,10 @@
   {
     "source": "/docs/api-reference/:page*",
     "destination": "/api-reference/:page*"
+  },
+  {
+    "source": "/multiple-api-keys",
+    "destination": "/docs/multiple-api-keys"
   }
   ],
   "integrations": {

@@ -3,40 +3,37 @@ title: "Improve Text"
 public: true
 sidebarTitle: "Overview"
 ---
+<Info>
+  **Introducing DeepL API for Write**
 
-**Introducing DeepL API for Write**
+  DeepL API for Write is now generally available via the v2 API endpoint for customers with a DeepL API Pro subscription.
 
-DeepL API for Write is now generally available via the v2 API endpoint for customers with a DeepL API Pro subscription.
+  The supported scope of DeepL API for Write functionality is covered in this documentation page. Please note that the existing provisions applying to customers' DeepL API Pro subscription also apply to DeepL API for Write with [the following additions to the Service Specification](/api-reference/improve-text/deepl-write-api-service-specification-updates).
 
-The supported scope of DeepL API for Write functionality is covered in this documentation page. Please note that the existing provisions applying to customers' DeepL API Pro subscription also apply to DeepL API for Write with [the following additions to the Service Specification](/docs/api-reference/improve-text/deepl-write-api-service-specification-updates).
-
-[An FAQ](/docs/api-reference/improve-text#frequently-asked-questions) is included at the bottom of this page.
-
+  [An FAQ](/api-reference/improve-text#frequently-asked-questions) is included at the bottom of this page.
+</Info>
 ### DeepL API for Write overview
 
 DeepL API for Write is accessible through an HTTP interface and currently consists of a single endpoint for text improvement, `/write/rephrase`, which is described below. The endpoint:
 
 * Accepts both form-encoded (`Content-Type: application/x-www-form-urlencoded`) and JSON-encoded (`Content-Type: application/json`) request bodies
-
 * Returns JSON-encoded responses
 
 The client libraries support all features of the text improvement endpoint. The text improvement feature is currently only available to DeepL API Pro customers and is not yet available in DeepL API Free.
 
-For more detail about request body parameters, see the [Request body descriptions](/docs/api-reference/improve-text#request-body-descriptions) section further down the page.
+For more detail about request body parameters, see the [Request body descriptions](/api-reference/improve-text#request-body-descriptions) section further down the page.
 
-The total request body size for text improvement requests must not exceed 10 KiB (10 · 1024 bytes). Please split up your text into multiple calls if it exceeds this limit.
+<Info>
+  The total request body size for text improvement requests must not exceed 10 KiB (10 · 1024 bytes). Please split up your text into multiple calls if it exceeds this limit.
+</Info>
 
 ### Example cURL request and response
 
 *These examples are for demonstration purposes only. In your code, the authentication key should not be hard-coded but instead fetched from a configuration file or environment variable.*
 
-Write API example: cURL
+<Card title="Write API example: cURL">
 
-Example cURL request
-
-Copy
-
-```
+```sh Example cURL request
 curl -X POST 'https://api.deepl.com/v2/write/rephrase' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
 --header 'Content-Type: application/json' \
@@ -47,12 +44,7 @@ curl -X POST 'https://api.deepl.com/v2/write/rephrase' \
   "target_lang": "en-US"
 }'
 ```
-
-Example response
-
-Copy
-
-```
+```json Example response
 {
   "improvements": [
     {
@@ -63,152 +55,107 @@ Copy
   ]
 }
 ```
-
+</Card>
 ### Request body descriptions
 
-Body Parameter
+<ParamField body="text" type="array[string]" required>
+  Text to be improved. Only UTF-8-encoded plain text is supported. Improvements are returned in the same order as they are requested. Each of the parameter values may contain multiple sentences.
 
-Description
+  All texts **must** be in the same language.
+</ParamField>
+<ParamField body="target_lang" type="string">
+  The language of the improved text. A list of supported languages have not yet been added to the `/languages` endpoint. At the time of the beta, the following languages are supported:
 
-`text` (*required*)
+  * `de` (German)
+  * `en-GB` (British English)
+  * `en-US` (American English)
+  * `es` (Spanish)
+  * `fr` (French)
+  * `it` (Italian)
+  * `pt-BR` (Brazilian Portuguese)
+  * `pt-PT` (Portuguese)
 
-Text to be improved. Only UTF-8-encoded plain text is supported. Improvements are returned in the same order as they are requested. Each of the parameter values may contain multiple sentences.
+  The language of the source texts sent in the `text` parameter must match the target language (translating and improving text simultaneously is not yet supported).
 
-All texts **must** be in the same language.
+  Note that it is possible to convert text from one variant to another within a language. For example, if American English is sent in an API request with `target_lang` set to `EN-GB`, the submitted text will be improved and also converted to British English.
+</ParamField>
+<ParamField body="writing_style" type="enum">
+  Changes the writing style of your improvements.
 
-Type: `array[string]`
+  <Expandable title="supported values:">
+    * `simple`
+    * `business`
+    * `academic`
+    * `casual`
+    * `default`
+    * `prefer_simple`
+    * `prefer_business`
+    * `prefer_academic`
+    * `prefer_casual`
 
-`target_lang` (*optional*)
+    Using the `default`value behaves the same as not sending a `writing_style.`
+  </Expandable>
+  Currently supported for the following target languages:
 
-The language of the improved text. A list of supported languages have not yet been added to the `/languages` endpoint. At the time of the beta, the following languages are supported:
+  * `de`
+  * `en-GB`
+  * `en-US`
 
-* `de` (German)
+  Styles prefixed with `prefer_` will fall back to the `default` style when used with a language that does not support styles (this is recommended for cases where no `target_lang` is set), the non-prefixed writing styles (except `default`) will return a HTTP 400 error in that case.
 
-* `en-GB` (British English)
+  It’s not possible to include both `writing_style` and `tone` in a request; only one or the other can be included.
+</ParamField>
+<ParamField body="tone" type="enum">
+  Changes the tone of your improvements.
 
-* `en-US` (American English)
+  <Expandable title="supported values:">
+    * `enthusiastic`
+    * `friendly`
+    * `confident`
+    * `diplomatic`
+    * `default`
+    * `prefer_enthusiastic`
+    * `prefer_friendly`
+    * `prefer_confident`
+    * `prefer_diplomatic`
 
-* `es` (Spanish)
+    Using the `default`value behaves the same as not sending a `tone`.
+  </Expandable>
 
-* `fr` (French)
+  Currently supported for the following target languages:
 
-* `it` (Italian)
+  * `de`
+  * `en-GB`
+  * `en-US`
 
-* `pt-BR` (Brazilian Portuguese)
+  Tones prefixed with `prefer_` will fall back to the `default` tone when used with a language that does not support tones (this is recommended for cases where no `target_lang` is set), the non-prefixed tones (except `default`) will return a HTTP 400 error in that case.
 
-* `pt-PT` (Portuguese)
-
-The language of the source texts sent in the `text` parameter must match the target language (translating and improving text simultaneously is not yet supported).
-
-Note that it is possible to convert text from one variant to another within a language. For example, if American English is sent in an API request with target\_lang set to EN-GB, the submitted text will be improved and also converted to British English.
-
-Type: `string`
-
-`writing_style` (*optional*)
-
-Changes the writing style of your improvements.
-
-Supported values:
-
-* `simple`
-
-* `business`
-
-* `academic`
-
-* `casual`
-
-* `default`
-
-* `prefer_simple`
-
-* `prefer_business`
-
-* `prefer_academic`
-
-* `prefer_casual`
-
-Using the `default`value behaves the same as not sending a `writing_style.`
-
-Currently supported for the following target languages:
-
-* `de`
-
-* `en-GB`
-
-* `en-US`
-
-Styles prefixed with `prefer_` will fall back to the `default` style when used with a language that does not support styles (this is recommended for cases where no `target_lang` is set), the non-prefixed writing styles (except `default`) will return a HTTP 400 error in that case.
-
-It’s not possible to include both `writing_style` and `tone` in a request; only one or the other can be included. Type: `enum`
-
-`tone` (*optional*)
-
-Changes the tone of your improvements.
-
-Supported values:
-
-* `enthusiastic`
-
-* `friendly`
-
-* `confident`
-
-* `diplomatic`
-
-* `default`
-
-* `prefer_enthusiastic`
-
-* `prefer_friendly`
-
-* `prefer_confident`
-
-* `prefer_diplomatic`
-
-Using the `default`value behaves the same as not sending a `tone.`
-
-Currently supported for the following target languages:
-
-* `de`
-
-* `en-GB`
-
-* `en-US`
-
-Tones prefixed with `prefer_` will fall back to the `default` tone when used with a language that does not support tones (this is recommended for cases where no `target_lang` is set), the non-prefixed tones (except `default`) will return a HTTP 400 error in that case.
-
-It’s not possible to include both `writing_style` and `tone` in a request; only one or the other can be included. Type: `enum`
+  It’s not possible to include both `writing_style` and `tone` in a request; only one or the other can be included.
+</ParamField>
 
 ### Response body descriptions
 
 The `/write/rephrase` endpoint returns a JSON object with Improvements under the `improvements` key, which contains an array of `text`, `target_language`, and `detected_source_language` objects. Improvements are returned in the same order as they are requested.
 
-Body parameter
-
-Description
-
-`text`
-
-The improved text Type: `string`
-
-`target_language`
-
-The target language specified by the user. Type: `string`
-
-`detected_source_language`
-
-The detected source language of the text provided in the request. Type: `string`
+<ResponseField name="text" type="string" required>
+  The improved text
+</ResponseField>
+<ResponseField name="target_language" type="string" required>
+  The target language specified by the user.
+</ResponseField>
+<ResponseField name="detected_source_language" type="string" required>
+  The detected source language of the text provided in the request.
+</ResponseField>
 
 ### Frequently asked questions
 
 #### Does Cost Control factor in Write API usage?
 
-Yes. If you set a [Cost Control limit](https://developers.deepl.com/docs/best-practices/cost-control), it will be enforced against a *sum of Translate API + Write API characters*. At this time, it is not possible to set separate Translate API and Write API cost control limits.
+Yes. If you set a [Cost Control limit](/docs/best-practices/cost-control), it will be enforced against a *sum of Translate API + Write API characters*. At this time, it is not possible to set separate Translate API and Write API cost control limits.
 
 #### Does the /usage endpoint response include Write API characters?
 
-Yes, the `character_count` field in the `/usage` endpoint response returns a sum of Translate API + Write API characters. You can learn more about the `/usage` endpoint [here](https://developers.deepl.com/docs/api-reference/usage-and-quota).
+Yes, the `character_count` field in the `/usage` endpoint response returns a sum of Translate API + Write API characters. You can learn more about the `/usage` endpoint [here](/api-reference/usage-and-quota).
 
 #### Do I access the DeepL Write API with the same API keys from my Pro API subscription?
 
@@ -216,4 +163,4 @@ Yes! The Write API is accessed using the same API keys in [the API Keys tab](htt
 
 #### Can I see DeepL Write API usage in my reporting?
 
-We've added a new column to the [API key-level usage report](https://developers.deepl.com/multiple-api-keys#download-a-report-with-key-level-usage) that breaks out text improvement characters separately. The character counts in the [Usage tab](https://www.deepl.com/your-account/usage) of your API account are a sum of both Translate *and* Write characters; these are not yet broken out separately.
+We've added a new column to the [API key-level usage report](/docs/getting-started/managing-api-keys#get-api-key-level-usage) that breaks out text improvement characters separately. The character counts in the [Usage tab](https://www.deepl.com/your-account/usage) of your API account are a sum of both Translate *and* Write characters; these are not yet broken out separately.

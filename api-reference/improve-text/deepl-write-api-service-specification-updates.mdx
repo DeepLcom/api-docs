@@ -1,0 +1,55 @@
+---
+title: "DeepL Write API Service Specification Updates"
+---
+
+
+The DeepL Pro API (v2 endpoint only) also includes a text improvement function. This function is only available to users with a DeepL API Pro subscription type.
+
+The text improvement function provides the following functionality:
+
+
+<table>
+   <thead></thead>
+   <tbody>
+      <tr>
+         <td>Text</td>
+         <td>Text to be improved. Only text encoded in accordance with the documentation is supported.</td>
+      </tr>
+      <tr>
+         <td>Target language</td>
+         <td>
+            <p>The language in which your improvements are provided can be one of the following:</p>
+            <ul>
+               <li>`DE` (German)</li>
+               <li>`EN-GB` (British English)</li>
+               <li>`EN-US` (American English)</li>
+               <li>`ES` (Spanish)</li>
+               <li>`FR` (French)</li>
+               <li>`IT` (Italian)</li>
+               <li>`PT-BR` (Brazilian Portuguese)</li>
+               <li>`PT-PT` (Portuguese)</li>
+            </ul>
+         </td>
+      </tr>
+   </tbody>
+</table>
+The text improvement function returns the following representation of the processing result:
+
+<table>
+   <thead>
+   </thead>
+   <tbody>
+      <tr>
+         <td>Text</td>
+         <td>The improved text</td>
+      </tr>
+      <tr>
+         <td>Target language</td>
+         <td>The target language specified by the user</td>
+      </tr>
+      <tr>
+         <td>Detected source language</td>
+         <td>The detected source language of the text provided in the request.</td>
+      </tr>
+   </tbody>
+</table>

@@ -1,108 +1,25 @@
 ---
-title: "Manage Glossaries"
+title: "Monolingual glossaries (v2 endpoints)"
 public: true
 sidebarTitle: "Overview"
+description: "Manage glossaries using the v2 endpoints"
 ---
 
-The `glossary` functions allow you to create, inspect, and delete glossaries. Glossaries created with the glossary function can be used in translate requests by specifying the `glossary_id` parameter.
+<Info>
+This page documents `v2` glossary endpoints, legacy endpoints that let you create and manage glossaries for a single language pair.
 
-The maximum size limit for a glossary is 10 MiB = 10485760 bytes and each source/target text, as well as the name of the glossary, is limited to 1024 UTF-8 bytes. A total of 1000 glossaries are allowed per account.
+[See here](/api-reference/multilingual-glossaries) for information on `v3` endpoints, which allow you to create, manage, and edit glossaries with entries in multiple language pairs. [See here](/api-reference/glossaries/v2-vs-v3-endpoints) for an overview of the difference.
+</Info>
 
-When creating a glossary with target language `EN` or `PT`, it's not necessary to specify a variant (e.g. `EN-US`, `EN-GB`, `PT-PT` or `PT-BR`). Glossaries with target language `EN` can be used in translations with either English variant. Similarly, `PT` glossaries can be used in translations with either Portuguese variant.
-
-We also provide a spec that is auto-generated from DeepL's OpenAPI file. [You can find it here](/docs/api-reference/glossaries/openapi-spec-for-glossary-management).
-
-Glossaries created via the DeepL API are distinct from glossaries created via the DeepL website and DeepL apps. This means API glossaries cannot be used on the website and vice versa.
-
-Note that glossaries are immutable: once created, the glossary entries for a given glossary ID cannot be modified.
-
-As a workaround for effectively editable glossaries, we suggest to identify glossaries by name instead of ID in your application and then use the following procedure for modifications:
-
-* [download](/docs/api-reference/glossaries#retrieve-glossary-entries) and store the current glossary's entries
-
-* locally modify the glossary entries
-
-* [delete](/docs/api-reference/glossaries#delete-a-glossary) the existing glossary
-
-* [create a new glossary](/docs/api-reference/glossaries#create-a-glossary) with the same name
-
-### List supported glossary language pairs
-
-cURLHTTP Request
-
-The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
-
-Example request: get glossary language pairs
-
-Copy
-
-```
-curl -X GET 'https://api.deepl.com/v2/glossary-language-pairs' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
-```
-
-Example response (partial—one language pair)
-
-Copy
-
-```
-{
-  "supported_languages": [
-    {
-      "source_lang": "de",
-      "target_lang": "en"
-    },
-    {
-      "source_lang": "en",
-      "target_lang": "de"
-    }
-  ]
-}
-```
-
-The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
-
-Example request: get glossary language pairs
-
-Copy
-
-```
-GET /v2/glossary-language-pairs HTTP/2
-Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
-User-Agent: YourApp/1.2.3
-```
-
-Example response (partial—one language pair)
-
-Copy
-
-```
-{
-  "supported_languages": [
-    {
-      "source_lang": "de",
-      "target_lang": "en"
-    },
-    {
-      "source_lang": "en",
-      "target_lang": "de"
-    }
-  ]
-}
-```
+This page describes how to use the `v2` endpoints to work with _monolingual_ glossaries - glossaries that map phrases in one language to phrases in another language. If you're new to glossaries, we suggest you use `v3` instead. `v3` allows you to work with multilingual glossaries, and it lets you edit any glossaries as well.
 
 ### Create a glossary
 
-cURLHTTP Request
-
+<Tabs>
+<Tab title="cURL">
 The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
 
-Example request: create a glossary
-
-Copy
-
-```
+```sh Example request: create a glossary
 curl -X POST 'https://api.deepl.com/v2/glossaries' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
 --header 'Content-Type: application/json' \
@@ -114,12 +31,7 @@ curl -X POST 'https://api.deepl.com/v2/glossaries' \
   "entries_format": "tsv"
 }'
 ```
-
-Example response
-
-Copy
-
-```
+```json Example response
 {
   "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
   "ready": true,
@@ -130,14 +42,11 @@ Copy
   "entry_count": 1
 }
 ```
-
+</Tab>
+<Tab title="HTTP Request">
 The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
 
-Example request: create a glossary
-
-Copy
-
-```
+```http Example request: create a glossary
 POST /v2/glossaries HTTP/2
 Host: api.deepl.com
 Authorization: DeepL-Auth-Key [yourAuthKey] 
@@ -148,11 +57,7 @@ Content-Type: application/json
 {"name":"My Glossary","source_lang":"en","target_lang":"de","entries":"Hello\tGuten Tag","entries_format":"tsv"}
 ```
 
-Example response
-
-Copy
-
-```
+```json Example response
 {
   "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
   "ready": true,
@@ -163,18 +68,16 @@ Copy
   "entry_count": 1
 }
 ```
-
+</Tab>
+</Tabs>
 The following example shows how to create a glossary from an example `csv` file (`glossary.csv`, with 2 example entries) via the command line using [`jq`](https://jqlang.github.io/jq/). Note that you'll need to install `jq` if you haven't already. Installation instructions for various operating systems are available [here](https://jqlang.github.io/jq/download/).
 
-cURLHTTP Request
-
+<Tabs>
+<Tab title="cURL">
 The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
 
-Create file + example request
 
-Copy
-
-```
+```sh Create file + example request
 cat >glossary.csv <<EOL
 Hello,Hallo
 World,Welt
@@ -192,11 +95,7 @@ curl -X POST 'https://api.deepl.com/v2/glossaries' \
 }' glossary.csv)"
 ```
 
-Example response
-
-Copy
-
-```
+```json Example response
 {
   "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
   "ready": true,
@@ -207,14 +106,11 @@ Copy
   "entry_count": 2
 }
 ```
-
+</Tab>
+<Tab title="HTTP Request">
 The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
 
-Example request: create a glossary
-
-Copy
-
-```
+```http Example request: create a glossary
 POST /v2/glossaries HTTP/2
 Host: api.deepl.com
 Authorization: DeepL-Auth-Key [yourAuthKey] 
@@ -225,9 +121,7 @@ Content-Type: application/json
 {"name":"My Glossary","source_lang":"en","target_lang":"de","entries":"Hello,Hallo\nWorld,Welt","entries_format":"csv"}
 ```
 
-Copy
-
-```
+```json Example reponse
 {
   "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
   "ready": true,
@@ -238,29 +132,23 @@ Copy
   "entry_count": 2
 }
 ```
+</Tab>
+</Tabs>
 
 ### List all glossaries
 
 List all glossaries and their meta-information, but not the glossary entries.
 
-cURLHTTP Request
-
+<Tabs>
+<Tab title="cURL">
 The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
 
-Example request: list all glossaries
-
-Copy
-
-```
+```sh Example request: list all glossaries
 curl -X GET 'https://api.deepl.com/v2/glossaries' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' 
 ```
 
-Example response
-
-Copy
-
-```
+```json Example response
 {
   "glossaries": [
     {
@@ -275,23 +163,17 @@ Copy
   ]
 }
 ```
-
+</Tab>
+<Tab title ="HTTP Request">
 The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
 
-Example request: list all glossaries
-
-Copy
-
-```
+```http Example request: list all glossaries
 GET /v2/glossaries HTTP/2
 Host: api.deepl.com
 Authorization: DeepL-Auth-Key [yourAuthKey] 
 User-Agent: YourApp/1.2.3
 ```
-
-Copy
-
-```
+```json Example response
 {
   "glossaries": [
     {
@@ -306,29 +188,21 @@ Copy
   ]
 }
 ```
-
+</Tab>
+</Tabs>
 ### Retrieve glossary details
 
 Retrieve meta information for a single glossary, omitting the glossary entries.
 
-cURLHTTP Request
-
+<Tabs>
+<Tab title="cURL">
 The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
 
-Example request: retrieve glossary details
-
-Copy
-
-```
+```sh Example request: retrieve glossary details
 curl -X GET 'https://api.deepl.com/v2/glossaries/{glossary_id}' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
 ```
-
-Example response
-
-Copy
-
-```
+```json Example response
 {
   "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
   "ready": true,
@@ -339,25 +213,17 @@ Copy
   "entry_count": 1
 }
 ```
-
+</Tab>
+<Tab title="HTTP Request">
 The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
 
-Example request: retrieve glossary details
-
-Copy
-
-```
+```http Example request: retrieve glossary details
 GET /v2/glossaries/{glossary_id} HTTP/2
 Host: api.deepl.com
 Authorization: DeepL-Auth-Key [yourAuthKey] 
 User-Agent: YourApp/1.2.3
 ```
-
-Example response
-
-Copy
-
-```
+```json Example response
 {
   "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
   "ready": true,
@@ -368,38 +234,30 @@ Copy
   "entry_count": 1
 }
 ```
-
+</Tab>
+</Tabs>
 ### Retrieve glossary entries
 
 List the entries of a single glossary in the format specified by the `Accept` header.
 
-cURLHTTP Request
+
+<Tabs>
+<Tab title="cURL">
 
 The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
 
-Example request: retrieve glossary entries
-
-Copy
-
-```
+```sh Example request: retrieve glossary entries
 curl -X GET 'https://api.deepl.com/v2/glossaries/{glossary_id}/entries' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
 --header 'Accept: text/tab-separated-values'
 ```
 
-Example response
-
-Copy
-
-```
+```text Example response
 Hello!	Guten Tag!
 ```
-
-Example request: retrieve glossary entries
-
-Copy
-
-```
+</Tab>
+<Tab title="HTTP Request">
+```http Example request: retrieve glossary entries
 GET /v2/glossaries/{glossary_id}/entries HTTP/2
 Host: api.deepl.com
 Authorization: DeepL-Auth-Key [yourAuthKey] 
@@ -407,100 +265,96 @@ Authorization: DeepL-Auth-Key [yourAuthKey]
 User-Agent: YourApp/1.2.3
 ```
 
-Example response
-
-Copy
-
-```
+```text Example response
 Hello!	Guten Tag!
 ```
-
+</Tab>
+</Tabs>
 ### Delete a glossary
 
 Deletes the specified glossary.
 
-cURLHTTP Request
-
+<Tabs>
+<Tab title="cURL">
 The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
 
-Example request: delete a glossary
-
-Copy
-
-```
+```sh Example request: delete a glossary
 curl -X DELETE 'https://api.deepl.com/v2/glossaries/{glossary_id}' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
 ```
-
+</Tab>
+<Tab title="HTTP Request">
 The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
 
-Example request: delete a glossary
-
-Copy
-
-```
+```http Example request: delete a glossary
 DELETE /v2/glossaries/{glossary_id} HTTP/2
 Host: api.deepl.com
 Authorization: DeepL-Auth-Key [yourAuthKey] 
 User-Agent: YourApp/1.2.3
 ```
+</Tab>
+</Tabs>
 
-### Supported Glossary Formats
+### Listing language pairs
+The `/glossary-language-pairs` endpoint lists all the language pairs - the source and target languages - that glossaries support. Since glossaries now work for all languages DeepL supports, this list will be quite long. We recommend that you instead use [the /languages endpoint](/api-reference/languages).
 
-#### Common Restrictions for All Glossary Formats
+<Tabs>
+<Tab title="cURL">
+The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
 
-* duplicate source entries are not allowed,
 
-* neither source nor target entry may be empty,
-
-* source and target entries must not contain any C0 or C1 control characters (including, e.g., "\t" or "\n") or any Unicode newline,
-
-* source and target entries must not contain any leading or trailing Unicode whitespace character.
-
-#### 
-
-Entries in TSV format have to be specified as tab-separated values with the "source entry" being the text in the source language of the glossary and the "target entry" being the text in the target language of the glossary.
-
-In addition the following restrictions apply:
-
-* source/target entry pairs are separated by a newline,
-
-* source entries and target entries are separated by a tab.
-
-In a programming language with backslash escape sequences (e.g. Python, JavaScript, etc.), valid glossary entries in the TSV format could be created as follows:
-
-Copy
-
-```
-"sourceEntry1\ttargetEntry1\nsourceEntry2\ttargetEntry2"
+```sh Example request: get glossary language pairs
+curl -X GET 'https://api.deepl.com/v2/glossary-language-pairs' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
 ```
 
-#### 
-
-Entries in CSV format have to be specified as comma-separated values in one of the two following ways:
-
-* `source entry,target entry`
-
-* `source entry,target entry,source language,target language`
-
-with `source entry` being the text in the source language of the glossary and `target entry` being the text in the target language of the glossary. If `source language` and/or `target language` in the second format do not match the source and/or target language of the glossary, the entry will be ignored.
-
-In addition, the following restrictions apply:
-
-* Only `,` (comma) is allowed as a value separator,
-
-* each field may optionally be enclosed in double quotes,
-
-* fields containing double quotes or commas must be enclosed in double quotes,
-
-* if double quotes are used to enclose fields, then a double quote appearing inside a field must be escaped by preceding it with another double quote.
-
-Currently it is not possible to obtain entries in the CSV format. Only the upload of a glossary supports the CSV format.
-
-The example below shows how valid glossary entries in CSV format (using the four-column variant) could be created in a programming language with backslash escape sequences (e.g. Python, JavaScript, etc.):
-
-Copy
-
+```json Example response (partial—one language pair)
+{
+  "supported_languages": [
+    {
+      "source_lang": "de",
+      "target_lang": "en"
+    },
+    {
+      "source_lang": "en",
+      "target_lang": "de"
+    }
+  ]
+}
 ```
-"sourceEntry1,targetEntry1,en,de\n\"source\"\"Entry\",\"target,Entry\",en,de"
+</Tab>
+<Tab title="HTTP Request">
+The example below uses our API Pro endpoint https\://api.deepl.com. If you're an API Free user, remember to update your requests to use https\://api-free.deepl.com instead.
+
+```http Example request: get glossary language pairs
+GET /v2/glossary-language-pairs HTTP/2
+Host: api.deepl.com
+Authorization: DeepL-Auth-Key [yourAuthKey] 
+User-Agent: YourApp/1.2.3
 ```
+```json Example response (partial—one language pair)
+{
+  "supported_languages": [
+    {
+      "source_lang": "de",
+      "target_lang": "en"
+    },
+    {
+      "source_lang": "en",
+      "target_lang": "de"
+    }
+  ]
+}
+```
+</Tab>
+</Tabs>
+
+### Editing a v2 glossary
+`v2` glossaries are immutable: once created, the glossary entries for a given glossary ID cannot be modified.
+
+As a workaround for effectively editable glossaries, we suggest to identify glossaries by name instead of ID in your application and then use the following procedure for modifications:
+
+* [download](/api-reference/glossaries#retrieve-glossary-details) and store the current glossary's entries
+* locally modify the glossary entries
+* [delete](/api-reference/glossaries#delete-a-glossary) the existing glossary
+* [create a new glossary](/api-reference/glossaries#create-a-glossary) with the same name

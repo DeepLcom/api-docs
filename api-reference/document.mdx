@@ -7,26 +7,19 @@ public: true
 The document translation API allows you to translate whole documents and supports the following file types and extensions:
 
 * `docx` / `doc` - Microsoft Word Document
-
 * `pptx` - Microsoft PowerPoint Document
-
 * `xlsx` - Microsoft Excel Document
-
 * `pdf` - Portable Document Format
-
 * `htm / html` - HTML Document
-
 * `txt` - Plain Text Document
-
 * `xlf / xliff` - XLIFF Document, version 2.1
-
 * `srt` - SRT (SubRip Subtitle) Document
 
 Please note that with every submitted document of type .pptx, .docx, .doc, .xlsx, or .pdf, you are billed a minimum of 50,000 characters with the DeepL API plan, no matter how many characters are included in the document.
 
 The maximum upload limit for documents is [available here](/docs/resources/usage-limits#maximum-upload-limits-per-document-format) and may vary based on API plan and document type.
 
-We also provide a spec that is auto-generated from DeepL's OpenAPI file. [You can find it here](/docs/api-reference/document/openapi-spec-for-document-translation).
+We also provide specs that is auto-generated from DeepL's OpenAPI file. [You can find it here](/api-reference/document/upload-and-translate-a-document).
 
 <Info>
 When translating a `doc` file, you will receive a `docx` file as the output format.
@@ -34,7 +27,7 @@ When translating a `doc` file, you will receive a `docx` file as the output form
 
 ### Step 1: upload a document to the `/document` endpoint
 
-This call uploads a document and queues it for translation. The call returns once the upload is complete, returning a document ID and key which can be used to [query the translation status](/docs/api-reference/document#step-2-check-the-document-status-and-wait-for-translation-to-complete) and to [download the translated document](/docs/api-reference/document#step-3-download-the-translated-document) once translation is complete.
+This call uploads a document and queues it for translation. The call returns once the upload is complete, returning a document ID and key which can be used to [query the translation status](/api-reference/document#step-2%3A-check-the-document-status-and-wait-for-translation-to-complete) and to [download the translated document](/api-reference/document#step-3%3A-download-the-translated-document) once translation is complete.
 
 Because the request includes a file upload, it must be an HTTP POST request with content type `multipart/form-data`.
 
@@ -42,7 +35,7 @@ Please be aware that the uploaded document is automatically removed from the ser
 
 You may specify the glossary to use for the document translation using the `glossary_id` parameter. **Important:** This requires the `source_lang` parameter to be set and the language pair of the glossary has to match the language pair of the request.
 
-For more detail about request body parameters, see the [Request Body Descriptions](/docs/api-reference/document#request-body-descriptions) section further down on the page.
+For more detail about request body parameters, see the [Request Body Descriptions](/api-reference/document#request-body-descriptions) section further down on the page.
 
 <Tabs>
 <Tab title="cURL">
@@ -74,7 +67,7 @@ curl -X POST 'https://api.deepl.com/v2/document' \
 <Tab title="HTTP Request">
 The examples below use our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
-```sh Example request: document upload (no glossary)
+```http Example request: document upload (no glossary)
 POST /v2/document HTTP/2
 Host: api.deepl.com
 Authorization: DeepL-Auth-Key [yourAuthKey] 
@@ -90,7 +83,7 @@ DE
 @document.docx
 ```
 
-```sh Example request: document upload (with glossary)
+```http Example request: document upload (with glossary)
 POST /v2/document HTTP/2
 Host: api.deepl.com
 Authorization: DeepL-Auth-Key [yourAuthKey] 
@@ -125,85 +118,47 @@ These examples are for demonstration purposes only. In production code, the auth
 
 #### Request Body Descriptions
 
-**Note:** the `model_type` parameter is not supported for API document translation and is only supported for [text translation](/docs/api-reference/translate#about-the-model_type-parameter). It’s possible to submit a document translation request that includes the parameter, but the parameter will be ignored and will not have an effect on translation results.
+**Note:** the `model_type` parameter is not supported for API document translation and is only supported for [text translation](/api-reference/translate#about-the-model-type-parameter). It’s possible to submit a document translation request that includes the parameter, but the parameter will be ignored and will not have an effect on translation results.
 
-<table>
-  <thead>
-    <tr>
-      <th>Body parameter</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>source_lang</code> (*optional*)</td>
-      <td>
-        Language of the text to be translated. If omitted, the API will attempt to detect the language of the text and translate it. You can find supported languages <a href="/docs/getting-started/supported-languages#target-languages">here</a>.<br /><br />
-        Type: <code>string</code>
-      </td>
-    </tr>
-    <tr>
-      <td><code>target_lang</code> (*required*)</td>
-      <td>
-        The language into which the text should be translated. You can find supported languages <a href="#">here</a>.<br /><br />
-        Type: <code>string</code>
-      </td>
-    </tr>
-    <tr>
-      <td><code>file</code> (*required*)</td>
-      <td>
-        The document file to be translated. The file name should be included in this part's content disposition. As an alternative, the filename parameter can be used.<br />
-        The following file types and extensions are supported:
-        <ul>
-          <li><code>.docx</code>: Microsoft Word Document</li>
-          <li><code>.pptx</code>: Microsoft PowerPoint Document</li>
-          <li><code>.xlsx</code>: Microsoft Excel Document</li>
-          <li><code>.pdf</code>: Portable Document Format</li>
-          <li><code>.htm / .html</code>: HTML Document</li>
-          <li><code>.txt</code>: Plain Text Document</li>
-          <li><code>.xlf / .xliff</code>: XLIFF Document, version 2.1</li>
-        </ul><br />
-        Type: <code>binary</code>
-      </td>
-    </tr>
-    <tr>
-      <td><code>filename</code> (*optional*)</td>
-      <td>
-        The name of the uploaded file. Can be used as an alternative to including the file name in the file part's content disposition.<br /><br />
-        Type: <code>string</code>
-      </td>
-    </tr>
-    <tr>
-      <td><code>formality</code> (*optional*)</td>
-      <td>
-        Sets whether the translated text should lean towards formal or informal language. This feature currently only works for target languages DE (German), FR (French), IT (Italian), ES (Spanish), NL (Dutch), PL (Polish), PT-BR and PT-PT (Portuguese), JA (Japanese), and RU (Russian). Learn more about the plain/polite feature for Japanese <a href="https://support.deepl.com/hc/en-us/articles/6306700061852-About-the-plain-polite-feature-in-Japanese">here</a>. Setting this parameter with a target language that does not support formality will fail, unless one of the <code>prefer_...</code> options are used. Possible options are:
-        <ul>
-          <li><code>default</code> (default)</li>
-          <li><code>more</code> - for a more formal language</li>
-          <li><code>less</code> - for a more informal language</li>
-          <li><code>prefer_more</code> - for a more formal language if available, otherwise fallback to default formality</li>
-          <li><code>prefer_less</code> - for a more informal language if available, otherwise fallback to default formality</li><br />
-        </ul>
-        Type: <code>string</code>
-      </td>
-    </tr>
-    <tr>
-      <td><code>glossary_id</code> (*optional*)</td>
-      <td>
-        A unique ID assigned to a glossary.<br /><br />
-        Type: <code>string</code>
-      </td>
-    </tr>
-    <tr>
-      <td><code>output_format</code> (*optional*)</td>
-      <td>
-        File extension of desired format of translated file, for example: <code>.pdf</code>. If unspecified, by default the translated file will be in the same format as the input file.<br />
-        Note: Not all combinations of input file and translation file extensions are permitted. See <a href="/docs/api-reference/document#document-format-conversions">Document format conversions</a> for the permitted combinations.<br /><br />
-        Type: <code>string</code>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<ParamField body="source_lang" type="string">
+  Language of the text to be translated. If omitted, the API will attempt to detect the language of the text and translate it. You can find supported languages <a href="/docs/getting-started/supported-languages#translation-target-languages">here</a>.
+</ParamField>
+<ParamField body="target_lang" type="string" required>
+  The language into which the text should be translated. You can find supported languages <a href="/docs/getting-started/supported-languages#translation-target-languages">here</a>.
+</ParamField>
+<ParamField body="file" type="binary" required>
+  The document file to be translated. The file name should be included in this part's content disposition. As an alternative, the filename parameter can be used.
+  The following file types and extensions are supported:
+  <ul>
+    <li>`docx`: Microsoft Word Document</li>
+    <li>`pptx`: Microsoft PowerPoint Document</li>
+    <li>`xlsx`: Microsoft Excel Document</li>
+    <li>`pdf`: Portable Document Format</li>
+    <li>`htm / .html`: HTML Document</li>
+    <li>`txt`: Plain Text Document</li>
+    <li>`xlf / .xliff`: XLIFF Document, version 2.1</li>
+  </ul>
+</ParamField>
+<ParamField body="filename" type="string">
+  The name of the uploaded file. Can be used as an alternative to including the file name in the file part's content disposition.
+</ParamField>
+<ParamField body="formality" type="string">
+  Sets whether the translated text should lean towards formal or informal language. This feature currently only works for target languages `DE` (German), `FR` (French), `IT` (Italian), `ES` (Spanish), `NL` (Dutch), `PL` (Polish), `PT-BR` and `PT-PT` (Portuguese), `JA` (Japanese), and `RU` (Russian). Learn more about the plain/polite feature for Japanese <a href="https://support.deepl.com/hc/en-us/articles/6306700061852-About-the-plain-polite-feature-in-Japanese">here</a>. Setting this parameter with a target language that does not support formality will fail, unless one of the `prefer_...` options are used. Possible options are:
+  <ul>
+    <li>`default` (default)</li>
+    <li>`more` - for a more formal language</li>
+    <li>`less` - for a more informal language</li>
+    <li>`prefer_more` - for a more formal language if available, otherwise fallback to default formality</li>
+    <li>`prefer_less` - for a more informal language if available, otherwise fallback to default formality</li>
+  </ul>
+</ParamField>
+<ParamField body="glossary_id" type="string">
+  A unique ID assigned to a glossary.  
+</ParamField>
+<ParamField body="output_format" type="string">
+  File extension of desired format of translated file, for example: `pdf`. If unspecified, by default the translated file will be in the same format as the input file.
+  Note: Not all combinations of input file and translation file extensions are permitted. See <a href="/api-reference/document#document-format-conversions">Document format conversions</a> for the permitted combinations.
+</ParamField>
 
 ### Step 2: check the document status and wait for translation to complete
 
@@ -224,7 +179,7 @@ curl -X POST 'https://api.deepl.com/v2/document/{document_id}' \
 }'
 ```
 
-```sh Example response: translating
+```json Example response: translating
 {
   "document_id": "04DE5AD98A02647D83285A36021911C6",
   "status": "translating",
@@ -232,7 +187,7 @@ curl -X POST 'https://api.deepl.com/v2/document/{document_id}' \
 }
 ```
 
-```sh Example response: done
+```json Example response: done
 {
   "document_id": "04DE5AD98A02647D83285A36021911C6",
   "status": "done",
@@ -240,14 +195,14 @@ curl -X POST 'https://api.deepl.com/v2/document/{document_id}' \
 }
 ```
 
-```sh Example response: queued
+```json Example response: queued
 {
   "document_id": "04DE5AD98A02647D83285A36021911C6",
   "status": "queued"
 }
 ```
 
-```sh Example response: error
+```json Example response: error
 {
   "document_id": "04DE5AD98A02647D83285A36021911C6",
   "status": "error",
@@ -258,7 +213,7 @@ curl -X POST 'https://api.deepl.com/v2/document/{document_id}' \
 <Tab title="HTTP Request">
 The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
-```sh Example request: check document status
+```http Example request: check document status
 POST /v2/document/{document_id} HTTP/2
 Host: api.deepl.com
 Authorization: DeepL-Auth-Key [yourAuthKey] 
@@ -269,7 +224,7 @@ Content-Type: application/json
 {"document_key":"0CB0054F1C132C1625B392EADDA41CB754A742822F6877173029A6C487E7F60A"}
 ```
 
-```sh Example response: translating
+```json Example response: translating
 {
   "document_id": "04DE5AD98A02647D83285A36021911C6",
   "status": "translating",
@@ -277,7 +232,7 @@ Content-Type: application/json
 }
 ```
 
-```sh Example response: done
+```json Example response: done
 {
   "document_id": "04DE5AD98A02647D83285A36021911C6",
   "status": "done",
@@ -285,14 +240,14 @@ Content-Type: application/json
 }
 ```
 
-```sh Example response: queued
+```json Example response: queued
 {
   "document_id": "04DE5AD98A02647D83285A36021911C6",
   "status": "queued"
 }
 ```
 
-```sh Example response: error
+```json Example response: error
 {
   "document_id": "04DE5AD98A02647D83285A36021911C6",
   "status": "error",
@@ -324,7 +279,7 @@ curl -X POST 'https://api.deepl.com/v2/document/{document_id}/result' \
 <Tab title="HTTP Request">
 The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
-```sh Example request: download translated document
+```http Example request: download translated document
 POST /v2/document/{document_id}/result HTTP/2
 Host: api.deepl.com
 Authorization: DeepL-Auth-Key [yourAuthKey] 
@@ -341,7 +296,7 @@ Content-Type: application/json
 
 The examples on this page show how to translate documents with DeepL using the API directly.
 
-DeepL's [client libraries](/docs/api-reference/client-libraries) simplify API document translation by providing a convenience function to upload the document, check translation status and download the translated document with a single function call.
+DeepL's [client libraries](/api-reference/client-libraries) simplify API document translation by providing a convenience function to upload the document, check translation status and download the translated document with a single function call.
 
 ### Document format conversions
 
