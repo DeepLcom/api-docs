@@ -144,25 +144,25 @@
               "group": "Glossaries",
               "pages": [
                 "api-reference/multilingual-glossaries",
+                "api-reference/multilingual-glossaries/list-language-pairs-supported-by-glossaries",
                 "api-reference/multilingual-glossaries/create-a-glossary",
+                "api-reference/multilingual-glossaries/list-all-glossaries",
+                "api-reference/multilingual-glossaries/retrieve-glossary-details",
+                "api-reference/multilingual-glossaries/edit-glossary-details",
+                "api-reference/multilingual-glossaries/retrieve-glossary-entries",
                 "api-reference/multilingual-glossaries/delete-a-glossary",
                 "api-reference/multilingual-glossaries/deletes-the-dictionary-associated-with-the-given-language-pair-with-the-given-glossary-id",
-                "api-reference/multilingual-glossaries/edit-glossary-details",
-                "api-reference/multilingual-glossaries/list-all-glossaries",
                 "api-reference/multilingual-glossaries/replaces-or-creates-a-dictionary-in-the-glossary-with-the-specified-entries",
-                "api-reference/multilingual-glossaries/retrieve-glossary-details",
-                "api-reference/multilingual-glossaries/retrieve-glossary-entries",
                 {
                   "group": "Manage Monolingual Glossaries",
                   "pages": [
                     "api-reference/glossaries",
                     "api-reference/glossaries/v2-vs-v3-endpoints",
                     "api-reference/glossaries/create-a-glossary",
-                    "api-reference/glossaries/delete-a-glossary",
                     "api-reference/glossaries/list-all-glossaries",
-                    "api-reference/glossaries/list-language-pairs-supported-by-glossaries",
                     "api-reference/glossaries/retrieve-glossary-details",
-                    "api-reference/glossaries/retrieve-glossary-entries"
+                    "api-reference/glossaries/retrieve-glossary-entries",
+                    "api-reference/glossaries/delete-a-glossary"
                   ]
                 }
               ]

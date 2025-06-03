@@ -9,13 +9,13 @@ This article provides guidance for using context to improve translation quality 
 
 For text translation, DeepL offers the `context` parameter, which makes it possible to provide additional context that can influence a translation result, but will not actually be translated itself.
 
-You can learn more about the `context` parameter in the [text translation API reference](/docs/api-reference/translate#request-body-descriptions).
+You can learn more about the `context` parameter in the [text translation API reference](/api-reference/translate#request-body-descriptions).
 
 Characters included in the `context` parameter will not be counted toward billing (i.e. there is no additional cost for using the `context` parameter, and only characters sent in the `text` parameter(s) will be counted toward billing for text translation even when the `context` parameter is included in a request).
 
 #### Text Translations With Multiple `text` Parameters
 
-When calling the `translate` endpoint for [text translation](/docs/api-reference/translate), it’s possible to send multiple text parameters in a single request.
+When calling the `translate` endpoint for [text translation](/api-reference/translate), it’s possible to send multiple text parameters in a single request.
 
 The DeepL engine will only consider context in the scope of each individual `text` parameter within an API request. Said another way, the engine will not consider the broader context across multiple `text` parameters, even if these multiple text parameters are included in the same API request.
 
@@ -27,7 +27,7 @@ Therefore, if you want to ensure the translation engine can utilize context in y
 
 #### Document Translation
 
-The DeepL engine also utilizes the broader context of a document when [translating documents](/docs/api-reference/document).
+The DeepL engine also utilizes the broader context of a document when [translating documents](/api-reference/document).
 
 If your document does not fit within the [maximum upload limit](https://support.deepl.com/hc/articles/360020582359-Document-formats), you’ll likely need to break up the document into multiple, smaller documents for translation. When this is the case, we recommend choosing logical “context boundaries” (such as chapters of a book or sections of a PowerPoint presentation) when breaking up your large document into smaller documents that fit within the maximum upload limit.
 
@@ -45,7 +45,7 @@ For example, if using HTML handling to translate product information from an e-c
 
 #### Using Glossaries
 
-[Glossaries](/docs/api-reference/glossaries) make it possible to specify your own translations for words and phrases so that you can customize your translations in a consistent way. For use cases that require translating brand-, product-, or industry-specific terminology, glossaries can help to ensure accurate, high-quality translations without the need to manually edit these terms in the translation output.
+[Glossaries](/api-reference/multilingual-glossaries) make it possible to specify your own translations for words and phrases so that you can customize your translations in a consistent way. For use cases that require translating brand-, product-, or industry-specific terminology, glossaries can help to ensure accurate, high-quality translations without the need to manually edit these terms in the translation output.
 
 DeepL’s glossaries go beyond a simple “find and replace” and will adapt the formulation of translations based on glossary entries, accounting for factors such as grammatical gender and plural forms.
 
