@@ -9,11 +9,11 @@ Retrieve usage information **within the current billing period** together with t
 * Text and document translation characters consumed in the current billing period in total _and_ for the API key used to make the request
 * Text improvement (`/write`) characters consumed in the current billing period in total _and_ for the API key used to make the request
 * Total characters consumed in the current billing period by the API key used to make the request
-* The key-level character limit for the API key used to make the request, if applicable (if a [key-level usage limit](../../getting-started/managing-api-keys.md#set-api-key-level-usage-limits) is set, it will be reflected in the `api_key_character_limit` field in the response; `1000000000000` will be returned if no key-level limit is set)
+* The key-level character limit for the API key used to make the request, if applicable (if a [key-level usage limit](../docs/getting-started/managing-api-keys#set-api-key-level-usage-limits) is set, it will be reflected in the `api_key_character_limit` field in the response; `1000000000000` will be returned if no key-level limit is set)
 * The current billing period start timestamp
 * The current billing period end timestamp
 * Total characters consumed in the current billing period
-* Subscription-level character limit that applies to the current billing period (if [Cost Control](../../best-practices/cost-control.md) is set, it will be reflected in the `character_limit` field in the response; `1000000000000` will be returned if no limit is set)
+* Subscription-level character limit that applies to the current billing period (if [Cost Control](../docs/best-practices/cost-control.md) is set, it will be reflected in the `character_limit` field in the response; `1000000000000` will be returned if no limit is set)
 
 An example request and response is shown below.
 
