@@ -11,7 +11,7 @@ To learn more about context in DeepL API translations, we recommend [this articl
 
 For more detail about request body parameters, see the [Request Body Descriptions](/api-reference/translate#request-body-descriptions) section further down on the page.
 
-We also provide a spec that is auto-generated from DeepL's OpenAPI file. [You can find it here](/api-reference/translate/openapi-spec-for-text-translation).
+We also provide a spec that is auto-generated from DeepL's OpenAPI file. [You can find it here](/api-reference/translate/request-translation).
 
 <Info>
 The total request body size for text translation requests must not exceed 128 KiB (128 · 1024 bytes). Please split up your text into multiple calls if it exceeds this limit.
@@ -319,10 +319,10 @@ Note that we do not include examples for our client libraries in every single se
   </Info>
 </ParamField>
 <ParamField body="non_splitting_tags" type="array[string]">
-  Comma-separated list of XML tags which never split sentences. <a href="/xml-and-html-handling/structured-content">Learn more</a>
+  Comma-separated list of XML tags which never split sentences. <a href="/docs/xml-and-html-handling/structured-content">Learn more</a>
 </ParamField>
 <ParamField body="splitting_tags" type="array[string]">
-  Comma-separated list of XML tags which always cause splits. <a href="/xml-and-html-handling/customized-xml-outline-detection">Learn more</a>
+  Comma-separated list of XML tags which always cause splits. <a href="/docs/xml-and-html-handling/customized-xml-outline-detection">Learn more</a>
 </ParamField>
 <ParamField body="ignore_tags" type="array[string]">
   Comma-separated list of XML tags that indicate text not to be translated. <a href="/docs/xml-and-html-handling/xml">Learn more</a>

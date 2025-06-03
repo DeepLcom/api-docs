@@ -1719,7 +1719,7 @@ components:
             - `tsv` (default) - tab-separated values
             - `csv` - comma-separated values
 
-            See [Supported Glossary Formats](https://developers.deepl.com/docs/api-reference/glossaries#formats) for details about each format.
+            See [Supported Glossary Formats](https://developers.deepl.com/api-reference/glossaries#formats) for details about each format.
           type: string
           enum:
           - tsv
