@@ -10,8 +10,8 @@ title: "March 2025: Deprecating GET requests to /translate and authenticating wi
 
 On or after March 14, 2025, DeepL will deprecate two little-used API features.
 
-* **You will no longer be able to send GET requests or query parameters to the&#x20;**`/translate`**&#x20;endpoint.&#x20;**&#x47;oing forward, `/translate` will accept only POST requests with data included in the request body.
-* **You will no longer be able to authenticate a request to any endpoint by sending an API key in a query parameter.&#x20;**&#x49;nstead, send your API key in an HTTP header named `Authorization` .
+* **You will no longer be able to send GET requests or query parameters to the**`/translate`**endpoint.** Going forward, `/translate` will accept only POST requests with data included in the request body.
+* **You will no longer be able to authenticate a request to any endpoint by sending an API key in a query parameter.** Instead, send your API key in an HTTP header named `Authorization` .
 * **If you use one of DeepL's officially-supported client libraries, you won't be negatively affected by the breaking changes and do not need to update your application.** Specifically, we've confirmed the following client library versions:
   * [deepl-php](https://github.com/deeplcom/deepl-php): 1.0.0+
   * [deepl-python](https://github.com/deeplcom/deepl-python): 1.0.0+
