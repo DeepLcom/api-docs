@@ -291,9 +291,9 @@ User-Agent: YourApp/1.2.3
 </Tab>
 </Tabs>
 
-### Get glossary metadata&#x20;
+### Get glossary metadata
 
-`GET /v3/glossaries/{glossary_id}`&#x20;
+`GET /v3/glossaries/{glossary_id}`
 
 Use this endpoint to retrieve basic information about a given glossary's dictionaries, plus the glossary's name and creation time.
 
@@ -363,7 +363,7 @@ User-Agent: YourApp/1.2.3
 
 `GET /v3/glossaries/{glossaryId}/entries?source_lang={language}&target_lang={language}`
 
-Use this endpoint to retrieve the contents of a single glossary dictionary by specifying the dictionary's language pair.&#x20;
+Use this endpoint to retrieve the contents of a single glossary dictionary by specifying the dictionary's language pair.
 
 Currently you can only retrieve glossary contents in TSV format.
 
@@ -545,7 +545,7 @@ Content-Type: application/json
 </Tab>
 </Tabs>
 
-You can also use `PATCH` to change the contents of a glossary's dictionary  for a language pair while taking any existing dictionary for that language pair into account. If the glossary already has a dictionary for the specified language pair, the entries passed here will be merged with the existing dictionary.&#x20;
+You can also use `PATCH` to change the contents of a glossary's dictionary  for a language pair while taking any existing dictionary for that language pair into account. If the glossary already has a dictionary for the specified language pair, the entries passed here will be merged with the existing dictionary.
 
 Use this method to make changes to an existing dictionary. To replace a dictionary outright, use [the PUT method](./#add-a-new-dictionary-or-replace-an-existing-one).
 
