@@ -9,7 +9,7 @@ const STATISTICS_URL = "https://s.deepl.dev/web/statistics" // TODO update to pr
 const EVENT_ID_PAGEVIEW = 1
 
 const EVENT_ID_NETWORK_REQUEST = 0
-// const EVENT_ID_NETWORK_REQUEST = ?? 
+// const EVENT_ID_NETWORK_REQUEST = 5000
 const PAGE_ID_DEVELOPERS_WEBSITE_DOCUMENTATION = 100
 // const PAGE_ID_DEVELOPERS_WEBSITE_DOCUMENTATION = 4001
 const PAGE_ID_DEVELOPERS_WEBSITE_API_REFERENCE = 110
@@ -183,15 +183,15 @@ const getPageId = () => {
   }
 }
 
-const requestToDAP = (eventType, extraFields) => {
-  console.log(`[${eventType}]: ${JSON.stringify(extraFields)}`); // TODO update 
+const requestToDAP = (eventId, extraFields) => {
+  console.log(`[${eventId}]: ${JSON.stringify(extraFields)}`); // TODO update 
 
   baseRequest(
     STATISTICS_URL,
     () => ({
       instanceId: getUid(),
       sessionId: getSid(),
-      eventId: EVENT_ID_PAGEVIEW,
+      eventId: eventId,
       pageId: getPageId(),
       userAgent: navigator.userAgent,
       interfaceLanguage: navigator.language,
@@ -214,13 +214,11 @@ const sendPageview = (url) => {
     })
 }
 
-const sendOutgoingNetworkResponse = (requestUrl, status) => {
+const sendOutgoingNetworkResponse = (status) => {
   requestToDAP(EVENT_ID_NETWORK_REQUEST,
     {
       url: `${window.location.origin}${window.location.pathname}${window.location.search}`,
-      // TODO add the fields below to the table
-      outgoing_network_response_url: requestUrl,
-      outgoing_network_response_status: status,
+      developers_website_network_data_status_code: status,
     })
 }
 
@@ -278,14 +276,12 @@ const setupNetworkRequestTracking = () => {
   };
 
   XMLHttpRequest.prototype.send = function(body) {
-    // Note: we cannot log the request or response body because of sensitive info
+    // Note: we cannot log the url, request body, or response body because of sensitive info
 
     const originalOnReadyStateChange = this.onreadystatechange;
     this.onreadystatechange = function() {
       if (this.readyState === 4) { // DONE
-        // TODO Remove this._recordedUrl because it might be PII to store query params
-        // Because the user could be making custom requests using the inspect console
-        sendOutgoingNetworkResponse("network:outgoingNetworkResponse", this._recordedUrl, this.status)
+        sendOutgoingNetworkResponse(this.status)
       }
       if (originalOnReadyStateChange) {
         originalOnReadyStateChange.apply(this, arguments);
