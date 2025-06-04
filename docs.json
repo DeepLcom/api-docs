@@ -237,12 +237,104 @@
   },
   "redirects": [
   {
+    "source": "/docs/api-reference/improve-text/openapi-spec-for-text-improvement",
+    "destination": "/api-reference/improve-text/request-text-improvement"
+  },
+  {
+    "source": "/docs/api-reference/languages/openapi-spec-for-retrieving-languages",
+    "destination": "/api-reference/languages/retrieve-supported-languages"
+  },
+  {
+    "source": "/docs/api-reference/translate/openapi-spec-for-text-translation",
+    "destination": "/api-reference/translate/request-translation"
+  },
+  {
+    "source": "/docs/api-reference/document/openapi-spec-for-document-translation",
+    "destination": "/api-reference/document/upload-and-translate-a-document"
+  },
+  {
+    "source": "/docs/api-reference/glossaries/openapi-spec-for-glossary-management",
+    "destination": "/api-reference/multilingual-glossaries/create-a-glossary"
+  },
+  {
+    "source": "/docs/api-reference/glossaries/glossaries/openapi-spec-for-glossary-management",
+    "destination": "/api-reference/glossaries/create-a-glossary"
+  },
+  {
+    "source": "/docs/api-reference/usage-and-quota/openapi-spec-for-retrieving-usage-and-quota",
+    "destination": "/api-reference/usage-and-quota/check-usage-and-limits"
+  },
+  {
+    "source": "/docs/api-reference/glossaries/glossaries",
+    "destination": "/api-reference/glossaries"
+  },
+  {
+    "source": "/docs/api-reference",
+    "destination": "/api-reference"
+  },
+  {
     "source": "/docs/api-reference/:page*",
     "destination": "/api-reference/:page*"
   },
   {
     "source": "/multiple-api-keys",
     "destination": "/docs/multiple-api-keys"
+  },
+  {
+    "source": "/docs/examples/cookbook",
+    "destination": "/docs/learning-how-tos/cookbook"
+  },
+  {
+    "source": "/docs/examples/cookbook/:page*",
+    "destination": "/docs/learning-how-tos/cookbook/:page*"
+  },
+  {
+    "source": "/docs/learning-how-tos/examples-and-guides/deepl-api-101",
+    "destination": "/docs/learning-how-tos/examples-and-guides/first-things-to-try-with-the-deepl-api"
+  },
+  {
+    "source": "/docs/learning-how-tos/examples-and-guides/deepl-api-101/first-things-to-try-with-the-deepl-api",
+    "destination": "/docs/learning-how-tos/examples-and-guides/first-things-to-try-with-the-deepl-api"
+  },
+  {
+    "source": "/docs/resources/examples-and-guides/deepl-api-101",
+    "destination": "/docs/learning-how-tos/examples-and-guides/first-things-to-try-with-the-deepl-api"
+  },
+  {
+    "source": "/docs/resources/examples-and-guides/deepl-api-101/first-things-to-try-with-the-deepl-api",
+    "destination": "/docs/learning-how-tos/examples-and-guides/first-things-to-try-with-the-deepl-api"
+  },
+  {
+    "source": "/docs/resources/examples-and-guides",
+    "destination": "/docs/learning-how-tos/examples-and-guides"
+  },
+  {
+    "source": "/docs/resources/examples-and-guides/:page*",
+    "destination": "/docs/learning-how-tos/example-and-guides/:page*"
+  },
+  {
+    "source": "/docs/getting-started/readme",
+    "destination": "/docs"
+  },
+  {
+    "source": "/docs/learning-how-tos/guides/:page*",
+    "destination": "/docs/learning-how-tos/examples-and-guides/:page*"
+  },
+  {
+    "source": "/docs/examples/cookbook/placeholder-tags",
+    "destination": "/docs/learning-how-tos/examples-and-guides/placeholder-tags"
+  },
+  {
+    "source": "/docs/resources/supported-languages",
+    "destination": "/docs/getting-started/supported-languages"
+  },
+  {
+    "source": "/docs/resources/breaking-changes-change-notices/february-2025-deprecating-get-requests-to-translate-and-authenticating-with-auth_key",
+    "destination": "/docs/resources/breaking-changes-change-notices/march-2025-deprecating-get-requests-to-translate-and-authenticating-with-auth_key"
+  },
+  {
+    "source": "/deepl-api-docs",
+    "destination": "/docs"
   }
   ],
   "integrations": {
