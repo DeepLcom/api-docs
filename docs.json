@@ -333,10 +333,6 @@
     "destination": "/docs/resources/breaking-changes-change-notices/march-2025-deprecating-get-requests-to-translate-and-authenticating-with-auth_key"
   },
   {
-    "source": "/docs/learning-how-tos/cookbook/:page*",
-    "destination": "/docs/learning-how-tos/examples-and-guides/:page*"
-  },
-  {
     "source": "/deepl-api-docs",
     "destination": "/docs"
   }
