@@ -194,8 +194,8 @@
     ]
   },
   "logo": {
-    "light": "/_assets/logo/logo.svg",
-    "dark": "/_assets/logo/dark.svg"
+    "light": "/_assets/logo/light_with_text.svg",
+    "dark": "/_assets/logo/dark_with_text.svg"
   },
   "navbar": {
     "links": [
