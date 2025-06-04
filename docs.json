@@ -194,8 +194,8 @@
     ]
   },
   "logo": {
-    "light": "/_assets/logo/light_with_text.svg",
-    "dark": "/_assets/logo/dark_with_text.svg"
+    "light": "/_assets/logo/logo.svg",
+    "dark": "/_assets/logo/dark.svg"
   },
   "navbar": {
     "links": [
@@ -253,10 +253,6 @@
     "destination": "/api-reference/document/upload-and-translate-a-document"
   },
   {
-    "source": "/docs/api-reference/glossaries/glossaries",
-    "destination": "/api-reference/glossaries"
-  },
-  {
     "source": "/docs/api-reference/glossaries/openapi-spec-for-glossary-management",
     "destination": "/api-reference/multilingual-glossaries/create-a-glossary"
   },
@@ -267,6 +263,10 @@
   {
     "source": "/docs/api-reference/usage-and-quota/openapi-spec-for-retrieving-usage-and-quota",
     "destination": "/api-reference/usage-and-quota/check-usage-and-limits"
+  },
+  {
+    "source": "/docs/api-reference/glossaries/glossaries",
+    "destination": "/api-reference/glossaries"
   },
   {
     "source": "/docs/api-reference",
