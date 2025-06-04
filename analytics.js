@@ -3,13 +3,15 @@
   Globals
 ========================
 */
-const STATISTICS_URL = "https://s.deepl.dev/web/statistics"
+const STATISTICS_URL = "https://s.deepl.dev/web/statistics" // TODO update to prod table
 
 /*
 ========================
   Cookie helper methods
 ========================
 */
+const isProdStage = window.location.hostname === "developers.deepl.com"
+
 const getCookieItem = (cookieName) => {
   if (typeof window === 'undefined') {
     throw new Error('Error occurs when you are going to use a browser-specific code on server-side or other way around. Please check your code logic.')
@@ -26,7 +28,7 @@ const getCookieItem = (cookieName) => {
   )
 }
 
-const setCookieItem = (cookieName, cookieValue, expiresInMinutes = 0, domain = '.deepl.com') => {
+const setCookieItem = (cookieName, cookieValue, expiresInMinutes = 0) => {
   if (typeof window === 'undefined') {
     throw new Error('Error occurs when you are going to use a browser-specific code on server-side or other way around. Please check your code logic.')
   }
@@ -46,11 +48,8 @@ const setCookieItem = (cookieName, cookieValue, expiresInMinutes = 0, domain = '
     expireString = `; expires=${date.toUTCString()}`
   }
 
-  let domainString = ''
-  if (domain) {
-    domainString = `; domain=${domain}`
-  }
-
+  const domain = isProdStage ? '.deepl.com' : window.location.hostname
+  const domainString = `; domain=${domain}` 
   const secure = '; secure'
   document.cookie = `${cookieName}=${encodeURIComponent(cookieValueToStore)}${domainString}; path=/${expireString}; samesite=lax${secure}`
 }
