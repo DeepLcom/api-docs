@@ -5,6 +5,16 @@
 */
 const STATISTICS_URL = "https://s.deepl.dev/web/statistics" // TODO update to prod table
 
+// TODO update values after DAP proto changes are merged
+const EVENT_ID_PAGEVIEW = 1
+
+const EVENT_ID_NETWORK_REQUEST = 0
+// const EVENT_ID_NETWORK_REQUEST = ?? 
+const PAGE_ID_DEVELOPERS_WEBSITE_DOCUMENTATION = 100
+// const PAGE_ID_DEVELOPERS_WEBSITE_DOCUMENTATION = 4001
+const PAGE_ID_DEVELOPERS_WEBSITE_API_REFERENCE = 110
+// const PAGE_ID_DEVELOPERS_WEBSITE_API_REFERENCE = 4002
+
 /*
 ========================
   Cookie helper methods
@@ -159,6 +169,20 @@ const baseRequest = async (targetUrl, getPayload) => {
   }
 }
 
+const getPageId = () => {
+  const pathname = window.location.pathname;
+  const secondSlash = pathname.indexOf("/", 1);
+  const firstSubpath = secondSlash !== -1 ? pathname.substring(0, secondSlash) : pathname;
+  switch (firstSubpath) {
+    case "/docs":
+      return PAGE_ID_DEVELOPERS_WEBSITE_DOCUMENTATION;
+    case "/api-reference":
+      return PAGE_ID_DEVELOPERS_WEBSITE_API_REFERENCE;
+    default:
+      return 0;
+  }
+}
+
 const requestToDAP = (eventType, extraFields) => {
   console.log(`[${eventType}]: ${JSON.stringify(extraFields)}`); // TODO update 
 
@@ -167,8 +191,8 @@ const requestToDAP = (eventType, extraFields) => {
     () => ({
       instanceId: getUid(),
       sessionId: getSid(),
-      eventId: 290, // TODO update 
-      pageId: 110, // TODO update
+      eventId: EVENT_ID_PAGEVIEW,
+      pageId: getPageId(),
       userAgent: navigator.userAgent,
       interfaceLanguage: navigator.language,
       screenInfo: {
@@ -183,17 +207,17 @@ const requestToDAP = (eventType, extraFields) => {
   }))
 }
 
-const sendPageview = (eventType, url) => {
-  requestToDAP(eventType, 
+const sendPageview = (url) => {
+  requestToDAP(EVENT_ID_PAGEVIEW, 
     {
       url: url
     })
 }
 
-const sendOutgoingNetworkResponse = (eventType, requestUrl, status) => {
-  requestToDAP(eventType,
+const sendOutgoingNetworkResponse = (requestUrl, status) => {
+  requestToDAP(EVENT_ID_NETWORK_REQUEST,
     {
-      url: window.location.href,
+      url: `${window.location.origin}${window.location.pathname}${window.location.search}`,
       // TODO add the fields below to the table
       outgoing_network_response_url: requestUrl,
       outgoing_network_response_status: status,
@@ -208,12 +232,12 @@ const sendOutgoingNetworkResponse = (eventType, requestUrl, status) => {
 
 let lastTrackedUrl = null;
 
-function sendPageviewDeduped(eventType) {
+function sendPageviewDeduped() {
   const currentUrl = window.location.href;
   if (currentUrl === lastTrackedUrl) return; // Skip duplicate
   lastTrackedUrl = currentUrl;
 
-  sendPageview(eventType, currentUrl)
+  sendPageview(currentUrl)
 }
 
 const setupNavigationTrackers = () => {
@@ -222,20 +246,20 @@ const setupNavigationTrackers = () => {
 
   history.pushState = function (...args) {
     _pushState.apply(this, args);
-    sendPageviewDeduped('navigation:pushState');
+    sendPageviewDeduped();
   };
 
   history.replaceState = function (...args) {
     _replaceState.apply(this, args);
-    sendPageviewDeduped('navigation:replaceState');
+    sendPageviewDeduped();
   };
 
   window.addEventListener('popstate', () => {
-    sendPageviewDeduped('navigation:popstate');
+    sendPageviewDeduped();
   });
 
   window.addEventListener('hashchange', () => {
-    sendPageviewDeduped('navigation:hashchange');
+    sendPageviewDeduped();
   });
 }
 
@@ -259,6 +283,8 @@ const setupNetworkRequestTracking = () => {
     const originalOnReadyStateChange = this.onreadystatechange;
     this.onreadystatechange = function() {
       if (this.readyState === 4) { // DONE
+        // TODO Remove this._recordedUrl because it might be PII to store query params
+        // Because the user could be making custom requests using the inspect console
         sendOutgoingNetworkResponse("network:outgoingNetworkResponse", this._recordedUrl, this.status)
       }
       if (originalOnReadyStateChange) {
@@ -280,6 +306,6 @@ const onPageLoad = () => {
   setupNavigationTrackers();
   setupNetworkRequestTracking();
 
-  sendPageviewDeduped('navigation:newPageLoad')
+  sendPageviewDeduped()
 }
 onPageLoad()
