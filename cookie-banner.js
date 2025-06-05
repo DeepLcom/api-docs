@@ -22,7 +22,7 @@ const showCookieBanner = () => {
     banner.style.alignItems = 'center';
     banner.style.zIndex = '10000';
     banner.innerHTML = `
-        <span>This site uses cookies to deliver its service and to analyze traffic. By browsing this site, you accept the <a href="https://www.deepl.com/privacy" style="color:#4FC3F7;text-decoration:underline;">privacy policy</a>.</span>
+        <span>DeepL uses cookies to deliver its service. Please find more information in our <a href="https://www.deepl.com/privacy" style="color:#4FC3F7;text-decoration:underline;">privacy policy</a>.</span>
         <button id="cookie-accept" style="background:transparent;color:#fff;padding:8px 16px;border:1px solid #fff;border-radius:4px;cursor:pointer;">Close</button>
     `;
 
