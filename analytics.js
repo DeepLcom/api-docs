@@ -3,8 +3,6 @@
   Globals
 ========================
 */
-const STATISTICS_URL = "https://s.deepl.dev/web/statistics" // TODO update to prod table
-
 const EVENT_ID_PAGEVIEW = 1
 const EVENT_ID_NETWORK_REQUEST = 5000
 
@@ -143,6 +141,15 @@ const getSid = () => {
   Sending Requests
 ========================
 */
+const getStatisticsUrl = () => {
+  if (isProdStage) {
+    return "https://s.deepl.com/web/statistics"
+  }
+  else {
+    return "https://s.deepl.dev/web/statistics"
+  }
+}
+
 const baseRequest = async (targetUrl, getPayload) => {
   const payload = getPayload()
   console.log(payload)
@@ -183,7 +190,7 @@ const requestToDAP = (eventId, extraFields) => {
   console.log(`[${eventId}]: ${JSON.stringify(extraFields)}`); // TODO update 
 
   baseRequest(
-    STATISTICS_URL,
+    getStatisticsUrl(),
     () => ({
       instanceId: getUid(),
       sessionId: getSid(),
