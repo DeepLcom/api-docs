@@ -18,14 +18,10 @@
   },
   "fonts": {
     "heading": {
-      "family": "Roboto Light",
-      "source": "https://mintlify-assets.b-cdn.net/fonts/roboto-light.woff2",
-      "format": "woff2"
+      "family": "Roboto"
     },
     "body": {
-      "family": "Roboto Light",
-      "source": "https://mintlify-assets.b-cdn.net/fonts/roboto-light.woff2",
-      "format": "woff2"
+      "family": "Roboto"
     }
   },
   "favicon": "/_assets/favicon.svg",
