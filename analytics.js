@@ -206,14 +206,19 @@ const requestToDAP = (eventId, extraFields) => {
 const sendPageview = () => {
   requestToDAP(EVENT_ID_PAGEVIEW, 
     {
-      pageview_data_referrer: document.referrer,
+        pageviewData: {
+          referrer: document.referrer,
+          pageVariant: 0,
+      }
     })
 }
 
 const sendOutgoingNetworkResponse = (status) => {
   requestToDAP(EVENT_ID_NETWORK_REQUEST,
     {
-      developers_website_network_data_status_code: status,
+      developersWebsiteNetworkData: {
+        statusCode: status
+      }
     })
 }
 
