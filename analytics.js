@@ -198,22 +198,21 @@ const requestToDAP = (eventId, extraFields) => {
         viewportHeightCssPixel: window.innerHeight,
         devicePixelRatio: window.devicePixelRatio
       },
-      referrer: document.referrer,
+      url: `${window.location.origin}${window.location.pathname}${window.location.search}`,
       ...extraFields
   }))
 }
 
-const sendPageview = (url) => {
+const sendPageview = () => {
   requestToDAP(EVENT_ID_PAGEVIEW, 
     {
-      url: url
+      pageview_data_referrer: document.referrer,
     })
 }
 
 const sendOutgoingNetworkResponse = (status) => {
   requestToDAP(EVENT_ID_NETWORK_REQUEST,
     {
-      url: `${window.location.origin}${window.location.pathname}${window.location.search}`,
       developers_website_network_data_status_code: status,
     })
 }
@@ -231,7 +230,7 @@ function sendPageviewDeduped() {
   if (currentUrl === lastTrackedUrl) return; // Skip duplicate
   lastTrackedUrl = currentUrl;
 
-  sendPageview(currentUrl)
+  sendPageview()
 }
 
 const setupNavigationTrackers = () => {
