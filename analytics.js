@@ -319,36 +319,37 @@ const setupNetworkRequestTracking = () => {
 ========================
 */
 const setupSearchInputTracking = () => {
-  const searchInputHandler = (event) => {
-    const inputText = event.target.value;
-    sendSearchInput(inputText);
-  };
-
-  const addSearchInputListener = (addedNode) => {
-    if (!GLOBAL_STATE.isSearchListenerAdded && addedNode.id === 'search-input') {
-      addedNode.addEventListener('input', searchInputHandler);
+  const addSearchInputListener = () => {
+    const searchInput = document.getElementById('search-input');
+    if (!GLOBAL_STATE.isSearchListenerAdded && searchInput) {
+      searchInput.addEventListener('input', (event) => {
+        const inputText = event.target.value;
+        sendSearchInput(inputText);
+      });
       GLOBAL_STATE.isSearchListenerAdded = true;
     }
   };
 
-  const removeSearchInputListener = (removedNode) => {
-    if (removedNode.id === 'search-input') {
-      removedNode.removeEventListener('input', searchInputHandler);
-      GLOBAL_STATE.isSearchListenerAdded = false;
+  const removeSearchInputListener = () => {
+    const searchInput = document.getElementById('search-input');
+    if (GLOBAL_STATE.isSearchListenerAdded && !searchInput) {
+      GLOBAL_STATE.isSearchListenerAdded = false
     }
   };
 
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       if (mutation.addedNodes.length) {
-        mutation.addedNodes.forEach(addSearchInputListener);
+        addSearchInputListener();
       }
       if (mutation.removedNodes.length) {
-        mutation.removedNodes.forEach(removeSearchInputListener);
+        removeSearchInputListener();
       }
     });
   });
   observer.observe(document.body, { childList: true, subtree: true });
+ 
+  addSearchInputListener();
 }
 
 /*
@@ -359,6 +360,7 @@ const setupSearchInputTracking = () => {
 const onPageLoad = () => {
   setupNavigationTrackers();
   setupNetworkRequestTracking();
+  setupSearchInputTracking();
 
   sendPageviewDeduped()
 }
