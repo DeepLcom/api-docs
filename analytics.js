@@ -3,11 +3,12 @@
   Globals
 ========================
 */
-const EVENT_ID_PAGEVIEW = 1
-const EVENT_ID_NETWORK_REQUEST = 5000
-
 const PAGE_ID_DEVELOPERS_WEBSITE_DOCUMENTATION = 4001
 const PAGE_ID_DEVELOPERS_WEBSITE_API_REFERENCE = 4002
+
+const EVENT_ID_PAGEVIEW = 1
+const EVENT_ID_NETWORK_REQUEST = 5000
+const EVENT_ID_SEARCH_INPUT = 5001 // TODO change this after DAP update
 
 /*
 ========================
@@ -229,9 +230,17 @@ const sendOutgoingNetworkResponse = (status) => {
     })
 }
 
+const sendSearchInput = (text) => {
+  requestToDAP(EVENT_ID_SEARCH_INPUT,
+    {
+      searchInputText: text // TODO change this after DAP update
+    }
+  )
+}
+
 /*
 ========================
-  Navigation Tracking
+  Tracking - Page Navigation
 ========================
 */
 
@@ -270,7 +279,7 @@ const setupNavigationTrackers = () => {
 
 /*
 ========================
-  Network Request Tracking
+  Tracking - Network Requests (XML from API explorer)
 ========================
 */
 const setupNetworkRequestTracking = () => {
@@ -299,6 +308,18 @@ const setupNetworkRequestTracking = () => {
     return originalSend.apply(this, arguments);
   };
 }
+
+/*
+========================
+  Tracking - Search Input
+========================
+*/
+const searchInput = document.getElementById('search-input');
+
+searchInput.addEventListener('input', function(event) {
+  const currentValue = event.target.value;
+  sendSearchInput(currentValue);
+});
 
 /*
 ========================
