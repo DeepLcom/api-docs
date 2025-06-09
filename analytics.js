@@ -314,12 +314,26 @@ const setupNetworkRequestTracking = () => {
   Tracking - Search Input
 ========================
 */
-const searchInput = document.getElementById('search-input');
+function addSearchInputElementListener() {
+  const searchInput = document.getElementById('search-input');
 
-searchInput.addEventListener('input', function(event) {
-  const currentValue = event.target.value;
-  sendSearchInput(currentValue);
+  if (searchInput) {
+    searchInput.addEventListener('input', function(event) {
+      const inputText = event.target.value;
+      sendSearchInput(inputText)
+    });
+  }
+}
+
+// Create a MutationObserver to watch for changes in the DOM
+const observer = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    if (mutation.addedNodes.length) {
+      addSearchInputElementListener();
+    }
+  });
 });
+observer.observe(document.body, { childList: true, subtree: true });
 
 /*
 ========================
