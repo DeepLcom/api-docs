@@ -318,28 +318,38 @@ const setupNetworkRequestTracking = () => {
   Tracking - Search Input
 ========================
 */
-function addSearchInputElementListener() {
-  const searchInput = document.getElementById('search-input');
+const setupSearchInputTracking = () => {
+  const searchInputHandler = (event) => {
+    const inputText = event.target.value;
+    sendSearchInput(inputText);
+  };
 
-  if (!GLOBAL_STATE.isSearchListenerAdded && searchInput) {
-    searchInput.addEventListener('input', function(event) {
-      const inputText = event.target.value;
-      sendSearchInput(inputText)
-    });
-
-    GLOBAL_STATE.isSearchListenerAdded = true;
-  }
-}
-
-// Create a MutationObserver to watch for changes in the DOM
-const observer = new MutationObserver((mutations) => {
-  mutations.forEach((mutation) => {
-    if (mutation.addedNodes.length) {
-      addSearchInputElementListener();
+  const addSearchInputListener = (addedNode) => {
+    if (!GLOBAL_STATE.isSearchListenerAdded && addedNode.id === 'search-input') {
+      addedNode.addEventListener('input', searchInputHandler);
+      GLOBAL_STATE.isSearchListenerAdded = true;
     }
+  };
+
+  const removeSearchInputListener = (removedNode) => {
+    if (removedNode.id === 'search-input') {
+      removedNode.removeEventListener('input', searchInputHandler);
+      GLOBAL_STATE.isSearchListenerAdded = false;
+    }
+  };
+
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.addedNodes.length) {
+        mutation.addedNodes.forEach(addSearchInputListener);
+      }
+      if (mutation.removedNodes.length) {
+        mutation.removedNodes.forEach(removeSearchInputListener);
+      }
+    });
   });
-});
-observer.observe(document.body, { childList: true, subtree: true });
+  observer.observe(document.body, { childList: true, subtree: true });
+}
 
 /*
 ========================
