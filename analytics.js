@@ -3,6 +3,10 @@
   Globals
 ========================
 */
+const GLOBAL_STATE = {
+  isSearchListenerAdded: false,
+}
+
 const PAGE_ID_DEVELOPERS_WEBSITE_DOCUMENTATION = 4001
 const PAGE_ID_DEVELOPERS_WEBSITE_API_REFERENCE = 4002
 
@@ -317,11 +321,13 @@ const setupNetworkRequestTracking = () => {
 function addSearchInputElementListener() {
   const searchInput = document.getElementById('search-input');
 
-  if (searchInput) {
+  if (!GLOBAL_STATE.isSearchListenerAdded && searchInput) {
     searchInput.addEventListener('input', function(event) {
       const inputText = event.target.value;
       sendSearchInput(inputText)
     });
+
+    GLOBAL_STATE.isSearchListenerAdded = true;
   }
 }
 
