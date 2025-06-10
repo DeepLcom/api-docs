@@ -2,7 +2,7 @@ class AnalyticsTracker {
   // ========================
   //   Globals & Constants
   // ========================
-  static GLOBAL_STATE = {
+  static globalState = {
     isSearchListenerAdded: false,
   };
 
@@ -14,6 +14,9 @@ class AnalyticsTracker {
   static EVENT_ID_SEARCH_INPUT = 5001; // TODO change this after DAP update
 
   static isProdStage = window.location.hostname === "developers.deepl.com";
+  static statisticsUrl = this.isProdStage ? 
+    "https://s.deepl.com/web/statistics"
+    : "https://s.deepl.dev/web/statistics"
 
   // ========================
   //   Cookie Helper Inner Class
@@ -121,114 +124,95 @@ class AnalyticsTracker {
   };
 
   // ========================
-  //   Request Helper Methods
+  //   Request Helper Inner Class
   // ========================
-  static getStatisticsUrl() {
-    if (this.isProdStage) {
-      return "https://s.deepl.com/web/statistics";
-    } else {
-      return "https://s.deepl.dev/web/statistics";
+  static RequestHelper = class {
+    static async baseRequest(targetUrl, getPayload) {
+      const payload = getPayload();
+      try {
+        const response = await fetch(
+          targetUrl,
+          {
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(payload),
+            method: "POST",
+          }
+        );
+        const data = await response.json();
+        console.log('Fetched data: ', data); // TODO remove
+        return data;
+      } catch (error) {
+        console.error('Fetch error: ', error);
+      }
     }
-  }
 
-  static async baseRequest(targetUrl, getPayload) {
-    const payload = getPayload();
-    console.log(payload);
-    
-    try {
-      const response = await fetch(
-        targetUrl,
-        {
-          headers: {
-            "content-type": "application/json",
+    static getPageId() {
+      const pathname = window.location.pathname;
+      const secondSlash = pathname.indexOf("/", 1);
+      const firstSubpath = secondSlash !== -1 ? pathname.substring(0, secondSlash) : pathname;
+      switch (firstSubpath) {
+        case "/docs":
+          return AnalyticsTracker.PAGE_ID_DEVELOPERS_WEBSITE_DOCUMENTATION;
+        case "/api-reference":
+          return AnalyticsTracker.PAGE_ID_DEVELOPERS_WEBSITE_API_REFERENCE;
+        default:
+          return 0;
+      }
+    }
+
+    static requestToDAP(eventId, extraFields) {
+      console.log(`[${eventId}]: ${JSON.stringify(extraFields)}`); // TODO update
+      
+      this.baseRequest(
+        AnalyticsTracker.statisticsUrl,
+        () => ({
+          instanceId: AnalyticsTracker.CookieHelper.getUid(),
+          sessionId: AnalyticsTracker.CookieHelper.getSid(),
+          eventId: eventId,
+          pageId: this.getPageId(),
+          userAgent: navigator.userAgent,
+          interfaceLanguage: navigator.language,
+          screenInfo: {
+            widthCssPixel: window.screen.width,
+            heightCssPixel: window.screen.height,
+            viewportWidthCssPixel: window.innerWidth,
+            viewportHeightCssPixel: window.innerHeight,
+            devicePixelRatio: window.devicePixelRatio
           },
-          body: JSON.stringify(payload),
-          method: "POST",
-        }
+          url: `${window.location.origin}${window.location.pathname}${window.location.search}`,
+          ...extraFields
+        })
       );
-      const data = await response.json();
-      console.log('Fetched data: ', data); // TODO remove
-      return data;
-    } catch (error) {
-      console.error('Fetch error: ', error);
     }
-  }
-
-  static getPageId() {
-    const pathname = window.location.pathname;
-    const secondSlash = pathname.indexOf("/", 1);
-    const firstSubpath = secondSlash !== -1 ? pathname.substring(0, secondSlash) : pathname;
-    switch (firstSubpath) {
-      case "/docs":
-        return this.PAGE_ID_DEVELOPERS_WEBSITE_DOCUMENTATION;
-      case "/api-reference":
-        return this.PAGE_ID_DEVELOPERS_WEBSITE_API_REFERENCE;
-      default:
-        return 0;
-    }
-  }
-
-  static requestToDAP(eventId, extraFields) {
-    console.log(`[${eventId}]: ${JSON.stringify(extraFields)}`); // TODO update
-
-    this.baseRequest(
-      this.getStatisticsUrl(),
-      () => ({
-        instanceId: this.CookieHelper.getUid(),
-        sessionId: this.CookieHelper.getSid(),
-        eventId: eventId,
-        pageId: this.getPageId(), // TODO rename this method
-        userAgent: navigator.userAgent,
-        interfaceLanguage: navigator.language,
-        screenInfo: {
-          widthCssPixel: window.screen.width,
-          heightCssPixel: window.screen.height,
-          viewportWidthCssPixel: window.innerWidth,
-          viewportHeightCssPixel: window.innerHeight,
-          devicePixelRatio: window.devicePixelRatio
-        },
-        url: `${window.location.origin}${window.location.pathname}${window.location.search}`,
-        ...extraFields
-      })
-    );
-  }
-
-  static sendPageview() {
-    this.requestToDAP(this.EVENT_ID_PAGEVIEW, {
-      pageviewData: {
-        referrer: document.referrer,
-        pageVariant: 0,
-      }
-    });
-  }
-
-  static sendOutgoingNetworkResponse(status) {
-    this.requestToDAP(this.EVENT_ID_NETWORK_REQUEST, {
-      developersWebsiteNetworkData: {
-        statusCode: status
-      }
-    });
-  }
-
-  static sendSearchInput(text) {
-    this.requestToDAP(this.EVENT_ID_SEARCH_INPUT, {
-      searchInputText: text // TODO change this after DAP update
-    });
-  }
+  };
 
   // ========================
   //   Track Page Navigation Inner Class
   // ========================
-  static TrackPageNavigation = class {
+  static PageNavigationTracker = class {
     static navigationState = {
       lastTrackedUrl: null
+    }
+
+    static sendPageview() {
+      AnalyticsTracker.RequestHelper.requestToDAP(
+        AnalyticsTracker.EVENT_ID_PAGEVIEW, 
+        {
+          pageviewData: {
+            referrer: document.referrer,
+            pageVariant: 0,
+          }
+        }
+      );
     }
 
     static sendPageviewDeduped() {
       const currentUrl = window.location.href;
       if (currentUrl === this.navigationState.lastTrackedUrl) return; // Skip duplicate
       this.navigationState.lastTrackedUrl = currentUrl;
-      AnalyticsTracker.sendPageview(); // TODO rename this method
+      this.sendPageview(); 
     }
 
     static setupNavigationTrackers() {
@@ -237,20 +221,20 @@ class AnalyticsTracker {
 
       history.pushState = function (...args) {
         _pushState.apply(this, args);
-        AnalyticsTracker.TrackPageNavigation.sendPageviewDeduped();
+        AnalyticsTracker.PageNavigationTracker.sendPageviewDeduped();
       };
 
       history.replaceState = function (...args) {
         _replaceState.apply(this, args);
-        AnalyticsTracker.TrackPageNavigation.sendPageviewDeduped();
+        AnalyticsTracker.PageNavigationTracker.sendPageviewDeduped();
       };
 
       window.addEventListener('popstate', () => {
-        AnalyticsTracker.TrackPageNavigation.sendPageviewDeduped();
+        AnalyticsTracker.PageNavigationTracker.sendPageviewDeduped();
       });
 
       window.addEventListener('hashchange', () => {
-        AnalyticsTracker.TrackPageNavigation.sendPageviewDeduped();
+        AnalyticsTracker.PageNavigationTracker.sendPageviewDeduped();
       });
 
       this.sendPageviewDeduped();
@@ -261,6 +245,17 @@ class AnalyticsTracker {
   //   Network Request Tracking Inner Class
   // ========================
   static NetworkRequestTracker = class {
+    static sendOutgoingNetworkResponse(status) {
+      AnalyticsTracker.RequestHelper.requestToDAP(
+        AnalyticsTracker.EVENT_ID_NETWORK_REQUEST, 
+        {
+          developersWebsiteNetworkData: {
+            statusCode: status
+          }
+        }
+      );
+    }
+
     static setupNetworkRequestTracking() {
       const originalOpen = XMLHttpRequest.prototype.open;
       const originalSend = XMLHttpRequest.prototype.send;
@@ -276,7 +271,7 @@ class AnalyticsTracker {
         const originalOnReadyStateChange = this.onreadystatechange;
         this.onreadystatechange = function() {
           if (this.readyState === 4) { // DONE
-            AnalyticsTracker.sendOutgoingNetworkResponse(this.status);
+            AnalyticsTracker.NetworkRequestTracker.sendOutgoingNetworkResponse(this.status);
           }
           if (originalOnReadyStateChange) {
             originalOnReadyStateChange.apply(this, arguments);
@@ -291,21 +286,30 @@ class AnalyticsTracker {
   //   Search Input Tracking Inner Class
   // ========================
   static SearchInputTracker = class {
+    static sendSearchInput(text) {
+      AnalyticsTracker.RequestHelper.requestToDAP(
+        AnalyticsTracker.EVENT_ID_SEARCH_INPUT, 
+        {
+          searchInputText: text // TODO change this after DAP update
+        }
+      );
+    }
+
     static addSearchInputListener() {
       const searchInput = document.getElementById('search-input');
-      if (!AnalyticsTracker.GLOBAL_STATE.isSearchListenerAdded && searchInput) {
+      if (!AnalyticsTracker.globalState.isSearchListenerAdded && searchInput) {
         searchInput.addEventListener('input', (event) => {
           const inputText = event.target.value;
-          AnalyticsTracker.sendSearchInput(inputText);
+          this.sendSearchInput(inputText);
         });
-        AnalyticsTracker.GLOBAL_STATE.isSearchListenerAdded = true;
+        AnalyticsTracker.globalState.isSearchListenerAdded = true;
       }
     }
 
     static removeSearchInputListener() {
       const searchInput = document.getElementById('search-input');
-      if (AnalyticsTracker.GLOBAL_STATE.isSearchListenerAdded && !searchInput) {
-        AnalyticsTracker.GLOBAL_STATE.isSearchListenerAdded = false;
+      if (AnalyticsTracker.globalState.isSearchListenerAdded && !searchInput) {
+        AnalyticsTracker.globalState.isSearchListenerAdded = false;
       }
     }
 
@@ -329,7 +333,7 @@ class AnalyticsTracker {
   //   Initialization
   // ========================
   static init() {
-    this.TrackPageNavigation.setupNavigationTrackers();
+    this.PageNavigationTracker.setupNavigationTrackers();
     this.NetworkRequestTracker.setupNetworkRequestTracking();
     this.SearchInputTracker.setupSearchInputTracking();
   }
