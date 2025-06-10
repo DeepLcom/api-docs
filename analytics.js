@@ -6,6 +6,11 @@ class AnalyticsTracker {
     isSearchListenerAdded: false,
   };
 
+  static API_ENDPOINTS = {
+    PRO: "api.deepl.com",
+    FREE: "api-free.deepl.com"
+  }
+
   static PAGE_ID_DEVELOPERS_WEBSITE_DOCUMENTATION = 4001;
   static PAGE_ID_DEVELOPERS_WEBSITE_API_REFERENCE = 4002;
 
@@ -245,12 +250,13 @@ class AnalyticsTracker {
   //   Network Request Tracking Inner Class
   // ========================
   static NetworkRequestTracker = class {
-    static sendOutgoingNetworkResponse(status) {
+    static sendOutgoingNetworkResponse(statusCode, targetUrl) {
       AnalyticsTracker.RequestHelper.requestToDAP(
         AnalyticsTracker.EVENT_ID_NETWORK_REQUEST, 
         {
           developersWebsiteNetworkData: {
-            statusCode: status
+            statusCode,
+            targetUrl // TODO add this to DAP
           }
         }
       );
@@ -261,23 +267,40 @@ class AnalyticsTracker {
       const originalSend = XMLHttpRequest.prototype.send;
 
       XMLHttpRequest.prototype.open = function(method, url) {
-        this._recordedUrl = url;
-        return originalOpen.apply(this, arguments);
+        const xhr = this;
+        xhr._recordedUrl = url;
+        return originalOpen.apply(xhr, arguments);
       };
 
       XMLHttpRequest.prototype.send = function(body) {
         // Note: we cannot log the url, request body, or response body because of sensitive info
+        const xhr = this;
+        const originalOnReadyStateChange = xhr.onreadystatechange;
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) { // DONE
+            
+            const urlObj = new URL(xhr._recordedUrl)
+            if (
+              urlObj.hostname === AnalyticsTracker.API_ENDPOINTS.PRO ||
+              urlObj.hostname === AnalyticsTracker.API_ENDPOINTS.FREE
+            ) {
+              // Prune out any custom query params which could be input data
+              const prunedUrl = `${urlObj.origin}${urlObj.pathname}`
 
-        const originalOnReadyStateChange = this.onreadystatechange;
-        this.onreadystatechange = function() {
-          if (this.readyState === 4) { // DONE
-            AnalyticsTracker.NetworkRequestTracker.sendOutgoingNetworkResponse(this.status);
+              AnalyticsTracker.NetworkRequestTracker.sendOutgoingNetworkResponse(
+                xhr.status,
+                prunedUrl
+              );
+            }
+            else {
+              // do nothing for other requests
+            }
           }
           if (originalOnReadyStateChange) {
-            originalOnReadyStateChange.apply(this, arguments);
+            originalOnReadyStateChange.apply(xhr, arguments);
           }
         };
-        return originalSend.apply(this, arguments);
+        return originalSend.apply(xhr, arguments);
       };
     }
   };
