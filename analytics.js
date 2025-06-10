@@ -309,11 +309,20 @@ class AnalyticsTracker {
   //   Search Input Tracking Inner Class
   // ========================
   static SearchInputTracker = class {
-    static sendSearchInput(text) {
+    static InputClassification = {
+      Partial: 'Partial',
+      Submitted: 'Submitted', // Not implemented yet
+      AiAssistant: 'AiAssistant'
+    };
+
+    static filteredHostnames = ['leaves.mintlify.com'];
+
+    static sendSearchInput(searchInputText, classification) {
       AnalyticsTracker.RequestHelper.requestToDAP(
         AnalyticsTracker.EVENT_ID_SEARCH_INPUT, 
         {
-          searchInputText: text // TODO change this after DAP update
+          searchInputText, // TODO change this after DAP update
+          classification
         }
       );
     }
@@ -323,7 +332,7 @@ class AnalyticsTracker {
       if (!AnalyticsTracker.globalState.isSearchListenerAdded && searchInput) {
         searchInput.addEventListener('input', (event) => {
           const inputText = event.target.value;
-          this.sendSearchInput(inputText);
+          this.sendSearchInput(inputText, this.InputClassification.Partial);
         });
         AnalyticsTracker.globalState.isSearchListenerAdded = true;
       }
@@ -337,6 +346,7 @@ class AnalyticsTracker {
     }
 
     static setupSearchInputTracking() {
+      // As the user is typing
       const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
           if (mutation.addedNodes.length) {
@@ -349,6 +359,21 @@ class AnalyticsTracker {
       });
       observer.observe(document.body, { childList: true, subtree: true });
       this.addSearchInputListener();
+
+      // When a user submits to the AI Assistant
+      const originalFetch = window.fetch;
+      window.fetch = async (...args) => {
+        try {
+          const url = typeof args[0] === 'string' ? args[0] : args[0].url;
+          const requestHostname = new URL(url).hostname;
+          if (this.filteredHostnames.includes(requestHostname)) {
+            this.sendSearchInput(args[1].body, this.InputClassification.AiAssistant);
+          }
+          return originalFetch(...args);;
+        } catch (error) {
+          return originalFetch(...args);
+        }
+      };
     }
   };
 
