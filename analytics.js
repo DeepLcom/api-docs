@@ -132,11 +132,11 @@ class AnalyticsTracker {
   //   Request Helper Inner Class
   // ========================
   static RequestHelper = class {
-    static async baseRequest(targetUrl, getPayload) {
+    static async baseRequest(url, getPayload) {
       const payload = getPayload();
       try {
         const response = await fetch(
-          targetUrl,
+          url,
           {
             headers: {
               "content-type": "application/json",
@@ -250,13 +250,13 @@ class AnalyticsTracker {
   //   Network Request Tracking Inner Class
   // ========================
   static NetworkRequestTracker = class {
-    static sendOutgoingNetworkResponse(statusCode, targetUrl) {
+    static sendOutgoingNetworkResponse(statusCode, apiUrl) {
       AnalyticsTracker.RequestHelper.requestToDAP(
         AnalyticsTracker.EVENT_ID_NETWORK_REQUEST, 
         {
           developersWebsiteNetworkData: {
             statusCode,
-            targetUrl // TODO add this to DAP
+            apiUrl // TODO add this to DAP
           }
         }
       );
@@ -383,7 +383,7 @@ class AnalyticsTracker {
   static init() {
     this.PageNavigationTracker.setupNavigationTrackers();
     this.NetworkRequestTracker.setupNetworkRequestTracking();
-    this.SearchInputTracker.setupSearchInputTracking();
+    // this.SearchInputTracker.setupSearchInputTracking(); // Disable this for now
   }
 }
 
