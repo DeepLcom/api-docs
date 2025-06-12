@@ -146,7 +146,7 @@ class AnalyticsTracker {
           }
         );
         const data = await response.json();
-        console.log('Fetched data: ', data); // TODO remove
+        // console.log('Fetched data: ', data);
         return data;
       } catch (error) {
         console.error('Fetch error: ', error);
@@ -168,7 +168,7 @@ class AnalyticsTracker {
     }
 
     static requestToDAP(eventId, extraFields) {
-      console.log(`[${eventId}]: ${JSON.stringify(extraFields)}`); // TODO update
+      // console.log(`[${eventId}]: ${JSON.stringify(extraFields)}`); 
       
       this.baseRequest(
         AnalyticsTracker.statisticsUrl,
@@ -256,7 +256,7 @@ class AnalyticsTracker {
         {
           developersWebsiteNetworkData: {
             statusCode,
-            apiUrl // TODO add this to DAP
+            apiUrl 
           }
         }
       );
@@ -321,7 +321,7 @@ class AnalyticsTracker {
       AnalyticsTracker.RequestHelper.requestToDAP(
         AnalyticsTracker.EVENT_ID_SEARCH_INPUT, 
         {
-          searchInputText, // TODO change this after DAP update
+          searchInputText,
           classification
         }
       );
