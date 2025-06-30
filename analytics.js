@@ -18,7 +18,8 @@ class AnalyticsTracker {
   static EVENT_ID_NETWORK_REQUEST = 5000;
   static EVENT_ID_SEARCH_INPUT = 5001; // TODO change this after DAP update
 
-  static isProdStage = window.location.hostname === "developers.deepl.com";
+  // static isProdStage = window.location.hostname === "developers.deepl.com";
+  static isProdStage = true;
   static statisticsUrl = this.isProdStage ? 
     "https://s.deepl.com/web/statistics"
     : "https://s.deepl.dev/web/statistics"
@@ -186,7 +187,7 @@ class AnalyticsTracker {
             viewportHeightCssPixel: window.innerHeight,
             devicePixelRatio: window.devicePixelRatio
           },
-          url: `${window.location.origin}${window.location.pathname}${window.location.search}`,
+          url: `https://developers.deepl.com${window.location.pathname}${window.location.search}`,
           ...extraFields
         })
       );
