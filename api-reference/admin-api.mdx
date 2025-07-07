@@ -146,5 +146,27 @@ As with subscription-level cost control:
           "documents": 100
         }'
         ```
+
+        ```sh Example request: Prevent usage of a developer key as an admin
+        curl -X PUT 'https://api.deepl.com/v2/admin/developer-keys/limits' \
+        --header 'Authorization: DeepL-Auth-Key [yourAdminKey]' \
+        --header 'Content-Type: application/json' \
+        --data '{
+          "key_id": "GUID:GUID",
+          "code_points": 0,
+          "documents": 0
+        }'
+        ```
+
+        ```sh Example request: Allow unlimited usage of a developer key as an admin
+        curl -X PUT 'https://api.deepl.com/v2/admin/developer-keys/limits' \
+        --header 'Authorization: DeepL-Auth-Key [yourAdminKey]' \
+        --header 'Content-Type: application/json' \
+        --data '{
+          "key_id": "GUID:GUID",
+          "code_points": null,
+          "documents": null
+        }'
+        ```
     </Tab>
 </Tabs>
