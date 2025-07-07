@@ -45,6 +45,14 @@
             ]
           },
           {
+            "group": "Admin API",
+            "pages": [
+              "docs/admin-api/intro",
+              "docs/admin-api/managing-admin-keys",
+              "docs/admin-api/managing-developer-keys"
+            ]
+          },
+          {
             "group": "Learning & How Tos",
             "pages": [
               { 
