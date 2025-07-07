@@ -185,10 +185,21 @@
                 "api-reference/languages/retrieve-supported-languages"
               ]
             },
+              {
+                "group": "Client libraries",
+                "pages": [
+                  "api-reference/client-libraries"
+                ]
+              },  
             {
-              "group": "Client libraries",
+              "group": "Admin API",
               "pages": [
-                "api-reference/client-libraries"
+                "api-reference/admin-api",
+                "api-reference/admin-api/managing-developer-keys/create-key",
+                "api-reference/admin-api/managing-developer-keys/get-keys",
+                "api-reference/admin-api/managing-developer-keys/disable-key",
+                "api-reference/admin-api/managing-developer-keys/rename-key",
+                "api-reference/admin-api/managing-developer-keys/set-usage-limits"
               ]
             }
             ]
