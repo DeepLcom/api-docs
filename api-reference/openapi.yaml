@@ -88,8 +88,7 @@ paths:
               type: object
               properties:
                 label:
-                  type: string
-                  description: Optional label for the API key.
+                  $ref: '#/components/schemas/ApiKeyLabel'
       responses:
         200:
           description: The create function returns a JSON representation of the created API key.
@@ -117,6 +116,66 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ApiKey'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - auth_header: [ ]
+  /v2/admin/developer-keys/disable:
+    put:
+      tags:
+        - AdminApi
+      summary: Disable a developer key as an admin
+      operationId: adminDisableDeveloperKey
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key_id:
+                  $ref: '#/components/schemas/ApiKeyId'          
+      responses:
+        200:
+          description: The disable function returns a JSON representation of the disabled API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - auth_header: [ ]
+  /v2/admin/developer-keys/label:
+    put:
+      tags:
+        - AdminApi
+      summary: Rename a developer key as an admin
+      operationId: adminRenameDeveloperKey
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key_id:
+                  $ref: '#/components/schemas/ApiKeyId'
+                label:
+                  type: string
+                  description: API key label.
+                  example: developer key prod
+      responses:
+        200:
+          description: The set label function returns a JSON representation of the renamed API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
         403:
           $ref: '#/components/responses/Forbidden'
         500:
@@ -1733,18 +1792,22 @@ components:
       name: Authorization
       in: header
   schemas:
+    ApiKeyId:
+      description: API key ID. Consists of two valid GUIDs separated by a colon.
+      type: string
+      example: ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38
+    ApiKeyLabel:
+      description: API key label. The default value is `DeepL API Key`.
+      type: string
+      example: "developer key prod"
     ApiKey:
       description: The API key.
       type: object
       properties:
         key_id:
-          description: API key ID. Consists of two valid GUIDs separated by a colon.
-          type: string
-          example: ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38
+          $ref: '#/components/schemas/ApiKeyId'
         label:
-          description: API key label. The default value is `DeepL API Key`.
-          type: string
-          example: "developer key prod"
+          $ref: '#/components/schemas/ApiKeyLabel'
         creation_time:
           description: Timestamp when the key was created (ISO 8601 format)
           type: string
