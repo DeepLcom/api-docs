@@ -2221,9 +2221,11 @@ components:
       - EN-GB
       - EN-US
       - ES
+      - ES-419
       - ET
       - FI
       - FR
+      - HE
       - HU
       - ID
       - IT
@@ -2241,8 +2243,10 @@ components:
       - SK
       - SL
       - SV
+      - TH
       - TR
       - UK
+      - VI
       - ZH
       - ZH-HANS
       - ZH-HANT
