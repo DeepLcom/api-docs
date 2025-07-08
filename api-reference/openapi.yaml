@@ -182,6 +182,38 @@ paths:
           $ref: '#/components/responses/InternalServerError'
       security:
         - auth_header: [ ]
+  /v2/admin/developer-keys/limits:
+    put:
+      tags:
+        - AdminApi
+      summary: Set developer key usage limits as an admin
+      operationId: adminSetDeveloperKeyUsageLimits
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key_id:
+                  $ref: '#/components/schemas/ApiKeyId'
+                code_points:
+                  $ref: '#/components/schemas/ApiKeyUsageCodePoints'
+                documents:
+                  $ref: '#/components/schemas/ApiKeyUsageDocuments'
+      responses:
+        200:
+          description: The set usage limits function returns a JSON representation of the modified API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - auth_header: [ ]
   /v2/translate:
     post:
       tags:
@@ -1800,6 +1832,22 @@ components:
       description: API key label. The default value is `DeepL API Key`.
       type: string
       example: "developer key prod"
+    ApiKeyUsageCodePoints:
+      description: |
+        Restricts the number of total characters (across text translation, document translation, and text improvement) that can be consumed by an API key in a one-month usage period.
+
+        Setting the limit to `0` means the API key will not be able to consume characters.
+        Setting the limit to `null` disables the limit, effectively allowing unlimited usage.
+      type: number
+      example: 5000
+    ApiKeyUsageDocuments:
+      description: |
+        Restricts the number of translated documents in a one-month usage period.
+
+        Setting the limit to `0` means the API key will not be able to translate documents.
+        Setting the limit to `null` disables the limit, effectively allowing unlimited usage.
+      type: number
+      example: 100
     ApiKey:
       description: The API key.
       type: object
@@ -1825,21 +1873,9 @@ components:
           type: object
           properties:
             code_points:
-              description: |
-                Restricts the number of total characters (across text translation, document translation, and text improvement) that can be consumed by an API key in a one-month usage period.
-
-                Setting the limit to `0` means the API key will not be able to consume characters.
-                Setting the limit to `null` disables the limit, effectively allowing unlimited usage.
-              type: number
-              example: 5000
+              $ref: '#/components/schemas/ApiKeyUsageCodePoints'
             documents:
-              description: |
-                Restricts the number of translated documents in a one-month usage period.
-
-                Setting the limit to `0` means the API key will not be able to translate documents.
-                Setting the limit to `null` disables the limit, effectively allowing unlimited usage.
-              type: number
-              example: 100
+              $ref: '#/components/schemas/ApiKeyUsageDocuments'
     Context:
       description: |-
         Additional context that can influence a translation but is not translated itself.
