@@ -74,6 +74,76 @@ tags:
 x-hideTryItPanel: true
 x-codeSamples: false
 paths:
+  /v2/admin/developer-keys:
+    post:
+      tags:
+      - AdminApi
+      summary: Create a developer key as an admin
+      operationId: adminCreateDeveloperKey
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: 
+                label:
+                  type: string
+                  description: Optional label for the API key.  
+      responses: 
+        200:
+          description: The create function returns a JSON representation of the created API key.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  key_id:
+                    description: The API key ID. Consists of two valid GUIDs separated by a colon.
+                    type: string
+                    example: ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38
+                  label:
+                    description: The API key label. The default value is `DeepL API Key`.
+                    type: string
+                    example: "developer key prod"
+                  creation_time:
+                    description: Timestamp when the key was created (ISO 8601 format)
+                    type: string
+                    example: "2025-07-08T08:15:29.362Z"
+                  disabled_time:
+                    description: Timestamp when the key was disabled (ISO 8601 format). The default value is `null`.
+                    type: string
+                    example: "2025-07-09T08:15:29.362Z"
+                  is_disabled:
+                    description: Flag indicating whether the API key is disabled. The default value is `false`.
+                    type: boolean
+                    example: true
+                  usage_limits:
+                    description: Usage limits for the API key.
+                    type: object
+                    properties:
+                      code_points:
+                        description: |
+                          Restricts the number of total characters (across text translation, document translation, and text improvement) that can be consumed by an API key in a one-month usage period.
+                          
+                          Setting the limit to `0` means the API key will not be able to consume characters.
+                          Setting the limit to `null` disables the limit, effectively allowing unlimited usage.
+                        type: number
+                        example: 5000
+                      documents:
+                        description: |
+                          Restricts the number of translated documents in a one-month usage period.
+                          
+                          Setting the limit to `0` means the API key will not be able to translate documents.
+                          Setting the limit to `null` disables the limit, effectively allowing unlimited usage.
+                        type: number
+                        example: 100      
+        403:
+          $ref: '#/components/responses/Forbidden'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - auth_header: [ ]
   /v2/translate:
     post:
       tags:
@@ -614,7 +684,7 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+      - auth_header: []        
   /v3/glossaries:
     post:
       tags:

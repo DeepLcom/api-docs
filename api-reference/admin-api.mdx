@@ -113,9 +113,10 @@ The key ID is composed of two GUIDs separated by the `:` symbol.
 
 `PUT /v2/admin/developer-keys/limits`
 
-Key-level limits restrict the number of total characters 
-(across text translation, document translation, and text improvement) that can be consumed by an API key in a 
-one-month usage period.
+Key-level limits restrict:
+* The number of total characters (across text translation, document translation, and text 
+improvement) that can be consumed by an API key in a one-month usage period.
+* The number of translated documents in a one-month usage period.
 
 For example, if you set a key-level usage limit of 1,000,000 characters, the API key will not consume more than 1,000,000 characters per usage period.
 
@@ -127,11 +128,11 @@ As with subscription-level cost control:
 * The API will respond with `456 Quota exceeded` errors when 100% of a key-level limit has been reached
 
 <Info>
-    Setting the limit to 0 means the API key will not be able to consume characters.
+    Setting a limit to `0` means the API key will not be able to consume characters, or translate documents.
 </Info>
 
 <Info>
-    Setting the limit to `null` disables the limits, effectively allowing unlimited usage.
+    Setting a limit to `null` disables the limit, effectively allowing unlimited usage.
 </Info>
 
 <Tabs>
