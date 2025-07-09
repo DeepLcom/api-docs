@@ -45,14 +45,6 @@
             ]
           },
           {
-            "group": "Admin API",
-            "pages": [
-              "docs/admin-api/intro",
-              "docs/admin-api/managing-admin-keys",
-              "docs/admin-api/managing-developer-keys"
-            ]
-          },
-          {
             "group": "Learning & How Tos",
             "pages": [
               { 
@@ -93,6 +85,14 @@
               "docs/xml-and-html-handling/structured-content",
               "docs/xml-and-html-handling/customized-xml-outline-detection",
               "docs/xml-and-html-handling/html"
+            ]
+          },
+          {
+            "group": "Admin API",
+            "pages": [
+              "docs/admin-api/intro",
+              "docs/admin-api/managing-admin-keys",
+              "docs/admin-api/managing-developer-keys"
             ]
           },
           {
