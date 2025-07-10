@@ -1846,8 +1846,10 @@ components:
   securitySchemes:
     auth_header:
       type: apiKey
-      description: Authentication with `Authorization` header and `DeepL-Auth-Key`
-        authentication scheme
+      description: >
+        Authentication with `Authorization` header and 
+        `DeepL-Auth-Key` authentication scheme. Example: 
+        `'Authorization: DeepL-Auth-Key <api-key>'`
       name: Authorization
       in: header
   schemas:
