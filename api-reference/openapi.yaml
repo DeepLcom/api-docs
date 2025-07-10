@@ -96,8 +96,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiKey'
+        400:
+          $ref: '#/components/responses/BadRequest'
         403:
           $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
         500:
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -116,8 +120,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ApiKey'
+        400:
+          $ref: '#/components/responses/BadRequest'
         403:
           $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
         500:
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -146,8 +154,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiKey'
+        400:
+          $ref: '#/components/responses/BadRequest'
         403:
           $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
         500:
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -181,8 +193,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiKey'
+        400:
+          $ref: '#/components/responses/BadRequest'
         403:
           $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
         500:
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -215,8 +231,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiKey'
+        400:
+          $ref: '#/components/responses/BadRequest'
         403:
           $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
         500:
           $ref: '#/components/responses/InternalServerError'
       security:
