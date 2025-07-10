@@ -134,6 +134,8 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - key_id
               properties:
                 key_id:
                   $ref: '#/components/schemas/ApiKeyId'          
@@ -162,6 +164,9 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+              - key_id
+              - label
               properties:
                 key_id:
                   $ref: '#/components/schemas/ApiKeyId'
@@ -194,6 +199,8 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+              - key_id
               properties:
                 key_id:
                   $ref: '#/components/schemas/ApiKeyId'
