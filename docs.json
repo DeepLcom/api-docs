@@ -88,14 +88,6 @@
             ]
           },
           {
-            "group": "Admin API",
-            "pages": [
-              "docs/admin-api/intro",
-              "docs/admin-api/managing-admin-keys",
-              "docs/admin-api/managing-developer-keys"
-            ]
-          },
-          {
             "group": "Resources",
             "pages": [
               "docs/resources/release-notes",
@@ -189,6 +181,9 @@
                 "group": "Admin API",
                 "pages": [
                   "api-reference/admin-api",
+                  "docs/admin-api/intro",
+                  "docs/admin-api/managing-admin-keys",
+                  "docs/admin-api/managing-developer-keys",
                   "api-reference/admin-api/managing-developer-keys/create-key",
                   "api-reference/admin-api/managing-developer-keys/get-keys",
                   "api-reference/admin-api/managing-developer-keys/disable-key",
