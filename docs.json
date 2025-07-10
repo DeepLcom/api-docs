@@ -181,7 +181,6 @@
                 "group": "Admin API",
                 "pages": [
                   "api-reference/admin-api",
-                  "api-reference/admin-api/intro",
                   "api-reference/admin-api/managing-admin-keys",
                   "api-reference/admin-api/managing-developer-keys",
                   "api-reference/admin-api/managing-developer-keys/create-key",
