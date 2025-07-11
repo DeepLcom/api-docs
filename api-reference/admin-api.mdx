@@ -47,6 +47,19 @@ Up to 25 simultaneously active API keys are allowed.
           "label": "admin-key"
         }'
         ```
+        ```json Example response
+        {
+            "key_id": "ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38",
+            "label": "developer key prod",
+            "creation_time": "2025-07-08T08:15:29.362Z",
+            "disabled_time": "2025-07-09T08:15:29.362Z",
+            "is_disabled": true,
+            "usage_limits": {
+                "code_points": 5000,
+                "documents": 100
+            }
+        }
+        ```
     </Tab>
 </Tabs>
 
@@ -62,6 +75,21 @@ This method will return both active and deactivated keys.
         curl -X GET 'https://api.deepl.com/v2/admin/developer-keys' \
         --header 'Authorization: DeepL-Auth-Key [yourAdminKey]' \
         --header 'Content-Type: application/json'
+        ```
+        ```json Example response
+        [
+            {
+                "key_id": "ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38",
+                "label": "developer key prod",
+                "creation_time": "2025-07-08T08:15:29.362Z",
+                "disabled_time": "2025-07-09T08:15:29.362Z",
+                "is_disabled": true,
+                "usage_limits": {
+                    "code_points": 5000,
+                    "documents": 100
+                }
+            }
+        ]
         ```
     </Tab>
 </Tabs>
@@ -86,6 +114,19 @@ To disable a key, pass its ID in the request, as shown below. The key ID is comp
           "key_id": "GUID:GUID"
         }'
         ```
+        ```json Example response
+        {
+            "key_id": "ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38",
+            "label": "developer key prod",
+            "creation_time": "2025-07-08T08:15:29.362Z",
+            "disabled_time": "2025-07-09T08:15:29.362Z",
+            "is_disabled": true,
+            "usage_limits": {
+                "code_points": 5000,
+                "documents": 100
+            }
+        }
+        ```
     </Tab>
 </Tabs>
 
@@ -106,6 +147,19 @@ The key ID is composed of two GUIDs separated by the `:` symbol.
           "key_id": "GUID:GUID",
           "label": "admin-key-prod"
         }'
+        ```
+        ```json Example response
+        {
+            "key_id": "ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38",
+            "label": "developer key prod",
+            "creation_time": "2025-07-08T08:15:29.362Z",
+            "disabled_time": "2025-07-09T08:15:29.362Z",
+            "is_disabled": true,
+            "usage_limits": {
+                "code_points": 5000,
+                "documents": 100
+            }
+        }
         ```
     </Tab>
 </Tabs>
@@ -169,6 +223,19 @@ As with subscription-level cost control:
           "code_points": null,
           "documents": null
         }'
+        ```
+        ```json Example response
+        {
+            "key_id": "ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38",
+            "label": "developer key prod",
+            "creation_time": "2025-07-08T08:15:29.362Z",
+            "disabled_time": "2025-07-09T08:15:29.362Z",
+            "is_disabled": true,
+            "usage_limits": {
+                "code_points": 5000,
+                "documents": 100
+            }
+        }
         ```
     </Tab>
 </Tabs>
