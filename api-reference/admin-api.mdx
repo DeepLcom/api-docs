@@ -52,11 +52,10 @@ Up to 25 simultaneously active API keys are allowed.
             "key_id": "ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38",
             "label": "developer key prod",
             "creation_time": "2025-07-08T08:15:29.362Z",
-            "disabled_time": "2025-07-09T08:15:29.362Z",
-            "is_disabled": true,
+            "deactivated_time": "2025-07-09T08:15:29.362Z",
+            "is_deactivated": true,
             "usage_limits": {
-                "code_points": 5000,
-                "documents": 100
+                "characters": 5000
             }
         }
         ```
@@ -96,11 +95,10 @@ This method will return both active and deactivated keys.
                 "key_id": "ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38",
                 "label": "developer key prod",
                 "creation_time": "2025-07-08T08:15:29.362Z",
-                "disabled_time": "2025-07-09T08:15:29.362Z",
-                "is_disabled": true,
+                "deactivated_time": "2025-07-09T08:15:29.362Z",
+                "is_deactivated": true,
                 "usage_limits": {
-                    "code_points": 5000,
-                    "documents": 100
+                    "characters": 5000
                 }
             }
         ]
@@ -118,20 +116,20 @@ This method will return both active and deactivated keys.
     </Tab>
 </Tabs>
 
-#### Disable a developer key
+#### Deactivate a developer key
 
-`PUT /v2/admin/developer-keys/disable`
+`PUT /v2/admin/developer-keys/deactivate`
 
 <Warning>
     **IMPORTANT:** An API key will stop working immediately when deactivated. After a key is deactivated, it cannot be reactivated—deactivating a key is permanent!
 </Warning>
 
-To disable a key, pass its ID in the request, as shown below. The key ID is composed of two GUIDs separated by the `:` symbol.
+To deactivate a key, pass its ID in the request, as shown below. The key ID is composed of two GUIDs separated by the `:` symbol.
 
 <Tabs>
     <Tab title="cURL">
-        ```sh Example request: Disable a developer key as an admin
-        curl -X PUT 'https://api.deepl.com/v2/admin/developer-keys/disable' \
+        ```sh Example request: Deactivate a developer key as an admin
+        curl -X PUT 'https://api.deepl.com/v2/admin/developer-keys/deactivate' \
         --header 'Authorization: DeepL-Auth-Key [yourAdminKey]' \
         --header 'Content-Type: application/json' \
         --data '{
@@ -143,18 +141,17 @@ To disable a key, pass its ID in the request, as shown below. The key ID is comp
             "key_id": "ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38",
             "label": "developer key prod",
             "creation_time": "2025-07-08T08:15:29.362Z",
-            "disabled_time": "2025-07-09T08:15:29.362Z",
-            "is_disabled": true,
+            "deactivated_time": "2025-07-09T08:15:29.362Z",
+            "is_deactivated": true,
             "usage_limits": {
-                "code_points": 5000,
-                "documents": 100
+                "characters": 5000
             }
         }
         ```
     </Tab>
     <Tab title="HTTP Request">
         ```http
-        PUT /v2/admin/developer-keys/disable HTTP/2
+        PUT /v2/admin/developer-keys/deactivate HTTP/2
         Host: api.deepl.com
         Authorization: DeepL-Auth-Key [yourAdminKey]
         User-Agent: YourApp/1.2.3
@@ -191,11 +188,10 @@ The key ID is composed of two GUIDs separated by the `:` symbol.
             "key_id": "ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38",
             "label": "developer key prod",
             "creation_time": "2025-07-08T08:15:29.362Z",
-            "disabled_time": "2025-07-09T08:15:29.362Z",
-            "is_disabled": true,
+            "deactivated_time": "2025-07-09T08:15:29.362Z",
+            "is_deactivated": true,
             "usage_limits": {
-                "code_points": 5000,
-                "documents": 100
+                "characters": 5000
             }
         }
         ```
@@ -221,10 +217,8 @@ The key ID is composed of two GUIDs separated by the `:` symbol.
 
 `PUT /v2/admin/developer-keys/limits`
 
-Key-level limits restrict:
-* The number of total characters (across text translation, document translation, and text 
+Key-level limits restrict the number of total characters (across text translation, document translation, and text 
 improvement) that can be consumed by an API key in a one-month usage period.
-* The number of translated documents in a one-month usage period.
 
 For example, if you set a key-level usage limit of 1,000,000 characters, the API key will not consume more than 1,000,000 characters per usage period.
 
@@ -236,11 +230,11 @@ As with subscription-level cost control:
 * The API will respond with `456 Quota exceeded` errors when 100% of a key-level limit has been reached
 
 <Info>
-    Setting a limit to `0` means the API key will not be able to consume characters, or translate documents.
+    Setting the limit to `0` means the API key will not be able to consume characters.
 </Info>
 
 <Info>
-    Setting a limit to `null` disables the limit, effectively allowing unlimited usage.
+    Setting the limit to `null` disables the limit, effectively allowing unlimited usage.
 </Info>
 
 <Tabs>
@@ -251,19 +245,17 @@ As with subscription-level cost control:
         --header 'Content-Type: application/json' \
         --data '{
           "key_id": "GUID:GUID",
-          "code_points": 1000,
-          "documents": 100
+          "characters": 1000
         }'
         ```
 
-        ```sh Example request: Prevent usage of a developer key as an admin
+        ```sh Example request: Prevent using a developer key as an admin
         curl -X PUT 'https://api.deepl.com/v2/admin/developer-keys/limits' \
         --header 'Authorization: DeepL-Auth-Key [yourAdminKey]' \
         --header 'Content-Type: application/json' \
         --data '{
           "key_id": "GUID:GUID",
-          "code_points": 0,
-          "documents": 0
+          "characters": 0
         }'
         ```
 
@@ -273,8 +265,7 @@ As with subscription-level cost control:
         --header 'Content-Type: application/json' \
         --data '{
           "key_id": "GUID:GUID",
-          "code_points": null,
-          "documents": null
+          "characters": null
         }'
         ```
         ```json Example response
@@ -282,11 +273,10 @@ As with subscription-level cost control:
             "key_id": "ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38",
             "label": "developer key prod",
             "creation_time": "2025-07-08T08:15:29.362Z",
-            "disabled_time": "2025-07-09T08:15:29.362Z",
-            "is_disabled": true,
+            "deactivated_time": "2025-07-09T08:15:29.362Z",
+            "is_deactivated": true,
             "usage_limits": {
-                "code_points": 5000,
-                "documents": 100
+                "characters": 5000
             }
         }
         ```
@@ -302,8 +292,7 @@ As with subscription-level cost control:
 
         {
             "key_id": "GUID:GUID",
-            "code_points": 1000,
-            "documents": 100
+            "characters": 1000
         }
         ```
     </Tab>

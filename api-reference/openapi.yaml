@@ -130,12 +130,12 @@ paths:
           $ref: '#/components/responses/InternalServerError'
       security:
         - auth_header: [ ]
-  /v2/admin/developer-keys/disable:
+  /v2/admin/developer-keys/deactivate:
     put:
       tags:
         - AdminApi
-      summary: Disable a developer key as an admin
-      operationId: adminDisableDeveloperKey
+      summary: Deactivate a developer key as an admin
+      operationId: adminDeactivateDeveloperKey
       requestBody:
         required: true
         content:
@@ -149,7 +149,7 @@ paths:
                   $ref: '#/components/schemas/ApiKeyId'          
       responses:
         200:
-          description: The disable function returns a JSON representation of the disabled API key.
+          description: The deactivate function returns a JSON representation of the deactivated API key.
           content:
             application/json:
               schema:
@@ -220,10 +220,8 @@ paths:
               properties:
                 key_id:
                   $ref: '#/components/schemas/ApiKeyId'
-                code_points:
-                  $ref: '#/components/schemas/ApiKeyUsageCodePoints'
-                documents:
-                  $ref: '#/components/schemas/ApiKeyUsageDocuments'
+                characters:
+                  $ref: '#/components/schemas/ApiKeyUsageCharacters'
       responses:
         200:
           description: The set usage limits function returns a JSON representation of the modified API key.
@@ -1861,7 +1859,7 @@ components:
       description: API key label. The default value is `DeepL API Key`.
       type: string
       example: "developer key prod"
-    ApiKeyUsageCodePoints:
+    ApiKeyUsageCharacters:
       description: |
         Restricts the number of total characters (across text translation, document translation, and text improvement) that can be consumed by an API key in a one-month usage period.
 
@@ -1869,14 +1867,6 @@ components:
         Setting the limit to `null` disables the limit, effectively allowing unlimited usage.
       type: number
       example: 5000
-    ApiKeyUsageDocuments:
-      description: |
-        Restricts the number of translated documents in a one-month usage period.
-
-        Setting the limit to `0` means the API key will not be able to translate documents.
-        Setting the limit to `null` disables the limit, effectively allowing unlimited usage.
-      type: number
-      example: 100
     ApiKey:
       description: The API key.
       type: object
@@ -1889,22 +1879,20 @@ components:
           description: Timestamp when the key was created (ISO 8601 format)
           type: string
           example: "2025-07-08T08:15:29.362Z"
-        disabled_time:
-          description: Timestamp when the key was disabled (ISO 8601 format). The default value is `null`.
+        deactivated_time:
+          description: Timestamp when the key was deactivated (ISO 8601 format). The default value is `null`.
           type: string
           example: "2025-07-09T08:15:29.362Z"
-        is_disabled:
-          description: Flag indicating whether the API key is disabled. The default value is `false`.
+        is_deactivated:
+          description: Flag indicating whether the API key is deactivated. The default value is `false`.
           type: boolean
           example: true
         usage_limits:
           description: Usage limits for the API key.
           type: object
           properties:
-            code_points:
-              $ref: '#/components/schemas/ApiKeyUsageCodePoints'
-            documents:
-              $ref: '#/components/schemas/ApiKeyUsageDocuments'
+            characters:
+              $ref: '#/components/schemas/ApiKeyUsageCharacters'
     Context:
       description: |-
         Additional context that can influence a translation but is not translated itself.

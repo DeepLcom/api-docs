@@ -185,7 +185,7 @@
                   "api-reference/admin-api/managing-developer-keys",
                   "api-reference/admin-api/managing-developer-keys/create-key",
                   "api-reference/admin-api/managing-developer-keys/get-keys",
-                  "api-reference/admin-api/managing-developer-keys/disable-key",
+                  "api-reference/admin-api/managing-developer-keys/deactivate-key",
                   "api-reference/admin-api/managing-developer-keys/rename-key",
                   "api-reference/admin-api/managing-developer-keys/set-usage-limits"
                 ]
