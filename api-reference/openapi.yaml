@@ -74,10 +74,175 @@ tags:
 x-hideTryItPanel: true
 x-codeSamples: false
 paths:
+  /v2/admin/developer-keys:
+    post:
+      tags:
+        - AdminApi
+      summary: Create a developer key as an admin
+      operationId: adminCreateDeveloperKey
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                label:
+                  $ref: '#/components/schemas/ApiKeyLabel'
+      responses:
+        200:
+          description: The create function returns a JSON representation of the created API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - auth_header: [ ]
+    get:
+      tags:
+        - AdminApi
+      summary: Get all developer keys as an admin
+      operationId: adminGetDeveloperKeys
+      responses:
+        200:
+          description: The get function returns a JSON representation of all developer API keys in the organization.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiKey'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - auth_header: [ ]
+  /v2/admin/developer-keys/deactivate:
+    put:
+      tags:
+        - AdminApi
+      summary: Deactivate a developer key as an admin
+      operationId: adminDeactivateDeveloperKey
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - key_id
+              properties:
+                key_id:
+                  $ref: '#/components/schemas/ApiKeyId'          
+      responses:
+        200:
+          description: The deactivate function returns a JSON representation of the deactivated API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - auth_header: [ ]
+  /v2/admin/developer-keys/label:
+    put:
+      tags:
+        - AdminApi
+      summary: Rename a developer key as an admin
+      operationId: adminRenameDeveloperKey
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - key_id
+              - label
+              properties:
+                key_id:
+                  $ref: '#/components/schemas/ApiKeyId'
+                label:
+                  type: string
+                  description: API key label.
+                  example: developer key prod
+      responses:
+        200:
+          description: The set label function returns a JSON representation of the renamed API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - auth_header: [ ]
+  /v2/admin/developer-keys/limits:
+    put:
+      tags:
+        - AdminApi
+      summary: Set developer key usage limits as an admin
+      operationId: adminSetDeveloperKeyUsageLimits
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - key_id
+              properties:
+                key_id:
+                  $ref: '#/components/schemas/ApiKeyId'
+                characters:
+                  $ref: '#/components/schemas/ApiKeyUsageCharacters'
+      responses:
+        200:
+          description: The set usage limits function returns a JSON representation of the modified API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - auth_header: [ ]
   /v2/translate:
     post:
       tags:
-      - TranslateText
+        - TranslateText
       summary: Request Translation
       operationId: translateText
       requestBody:
@@ -87,8 +252,8 @@ paths:
             schema:
               type: object
               required:
-              - text
-              - target_lang
+                - text
+                - target_lang
               properties:
                 text:
                   description: |-
@@ -117,9 +282,9 @@ paths:
                   $ref: '#/components/schemas/ModelType'
                 glossary_id:
                   description: |-
-                      Specify the glossary to use for the translation. **Important:** This requires the `source_lang`
-                      parameter to be set. The language pair of the glossary has to match the language pair of the
-                      request.
+                    Specify the glossary to use for the translation. **Important:** This requires the `source_lang`
+                    parameter to be set. The language pair of the glossary has to match the language pair of the
+                    request.
                   type: string
                   example: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
                 tag_handling:
@@ -148,8 +313,8 @@ paths:
             schema:
               type: object
               required:
-              - text
-              - target_lang
+                - text
+                - target_lang
               properties:
                 text:
                   description: Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be
@@ -177,9 +342,9 @@ paths:
                   $ref: '#/components/schemas/ModelType'
                 glossary_id:
                   description: |-
-                      Specify the glossary to use for the translation. **Important:** This requires the `source_lang`
-                      parameter to be set. The language pair of the glossary has to match the language pair of the
-                      request.
+                    Specify the glossary to use for the translation. **Important:** This requires the `source_lang`
+                    parameter to be set. The language pair of the glossary has to match the language pair of the
+                    request.
                   type: string
                   example: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
                 tag_handling:
@@ -234,7 +399,7 @@ paths:
                           type: string
                           example: Hallo, Welt!
                         billed_characters:
-                          description: Number of characters counted by DeepL for billing purposes. 
+                          description: Number of characters counted by DeepL for billing purposes.
                             Only present if the show_billed_characters parameter is set to true.
                           type: integer
                           example: 42
@@ -265,11 +430,11 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
   /v2/document:
     post:
       tags:
-      - TranslateDocuments
+        - TranslateDocuments
       summary: Upload and Translate a Document
       operationId: translateDocument
       requestBody:
@@ -292,8 +457,8 @@ paths:
             schema:
               type: object
               required:
-              - target_lang
-              - file
+                - target_lang
+                - file
               properties:
                 source_lang:
                   $ref: '#/components/schemas/SourceLanguage'
@@ -372,15 +537,15 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
   /v2/document/{document_id}:
     post:
       tags:
-      - TranslateDocuments
+        - TranslateDocuments
       summary: Check Document Status
       operationId: getDocumentStatus
       parameters:
-      - $ref: '#/components/parameters/DocumentID'
+        - $ref: '#/components/parameters/DocumentID'
       requestBody:
         required: true
         content:
@@ -407,8 +572,8 @@ paths:
               schema:
                 type: object
                 required:
-                - document_id
-                - status
+                  - document_id
+                  - status
                 properties:
                   document_id:
                     description: A unique ID assigned to the uploaded document and
@@ -426,10 +591,10 @@ paths:
                     type: string
                     example: done
                     enum:
-                    - queued
-                    - translating
-                    - done
-                    - error
+                      - queued
+                      - translating
+                      - done
+                      - error
                   seconds_remaining:
                     description: |-
                       Estimated number of seconds until the translation is done.
@@ -491,15 +656,15 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
   /v2/document/{document_id}/result:
     post:
       tags:
-      - TranslateDocuments
+        - TranslateDocuments
       summary: Download Translated Document
       operationId: downloadDocument
       parameters:
-      - $ref: '#/components/parameters/DocumentID'
+        - $ref: '#/components/parameters/DocumentID'
       requestBody:
         required: true
         content:
@@ -549,11 +714,11 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
   /v2/glossary-language-pairs:
     get:
       tags:
-      - ManageGlossaries
+        - ManageGlossaries
       summary: List Language Pairs Supported by Glossaries
       description: Retrieve the list of language pairs supported by the glossary feature.
       operationId: listGlossaryLanguages
@@ -572,8 +737,8 @@ paths:
                     items:
                       type: object
                       required:
-                      - source_lang
-                      - target_lang
+                        - source_lang
+                        - target_lang
                       properties:
                         source_lang:
                           description: The language in which the source texts in the
@@ -587,10 +752,10 @@ paths:
                           example: de
               example:
                 supported_languages:
-                - source_lang: de
-                  target_lang: en
-                - source_lang: en
-                  target_lang: de
+                  - source_lang: de
+                    target_lang: en
+                  - source_lang: en
+                    target_lang: de
         400:
           $ref: '#/components/responses/BadRequestGlossaries'
         401:
@@ -614,11 +779,11 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
   /v3/glossaries:
     post:
       tags:
-      - ManageMultilingualGlossaries
+        - ManageMultilingualGlossaries
       summary: Create a Glossary
       operationId: createMultilingualGlossary
       requestBody:
@@ -632,14 +797,14 @@ paths:
                 value:
                   name: My Glossary
                   dictionaries:
-                  - source_lang: en
-                    target_lang: de
-                    entries: "Hello\tGuten Tag"
-                    entries_format: tsv
-                  - source_lang: de
-                    target_lang: en
-                    entries: "Guten Tag\tHello"
-                    entries_format: tsv
+                    - source_lang: en
+                      target_lang: de
+                      entries: "Hello\tGuten Tag"
+                      entries_format: tsv
+                    - source_lang: de
+                      target_lang: en
+                      entries: "Guten Tag\tHello"
+                      entries_format: tsv
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/CreateMultilingualGlossaryParameters'
@@ -675,10 +840,10 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
     get:
       tags:
-      - ManageMultilingualGlossaries
+        - ManageMultilingualGlossaries
       summary: List all Glossaries
       operationId: listMultilingualGlossaries
       description: List all glossaries and their meta-information, but not the glossary
@@ -697,16 +862,16 @@ paths:
                       $ref: '#/components/schemas/MultilingualGlossary'
               example:
                 glossaries:
-                - glossary_id: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
-                  name: My Glossary
-                  dictionaries:
-                  - source_lang: EN
-                    target_lang: DE
-                    entry_count: 1
-                  - source_lang: DE
-                    target_lang: EN
-                    entry_count: 2
-                  creation_time: '2021-08-03T14:16:18.329Z'
+                  - glossary_id: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
+                    name: My Glossary
+                    dictionaries:
+                      - source_lang: EN
+                        target_lang: DE
+                        entry_count: 1
+                      - source_lang: DE
+                        target_lang: EN
+                        entry_count: 2
+                    creation_time: '2021-08-03T14:16:18.329Z'
         401:
           $ref: '#/components/responses/Unauthorized'
         403:
@@ -728,17 +893,17 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
   /v3/glossaries/{glossary_id}:
     get:
       tags:
-      - ManageMultilingualGlossaries
+        - ManageMultilingualGlossaries
       summary: Retrieve Glossary Details
       description: Retrieve meta information for a single glossary, omitting the glossary
         entries.
       operationId: getMultilingualGlossary
       parameters:
-      - $ref: '#/components/parameters/GlossaryID'
+        - $ref: '#/components/parameters/GlossaryID'
       responses:
         200:
           description: JSON object containing the glossary meta-information.
@@ -750,12 +915,12 @@ paths:
                 glossary_id: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
                 name: My Glossary
                 dictionaries:
-                - source_lang: EN
-                  target_lang: DE
-                  entry_count: 1
-                - source_lang: DE
-                  target_lang: EN
-                  entry_count: 2
+                  - source_lang: EN
+                    target_lang: DE
+                    entry_count: 1
+                  - source_lang: DE
+                    target_lang: EN
+                    entry_count: 2
                 creation_time: '2021-08-03T14:16:18.429Z'
         401:
           $ref: '#/components/responses/Unauthorized'
@@ -778,15 +943,15 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
     patch:
       tags:
-      - ManageMultilingualGlossaries
+        - ManageMultilingualGlossaries
       summary: Edit glossary details
       description: Edit glossary details, such as name or a dictionary for a source and target language.
       operationId: patchMultilingualGlossary
       parameters:
-      - $ref: '#/components/parameters/GlossaryID'
+        - $ref: '#/components/parameters/GlossaryID'
       requestBody:
         required: true
         content:
@@ -816,14 +981,14 @@ paths:
                 glossary_id: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
                 name: My Glossary
                 dictionaries:
-                - source_lang: EN
-                  target_lang: DE
-                  creation_time: '2021-08-03T14:16:18.329Z'
-                  entry_count: 1
-                - source_lang: DE
-                  target_lang: EN
-                  creation_time: '2021-08-03T14:16:18.429Z'
-                  entry_count: 2
+                  - source_lang: EN
+                    target_lang: DE
+                    creation_time: '2021-08-03T14:16:18.329Z'
+                    entry_count: 1
+                  - source_lang: DE
+                    target_lang: EN
+                    creation_time: '2021-08-03T14:16:18.429Z'
+                    entry_count: 2
         400:
           $ref: '#/components/responses/BadRequestGlossaries'
         401:
@@ -847,15 +1012,15 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
     delete:
       tags:
-      - ManageMultilingualGlossaries
+        - ManageMultilingualGlossaries
       summary: Delete a Glossary
       description: Deletes the specified glossary.
       operationId: deleteMultilingualGlossary
       parameters:
-      - $ref: '#/components/parameters/GlossaryID'
+        - $ref: '#/components/parameters/GlossaryID'
       responses:
         204:
           description: Returns no content upon success.
@@ -882,26 +1047,26 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
   /v3/glossaries/{glossary_id}/entries:
     get:
       tags:
-      - ManageMultilingualGlossaries
+        - ManageMultilingualGlossaries
       summary: Retrieve Glossary Entries
       operationId: getMultilingualGlossaryEntries
       description: List the entries of a single glossary in tsv format.
       parameters:
-      - $ref: '#/components/parameters/GlossaryID'
-      - name: source_lang
-        in: query
-        required: true
-        schema:
-          $ref: '#/components/schemas/GlossarySourceLanguage'
-      - name: target_lang
-        in: query
-        required: true
-        schema:
-          $ref: '#/components/schemas/GlossaryTargetLanguage'
+        - $ref: '#/components/parameters/GlossaryID'
+        - name: source_lang
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/GlossarySourceLanguage'
+        - name: target_lang
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/GlossaryTargetLanguage'
       responses:
         200:
           description: The entries in tsv, wrapped in a JSON object.
@@ -932,7 +1097,7 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
   /v3/glossaries/{glossary_id}/dictionaries:
     delete:
       tags:
@@ -940,17 +1105,17 @@ paths:
       summary: Deletes the dictionary associated with the given language pair with the given glossary ID.
       operationId: deleteDictionary
       parameters:
-      - $ref: '#/components/parameters/GlossaryID'
-      - name: source_lang
-        in: query
-        required: true
-        schema:
-          $ref: '#/components/schemas/GlossarySourceLanguage'
-      - name: target_lang
-        in: query
-        required: true
-        schema:
-          $ref: '#/components/schemas/GlossaryTargetLanguage'
+        - $ref: '#/components/parameters/GlossaryID'
+        - name: source_lang
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/GlossarySourceLanguage'
+        - name: target_lang
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/GlossaryTargetLanguage'
       responses:
         204:
           description: Returns no content upon success.
@@ -977,7 +1142,7 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
     put:
       tags:
         - ManageMultilingualGlossaries
@@ -1025,11 +1190,11 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
   /v2/glossaries:
     post:
       tags:
-      - ManageGlossaries
+        - ManageGlossaries
       summary: Create a Glossary
       operationId: createGlossary
       requestBody:
@@ -1081,10 +1246,10 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
     get:
       tags:
-      - ManageGlossaries
+        - ManageGlossaries
       summary: List all Glossaries
       operationId: listGlossaries
       description: List all glossaries and their meta-information, but not the glossary
@@ -1103,13 +1268,13 @@ paths:
                       $ref: '#/components/schemas/MonolingualGlossary'
               example:
                 glossaries:
-                - glossary_id: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
-                  name: My Glossary
-                  ready: true
-                  source_lang: EN
-                  target_lang: DE
-                  creation_time: '2021-08-03T14:16:18.329Z'
-                  entry_count: 1
+                  - glossary_id: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
+                    name: My Glossary
+                    ready: true
+                    source_lang: EN
+                    target_lang: DE
+                    creation_time: '2021-08-03T14:16:18.329Z'
+                    entry_count: 1
         400:
           $ref: '#/components/responses/BadRequestGlossaries'
         401:
@@ -1133,17 +1298,17 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
   /v2/glossaries/{glossary_id}:
     get:
       tags:
-      - ManageGlossaries
+        - ManageGlossaries
       summary: Retrieve Glossary Details
       description: Retrieve meta information for a single glossary, omitting the glossary
         entries.
       operationId: getGlossary
       parameters:
-      - $ref: '#/components/parameters/GlossaryID'
+        - $ref: '#/components/parameters/GlossaryID'
       responses:
         200:
           description: JSON object containing the glossary meta-information.
@@ -1182,15 +1347,15 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
     delete:
       tags:
-      - ManageGlossaries
+        - ManageGlossaries
       summary: Delete a Glossary
       description: Deletes the specified glossary.
       operationId: deleteGlossary
       parameters:
-      - $ref: '#/components/parameters/GlossaryID'
+        - $ref: '#/components/parameters/GlossaryID'
       responses:
         204:
           description: Returns no content upon success.
@@ -1217,32 +1382,32 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
   /v2/glossaries/{glossary_id}/entries:
     get:
       tags:
-      - ManageGlossaries
+        - ManageGlossaries
       summary: Retrieve Glossary Entries
       operationId: getGlossaryEntries
       description: List the entries of a single glossary in the format specified by
         the `Accept` header.
       parameters:
-      - $ref: '#/components/parameters/GlossaryID'
-      - name: Accept
-        in: header
-        schema:
-          type: string
-          enum:
-          - text/tab-separated-values
-          default: text/tab-separated-values
-        description: The requested format of the returned glossary entries. Currently,
-          supports only `text/tab-separated-values`.
-        examples:
-          tsv:
-            summary: Tab-separated Values
-            value:
-              in: header
-              Accept: text/tab-separated-values
+        - $ref: '#/components/parameters/GlossaryID'
+        - name: Accept
+          in: header
+          schema:
+            type: string
+            enum:
+              - text/tab-separated-values
+            default: text/tab-separated-values
+          description: The requested format of the returned glossary entries. Currently,
+            supports only `text/tab-separated-values`.
+          examples:
+            tsv:
+              summary: Tab-separated Values
+              value:
+                in: header
+                Accept: text/tab-separated-values
       responses:
         200:
           description: The entries in the requested format.
@@ -1272,7 +1437,7 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
   /v2/write/rephrase:
     post:
       tags:
@@ -1347,7 +1512,7 @@ paths:
   /v2/usage:
     get:
       tags:
-      - MetaInformation
+        - MetaInformation
       summary: Check Usage and Limits
       operationId: getUsage
       responses:
@@ -1359,7 +1524,7 @@ paths:
                 $ref: '#/components/schemas/UsageResponse'
               examples:
                 free:
-                  summary: Response for API users not on the Pro plan 
+                  summary: Response for API users not on the Pro plan
                   value:
                     character_count: 180118
                     character_limit: 1250000
@@ -1398,29 +1563,29 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
   /v2/languages:
     get:
       tags:
-      - MetaInformation
+        - MetaInformation
       summary: Retrieve Supported Languages
       operationId: getLanguages
       parameters:
-      - name: type
-        in: query
-        schema:
-          type: string
-          enum:
-          - source
-          - target
-          default: source
-        description: Supported values are "source" or "target". If type parameter is not included, defaults to "source".
-        examples:
-          target:
-            summary: Target Languages
-            value:
-              in: query
-              type: target
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum:
+              - source
+              - target
+            default: source
+          description: Supported values are "source" or "target". If type parameter is not included, defaults to "source".
+          examples:
+            target:
+              summary: Target Languages
+              value:
+                in: query
+                type: target
       responses:
         200:
           description: JSON array where each item represents a supported language.
@@ -1431,8 +1596,8 @@ paths:
                 items:
                   type: object
                   required:
-                  - language
-                  - name
+                    - language
+                    - name
                   properties:
                     language:
                       description: The language code of the given language.
@@ -1448,108 +1613,108 @@ paths:
                       type: boolean
                       example: true
               example:
-              - language: AR
-                name: Arabic
-                supports_formality: false
-              - language: BG
-                name: Bulgarian
-                supports_formality: false
-              - language: CS
-                name: Czech
-                supports_formality: false
-              - language: DA
-                name: Danish
-                supports_formality: false
-              - language: DE
-                name: German
-                supports_formality: true
-              - language: EL
-                name: Greek
-                supports_formality: false
-              - language: EN-GB
-                name: English (British)
-                supports_formality: false
-              - language: EN-US
-                name: English (American)
-                supports_formality: false
-              - language: ES
-                name: Spanish
-                supports_formality: true
-              - language: ET
-                name: Estonian
-                supports_formality: false
-              - language: FI
-                name: Finnish
-                supports_formality: false
-              - language: FR
-                name: French
-                supports_formality: true
-              - language: HU
-                name: Hungarian
-                supports_formality: false
-              - language: ID
-                name: Indonesian
-                supports_formality: false
-              - language: IT
-                name: Italian
-                supports_formality: true
-              - language: JA
-                name: Japanese
-                supports_formality: true
-              - language: KO
-                name: Korean
-                supports_formality: false
-              - language: LT
-                name: Lithuanian
-                supports_formality: false
-              - language: LV
-                name: Latvian
-                supports_formality: false
-              - language: NB
-                name: Norwegian (Bokmål)
-                supports_formality: false
-              - language: NL
-                name: Dutch
-                supports_formality: true
-              - language: PL
-                name: Polish
-                supports_formality: true
-              - language: PT-BR
-                name: Portuguese (Brazilian)
-                supports_formality: true
-              - language: PT-PT
-                name: Portuguese (European)
-                supports_formality: true
-              - language: RO
-                name: Romanian
-                supports_formality: false
-              - language: RU
-                name: Russian
-                supports_formality: true
-              - language: SK
-                name: Slovak
-                supports_formality: false
-              - language: SL
-                name: Slovenian
-                supports_formality: false
-              - language: SV
-                name: Swedish
-                supports_formality: false
-              - language: TR
-                name: Turkish
-                supports_formality: false
-              - language: UK
-                name: Ukrainian
-                supports_formality: false
-              - language: ZH
-                name: Chinese (simplified)
-                supports_formality: false
-              - language: ZH-HANS
-                name: Chinese (simplified)
-                supports_formality: false
-              - language: ZH-HANT
-                name: Chinese (traditional)
-                supports_formality: false
+                - language: AR
+                  name: Arabic
+                  supports_formality: false
+                - language: BG
+                  name: Bulgarian
+                  supports_formality: false
+                - language: CS
+                  name: Czech
+                  supports_formality: false
+                - language: DA
+                  name: Danish
+                  supports_formality: false
+                - language: DE
+                  name: German
+                  supports_formality: true
+                - language: EL
+                  name: Greek
+                  supports_formality: false
+                - language: EN-GB
+                  name: English (British)
+                  supports_formality: false
+                - language: EN-US
+                  name: English (American)
+                  supports_formality: false
+                - language: ES
+                  name: Spanish
+                  supports_formality: true
+                - language: ET
+                  name: Estonian
+                  supports_formality: false
+                - language: FI
+                  name: Finnish
+                  supports_formality: false
+                - language: FR
+                  name: French
+                  supports_formality: true
+                - language: HU
+                  name: Hungarian
+                  supports_formality: false
+                - language: ID
+                  name: Indonesian
+                  supports_formality: false
+                - language: IT
+                  name: Italian
+                  supports_formality: true
+                - language: JA
+                  name: Japanese
+                  supports_formality: true
+                - language: KO
+                  name: Korean
+                  supports_formality: false
+                - language: LT
+                  name: Lithuanian
+                  supports_formality: false
+                - language: LV
+                  name: Latvian
+                  supports_formality: false
+                - language: NB
+                  name: Norwegian (Bokmål)
+                  supports_formality: false
+                - language: NL
+                  name: Dutch
+                  supports_formality: true
+                - language: PL
+                  name: Polish
+                  supports_formality: true
+                - language: PT-BR
+                  name: Portuguese (Brazilian)
+                  supports_formality: true
+                - language: PT-PT
+                  name: Portuguese (European)
+                  supports_formality: true
+                - language: RO
+                  name: Romanian
+                  supports_formality: false
+                - language: RU
+                  name: Russian
+                  supports_formality: true
+                - language: SK
+                  name: Slovak
+                  supports_formality: false
+                - language: SL
+                  name: Slovenian
+                  supports_formality: false
+                - language: SV
+                  name: Swedish
+                  supports_formality: false
+                - language: TR
+                  name: Turkish
+                  supports_formality: false
+                - language: UK
+                  name: Ukrainian
+                  supports_formality: false
+                - language: ZH
+                  name: Chinese (simplified)
+                  supports_formality: false
+                - language: ZH-HANS
+                  name: Chinese (simplified)
+                  supports_formality: false
+                - language: ZH-HANT
+                  name: Chinese (traditional)
+                  supports_formality: false
         400:
           $ref: '#/components/responses/BadRequest'
         403:
@@ -1569,7 +1734,7 @@ paths:
         529:
           $ref: '#/components/responses/TooManyRequests'
       security:
-      - auth_header: []
+        - auth_header: [ ]
 components:
   parameters:
     DocumentID:
@@ -1679,11 +1844,55 @@ components:
   securitySchemes:
     auth_header:
       type: apiKey
-      description: Authentication with `Authorization` header and `DeepL-Auth-Key`
-        authentication scheme
+      description: >
+        Authentication with `Authorization` header and 
+        `DeepL-Auth-Key` authentication scheme. Example: 
+        `'Authorization: DeepL-Auth-Key <api-key>'`
       name: Authorization
       in: header
   schemas:
+    ApiKeyId:
+      description: API key ID. Consists of two valid GUIDs separated by a colon.
+      type: string
+      example: ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38
+    ApiKeyLabel:
+      description: API key label. The default value is `DeepL API Key`.
+      type: string
+      example: "developer key prod"
+    ApiKeyUsageCharacters:
+      description: |
+        Restricts the number of total characters (across text translation, document translation, and text improvement) that can be consumed by an API key in a one-month usage period.
+
+        Setting the limit to `0` means the API key will not be able to consume characters.
+        Setting the limit to `null` disables the limit, effectively allowing unlimited usage.
+      type: number
+      example: 5000
+    ApiKey:
+      description: The API key.
+      type: object
+      properties:
+        key_id:
+          $ref: '#/components/schemas/ApiKeyId'
+        label:
+          $ref: '#/components/schemas/ApiKeyLabel'
+        creation_time:
+          description: Timestamp when the key was created (ISO 8601 format)
+          type: string
+          example: "2025-07-08T08:15:29.362Z"
+        deactivated_time:
+          description: Timestamp when the key was deactivated (ISO 8601 format). The default value is `null`.
+          type: string
+          example: "2025-07-09T08:15:29.362Z"
+        is_deactivated:
+          description: Flag indicating whether the API key is deactivated. The default value is `false`.
+          type: boolean
+          example: true
+        usage_limits:
+          description: Usage limits for the API key.
+          type: object
+          properties:
+            characters:
+              $ref: '#/components/schemas/ApiKeyUsageCharacters'
     Context:
       description: |-
         Additional context that can influence a translation but is not translated itself.
