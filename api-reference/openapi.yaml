@@ -1847,7 +1847,7 @@ components:
       description: >
         Authentication with `Authorization` header and 
         `DeepL-Auth-Key` authentication scheme. Example: 
-        `'Authorization: DeepL-Auth-Key <api-key>'`
+        `DeepL-Auth-Key <api-key>`
       name: Authorization
       in: header
   schemas:
