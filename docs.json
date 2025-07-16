@@ -239,7 +239,7 @@
     "playground": {
       "proxy": false
     },
-    "openapi": "https://raw.githubusercontent.com/DeepLcom/openapi/main/openapi-gitbook.yaml"
+    "openapi": "https://raw.githubusercontent.com/DeepLcom/openapi/main/openapi_gitbook.yaml"
   },
   "errors": {
     "404": {
