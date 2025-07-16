@@ -238,7 +238,8 @@
     },
     "playground": {
       "proxy": false
-    }
+    },
+    "openapi": "https://raw.githubusercontent.com/DeepLcom/openapi/main/openapi.yaml"
   },
   "errors": {
     "404": {
