@@ -1,0 +1,178 @@
+---
+title: "Detect Language API (Beta)"
+description: "(Hidden Page) Detect the language of text using DeepL's language detection service"
+---
+
+<Note>
+  **Work in Progress** - This documentation page is still being developed and is not ready for public consumption.
+</Note>
+
+The Detect Language API allows you to identify the language of text content. This is a beta feature that requires special access permissions and is currently available only to select accounts.
+
+## Best Practices
+
+1. **Text Length**: Provide sufficient text for accurate detection. Very short texts may result in `"insufficient_confidence"` or `"internal_error"`.
+
+2. **Batch Processing**: You can detect multiple texts in a single request by providing an array of strings.
+
+3. **Error Handling**: Check the `detection_successful` field before using the `predicted_language` value.
+
+4. **Rate Limiting**: Be mindful of API rate limits when making frequent requests.
+
+## Feature Availability
+
+This is a **beta feature** that requires:
+- Account enrollment in the language detection beta program
+- Compatible API key with appropriate permissions
+
+Reach out to your DeepL contact to request access to the language detection API beta.
+
+## Endpoint
+
+```
+POST /v3/detect/language
+```
+
+## Authentication
+
+This endpoint requires authentication using the `DeepL-Auth-Key` header with a valid API key that has access to the language detection feature.
+
+## Request Formats
+
+<Tabs>
+  <Tab title="JSON Request">
+    ```bash
+    curl -X POST "https://api.deepl.com/v3/detect/language" \
+      -H "Authorization: DeepL-Auth-Key YOUR_AUTH_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "text": [
+          "Hello, how are you?",
+          "Hola, ¿cómo estás?"
+        ]
+      }'
+    ```
+  </Tab>
+  <Tab title="HTTP Request">
+    ```http
+    POST /v3/detect/language HTTP/1.1
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
+    Content-Type: application/json
+    Content-Length: 84
+
+    {
+      "text": [
+        "Hello, how are you?",
+        "Hola, ¿cómo estás?"
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="Form-Encoded Request">
+    ```bash
+    curl -X POST "https://api.deepl.com/v3/detect/language" \
+      -H "Authorization: DeepL-Auth-Key YOUR_AUTH_KEY" \
+      -H "Content-Type: application/x-www-form-urlencoded" \
+      -d "text=Hello, how are you?" \
+      -d "text=Hola, ¿cómo estás?"
+    ```
+  </Tab>
+</Tabs>
+
+### Request Parameters
+
+<ParamField body="text" type="string[]" required>
+  List of text strings to detect languages for. Each string will be processed separately.
+</ParamField>
+
+## Response Format
+
+<Tabs>
+  <Tab title="200 Success">
+    ```json
+    {
+      "results": [
+        {
+          "predicted_language": "en",
+          "detection_successful": true
+        },
+        {
+          "predicted_language": "es", 
+          "detection_successful": true
+        }
+      ]
+    }
+    ```
+
+    This error occurs when:
+    - The inputs in the request are malformed
+  </Tab>
+  <Tab title="400 Bad Request">
+    This error occurs when:
+    - The inputs in the request are malformed
+  </Tab>
+  <Tab title="403 Forbidden">
+    ```json
+    {
+      "message": "Forbidden"
+    }
+    ```
+
+    This error occurs when:
+    - The API key doesn't have access to the language detection feature
+    - The account doesn't have the required permissions
+    - The feature flag is not enabled for the account
+  </Tab>
+  <Tab title="415 Unsupported Media Type">
+    ```json
+    {
+      "message": "Called with an unsupported media type. Supported media types: application/json or application/x-www-form-urlencoded. Please set the Content-Type header to a supported type."
+    }
+    ```
+
+    This error occurs when:
+    - The request is in an unsupported format
+  </Tab>
+  <Tab title="500 Internal Server Error">
+    ```json
+    {
+      "message": "Internal server error."
+    }
+    ```
+
+    This error occurs when there are issues with the internal language detection service.
+  </Tab>
+</Tabs>
+
+### Response Fields
+
+<ResponseField name="results" type="array" required>
+  Array of detection results, one for each input text. Each result object contains a `predicted_language` and a `detection_successful` field.
+</ResponseField>
+
+<ResponseField name="predicted_language" type="string" required>
+  The detected language code or special status value. Can be either:
+  
+  **Language Codes** (when `detection_successful` is `true`):
+  - Standard BCP-47 language codes:  one of `"en"`, `"de"`, `"fr"`, `"es"`, `"pt"`, `"it"`, `"nl"`, `"pl"`, `"ru"`, `"zh"`, `"ja"`, `"bg"`, `"cs"`, `"da"`, `"el"`, `"et"`, `"fi"`, `"hu"`, `"lt"`, `"lv"`, `"ro"`, `"sk"`, `"sl"`, `"sv"`, `"tr"`, `"id"`, `"uk"`, `"ko"`, `"nb"`, `"ar"`, `"vi"`, `"he"`, `"th"`
+  - See [supported languages](/docs/getting-started/supported-languages#translation-source-languages) for more info
+  
+  **Special Status Values** (when `detection_successful` is `false`):
+  - `"insufficient_confidence"` - Detection confidence too low
+  - `"unsupported"` - Language not supported by DeepL
+  - `"no_detections"` - No result returned, try longer text
+</ResponseField>
+
+<ResponseField name="detection_successful" type="boolean" required>
+  Indicates whether language detection was successful:
+  - `true` - Language successfully detected
+  - `false` - Detection failed (see special status values above)
+</ResponseField>
+
+## Limitations
+
+- Only supports detection of languages that are available in DeepL's translation service
+- Requires high confidence to return the language
+- Only returns the first top language guess for any single text
+- Limited to text-based detection (no support for document formats)
