@@ -53,6 +53,15 @@ This endpoint requires authentication using the `DeepL-Auth-Key` header with a v
       }'
     ```
   </Tab>
+  <Tab title="Form-Encoded Request">
+    ```bash
+    curl -X POST "https://api.deepl.com/v3/detect/language" \
+      -H "Authorization: DeepL-Auth-Key YOUR_AUTH_KEY" \
+      -H "Content-Type: application/x-www-form-urlencoded" \
+      -d "text=Hello, how are you?" \
+      -d "text=Hola, ¿cómo estás?"
+    ```
+  </Tab>
   <Tab title="HTTP Request">
     ```http
     POST /v3/detect/language HTTP/1.1
@@ -67,15 +76,6 @@ This endpoint requires authentication using the `DeepL-Auth-Key` header with a v
         "Hola, ¿cómo estás?"
       ]
     }
-    ```
-  </Tab>
-  <Tab title="Form-Encoded Request">
-    ```bash
-    curl -X POST "https://api.deepl.com/v3/detect/language" \
-      -H "Authorization: DeepL-Auth-Key YOUR_AUTH_KEY" \
-      -H "Content-Type: application/x-www-form-urlencoded" \
-      -d "text=Hello, how are you?" \
-      -d "text=Hola, ¿cómo estás?"
     ```
   </Tab>
 </Tabs>
