@@ -11,11 +11,11 @@ The Detect Language API allows you to identify the language of text content. Thi
 
 ## Best Practices
 
-1. **Text Length**: Provide sufficient text for accurate detection. Very short texts may result in `"insufficient_confidence"` or `"internal_error"`.
+1. **Text Length**: Provide sufficient text for accurate detection. Very short texts may result in `insufficient_confidence` or `no_language_detected` status.
 
 2. **Batch Processing**: You can detect multiple texts in a single request by providing an array of strings.
 
-3. **Error Handling**: Check the `detection_successful` field before using the `predicted_language` value.
+3. **Error Handling**: Check the `detection_status` field to understand the result. Only when `detection_status` is `success` will the `detected_language` field contain a valid language code.
 
 4. **Rate Limiting**: Be mindful of API rate limits when making frequent requests.
 
@@ -84,6 +84,8 @@ This endpoint requires authentication using the `DeepL-Auth-Key` header with a v
 
 <ParamField body="text" type="string[]" required>
   List of text strings to detect languages for. Each string will be processed separately.
+
+  The response detections are returned in the same order as they are requested. Each of the parameter values may contain multiple sentences. Up to 50 texts can sent in one request.
 </ParamField>
 
 ## Response Format
@@ -94,21 +96,45 @@ This endpoint requires authentication using the `DeepL-Auth-Key` header with a v
     {
       "results": [
         {
-          "predicted_language": "en",
-          "detection_successful": true
+          "detected_language": "en",
+          "detection_status": "success"
         },
         {
-          "predicted_language": "es", 
-          "detection_successful": true
+          "detected_language": "es", 
+          "detection_status": "success"
         }
       ]
     }
     ```
 
-    This error occurs when:
-    - The inputs in the request are malformed
+    Example responses for different detection statuses:
+
+    ```json
+    {
+      "results": [
+        {
+          "detected_language": "en",
+          "detection_status": "success"
+        },
+        {
+          "detection_status": "insufficient_confidence"
+        },
+        {
+          "detection_status": "unsupported_language"
+        },
+        {
+          "detection_status": "no_language_detected"
+        }
+      ]
+    }
+    ```
   </Tab>
   <Tab title="400 Bad Request">
+    ```json
+    {
+      "message": "Missing parameter text."
+    }
+    ```
     This error occurs when:
     - The inputs in the request are malformed
   </Tab>
@@ -148,31 +174,31 @@ This endpoint requires authentication using the `DeepL-Auth-Key` header with a v
 ### Response Fields
 
 <ResponseField name="results" type="array" required>
-  Array of detection results, one for each input text. Each result object contains a `predicted_language` and a `detection_successful` field.
+  Array of detection results, one for each input text. Each result object contains a `detected_language` and a `detection_status` field.
 </ResponseField>
 
-<ResponseField name="predicted_language" type="string" required>
-  The detected language code or special status value. Can be either:
+<ResponseField name="detected_language" type="string">
+  The detected language code when detection is successful.
   
   **Language Codes** (when `detection_successful` is `true`):
   - Standard BCP-47 language codes:  one of `"en"`, `"de"`, `"fr"`, `"es"`, `"pt"`, `"it"`, `"nl"`, `"pl"`, `"ru"`, `"zh"`, `"ja"`, `"bg"`, `"cs"`, `"da"`, `"el"`, `"et"`, `"fi"`, `"hu"`, `"lt"`, `"lv"`, `"ro"`, `"sk"`, `"sl"`, `"sv"`, `"tr"`, `"id"`, `"uk"`, `"ko"`, `"nb"`, `"ar"`, `"vi"`, `"he"`, `"th"`
   - See [supported languages](/docs/getting-started/supported-languages#translation-source-languages) for more info
   
-  **Special Status Values** (when `detection_successful` is `false`):
-  - `"insufficient_confidence"` - Detection confidence too low
-  - `"unsupported"` - Language not supported by DeepL
-  - `"no_detections"` - No result returned, try longer text
+  When `detection_status` is not `success`, this field is not defined.
 </ResponseField>
 
-<ResponseField name="detection_successful" type="boolean" required>
-  Indicates whether language detection was successful:
-  - `true` - Language successfully detected
-  - `false` - Detection failed (see special status values above)
+<ResponseField name="detection_status" type="string" required>
+  Indicates the result of language detection. Possible values:
+  
+  - `"success"` - Language successfully detected and returned in `detected_language`
+  - `"insufficient_confidence"` - Detection confidence too low to return a reliable single result
+  - `"unsupported_language"` - A language was detected but it's not supported by DeepL's translation service
+  - `"no_language_detected"` - No language could be detected from the input text
 </ResponseField>
 
 ## Limitations
 
 - Only supports detection of languages that are available in DeepL's translation service
 - Requires high confidence to return the language
-- Only returns the first top language guess for any single text
+- Only returns the first top language guess for any single text, may not work well with language variants that are very similar to each other
 - Limited to text-based detection (no support for document formats)
