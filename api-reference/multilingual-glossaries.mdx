@@ -6,9 +6,11 @@ description: "Manage and use DeepL glossaries"
 ---
 
 <Info>
-This page documents `v3` glossary endpoints, which let you edit glossaries and makes them multilingual.
+  This page documents `v3` glossary endpoints, which let you edit glossaries and makes them multilingual.
 
-[See here](/api-reference/glossaries) for information on `v2` glossaries. [See here](/api-reference/glossaries/v2-vs-v3-endpoints) for an overview of the difference.
+  [See here](/api-reference/glossaries) for information on `v2` glossaries. [See here](/api-reference/glossaries/v2-vs-v3-endpoints) for an overview of the difference.
+
+  At present, the `/v3` endpoint is only used for working with `v3` glossaries.
 </Info>
 
 ## Overview
@@ -19,11 +21,113 @@ Currently you can create glossaries with [any of the languages DeepL supports](.
 
 A **glossary** contains (several) **dictionaries**. A **dictionary** is a mapping of source phrases to target phrases for a single language pair, like this:
 
-<table><thead><tr><th>French -></th><th>Spanish</th><th data-hidden></th></tr></thead><tbody><tr><td>belle</td><td>hermosa</td><td></td></tr><tr><td>delicieux</td><td>exquisito</td><td></td></tr><tr><td>mouse</td><td>mouse</td><td></td></tr></tbody></table>
+<table>
+<thead>
+<tr>
+<th>
+French -\></th>
+
+<th>
+Spanish</th>
+
+<th />
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td>
+belle</td>
+
+<td>
+hermosa</td>
+
+<td />
+
+</tr>
+
+<tr>
+<td>
+delicieux</td>
+
+<td>
+exquisito</td>
+
+<td />
+
+</tr>
+
+<tr>
+<td>
+mouse</td>
+
+<td>
+mouse</td>
+
+<td />
+
+</tr>
+
+</tbody>
+
+</table>
 
 Note that this mapping occurs only in one direction, which is all you need during a single translation. If you wanted your glossary to contain the reverse mapping, so that you could apply the same glossary when translating from French to Spanish and from Spanish to French, you would add a second dictionary:
 
-<table><thead><tr><th>Spanish -></th><th>French</th><th data-hidden></th></tr></thead><tbody><tr><td>hermosa</td><td>belle</td><td></td></tr><tr><td>exquisito</td><td>delicieux</td><td></td></tr><tr><td>mouse</td><td>mouse</td><td></td></tr></tbody></table>
+<table>
+<thead>
+<tr>
+<th>
+Spanish -\></th>
+
+<th>
+French</th>
+
+<th />
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td>
+hermosa</td>
+
+<td>
+belle</td>
+
+<td />
+
+</tr>
+
+<tr>
+<td>
+exquisito</td>
+
+<td>
+delicieux</td>
+
+<td />
+
+</tr>
+
+<tr>
+<td>
+mouse</td>
+
+<td>
+mouse</td>
+
+<td />
+
+</tr>
+
+</tbody>
+
+</table>
 
 ## Creating glossaries
 
@@ -32,6 +136,7 @@ Note that this mapping occurs only in one direction, which is all you need durin
 You can format glossary entries as either CSV (comma-separated values) or TSV (tab-separated values). In each case, each entry is a line containing a source phrase and its associated target phrase.
 
 CSV entries for our Spanish → French glossary above would look like this:
+
 ```
 hermosa,belle
 exquisito,delicieux
@@ -50,11 +155,11 @@ TSV is similar, except that the source and target phrases are separated by a tab
 
 CSV entries in DeepL glossaries follow standard CSV conventions, such as
 
-* fields containing double quotes or commas must be enclosed in double quotes,
-* if double quotes are used to enclose fields, then a double quote appearing inside a field must be escaped by preceding it with another double quote.
+- fields containing double quotes or commas must be enclosed in double quotes,
+- if double quotes are used to enclose fields, then a double quote appearing inside a field must be escaped by preceding it with another double quote.
 
 <Info>
-In CSV, you can also include the source and target language after the source and target phrases. If those do not match the language pair for the current dictionary, the entry will be ignored.
+  In CSV, you can also include the source and target language after the source and target phrases. If those do not match the language pair for the current dictionary, the entry will be ignored.
 </Info>
 
 ### Create a glossary
@@ -66,84 +171,83 @@ To create a glossary, send the API an array that contains one or more dictionari
 This example creates a modest glossary with two dictionaries. One maps "Hello" in English to "Guten Tag" in German. The other contains the reverse mapping.
 
 <Tabs>
-<Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+  <Tab title="cURL">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-```sh Example request: create a glossary
-curl -X POST 'https://api.deepl.com/v3/glossaries' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
---header 'Content-Type: application/json' \
---data '{
-  "name": "My Glossary",
-  "dictionaries": [
+    ```sh Example request: create a glossary
+    curl -X POST 'https://api.deepl.com/v3/glossaries' \
+    --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "name": "My Glossary",
+      "dictionaries": [
+        {
+          "source_lang": "en",
+          "target_lang": "de",
+          "entries": "Hello\tGuten Tag",
+          "entries_format": "tsv"
+        },
+        {
+          "source_lang": "de",
+          "target_lang": "en",
+          "entries": "Guten Tag\tHello",
+          "entries_format": "tsv"
+        }
+      ]
+    }'
+    ```
+
+    ```json Example response
     {
-      "source_lang": "en",
-      "target_lang": "de",
-      "entries": "Hello\tGuten Tag",
-      "entries_format": "tsv"
-    },
-    {
-      "source_lang": "de",
-      "target_lang": "en",
-      "entries": "Guten Tag\tHello",
-      "entries_format": "tsv"
+      "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+      "ready": true,
+      "name": "My Glossary",
+      "dictionaries": [
+        {
+          "source_lang": "en",
+          "target_lang": "de",
+          "entry_count": 1
+        },
+        {
+          "source_lang": "de",
+          "target_lang": "en",
+          "entry_count": 1
+        }
+      ],
+      "creation_time": "2025-08-03T14:16:18.329Z"
     }
-  ]
-}'
-```
+    ```
+  </Tab>
+  <Tab title="HTTP Request">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-```json Example response
-{
-  "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
-  "ready": true,
-  "name": "My Glossary",
-  "dictionaries": [
+    ```http Example request: create a glossary
+    POST /v3/glossaries HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey] 
+    User-Agent: YourApp/1.2.3
+    Content-Length: 1234
+    Content-Type: application/json
+    
     {
-      "source_lang": "en",
-      "target_lang": "de",
-      "entry_count": 1
-    },
-    {
-      "source_lang": "de",
-      "target_lang": "en",
-      "entry_count": 1
+      "name": "My Glossary",
+      "dictionaries": [
+        {
+          "source_lang": "en",
+          "target_lang": "de",
+          "entries": "Hello\tGuten Tag",
+          "entries_format": "tsv"
+        },
+        {
+          "source_lang": "de",
+          "target_lang": "en",
+          "entries": "Guten Tag\tHello",
+          "entries_format": "tsv"
+        }
+      ]
     }
-  ],
-  "creation_time": "2025-08-03T14:16:18.329Z"
-}
-```
-</Tab>
-
-<Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
-
-```http Example request: create a glossary
-POST /v3/glossaries HTTP/2
-Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
-User-Agent: YourApp/1.2.3
-Content-Length: 1234
-Content-Type: application/json
-
-{
-  "name": "My Glossary",
-  "dictionaries": [
-    {
-      "source_lang": "en",
-      "target_lang": "de",
-      "entries": "Hello\tGuten Tag",
-      "entries_format": "tsv"
-    },
-    {
-      "source_lang": "de",
-      "target_lang": "en",
-      "entries": "Guten Tag\tHello",
-      "entries_format": "tsv"
-    }
-  ]
-}
-```
-</Tab>
+    ```
+  </Tab>
 </Tabs>
 
 ## Using
@@ -153,69 +257,70 @@ Content-Type: application/json
 To use a glossary in a translation request, include its `glossary_id` . You must also specify _both_ the source and target languages, like this:
 
 <Tabs>
-<Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+  <Tab title="cURL">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-```sh Example request: translate including glossary
-curl -X POST 'https://api.deepl.com/v2/translate' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey] \
---header 'Content-Type: application/json' \
---data '{
-  "text": [
-    "Hello"
-  ],
-  "source_lang": "EN",
-  "target_lang": "DE",
-  "glossary_id": [yourGlossaryID]
-}'
-```
-```json Example response
-{
-"translations": [
+    ```sh Example request: translate including glossary
+    curl -X POST 'https://api.deepl.com/v2/translate' \
+    --header 'Authorization: DeepL-Auth-Key [yourAuthKey] \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "text": [
+        "Hello"
+      ],
+      "source_lang": "EN",
+      "target_lang": "DE",
+      "glossary_id": [yourGlossaryID]
+    }'
+    ```
+
+    ```json Example response
     {
-      "detected_source_language": "EN",
-      "text": "Guten Tag"
+    "translations": [
+        {
+          "detected_source_language": "EN",
+          "text": "Guten Tag"
+        }
+      ]
     }
-  ]
-}
-```
-</Tab>
+    ```
+  </Tab>
+  <Tab title="HTTP Request">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-<Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
-
-```http Example request: translate including glossary
-POST /v2/translate HTTP/2
-Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
-User-Agent: YourApp/1.2.3
-Content-Length: 111
-Content-Type: application/json
-
-{
-  "text": [
-    "Hello there"
-  ],
-  "source_lang": "EN",
-  "target_lang": "DE",
-  "glossary_id": [yourGlossaryID]
-}
-```
-```json Example response
-{
-  "translations": [
+    ```http Example request: translate including glossary
+    POST /v2/translate HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey] 
+    User-Agent: YourApp/1.2.3
+    Content-Length: 111
+    Content-Type: application/json
+    
     {
-      "detected_source_language": "EN",
-      "text": "Guten Tag"
+      "text": [
+        "Hello there"
+      ],
+      "source_lang": "EN",
+      "target_lang": "DE",
+      "glossary_id": [yourGlossaryID]
     }
-  ]
-}
-```
-</Tab>
+    ```
+
+    ```json Example response
+    {
+      "translations": [
+        {
+          "detected_source_language": "EN",
+          "text": "Guten Tag"
+        }
+      ]
+    }
+    ```
+  </Tab>
 </Tabs>
 
 <Info>
-Currently the  `v3` endpoints only handle glossary methods. Use `v2` for all other functionality, including translation.
+  Currently the  `v3` endpoints only handle glossary methods. Use `v2` for all other functionality, including translation.
 </Info>
 
 ## Retrieving glossaries
@@ -227,68 +332,68 @@ Currently the  `v3` endpoints only handle glossary methods. Use `v2` for all oth
 Use this endpoint to list all your glossaries, basic information about each glossary's dictionaries, and each glossary's name and creation time. The response will not include any dictionary entries.
 
 <Tabs>
-<Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+  <Tab title="cURL">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-```sh Example request: list glossaries
-curl -X GET 'https://api.deepl.com/v3/glossaries' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]' 
-```
-```json Example response
-{
-  "glossaries": [
+    ```sh Example request: list glossaries
+    curl -X GET 'https://api.deepl.com/v3/glossaries' \
+    --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' 
+    ```
+
+    ```json Example response
     {
-      "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
-      "name": "My Glossary",
-      "dictionaries": [{
-        "source_lang": "en",
-        "target_lang": "de",
-        "entry_count": 1,
-      },
-      {
-        "source_lang": "de",
-        "target_lang": "en",
-        "entry_count": 3,
-      }],
-      "creation_time": "2021-08-03T14:16:18.329Z"
+      "glossaries": [
+        {
+          "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+          "name": "My Glossary",
+          "dictionaries": [{
+            "source_lang": "en",
+            "target_lang": "de",
+            "entry_count": 1,
+          },
+          {
+            "source_lang": "de",
+            "target_lang": "en",
+            "entry_count": 3,
+          }],
+          "creation_time": "2021-08-03T14:16:18.329Z"
+        }
+      ]
     }
-  ]
-}
-```
-</Tab>
+    ```
+  </Tab>
+  <Tab title="HTTP Request">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-<Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+    ```http Example request: list all glossaries
+    GET /v3/glossaries HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey] 
+    User-Agent: YourApp/1.2.3
+    ```
 
-```http Example request: list all glossaries
-GET /v3/glossaries HTTP/2
-Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
-User-Agent: YourApp/1.2.3
-```
-
-```json Example response
-{
-  "glossaries": [
+    ```json Example response
     {
-      "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
-      "name": "My Glossary",
-      "dictionaries": [{
-        "source_lang": "en",
-        "target_lang": "de",
-        "entry_count": 1,
-      },
-      {
-        "source_lang": "de",
-        "target_lang": "en",
-        "entry_count": 3,
-      }],
-      "creation_time": "2025-08-03T14:16:18.329Z"
+      "glossaries": [
+        {
+          "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+          "name": "My Glossary",
+          "dictionaries": [{
+            "source_lang": "en",
+            "target_lang": "de",
+            "entry_count": 1,
+          },
+          {
+            "source_lang": "de",
+            "target_lang": "en",
+            "entry_count": 3,
+          }],
+          "creation_time": "2025-08-03T14:16:18.329Z"
+        }
+      ]
     }
-  ]
-}
-```
-</Tab>
+    ```
+  </Tab>
 </Tabs>
 
 ### Get glossary metadata
@@ -298,65 +403,64 @@ User-Agent: YourApp/1.2.3
 Use this endpoint to retrieve basic information about a given glossary's dictionaries, plus the glossary's name and creation time.
 
 <Tabs>
-<Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+  <Tab title="cURL">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-```sh Example request: retrieve glossary details
-curl -X GET 'https://api.deepl.com/v3/glossaries/{glossaryId}' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
-```
+    ```sh Example request: retrieve glossary details
+    curl -X GET 'https://api.deepl.com/v3/glossaries/{glossaryId}' \
+    --header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+    ```
 
-```json Example response
-{
-  "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
-  "name": "My Glossary",
-  "dictionaries": [
+    ```json Example response
     {
-      "source_lang": "en",
-      "target_lang": "de",
-      "entry_count": 1
-    },
-    {
-      "source_lang": "de",
-      "target_lang": "en",
-      "entry_count": 1
+      "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+      "name": "My Glossary",
+      "dictionaries": [
+        {
+          "source_lang": "en",
+          "target_lang": "de",
+          "entry_count": 1
+        },
+        {
+          "source_lang": "de",
+          "target_lang": "en",
+          "entry_count": 1
+        }
+      ],
+      "creation_time": "2025-08-03T14:16:18.329Z"
     }
-  ],
-  "creation_time": "2025-08-03T14:16:18.329Z"
-}
-```
-</Tab>
+    ```
+  </Tab>
+  <Tab title="HTTP Request">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-<Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+    ```http Example request: retrieve glossary details
+    GET /v3/glossaries/{glossary_id} HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey] 
+    User-Agent: YourApp/1.2.3
+    ```
 
-```http Example request: retrieve glossary details
-GET /v3/glossaries/{glossary_id} HTTP/2
-Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
-User-Agent: YourApp/1.2.3
-```
-
-```json Example response
-{
-  "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
-  "name": "My Glossary",
-  "dictionaries": [
+    ```json Example response
     {
-      "source_lang": "en",
-      "target_lang": "de",
-      "entry_count": 1
-    },
-    {
-      "source_lang": "de",
-      "target_lang": "en",
-      "entry_count": 1
+      "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+      "name": "My Glossary",
+      "dictionaries": [
+        {
+          "source_lang": "en",
+          "target_lang": "de",
+          "entry_count": 1
+        },
+        {
+          "source_lang": "de",
+          "target_lang": "en",
+          "entry_count": 1
+        }
+      ],
+      "creation_time": "2025-08-03T14:16:18.329Z"
     }
-  ],
-  "creation_time": "2025-08-03T14:16:18.329Z"
-}
-```
-</Tab>
+    ```
+  </Tab>
 </Tabs>
 
 ### Get glossary entries
@@ -368,52 +472,51 @@ Use this endpoint to retrieve the contents of a single glossary dictionary by sp
 Currently you can only retrieve glossary contents in TSV format.
 
 <Tabs>
-<Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+  <Tab title="cURL">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-```sh Example request: get glossary entries
-curl -X GET 'https://api.deepl.com/v3/glossaries/{glossaryId}/entries?source_lang=en&target_lang=de' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
---header 'Content-Type: application/json'
-```
+    ```sh Example request: get glossary entries
+    curl -X GET 'https://api.deepl.com/v3/glossaries/{glossaryId}/entries?source_lang=en&target_lang=de' \
+    --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
+    --header 'Content-Type: application/json'
+    ```
 
-```json Example response
-{
-  "dictionaries": [{
-    "source_lang": "en",
-    "target_lang": "de",
-    "entries": "Hello\tGuten Tag",
-    "entries_format": "tsv",
-  }]
-}
-```
-</Tab>
+    ```json Example response
+    {
+      "dictionaries": [{
+        "source_lang": "en",
+        "target_lang": "de",
+        "entries": "Hello\tGuten Tag",
+        "entries_format": "tsv",
+      }]
+    }
+    ```
+  </Tab>
+  <Tab title="HTTP Request">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-<Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+    ```http Example request: get glossary entries
+    GET /v3/glossaries/{glossary_id}/entries HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey] 
+    User-Agent: YourApp/1.2.3
+    ```
 
-```http Example request: get glossary entries
-GET /v3/glossaries/{glossary_id}/entries HTTP/2
-Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
-User-Agent: YourApp/1.2.3
-```
-
-```json Example response
-{
-  "dictionaries": [{
-    "source_lang": "en",
-    "target_lang": "de",
-    "entries": "Hello\tGuten Tag",
-    "entries_format": "tsv",
-  }]
-}
-```
-</Tab>
+    ```json Example response
+    {
+      "dictionaries": [{
+        "source_lang": "en",
+        "target_lang": "de",
+        "entries": "Hello\tGuten Tag",
+        "entries_format": "tsv",
+      }]
+    }
+    ```
+  </Tab>
 </Tabs>
 
 <Info>
-To retrieve the contents of an entire glossary, iterate through each of dictionaries, retrieving the content of each. While we work to provide the ability to retrieve a whole glossary in a single call, [your feedback here](/docs/resources/deepl-developer-community) is valuable as we strive to improve our API.
+  To retrieve the contents of an entire glossary, iterate through each of dictionaries, retrieving the content of each. While we work to provide the ability to retrieve a whole glossary in a single call, [your feedback here](/docs/resources/deepl-developer-community) is valuable as we strive to improve our API.
 </Info>
 
 ## Editing
@@ -424,55 +527,54 @@ To retrieve the contents of an entire glossary, iterate through each of dictiona
 
 The `PUT` method acts on a single dictionary of a glossary. It creates a new dictionary in that glossary, or replaces an existing one, without regard to whether that dictionary already exists. If the glossary has no dictionary for a given language pair, add the dictionary to the glossary with the entries provided. If the dictionary already exists, replace it.
 
-Use this method to add a new dictionary to a glossary or replace an existing one. To instead merge a set of entries with an existing dictionary, use [the `PATCH` method](/api-reference/multilingual-glossaries#add-new-entries-to-a-dictionary%2C-or-replace-existing-entries).
+Use this method to add a new dictionary to a glossary or replace an existing one. To instead merge a set of entries with an existing dictionary, use [`the PATCH method`](/api-reference/multilingual-glossaries#add-new-entries-to-a-dictionary%2C-or-replace-existing-entries).
 
 <Tabs>
-<Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+  <Tab title="cURL">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-```sh Example request: replace a dictionary
-curl -X PUT 'https://api.deepl.com/v3/glossaries/{glossaryId}/dictionaries' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
---header 'Content-Type: application/json' \
---data '{
-  "source_lang": "en",
-  "target_lang": "de",
-  "entries": "Hello\tGuten Tag",
-  "entries_format": "tsv"
-}'
-```
+    ```sh Example request: replace a dictionary
+    curl -X PUT 'https://api.deepl.com/v3/glossaries/{glossaryId}/dictionaries' \
+    --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "source_lang": "en",
+      "target_lang": "de",
+      "entries": "Hello\tGuten Tag",
+      "entries_format": "tsv"
+    }'
+    ```
 
-```json Example response
-{
-  "source_lang": "en",
-  "target_lang": "de",
-  "entry_count": 1
-}
-```
-</Tab>
+    ```json Example response
+    {
+      "source_lang": "en",
+      "target_lang": "de",
+      "entry_count": 1
+    }
+    ```
+  </Tab>
+  <Tab title="HTTP Request">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-<Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+    ```http Example request: replace a dictionary
+    PUT /v3/glossaries/{glossaryId}/dictionaries HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey] 
+    User-Agent: YourApp/1.2.3
+    Content-Length: 210
+    Content-Type: application/json
+    ​
+    {"source_lang": "en","target_lang": "de","entries": "Hello\tGuten Tag", "entries_format": "tsv"}
+    ```
 
-```http Example request: replace a dictionary
-PUT /v3/glossaries/{glossaryId}/dictionaries HTTP/2
-Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
-User-Agent: YourApp/1.2.3
-Content-Length: 210
-Content-Type: application/json
-​
-{"source_lang": "en","target_lang": "de","entries": "Hello\tGuten Tag", "entries_format": "tsv"}
-```
-
-```json Example response
-{
-  "source_lang": "en",
-  "target_lang": "de",
-  "entry_count": 1
-}
-```
-</Tab>
+    ```json Example response
+    {
+      "source_lang": "en",
+      "target_lang": "de",
+      "entry_count": 1
+    }
+    ```
+  </Tab>
 </Tabs>
 
 ### Add new entries to a dictionary, or replace existing entries
@@ -486,63 +588,62 @@ This method returns the glossary's name and metadata on each of its dictionaries
 For example, this `PATCH` changes a glossary's name.
 
 <Tabs>
-<Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+  <Tab title="cURL">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-```sh Example request: update glossary entries
-curl -X PATCH 'https://api.deepl.com/v3/glossaries/{glossaryId}' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
---header 'Content-Type: application/json' \
---data '{
-  "name": "Gus the glossary"
-}'
-```
+    ```sh Example request: update glossary entries
+    curl -X PATCH 'https://api.deepl.com/v3/glossaries/{glossaryId}' \
+    --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "name": "Gus the glossary"
+    }'
+    ```
 
-```json Example response
-{
-  "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
-  "name": "Gus the glossary",
-  "dictionaries": [
+    ```json Example response
     {
-      "source_lang": "en",
-      "target_lang": "de",
-      "entry_count": 1
+      "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+      "name": "Gus the glossary",
+      "dictionaries": [
+        {
+          "source_lang": "en",
+          "target_lang": "de",
+          "entry_count": 1
+        }
+      ],
+      "creation_time": "2025-08-03T14:16:18.329Z"
     }
-  ],
-  "creation_time": "2025-08-03T14:16:18.329Z"
-}
-```
-</Tab>
+    ```
+  </Tab>
+  <Tab title="HTTP Request">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-<Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+    ```http Example request: update glossary entries
+    PATCH /v3/glossaries/{glossaryId} HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey] 
+    User-Agent: YourApp/1.2.3
+    Content-Length: 147
+    Content-Type: application/json
+    ​
+    {"name": "My updated glossary", "dictionaries": [{"source_lang": "en","target_lang": "de","entries": "Hello\tGuten Tag", "entries_format": "tsv"}]}
+    ```
 
-```http Example request: update glossary entries
-PATCH /v3/glossaries/{glossaryId} HTTP/2
-Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
-User-Agent: YourApp/1.2.3
-Content-Length: 147
-Content-Type: application/json
-​
-{"name": "My updated glossary", "dictionaries": [{"source_lang": "en","target_lang": "de","entries": "Hello\tGuten Tag", "entries_format": "tsv"}]}
-```
-
-```json Example response
-{
-  "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
-  "name": "My updated glossary",
-  "dictionaries": [
+    ```json Example response
     {
-      "source_lang": "en",
-      "target_lang": "de",
-      "entry_count": 1
+      "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+      "name": "My updated glossary",
+      "dictionaries": [
+        {
+          "source_lang": "en",
+          "target_lang": "de",
+          "entry_count": 1
+        }
+      ],
+      "creation_time": "2025-08-03T14:16:18.329Z"
     }
-  ],
-  "creation_time": "2025-08-03T14:16:18.329Z"
-}
-```
-</Tab>
+    ```
+  </Tab>
 </Tabs>
 
 You can also use `PATCH` to change the contents of a glossary's dictionary  for a language pair while taking any existing dictionary for that language pair into account. If the glossary already has a dictionary for the specified language pair, the entries passed here will be merged with the existing dictionary.
@@ -552,73 +653,72 @@ Use this method to make changes to an existing dictionary. To replace a dictiona
 This example makes two changes. It changes the glossary's name, and it adds a new entry to its German → English dictionary.
 
 <Tabs>
-<Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+  <Tab title="cURL">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-```sh Example request: update glossary entries
-curl -X PATCH 'https://api.deepl.com/v3/glossaries/{glossaryId}' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
---header 'Content-Type: application/json' \
---data '{
-  "name": "Gertrude the glossary"
-  "dictionaries": [{
-    "source_lang": "en",
-    "target_lang": "de",
-    "entries": "Goodbye\tTschüß",
-    "entries_format": "tsv",
-  }]
-}'
-```
+    ```sh Example request: update glossary entries
+    curl -X PATCH 'https://api.deepl.com/v3/glossaries/{glossaryId}' \
+    --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "name": "Gertrude the glossary"
+      "dictionaries": [{
+        "source_lang": "en",
+        "target_lang": "de",
+        "entries": "Goodbye\tTschüß",
+        "entries_format": "tsv",
+      }]
+    }'
+    ```
 
-```json Example response
-{
-  "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
-  "name": "Gertrude the glossary",
-  "dictionaries": [
+    ```json Example response
     {
-      "source_lang": "en",
-      "target_lang": "de",
-      "entry_count": 2
+      "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+      "name": "Gertrude the glossary",
+      "dictionaries": [
+        {
+          "source_lang": "en",
+          "target_lang": "de",
+          "entry_count": 2
+        }
+      ],
+      "creation_time": "2025-08-03T14:16:18.329Z"
     }
-  ],
-  "creation_time": "2025-08-03T14:16:18.329Z"
-}
-```
-</Tab>
+    ```
+  </Tab>
+  <Tab title="HTTP Request">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-<Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+    ```http Example request: update glossary entries
+    PATCH /v3/glossaries/{glossaryId} HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey] 
+    User-Agent: YourApp/1.2.3
+    Content-Length: 147
+    Content-Type: application/json
+    ​
+    {"name": "My updated glossary", "dictionaries": [{"source_lang": "en","target_lang": "de","entries": "Hello\tGuten Tag", "entries_format": "tsv"}]}
+    ```
 
-```http Example request: update glossary entries
-PATCH /v3/glossaries/{glossaryId} HTTP/2
-Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
-User-Agent: YourApp/1.2.3
-Content-Length: 147
-Content-Type: application/json
-​
-{"name": "My updated glossary", "dictionaries": [{"source_lang": "en","target_lang": "de","entries": "Hello\tGuten Tag", "entries_format": "tsv"}]}
-```
-
-```json Example response
-{
-  "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
-  "name": "My updated glossary",
-  "dictionaries": [
+    ```json Example response
     {
-      "source_lang": "en",
-      "target_lang": "de",
-      "entry_count": 1
+      "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+      "name": "My updated glossary",
+      "dictionaries": [
+        {
+          "source_lang": "en",
+          "target_lang": "de",
+          "entry_count": 1
+        }
+      ],
+      "creation_time": "2025-08-03T14:16:18.329Z"
     }
-  ],
-  "creation_time": "2025-08-03T14:16:18.329Z"
-}
-```
-</Tab>
+    ```
+  </Tab>
 </Tabs>
 
 <Info>
-Currently, a given `PUT` and `PATCH` can make changes to a single dictionary. To change the target phrase for a given source phrase for multiple languages, you need to make multiple API calls. While we work to support multiple dictionaries in future updates, [your feedback here](/docs/resources/deepl-developer-community) is valuable as we work to improve our API.
+  Currently, a given `PUT` and `PATCH` can make changes to a single dictionary. To change the target phrase for a given source phrase for multiple languages, you need to make multiple API calls. While we work to support multiple dictionaries in future updates, [your feedback here](/docs/resources/deepl-developer-community) is valuable as we work to improve our API.
 </Info>
 
 ## Deleting glossaries
@@ -630,25 +730,24 @@ Currently, a given `PUT` and `PATCH` can make changes to a single dictionary. To
 This method deletes the specified glossary in its entirety.
 
 <Tabs>
-<Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+  <Tab title="cURL">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-```sh Example request: delete a glossary
-curl -X DELETE 'https://api.deepl.com/v3/glossaries/{glossary_id}' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
-```
-</Tab>
+    ```sh Example request: delete a glossary
+    curl -X DELETE 'https://api.deepl.com/v3/glossaries/{glossary_id}' \
+    --header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+    ```
+  </Tab>
+  <Tab title="HTTP Request">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-<Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
-
-```http Example request: delete a glossary
-DELETE /v3/glossaries/{glossary_id} HTTP/2
-Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
-User-Agent: YourApp/1.2.3
-```
-</Tab>
+    ```http Example request: delete a glossary
+    DELETE /v3/glossaries/{glossary_id} HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey] 
+    User-Agent: YourApp/1.2.3
+    ```
+  </Tab>
 </Tabs>
 
 ### Delete a glossary's dictionary
@@ -658,25 +757,24 @@ User-Agent: YourApp/1.2.3
 Use this method to delete a dictionary for a specific language pair.
 
 <Tabs>
-<Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+  <Tab title="cURL">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-```sh Example request: delete a dictionary
-curl -X DELETE 'https://api.deepl.com/v3/glossaries/{glossary_id}/dictionaries?source_lang={source_lang}&target_lang={target_lang}' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
-```
-</Tab>
+    ```sh Example request: delete a dictionary
+    curl -X DELETE 'https://api.deepl.com/v3/glossaries/{glossary_id}/dictionaries?source_lang={source_lang}&target_lang={target_lang}' \
+    --header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+    ```
+  </Tab>
+  <Tab title="HTTP Request">
+    The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
 
-<Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
-
-```http Example request: delete a dictionary
-DELETE /v3/glossaries/{glossary_id}/dictionaries?source_lang={source_lang}&target_lang={target_lang} HTTP/2
-Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
-User-Agent: YourApp/1.2.3
-```
-</Tab>
+    ```http Example request: delete a dictionary
+    DELETE /v3/glossaries/{glossary_id}/dictionaries?source_lang={source_lang}&target_lang={target_lang} HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey] 
+    User-Agent: YourApp/1.2.3
+    ```
+  </Tab>
 </Tabs>
 
 ## Notes on usage
@@ -702,8 +800,8 @@ The name of the glossary, each source phrase, and each target phrase, can contai
 The number of glossaries you can make is [limited by your plan](https://www.deepl.com/en/pro-api).
 
 ### Content
-* Duplicate source entries are not allowed.
-* Neither the source nor the target entry may be empty.
-* The source and target entries must not contain any C0 or C1 control characters (including, e.g., `\t` or `\n`) or any Unicode newline.
-* Source and target entries must not contain any leading or trailing Unicode whitespace characters.
 
+- Duplicate source entries are not allowed.
+- Neither the source nor the target entry may be empty.
+- The source and target entries must not contain any C0 or C1 control characters (including, e.g., `\t` or `\n`) or any Unicode newline.
+- Source and target entries must not contain any leading or trailing Unicode whitespace characters.

@@ -154,7 +154,7 @@
                   "group": "Manage Monolingual Glossaries",
                   "pages": [
                     "api-reference/glossaries",
-                    "api-reference/glossaries/v2-vs-v3-endpoints",
+                    "api-reference/glossaries/v2-vs-v3-glossaries",
                     "api-reference/glossaries/create-a-glossary",
                     "api-reference/glossaries/list-all-glossaries",
                     "api-reference/glossaries/retrieve-glossary-details",
