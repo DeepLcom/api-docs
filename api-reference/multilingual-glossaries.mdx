@@ -21,87 +21,27 @@ Currently you can create glossaries with [any of the languages DeepL supports](.
 
 A **glossary** contains (several) **dictionaries**. A **dictionary** is a mapping of source phrases to target phrases for a single language pair, like this:
 
-<table>
-<thead>
-<tr>
-<th>French -\></th>
-<th>Spanish</th>
-</tr>
+| Property | Description                           |
+| -------- | ------------------------------------- |
+| Name     | Full name of user                     |
+| Age      | Reported age                          |
+| Joined   | Whether the user joined the community |
 
-</thead>
+| French → | Spanish |
+| --------- | -------- |
+| belle | hermosa |
+| delicieux | exquisito |
+| mouse | mouse |
 
-<tbody>
-<tr>
-<td>belle</td>
-<td>hermosa</td>
-</tr>
-
-<tr>
-<td>delicieux</td>
-<td>exquisito</td>
-</tr>
-
-<tr>
-<td>mouse</td>
-<td>mouse</td>
-</tr>
-
-</tbody>
-
-</table>
 
 Note that this mapping occurs only in one direction, which is all you need during a single translation. If you wanted your glossary to contain the reverse mapping, so that you could apply the same glossary when translating from French to Spanish and from Spanish to French, you would add a second dictionary:
 
-<table>
-<thead>
-<tr>
-<th>
-Spanish -\></th>
 
-<th>
-French</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-<tr>
-<td>
-hermosa</td>
-
-<td>
-belle</td>
-
-<td />
-
-</tr>
-
-<tr>
-<td>
-exquisito</td>
-
-<td>
-delicieux</td>
-
-<td />
-
-</tr>
-
-<tr>
-<td>
-mouse</td>
-
-<td>
-mouse</td>
-
-<td />
-
-</tr>
-
-</tbody>
-
-</table>
+| Spanish → | French  |
+| --------- | -------- |
+| hermosa | belle |
+| exquisito | delicieux |
+| mouse | mouse |
 
 ## Creating glossaries
 
