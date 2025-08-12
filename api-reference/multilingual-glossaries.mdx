@@ -67,7 +67,7 @@ This example creates a modest glossary with two dictionaries. One maps "Hello" i
 
 <Tabs>
 <Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```sh Example request: create a glossary
 curl -X POST 'https://api.deepl.com/v3/glossaries' \
@@ -115,7 +115,7 @@ curl -X POST 'https://api.deepl.com/v3/glossaries' \
 </Tab>
 
 <Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```http Example request: create a glossary
 POST /v3/glossaries HTTP/2
@@ -154,7 +154,7 @@ To use a glossary in a translation request, include its `glossary_id` . You must
 
 <Tabs>
 <Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```sh Example request: translate including glossary
 curl -X POST 'https://api.deepl.com/v2/translate' \
@@ -182,7 +182,7 @@ curl -X POST 'https://api.deepl.com/v2/translate' \
 </Tab>
 
 <Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```http Example request: translate including glossary
 POST /v2/translate HTTP/2
@@ -228,7 +228,7 @@ Use this endpoint to list all your glossaries, basic information about each glos
 
 <Tabs>
 <Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```sh Example request: list glossaries
 curl -X GET 'https://api.deepl.com/v3/glossaries' \
@@ -258,7 +258,7 @@ curl -X GET 'https://api.deepl.com/v3/glossaries' \
 </Tab>
 
 <Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```http Example request: list all glossaries
 GET /v3/glossaries HTTP/2
@@ -299,7 +299,7 @@ Use this endpoint to retrieve basic information about a given glossary's diction
 
 <Tabs>
 <Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```sh Example request: retrieve glossary details
 curl -X GET 'https://api.deepl.com/v3/glossaries/{glossaryId}' \
@@ -328,7 +328,7 @@ curl -X GET 'https://api.deepl.com/v3/glossaries/{glossaryId}' \
 </Tab>
 
 <Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```http Example request: retrieve glossary details
 GET /v3/glossaries/{glossary_id} HTTP/2
@@ -369,7 +369,7 @@ Currently you can only retrieve glossary contents in TSV format.
 
 <Tabs>
 <Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```sh Example request: get glossary entries
 curl -X GET 'https://api.deepl.com/v3/glossaries/{glossaryId}/entries?source_lang=en&target_lang=de' \
@@ -390,7 +390,7 @@ curl -X GET 'https://api.deepl.com/v3/glossaries/{glossaryId}/entries?source_lan
 </Tab>
 
 <Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```http Example request: get glossary entries
 GET /v3/glossaries/{glossary_id}/entries HTTP/2
@@ -428,7 +428,7 @@ Use this method to add a new dictionary to a glossary or replace an existing one
 
 <Tabs>
 <Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```sh Example request: replace a dictionary
 curl -X PUT 'https://api.deepl.com/v3/glossaries/{glossaryId}/dictionaries' \
@@ -452,7 +452,7 @@ curl -X PUT 'https://api.deepl.com/v3/glossaries/{glossaryId}/dictionaries' \
 </Tab>
 
 <Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```http Example request: replace a dictionary
 PUT /v3/glossaries/{glossaryId}/dictionaries HTTP/2
@@ -487,7 +487,7 @@ For example, this `PATCH` changes a glossary's name.
 
 <Tabs>
 <Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```sh Example request: update glossary entries
 curl -X PATCH 'https://api.deepl.com/v3/glossaries/{glossaryId}' \
@@ -515,7 +515,7 @@ curl -X PATCH 'https://api.deepl.com/v3/glossaries/{glossaryId}' \
 </Tab>
 
 <Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```http Example request: update glossary entries
 PATCH /v3/glossaries/{glossaryId} HTTP/2
@@ -553,7 +553,7 @@ This example makes two changes. It changes the glossary's name, and it adds a ne
 
 <Tabs>
 <Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```sh Example request: update glossary entries
 curl -X PATCH 'https://api.deepl.com/v3/glossaries/{glossaryId}' \
@@ -587,7 +587,7 @@ curl -X PATCH 'https://api.deepl.com/v3/glossaries/{glossaryId}' \
 </Tab>
 
 <Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```http Example request: update glossary entries
 PATCH /v3/glossaries/{glossaryId} HTTP/2
@@ -631,7 +631,7 @@ This method deletes the specified glossary in its entirety.
 
 <Tabs>
 <Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```sh Example request: delete a glossary
 curl -X DELETE 'https://api.deepl.com/v3/glossaries/{glossary_id}' \
@@ -640,7 +640,7 @@ curl -X DELETE 'https://api.deepl.com/v3/glossaries/{glossary_id}' \
 </Tab>
 
 <Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```http Example request: delete a glossary
 DELETE /v3/glossaries/{glossary_id} HTTP/2
@@ -659,7 +659,7 @@ Use this method to delete a dictionary for a specific language pair.
 
 <Tabs>
 <Tab title="cURL">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```sh Example request: delete a dictionary
 curl -X DELETE 'https://api.deepl.com/v3/glossaries/{glossary_id}/dictionaries?source_lang={source_lang}&target_lang={target_lang}' \
@@ -668,7 +668,7 @@ curl -X DELETE 'https://api.deepl.com/v3/glossaries/{glossary_id}/dictionaries?s
 </Tab>
 
 <Tab title="HTTP Request">
-The example below uses our API Pro endpoint https://api.deepl.com. If you're an API Free user, remember to update your requests to use https://api-free.deepl.com instead.
+The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
 ```http Example request: delete a dictionary
 DELETE /v3/glossaries/{glossary_id}/dictionaries?source_lang={source_lang}&target_lang={target_lang} HTTP/2
@@ -706,4 +706,3 @@ The number of glossaries you can make is [limited by your plan](https://www.deep
 * Neither the source nor the target entry may be empty.
 * The source and target entries must not contain any C0 or C1 control characters (including, e.g., `\t` or `\n`) or any Unicode newline.
 * Source and target entries must not contain any leading or trailing Unicode whitespace characters.
-
