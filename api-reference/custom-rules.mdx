@@ -1,0 +1,135 @@
+---
+title: "Custom rules"
+sidebarTitle: "Overview"
+description: "Manage a shared list of rules for style, formatting, and more"
+---
+
+<Info>
+    The Custom Rules API is currently available only to Pro API subscribers.
+</Info>
+
+The custom rules feature allows you to select a set of rules to apply when translating or improving text. These rules make changes to your text according to the selected formatting and spelling conventions.
+
+### Get all custom rule lists
+List all custom rules and their meta-information.
+
+<Tabs>
+<Tab title="cURL">
+
+```sh Example request: list all custom rule lists
+curl -X GET 'https://api.deepl.com/v3/customization/custom_rules' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]' 
+```
+
+```json Example response
+{
+  "custom_rules": [
+    {
+      "id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+      "name": "Technical Documentation Rules",
+      "created_at": "2024-10-01T12:34:56Z",
+      "updated_at": "2024-10-03T12:34:56Z",
+      "language": "EN",
+      "version": 8
+    }
+  ]
+}
+```
+You can also optionally pass in a `detailed` query parameter, to retrieve all configured rules per rule list.
+
+```sh Example request: list all custom rule lists and their configured rules
+curl -X GET 'https://api.deepl.com/v3/customization/custom_rules?detailed=true' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]' 
+```
+
+```json Example response
+{
+  "custom_rules": [
+    {
+      "id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+      "name": "Technical Documentation Rules",
+      "created_at": "2024-10-01T12:34:56Z",
+      "updated_at": "2024-10-03T12:34:56Z",
+      "language": "EN",
+      "version": 8,
+      "configured_rules": {
+        "numbers": {
+            "time_format": "always-use-24-hour-clock"
+        },
+        "style_and_tone": {
+            "instructions_style": "use-imperative",
+            "redundant_introductory_words": "avoid-redundant-introductory-words-that-relate-to-current-text"
+        }
+      }
+    }
+  ]
+}
+```
+</Tab>
+<Tab title ="HTTP Request">
+
+```http Example request: list all custom rule lists
+GET https://api.deepl.com/v3/customization/custom_rules HTTP/2
+Host: api.deepl.com
+Authorization: DeepL-Auth-Key [yourAuthKey] 
+User-Agent: YourApp/1.2.3
+```
+```json Example response
+{
+  "custom_rules": [
+    {
+      "id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+      "name": "Technical Documentation Rules",
+      "created_at": "2024-10-01T12:34:56Z",
+      "updated_at": "2024-10-03T12:34:56Z",
+      "language": "EN",
+      "version": 8
+    }
+  ]
+}
+```
+
+You can also optionally pass in a `detailed` query parameter, to retrieve all configured rules per rule list.
+
+```http Example request: list all custom rule lists and their configured rules
+GET https://api.deepl.com/v3/customization/custom_rules?detailed=true HTTP/2
+Host: api.deepl.com
+Authorization: DeepL-Auth-Key [yourAuthKey] 
+User-Agent: YourApp/1.2.3
+```
+```json Example response
+{
+  "custom_rules": [
+    {
+      "id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+      "name": "Technical Documentation Rules",
+      "created_at": "2024-10-01T12:34:56Z",
+      "updated_at": "2024-10-03T12:34:56Z",
+      "language": "EN",
+      "version": 8,
+      "configured_rules": {
+        "numbers": {
+            "time_format": "always-use-24-hour-clock"
+        },
+        "style_and_tone": {
+            "instructions_style": "use-imperative",
+            "redundant_introductory_words": "avoid-redundant-introductory-words-that-relate-to-current-text"
+        }
+      }
+    }
+  ]
+}
+```
+</Tab>
+</Tabs>
+
+### Query parameters
+<ParamField query="detailed" type="boolean">
+Determines if the rule list's `configured_rules` should be included in the response body.. If `detailed` parameter is not included, defaults to `false`.
+</ParamField>
+<ParamField query="page" type="int">
+The index of the first page to return. Default: 0 (the first page). Use with `pageSize` to get the next page of rule lists.
+</ParamField>
+<ParamField query="pageSize" type="int">
+The maximum number of custom rule lists to return. Default: 10. Minimum: 1. Maximum: 25.
+</ParamField>
