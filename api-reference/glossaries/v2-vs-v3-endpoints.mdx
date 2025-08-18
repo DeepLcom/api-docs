@@ -10,8 +10,8 @@ With the [`v2` endpoints](/api-reference/glossaries/), you can create, delete, a
 
 The [`v3` endpoints](/api-reference/multilingual-glossaries) include all the functionality of `v2` endpoints, plus:
 
-* `v3` lets you edit glossaries
-* `v3` lets you work with _multilingual_ glossaries - a collection of mappings for a set of language pairs.
+- `v3` lets you edit glossaries
+- `v3` lets you work with _multilingual_ glossaries - a collection of mappings for a set of language pairs.
 
 Thus, we recommend you use `v3`. `v2`  is kept for backward compatibility. If you already use `v2` endpoints, moving to `v3`  will give you additional functionality, but there is no need to migrate your glossaries. You can simply start using `v3` endpoints with any glossary.
 
@@ -19,7 +19,7 @@ We strongly discourage using both `v2` and `v3` endpoints in your code. If you u
 
 Glossaries from either endpoint can be used in all translation endpoints - which includes both [`/translate`](../translate/) and [`/document`](../document/) .
 
-Going forward, we will continue to add features and functionality to `v3`.
+Going forward, we will continue to add features and functionality to `v3`. At present, the `/v3` endpoint is only used for editing glossaries and working with multilingual glossaries.
 
 ## Differences between v2 and v3
 
@@ -69,8 +69,8 @@ Going forward, we will continue to add features and functionality to `v3`.
 
 We strongly recommend switching to the latest version of the API, in order to benefit from the latest features, and as we might as some point deprecate or even remove the v2 glossary API. However, an immediate switch is not possible in all use cases, so this section outlines the implications of continuing to use the v2 glossary endpoints.
 
-* Once a glossary has been edited via the v3 glossary API, it can no longer be correctly queried through the v2 glossary API (e.g. via the "get entries" call). To avoid data loss, we disable deletion (for this glossary) through the v2 glossary API in this case, and require users to use the v3 glossary deletion endpoint.
-* We strongly discourage some users starting to use the v3 glossary endpoints, while having others still using v2 glossary endpoints. This is due to glossaries created via the v3 API still being queriable via the v2 API, which might cause confusion, as they cannot be displayed correctly.
+- Once a glossary has been edited via the v3 glossary API, it can no longer be correctly queried through the v2 glossary API (e.g. via the "get entries" call). To avoid data loss, we disable deletion (for this glossary) through the v2 glossary API in this case, and require users to use the v3 glossary deletion endpoint.
+- We strongly discourage some users starting to use the v3 glossary endpoints, while having others still using v2 glossary endpoints. This is due to glossaries created via the v3 API still being queriable via the v2 API, which might cause confusion, as they cannot be displayed correctly.
 
 ## Client libraries
 
