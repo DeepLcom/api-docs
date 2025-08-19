@@ -93,7 +93,7 @@
             "pages": [
               "docs/resources/roadmap-and-release-notes",
               {
-                "group": "Breaking changes (Change Notices)",
+                "group": "Breaking changes (change notices)",
                 "pages": [
                   "docs/resources/breaking-changes-change-notices",
                   "docs/resources/breaking-changes-change-notices/july-2024-deprecation-of-insecure-cipher-suites",
