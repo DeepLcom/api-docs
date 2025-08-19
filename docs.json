@@ -40,8 +40,7 @@
               "docs/getting-started/your-first-api-request",
               "docs/getting-started/test-your-api-requests-with-postman",
               "docs/getting-started/supported-languages",
-              "docs/getting-started/pre-production-checklist",
-              "docs/getting-started/alpha-and-beta-features"
+              "docs/getting-started/pre-production-checklist"
             ]
           },
           {
@@ -92,6 +91,7 @@
             "group": "Resources",
             "pages": [
               "docs/resources/roadmap-and-release-notes",
+              "docs/resources/usage-limits",
               {
                 "group": "Breaking changes (change notices)",
                 "pages": [
@@ -101,7 +101,7 @@
                 ]
               },
               "docs/resources/language-release-process",
-              "docs/resources/usage-limits",
+              "docs/resources/alpha-and-beta-features",
               "docs/resources/open-api-spec",
               "docs/resources/deepl-developer-community"
             ]
