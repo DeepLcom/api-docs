@@ -91,7 +91,7 @@
           {
             "group": "Resources",
             "pages": [
-              "docs/resources/release-notes",
+              "docs/resources/roadmap-and-release-notes",
               {
                 "group": "Breaking changes (Change Notices)",
                 "pages": [
