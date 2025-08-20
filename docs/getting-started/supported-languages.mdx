@@ -5,102 +5,103 @@ public: true
 ---
 
 <Info>
-Please note that Hebrew, Latin American Spanish, Thai and Vietnamese have not been added to the `/languages` endpoint as they are only available in the Pro v2 API using next-gen models. When these languages are available for all accounts and models they will be added to the `/languages` endpoint and this note will be removed.
+  Please note that Hebrew, Latin American Spanish, Thai and Vietnamese have not been added to the `/languages` endpoint as they are only available in the text translation API using next-gen models. When these languages are available for all translation endpoints (including document translation) they will be added to the `/languages` endpoint and this note will be removed.
 </Info>
 
 ### Translation source languages
 
-* `AR` - Arabic
-* `BG` - Bulgarian
-* `CS` - Czech
-* `DA` - Danish
-* `DE` - German
-* `EL` - Greek
-* `EN` - English (all English variants)
-* `ES` - Spanish (all Spanish variants)
-* `ET` - Estonian
-* `FI` - Finnish
-* `FR` - French
-* `HE` - Hebrew (text translation via next-gen models only)
-* `HU` - Hungarian
-* `ID` - Indonesian
-* `IT` - Italian
-* `JA` - Japanese
-* `KO` - Korean
-* `LT` - Lithuanian
-* `LV` - Latvian
-* `NB` - Norwegian Bokmål
-* `NL` - Dutch
-* `PL` - Polish
-* `PT` - Portuguese (all Portuguese variants)
-* `RO` - Romanian
-* `RU` - Russian
-* `SK` - Slovak
-* `SL` - Slovenian
-* `SV` - Swedish
-* `TH` - Thai (text translation via next-gen models only)
-* `TR` - Turkish
-* `UK` - Ukrainian
-* `VI` - Vietnamese (text translation via next-gen models only)
-* `ZH` - Chinese (all Chinese variants)
+- `AR` - Arabic
+- `BG` - Bulgarian
+- `CS` - Czech
+- `DA` - Danish
+- `DE` - German
+- `EL` - Greek
+- `EN` - English _(all English variants)_
+- `ES` - Spanish _(all Spanish variants)_
+- `ET` - Estonian
+- `FI` - Finnish
+- `FR` - French
+- `HE` - Hebrew _(text translation via next-gen models only)_
+- `HU` - Hungarian
+- `ID` - Indonesian
+- `IT` - Italian
+- `JA` - Japanese
+- `KO` - Korean
+- `LT` - Lithuanian
+- `LV` - Latvian
+- `NB` - Norwegian Bokmål
+- `NL` - Dutch
+- `PL` - Polish
+- `PT` - Portuguese _(all Portuguese variants)_
+- `RO` - Romanian
+- `RU` - Russian
+- `SK` - Slovak
+- `SL` - Slovenian
+- `SV` - Swedish
+- `TH` - Thai _(text translation via next-gen models only)_
+- `TR` - Turkish
+- `UK` - Ukrainian
+- `VI` - Vietnamese _(text translation via next-gen models only)_
+- `ZH` - Chinese _(all Chinese variants)_
 
 ### Translation target languages
 
-* `AR` - Arabic
-* `BG` - Bulgarian
-* `CS` - Czech
-* `DA` - Danish
-* `DE` - German
-* `EL` - Greek
-* `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)
-* `EN-GB` - English (British)
-* `EN-US` - English (American)
-* `ES` - Spanish
-* `ES-419` - Spanish (Latin American)
-* `ET` - Estonian
-* `FI` - Finnish
-* `FR` - French
-* `HE` - Hebrew (text translation via next-gen models only)
-* `HU` - Hungarian
-* `ID` - Indonesian
-* `IT` - Italian
-* `JA` - Japanese
-* `KO` - Korean
-* `LT` - Lithuanian
-* `LV` - Latvian
-* `NB` - Norwegian Bokmål
-* `NL` - Dutch
-* `PL` - Polish
-* `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)
-* `PT-BR` - Portuguese (Brazilian)
-* `PT-PT` - Portuguese (all Portuguese variants excluding Brazilian Portuguese)
-* `RO` - Romanian
-* `RU` - Russian
-* `SK` - Slovak
-* `SL` - Slovenian
-* `SV` - Swedish
-* `TH` - Thai (text translation via next-gen models only)
-* `TR` - Turkish
-* `UK` - Ukrainian
-* `VI` - Vietnamese (text translation via next-gen models only)
-* `ZH` - Chinese (unspecified variant for backward compatibility; please select `ZH-HANS` or `ZH-HANT` instead)
-* `ZH-HANS` - Chinese (simplified)
-* `ZH-HANT` - Chinese (traditional)
+- `AR` - Arabic
+- `BG` - Bulgarian
+- `CS` - Czech
+- `DA` - Danish
+- `DE` - German
+- `EL` - Greek
+- `EN` - English _(unspecified variant for backward compatibility; we recommend using_`EN-GB` _or_ `EN-US` _instead)_ 
+- `EN-GB` - English (British)
+- `EN-US` - English (American)
+- `ES` - Spanish
+- `ES-419` - Spanish (Latin American) _(text translation via next-gen models only)_
+- `ET` - Estonian
+- `FI` - Finnish
+- `FR` - French
+- `HE` - Hebrew _(text translation via next-gen models only)_
+- `HU` - Hungarian
+- `ID` - Indonesian
+- `IT` - Italian
+- `JA` - Japanese
+- `KO` - Korean
+- `LT` - Lithuanian
+- `LV` - Latvian
+- `NB` - Norwegian Bokmål
+- `NL` - Dutch
+- `PL` - Polish
+- `PT` - Portuguese _(unspecified variant for backward compatibility; we recommend using_ `PT-BR` _or_ `PT-PT` _instead)_ 
+- `PT-BR` - Portuguese (Brazilian)
+- `PT-PT` - Portuguese _(all Portuguese variants excluding Brazilian Portuguese)_
+- `RO` - Romanian
+- `RU` - Russian
+- `SK` - Slovak
+- `SL` - Slovenian
+- `SV` - Swedish
+- `TH` - Thai _(text translation via next-gen models only)_
+- `TR` - Turkish
+- `UK` - Ukrainian
+- `VI` - Vietnamese _(text translation via next-gen models only)_
+- `ZH` - Chinese _(unspecified variant for backward compatibility; we recommend using_ `ZH-HANS` _or_ `ZH-HANT` _instead)_ 
+- `ZH-HANS` - Chinese (simplified)
+- `ZH-HANT` - Chinese (traditional)
 
 <Info>
-As of April 2025, supported languages for [text improvement](/api-reference/improve-text) (DeepL API for Write) have not yet been added to the `/languages` endpoint; we'll be extending the `/languages` endpoint in the near future to include this information.
+  As of April 2025, supported languages for [text improvement](/api-reference/improve-text) (DeepL API for Write) have not yet been added to the `/languages` endpoint; we'll be extending the `/languages` endpoint in the near future to include this information.
 </Info>
+
 ### Text improvement languages (DeepL API for Write)
 
-* `DE` (German)
-* `EN-GB` (British English)
-* `EN-US` (American English)
-* `ES` (Spanish)
-* `FR` (French)
-* `IT` (Italian)
-* `PT-BR` (Brazilian Portuguese)
-* `PT-PT` (Portuguese)
+- `DE` (German)
+- `EN-GB` (British English)
+- `EN-US` (American English)
+- `ES` (Spanish)
+- `FR` (French)
+- `IT` (Italian)
+- `PT-BR` (Brazilian Portuguese)
+- `PT-PT` (Portuguese)
 
 <Info>
-For the `/write` endpoint, `writing_style` and `tone` currently work in `DE`, `EN-GB`, and `EN-US`.
+  For the `/write` endpoint, `writing_style` and `tone` currently work in `DE`, `EN-GB`, and `EN-US`.
 </Info>

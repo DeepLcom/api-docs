@@ -18,6 +18,7 @@ If you want to translate text where individual parts are marked up, you can simp
     ```markup Request
     Press <i>Continue</i> to advance to the next page.
     ```
+
     ```markup Response
     Drücken Sie <i>Weiter</i>, um zur nächsten Seite zu gelangen.
     ```
@@ -26,25 +27,28 @@ If you want to translate text where individual parts are marked up, you can simp
     ```markup Request
     <x id="17">Please welcome the participants</x> to today's meeting.
     ```
+
     ```markup Response
     <x id="17">Bitte begrüßen Sie die Teilnehmer</x> des heutigen Treffens.
     ```
   </Tab>
   <Tab title="Nested Tags">
-  ```markup Request
-  The firm said it had been conducting an <a>internal <b>investigation</b></a> for several months.
-  ```
-  ```markup Response
-  Das Unternehmen sagte, dass es seit mehreren Monaten eine <a>interne <b>Untersuchung</b></a>durchgeführt habe.
-  ```
+    ```markup Request
+    The firm said it had been conducting an <a>internal <b>investigation</b></a> for several months.
+    ```
+
+    ```markup Response
+    Das Unternehmen sagte, dass es seit mehreren Monaten eine <a>interne <b>Untersuchung</b></a>durchgeführt habe.
+    ```
   </Tab>
   <Tab title="Placeholder Tag">
-  ```markup Request
-  Artificial intelligence<a/> is already shaping our everyday<b></b> lives.
-  ```
-  ```markup Response
-  Künstliche Intelligenz<a/> prägt bereits heute unseren Alltag<b></b>.
-  ```
+    ```markup Request
+    Artificial intelligence<a/> is already shaping our everyday<b></b> lives.
+    ```
+
+    ```markup Response
+    Künstliche Intelligenz<a/> prägt bereits heute unseren Alltag<b></b>.
+    ```
   </Tab>
 </Tabs>
 
@@ -52,15 +56,17 @@ In general, placeholders are associated with the words preceding or following th
 
 ### Ignored Tags
 
-To ensure that elements in the original text are not altered in translation (e.g. trademarks or product names), use the `ignore_tags` parameter and specify a tag for this function.
+Use the `ignore_tags` parameter to specify that content within specific tags should not be translated. The example below uses `ignore_tags=x` to tell DeepL to preserve text between `<x> `and `</x>` tags as is.
 
 <Card title="Example: ignore \<x\> tag">
   ```text Parameters
   tag_handling=xml, ignore_tags=x
   ```
+
   ```markup Request
   Please open the page <x>Settings</x> to configure your system.
   ```
+
   ```markup Response
   Bitte öffnen Sie die Seite <x>Settings</x> um Ihr System zu konfigurieren.
   ```
