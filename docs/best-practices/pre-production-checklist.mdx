@@ -3,10 +3,7 @@ title: "Pre-production checklist"
 description: "Here's what we recommend reviewing to get your DeepL API application ready for production."
 public: true
 ---
-
-The fact that our pre-production checklist is published in the "Getting Started" section of the documentation is not a mistake!
-
-We believe it's useful information to have as you start exploring our product and thinking through your use case.
+As you prepare to open your DeepL-powered application up to the world, these tips will help you get ready for production.
 
 1. **Error handling:** If you receive 429 or 500 errors, use retries with exponential backoff. If you use one of [DeepL's official client libraries](/api-reference/client-libraries), you get this functionality out-of-the-box.
 2. **Persistent HTTP connection:** Especially for use cases with low latency requirements, we recommend using a persistent HTTP connection. [DeepL's official client libraries](/api-reference/client-libraries) use [Keep-Alive](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Keep-Alive) by default.
