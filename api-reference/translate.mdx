@@ -331,10 +331,6 @@ Note that we do not include examples for our client libraries in every single se
 
 ### About the model\_type parameter
 
-<Info>
-Note that the `quality_optimized` value for the `model_type` parameter is currently supported only in the Pro v2 API (`https://api.deepl.com/v2/translate`).
-</Info>
-
 The behavior of the `model_type` parameter when the `quality_optimized` or `prefer_quality_optimized` values are sent in a request depends on language pairs that are supported by DeepL’s next-gen translation models.
 
 Currently, all source and target languages are supported by next-gen models. In the future, if we add language pairs that are not supported by next-gen models, a request will fail (if `model_type` is set to `quality_optimized`) or fall back to classic models (if `model_type` is set to `prefer_quality_optimized`) if the chosen language pair does not support next-gen models.
