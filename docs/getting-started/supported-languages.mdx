@@ -5,10 +5,15 @@ public: true
 ---
 
 <Info>
-  Please note that Hebrew, Latin American Spanish, Thai and Vietnamese have not been added to the `/languages` endpoint as they are only available in the text translation API using next-gen models. When these languages are available for all translation endpoints (including document translation) they will be added to the `/languages` endpoint and this note will be removed.
+  Some languages are currently only available for text translation via our next-generation models and do not yet support glossaries or tag handling. You'll find these languages below under the "Text Translation Only Languages" subheadings for both source and target language lists. 
+
+  Please note that only fully-featured languages will be returned by calls to the `/languages` endpoint. 
 </Info>
 
-### Translation source languages
+## Translation source languages
+
+### Fully Supported Languages
+(Text translation, glossaries, and tag handling enabled):
 
 - `AR` - Arabic
 - `BG` - Bulgarian
@@ -21,7 +26,6 @@ public: true
 - `ET` - Estonian
 - `FI` - Finnish
 - `FR` - French
-- `HE` - Hebrew _(text translation via next-gen models only)_
 - `HU` - Hungarian
 - `ID` - Indonesian
 - `IT` - Italian
@@ -38,13 +42,85 @@ public: true
 - `SK` - Slovak
 - `SL` - Slovenian
 - `SV` - Swedish
-- `TH` - Thai _(text translation via next-gen models only)_
 - `TR` - Turkish
 - `UK` - Ukrainian
-- `VI` - Vietnamese _(text translation via next-gen models only)_
 - `ZH` - Chinese _(all Chinese variants)_
 
-### Translation target languages
+### Text Translation Only Languages
+(These languages support text translation via our next-gen models only, without support for glossaries or tag handling):
+
+- `ACE` - Acehnese
+- `AF` - Afrikaans
+- `AS` - Assamese
+- `AZ` - Azerbaijani
+- `BA` - Bashkir
+- `BE` - Belarusian
+- `BHO` - Bhojpuri
+- `BN` - Bengali
+- `BS` - Bosnian
+- `CEB` - Cebuano
+- `DIN` - Dinka
+- `EO` - Esperanto
+- `EU` - Basque
+- `FA` - Persian
+- `GL` - Galician
+- `GOM` - Konkani
+- `HA` - Hausa
+- `HE` - Hebrew
+- `HR` - Croatian
+- `IG` - Igbo
+- `JV` - Javanese
+- `KK` - Kazakh
+- `KY` - Kyrgyz
+- `LA` - Latin
+- `LB` - Luxembourgish
+- `LMO` - Lombard
+- `LN` - Lingala
+- `MAI` - Maithili
+- `MG` - Malagasy
+- `MI` - Maori
+- `MK` - Macedonian
+- `MN` - Mongolian
+- `MR` - Marathi
+- `MS` - Malay
+- `MT` - Maltese
+- `MY` - Burmese
+- `NE` - Nepali
+- `OC` - Occitan
+- `OM` - Oromo
+- `PAG` - Pangasinan
+- `PAM` - Kapampangan
+- `PS` - Pashto
+- `RW` - Kinyarwanda
+- `SA` - Sanskrit
+- `SCN` - Sicilian
+- `SG` - Sango
+- `SN` - Shona
+- `SO` - Somali
+- `SQ` - Albanian
+- `ST` - Sesotho
+- `SU` - Sundanese
+- `SW` - Swahili
+- `TG` - Tajik
+- `TH` - Thai
+- `TK` - Turkmen
+- `TL` - Tagalog
+- `TN` - Tswana
+- `TS` - Tsonga
+- `TT` - Tatar
+- `UG` - Uyghur
+- `UR` - Urdu
+- `UZ` - Uzbek
+- `VI` - Vietnamese
+- `XH` - Xhosa
+- `YO` - Yoruba
+- `YUE` - Cantonese
+- `ZU` - Zulu
+
+## Translation target languages
+
+### Fully Supported Languages
+(Text translation, glossaries, and tag handling enabled):
 
 - `AR` - Arabic
 - `BG` - Bulgarian
@@ -56,11 +132,9 @@ public: true
 - `EN-GB` - English (British)
 - `EN-US` - English (American)
 - `ES` - Spanish
-- `ES-419` - Spanish (Latin American) _(text translation via next-gen models only)_
 - `ET` - Estonian
 - `FI` - Finnish
 - `FR` - French
-- `HE` - Hebrew _(text translation via next-gen models only)_
 - `HU` - Hungarian
 - `ID` - Indonesian
 - `IT` - Italian
@@ -79,19 +153,90 @@ public: true
 - `SK` - Slovak
 - `SL` - Slovenian
 - `SV` - Swedish
-- `TH` - Thai _(text translation via next-gen models only)_
 - `TR` - Turkish
 - `UK` - Ukrainian
-- `VI` - Vietnamese _(text translation via next-gen models only)_
 - `ZH` - Chinese _(unspecified variant for backward compatibility; we recommend using_ `ZH-HANS` _or_ `ZH-HANT` _instead)_ 
 - `ZH-HANS` - Chinese (simplified)
 - `ZH-HANT` - Chinese (traditional)
 
+### Text Translation Only Languages
+(These languages support text translation via our next-gen models only, without support for glossaries or tag handling):
+
+- `ACE` - Acehnese
+- `AF` - Afrikaans
+- `AS` - Assamese
+- `AZ` - Azerbaijani
+- `BA` - Bashkir
+- `BE` - Belarusian
+- `BHO` - Bhojpuri
+- `BN` - Bengali
+- `BS` - Bosnian
+- `CEB` - Cebuano
+- `DIN` - Dinka
+- `EO` - Esperanto
+- `ES-419` - Spanish (Latin American)
+- `EU` - Basque
+- `FA` - Persian
+- `GL` - Galician
+- `GOM` - Konkani
+- `HA` - Hausa
+- `HE` - Hebrew
+- `HR` - Croatian
+- `IG` - Igbo
+- `JV` - Javanese
+- `KK` - Kazakh
+- `KY` - Kyrgyz
+- `LA` - Latin
+- `LB` - Luxembourgish
+- `LMO` - Lombard
+- `LN` - Lingala
+- `MAI` - Maithili
+- `MG` - Malagasy
+- `MI` - Maori
+- `MK` - Macedonian
+- `MN` - Mongolian
+- `MR` - Marathi
+- `MS` - Malay
+- `MT` - Maltese
+- `MY` - Burmese
+- `NE` - Nepali
+- `OC` - Occitan
+- `OM` - Oromo
+- `PAG` - Pangasinan
+- `PAM` - Kapampangan
+- `PS` - Pashto
+- `RW` - Kinyarwanda
+- `SA` - Sanskrit
+- `SCN` - Sicilian
+- `SG` - Sango
+- `SN` - Shona
+- `SO` - Somali
+- `SQ` - Albanian
+- `ST` - Sesotho
+- `SU` - Sundanese
+- `SW` - Swahili
+- `TG` - Tajik
+- `TH` - Thai
+- `TK` - Turkmen
+- `TL` - Tagalog
+- `TN` - Tswana
+- `TS` - Tsonga
+- `TT` - Tatar
+- `UG` - Uyghur
+- `UR` - Urdu
+- `UZ` - Uzbek
+- `VI` - Vietnamese
+- `XH` - Xhosa
+- `YO` - Yoruba
+- `YUE` - Cantonese
+- `ZU` - Zulu
+
+
+## Text improvement languages (DeepL API for Write)
+
 <Info>
   As of April 2025, supported languages for [text improvement](/api-reference/improve-text) (DeepL API for Write) have not yet been added to the `/languages` endpoint; we'll be extending the `/languages` endpoint in the near future to include this information.
 </Info>
-
-### Text improvement languages (DeepL API for Write)
 
 - `DE` (German)
 - `EN-GB` (British English)
