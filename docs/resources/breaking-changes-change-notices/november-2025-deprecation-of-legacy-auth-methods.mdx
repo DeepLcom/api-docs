@@ -1,14 +1,14 @@
 ---
-title: "August 2025: Deprecation of query parameter and request body authentication"
+title: "November 2025: Deprecation of query parameter and request body authentication"
 ---
 
 ## Change Notice
 
-On or after TBD, DeepL will fully obsolesce support for providing authentication information in an `auth_key` query parameter or in an `auth_key` field of the request body.
+On November 1st, 2025, DeepL will fully obsolesce support for providing authentication information in an `auth_key` query parameter or in an `auth_key` field of the request body.
 
 Deprecation of this feature was previously announced in [March 2025](/docs/resources/breaking-changes-change-notices/march-2025-deprecating-get-requests-to-translate-and-authenticating-with-auth_key), but we have continued to support it temporarily to allow more time for customers to complete the migration.
 
-You will no longer be able to authenticate a request to any endpoint by sending an API key in a query parameter or request body. Instead, send your API key in an HTTP header named Authorization .
+You will no longer be able to authenticate a request to any endpoint by sending an API key in a query parameter or request body. Instead, send your API key in an HTTP header named `Authorization`.
 
 * **You will no longer be able to authenticate a request to any endpoint by sending an API key in a query parameter or in the request body.** Instead, send your API key in an HTTP header named `Authorization` .
 * **If you use one of DeepL's officially-supported client libraries, you won't be negatively affected by the breaking changes and do not need to update your application.** Specifically, we've confirmed the following client library versions:
