@@ -357,6 +357,10 @@
     {
       "source": "/docs/resources/release-notes",
       "destination": "/docs/resources/roadmap-and-release-notes"
+    },
+    {
+      "source": "/docs/resources/release-notes/rss.xml",
+      "destination": "/docs/resources/roadmap-and-release-notes/rss.xml"
     }
   ],
   "integrations": {
