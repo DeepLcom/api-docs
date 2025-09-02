@@ -34,8 +34,6 @@ New user? Follow these quick steps to get started with the DeepL API.
     </Tip>
     <Tabs>
       <Tab title="Curl">
-        Open a terminal.
-
         ```sh Set the API key
         export API_KEY={YOUR_API_KEY}
         ```
@@ -62,49 +60,127 @@ New user? Follow these quick steps to get started with the DeepL API.
         ```
       </Tab>
       <Tab title="Python">
-        Choose a local directory to work in.
-
         ```sh Install client library
         pip install deepl
         ```
 
-        ```py Sample Request File
+        ```py Sample request
         import deepl
         
-        auth_key = "{YOUR_API_KEY}"
-        translator = deepl.Translator(auth_key)
+        auth_key = "{YOUR_API_KEY}" # replace with your key
+        deepl_client = deepl.DeeplClient(auth_key)
         
-        result = translator.translate_text("Hello, world!", target_lang="DE")
+        result = deepl_client.translate_text("Hello, world!", target_lang="DE")
         print(result.text)
         ```
 
-        ```text Sample Response
+        ```text Sample response
         Hallo, Welt!
         ```
       </Tab>
-      <Tab title="NodeJS">
-        Choose a local directory to work in.
-
+      <Tab title="JavaScript">
         ```sh Install client library
         npm install deepl-node
         ```
 
-        ```sh Sample Request File
+        ```javascript Sample request
         import * as deepl from 'deepl-node';
         
-        const authKey = "{YOUR_API_KEY}";
-        const translator = new deepl.Translator(authKey);
+        const authKey = "{YOUR_API_KEY}"; // replace with your key
+        const deeplClient = new deepl.DeepLClient(authKey);
         
         (async () => {
-            const result = await translator.translateText('Hello, world!', null, 'de');
+            const result = await deeplClient.translateText('Hello, world!', null, 'de');
             console.log(result.text);
         })();
         ```
 
-        ```text Sample Response
+        ```text Sample response
         Hallo, Welt!
         ```
       </Tab>
+      <Tab title="PHP">
+        ```sh Install client library
+        composer require deeplcom/deepl-php
+        ```
+
+        ```php Sample request
+        require_once 'vendor/autoload.php';
+        use DeepL\Translator;
+
+        $authKey = "{YOUR_API_KEY}"; // replace with your key
+        $deeplClient = new \DeepL\DeepLClient($authKey);
+        
+        $result = $deeplClient->translateText('Hello, world!', null, 'de');
+        echo $result->text;
+        ```
+
+        ```text Sample response
+        Hallo, Welt!
+        ```
+      </Tab>
+      <Tab title="C#">
+        ```sh Install client library
+        dotnet add package DeepL.net
+        ```
+
+        ```csharp
+        using DeepL; // this imports the DeepL namespace. Use the code below in your main program.
+
+        var authKey = "{YOUR_API_KEY}"; // replace with your key
+        var client = new DeepLClient(authKey);
+        
+        var translatedText = await client.TranslateTextAsync(
+            "Hello, world!",
+            null,
+            LanguageCode.German);
+        Console.WriteLine(translatedText);
+        ```
+
+        ```text Sample response
+        Hallo, Welt!
+        ```
+      </Tab>
+      <Tab title="Java">
+        ```java Install client library
+        // For instructions on installing the DeepL Java library,
+        // see https://github.com/DeepLcom/deepl-java?tab=readme-ov-file#installation
+        ```
+
+        ```java Sample request
+        import com.deepl.api.*; // this imports the DeepL package. Use the code below in your main program.
+        
+        String authKey = "{YOUR_API_KEY}"; // replace with your key
+        DeepLClient client = new DeepLClient(authKey);
+
+        TextResult result = client.translateText("Hello, world!", null, "de");
+        System.out.println(result.getText());
+        ```
+
+        ```text Sample response
+        Hallo, Welt!
+        ```
+      </Tab>
+      <Tab title="Ruby">
+        ```sh Install client library
+        gem install deepl-rb
+        ```
+
+        ```ruby Sample request
+        require 'deepl'
+        
+        DeepL.configure do |config|
+            config.auth_key = '{YOUR_API_KEY}' # replace with your key
+        end
+        
+        translation = DeepL.translate 'Hello, world!', nil, 'de'
+        puts translation.text
+        ```
+
+        ```text Sample response
+        Hallo, Welt!
+        ```
+      </Tab>                      
     </Tabs>
   </Step>
   <Step title="Step 3: Keep building with our client libraries and how-to guides" titleSize="h3">
