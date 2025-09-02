@@ -192,13 +192,6 @@
                 ]
               },
               {
-                "group": "Custom rules",
-                "pages": [
-                  "api-reference/custom-rules",
-                  "api-reference/custom-rules/list-all-custom-rules"
-                ]
-              },
-              {
                 "group": "Client libraries",
                 "pages": [
                   "api-reference/client-libraries"

@@ -287,12 +287,6 @@ paths:
                     request.
                   type: string
                   example: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
-                customization_id:
-                  description: |-
-                    Specify the custom rule list to use for the translation. **Important:** The target language has to 
-                    match the language of the custom rule list.
-                  type: string
-                  example: 7ff9bfd6-cd85-4190-8503-d6215a321519
                 tag_handling:
                   $ref: '#/components/schemas/TagHandlingOption'
                 outline_detection:
