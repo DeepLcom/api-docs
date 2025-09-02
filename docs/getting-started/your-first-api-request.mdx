@@ -69,9 +69,9 @@ We included text translation examples for our [client libraries](/api-reference/
     import deepl
     
     auth_key = "f63c02c5-f056-..."  # Replace with your key
-    translator = deepl.Translator(auth_key)
+    deepl_client = deepl.DeepLClient(auth_key)
     
-    result = translator.translate_text("Hello, world!", target_lang="FR")
+    result = deepl_client.translate_text("Hello, world!", target_lang="FR")
     print(result.text)  # "Bonjour, le monde !"
     ```
   </Tab>
@@ -80,54 +80,63 @@ We included text translation examples for our [client libraries](/api-reference/
     import * as deepl from 'deepl-node';
     
     const authKey = "f63c02c5-f056-..."; // Replace with your key
-    const translator = new deepl.Translator(authKey);
+    const deeplClient = new deepl.DeepLClient(authKey);
     
     (async () => {
-        const result = await translator.translateText('Hello, world!', null, 'fr');
+        const result = await deeplClient.translateText('Hello, world!', null, 'fr');
         console.log(result.text); // Bonjour, le monde !
     })();
     ```
   </Tab>
   <Tab title="PHP">
     ```php
+    require_once 'vendor/autoload.php';
+    use DeepL\Translator;
+
     $authKey = "f63c02c5-f056-..."; // Replace with your key
-    $translator = new \DeepL\Translator($authKey);
+    $deeplClient = new \DeepL\DeepLClient($authKey);
     
-    $result = $translator->translateText('Hello, world!', null, 'fr');
+    $result = $deeplClient->translateText('Hello, world!', null, 'fr');
     echo $result->text; // Bonjour, le monde!
     ```
   </Tab>
   <Tab title="C#">
     ```csharp
+    using DeepL; // this imports the DeepL namespace. Use the code below in your main program.
+
     var authKey = "f63c02c5-f056-..."; // Replace with your key
-    var translator = new Translator(authKey);
+    var client = new DeepLClient(authKey);
     
-    // Translate text into a target language, in this case, French:
-    var translatedText = await translator.TranslateTextAsync(
-          "Hello, world!",
-          LanguageCode.English,
-          LanguageCode.French);
+    var translatedText = await client.TranslateTextAsync(
+        "Hello, world!",
+        null,
+        LanguageCode.French);
     Console.WriteLine(translatedText); // "Bonjour, le monde !"
-    // Note: printing or converting the result to a string uses the output text.
     ```
   </Tab>
   <Tab title="Java">
     ```java
-    import com.deepl.api.*;
+    import com.deepl.api.*; // this imports the DeepL package. Use the code below in your main program.
     
-    class Example {
-        Translator translator;
-    
-        public Example() throws Exception {
-            String authKey = "f63c02c5-f056-...";  // Replace with your key
-            translator = new Translator(authKey);
-            TextResult result =
-                    translator.translateText("Hello, world!", null, "fr");
-            System.out.println(result.getText()); // "Bonjour, le monde !"
-        }
-    }
+    String authKey = "f63c02c5-f056-...";  // Replace with your key
+    DeepLClient client = new DeepLClient(authKey);
+
+    TextResult result = client.translateText("Hello, world!", null, "fr");
+    System.out.println(result.getText()); // "Bonjour, le monde !"
     ```
   </Tab>
+  <Tab title="Ruby">
+    ```ruby Sample request
+    require 'deepl'
+
+    DeepL.configure do |config|
+        config.auth_key = '{YOUR_API_KEY}' # replace with your key
+    end
+    
+    translation = DeepL.translate 'Hello, world!', nil, 'fr'
+    puts translation.text // "Bonjour, le monde !"
+    ```
+  </Tab>     
 </Tabs>
 
 ### Text improvement
