@@ -33,7 +33,30 @@ New user? Follow these quick steps to get started with the DeepL API.
       If you chose a free API plan and you are writing cURL or HTTP requests, replace `https://api.deepl.com` with `https://api-free.deepl.com`.
     </Tip>
     <Tabs>
-      <Tab title="Curl">
+      <Tab title="HTTP Request">
+        ```http Sample request
+        POST /v2/translate HTTP/2
+        Host: api.deepl.com
+        Authorization: DeepL-Auth-Key [yourAuthKey] 
+        User-Agent: YourApp/1.2.3
+        Content-Length: 45
+        Content-Type: application/json
+        
+        {"text":["Hello, world!"],"target_lang":"DE"}
+        ```
+
+        ```json Sample response
+        {
+          "translations": [
+            {
+              "detected_source_language": "EN",
+              "text": "Hallo, Welt!"
+            }
+          ]
+        }
+        ```
+      </Tab>
+      <Tab title="cURL">
         ```sh Set the API key
         export API_KEY={YOUR_API_KEY}
         ```
@@ -124,7 +147,7 @@ New user? Follow these quick steps to get started with the DeepL API.
         dotnet add package DeepL.net
         ```
 
-        ```csharp
+        ```csharp Sample request
         using DeepL; // this imports the DeepL namespace. Use the code below in your main program.
 
         var authKey = "{YOUR_API_KEY}"; // replace with your key
