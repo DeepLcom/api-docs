@@ -171,13 +171,17 @@ New user? Follow these quick steps to get started with the DeepL API.
         ```
 
         ```java Sample request
-        import com.deepl.api.*; // this imports the DeepL package. Use the code below in your main program.
+        import com.deepl.api.*;
         
-        String authKey = "{YOUR_API_KEY}"; // replace with your key
-        DeepLClient client = new DeepLClient(authKey);
+        public class Main {
+            public static void main(String[] args) throws DeepLException, InterruptedException {
+                String authKey = "{YOUR_API_KEY}"; // replace with your key
+                DeepLClient client = new DeepLClient(authKey);
 
-        TextResult result = client.translateText("Hello, world!", null, "de");
-        System.out.println(result.getText());
+                TextResult result = client.translateText("Hello, world!", null, "de");
+                System.out.println(result.getText());
+            }
+        }
         ```
 
         ```text Sample output
