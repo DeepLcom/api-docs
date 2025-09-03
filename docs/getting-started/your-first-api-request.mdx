@@ -14,8 +14,10 @@ To [translate text](/api-reference/translate), you can use the `/translate` endp
 We included text translation examples for our [client libraries](/api-reference/client-libraries), too, just to give you an idea of what they look like.
 
 <Tabs>
-    <Tab title="HTTP Request">
-    The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
+  <Tab title="HTTP Request">
+    <Tip>
+        If you chose a free API plan, replace `https://api.deepl.com` with `https://api-free.deepl.com`.
+    </Tip>
 
     ```http Example request
     POST /v2/translate HTTP/2
@@ -77,6 +79,10 @@ We included text translation examples for our [client libraries](/api-reference/
     result = deepl_client.translate_text("Hello, world!", target_lang="FR")
     print(result.text)  # "Bonjour à tous !"
     ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
   </Tab>
   <Tab title="JavaScript">
     ```javascript
@@ -90,6 +96,10 @@ We included text translation examples for our [client libraries](/api-reference/
         console.log(result.text); // Bonjour à tous !
     })();
     ```
+    
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
   </Tab>
   <Tab title="PHP">
     ```php
@@ -102,6 +112,10 @@ We included text translation examples for our [client libraries](/api-reference/
     $result = $deeplClient->translateText('Hello, world!', null, 'fr');
     echo $result->text; // Bonjour, le monde!
     ```
+    
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
   </Tab>
   <Tab title="C#">
     ```csharp
@@ -116,6 +130,10 @@ We included text translation examples for our [client libraries](/api-reference/
         LanguageCode.French);
     Console.WriteLine(translatedText); // "Bonjour à tous !"
     ```
+    
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
   </Tab>
   <Tab title="Java">
     ```java
@@ -131,6 +149,10 @@ We included text translation examples for our [client libraries](/api-reference/
         }
     }
     ```
+    
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
   </Tab>
   <Tab title="Ruby">
     ```ruby
@@ -143,6 +165,10 @@ We included text translation examples for our [client libraries](/api-reference/
     translation = DeepL.translate 'Hello, world!', nil, 'fr'
     puts translation.text // "Bonjour à tous !"
     ```
+    
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
   </Tab>     
 </Tabs>
 
