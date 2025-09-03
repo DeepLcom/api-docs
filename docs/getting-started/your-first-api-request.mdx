@@ -68,11 +68,11 @@ We included text translation examples for our [client libraries](/api-reference/
     ```python
     import deepl
     
-    auth_key = "f63c02c5-f056-..."  # Replace with your key
+    auth_key = "f63c02c5-f056-..."  # replace with your key
     deepl_client = deepl.DeepLClient(auth_key)
     
     result = deepl_client.translate_text("Hello, world!", target_lang="FR")
-    print(result.text)  # "Bonjour, le monde !"
+    print(result.text)  # "Bonjour à tous !"
     ```
   </Tab>
   <Tab title="JavaScript">
@@ -84,7 +84,7 @@ We included text translation examples for our [client libraries](/api-reference/
     
     (async () => {
         const result = await deeplClient.translateText('Hello, world!', null, 'fr');
-        console.log(result.text); // Bonjour, le monde !
+        console.log(result.text); // Bonjour à tous !
     })();
     ```
   </Tab>
@@ -104,25 +104,29 @@ We included text translation examples for our [client libraries](/api-reference/
     ```csharp
     using DeepL; // this imports the DeepL namespace. Use the code below in your main program.
 
-    var authKey = "f63c02c5-f056-..."; // Replace with your key
+    var authKey = "f63c02c5-f056-..."; // replace with your key
     var client = new DeepLClient(authKey);
     
     var translatedText = await client.TranslateTextAsync(
         "Hello, world!",
         null,
         LanguageCode.French);
-    Console.WriteLine(translatedText); // "Bonjour, le monde !"
+    Console.WriteLine(translatedText); // "Bonjour à tous !"
     ```
   </Tab>
   <Tab title="Java">
     ```java
-    import com.deepl.api.*; // this imports the DeepL package. Use the code below in your main program.
+    import com.deepl.api.*;
     
-    String authKey = "f63c02c5-f056-...";  // Replace with your key
-    DeepLClient client = new DeepLClient(authKey);
+    public class Main {
+        public static void main(String[] args) throws DeepLException, InterruptedException {
+            String authKey = "{YOUR_API_KEY}"; // replace with your key
+            DeepLClient client = new DeepLClient(authKey);
 
-    TextResult result = client.translateText("Hello, world!", null, "fr");
-    System.out.println(result.getText()); // "Bonjour, le monde !"
+            TextResult result = client.translateText("Hello, world!", null, "fr");
+            System.out.println(result.getText()); // "Bonjour à tous !"
+        }
+    }
     ```
   </Tab>
   <Tab title="Ruby">
@@ -134,7 +138,7 @@ We included text translation examples for our [client libraries](/api-reference/
     end
     
     translation = DeepL.translate 'Hello, world!', nil, 'fr'
-    puts translation.text // "Bonjour, le monde !"
+    puts translation.text // "Bonjour à tous !"
     ```
   </Tab>     
 </Tabs>
