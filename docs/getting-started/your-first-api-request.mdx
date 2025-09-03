@@ -39,8 +39,10 @@ We included text translation examples for our [client libraries](/api-reference/
     ```
   </Tab>
   <Tab title="cURL">
-    The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
-
+    <Tip>
+        If you chose a free API plan, replace `https://api.deepl.com` with `https://api-free.deepl.com`.
+    </Tip>
+  
     ```bash Example request
     curl -X POST 'https://api.deepl.com/v2/translate' \
     --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
