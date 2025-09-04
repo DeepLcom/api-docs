@@ -1,6 +1,7 @@
 ---
 title: "Your first API request"
 description: "Make your first API requests to translate and improve text with the DeepL API."
+mode: "wide"
 public: true
 ---
 
@@ -13,34 +14,10 @@ To [translate text](/api-reference/translate), you can use the `/translate` endp
 We included text translation examples for our [client libraries](/api-reference/client-libraries), too, just to give you an idea of what they look like.
 
 <Tabs>
-  <Tab title="cURL">
-    The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
-
-    ```bash Example request
-    curl -X POST 'https://api.deepl.com/v2/translate' \
-    --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
-    --header 'Content-Type: application/json' \
-    --data '{
-      "text": [
-        "Hello, world!"
-      ],
-      "target_lang": "DE"
-    }'
-    ```
-
-    ```json Example response
-    {
-      "translations": [
-        {
-          "detected_source_language": "EN",
-          "text": "Hallo, Welt!"
-        }
-      ]
-    }
-    ```
-  </Tab>
   <Tab title="HTTP Request">
-    The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
+    <Tip>
+        If you chose a free API plan, replace `https://api.deepl.com` with `https://api-free.deepl.com`.
+    </Tip>
 
     ```http Example request
     POST /v2/translate HTTP/2
@@ -64,70 +41,135 @@ We included text translation examples for our [client libraries](/api-reference/
     }
     ```
   </Tab>
+  <Tab title="cURL">
+    <Tip>
+        If you chose a free API plan, replace `https://api.deepl.com` with `https://api-free.deepl.com`.
+    </Tip>
+  
+    ```bash Example request
+    curl -X POST 'https://api.deepl.com/v2/translate' \
+    --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "text": [
+        "Hello, world!"
+      ],
+      "target_lang": "DE"
+    }'
+    ```
+
+    ```json Example response
+    {
+      "translations": [
+        {
+          "detected_source_language": "EN",
+          "text": "Hallo, Welt!"
+        }
+      ]
+    }
+    ```
+  </Tab>
   <Tab title="Python">
     ```python
     import deepl
     
-    auth_key = "f63c02c5-f056-..."  # Replace with your key
-    translator = deepl.Translator(auth_key)
+    auth_key = "f63c02c5-f056-..."  # replace with your key
+    deepl_client = deepl.DeepLClient(auth_key)
     
-    result = translator.translate_text("Hello, world!", target_lang="FR")
-    print(result.text)  # "Bonjour, le monde !"
+    result = deepl_client.translate_text("Hello, world!", target_lang="FR")
+    print(result.text)  # "Bonjour à tous !"
     ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
   </Tab>
-  <Tab title="PHP">
-    ```php
-    $authKey = "f63c02c5-f056-..."; // Replace with your key
-    $translator = new \DeepL\Translator($authKey);
-    
-    $result = $translator->translateText('Hello, world!', null, 'fr');
-    echo $result->text; // Bonjour, le monde!
-    ```
-  </Tab>
-  <Tab title="C#">
-    ```csharp
-    var authKey = "f63c02c5-f056-..."; // Replace with your key
-    var translator = new Translator(authKey);
-    
-    // Translate text into a target language, in this case, French:
-    var translatedText = await translator.TranslateTextAsync(
-          "Hello, world!",
-          LanguageCode.English,
-          LanguageCode.French);
-    Console.WriteLine(translatedText); // "Bonjour, le monde !"
-    // Note: printing or converting the result to a string uses the output text.
-    ```
-  </Tab>
-  <Tab title="Node.js">
+  <Tab title="JavaScript">
     ```javascript
     import * as deepl from 'deepl-node';
     
     const authKey = "f63c02c5-f056-..."; // Replace with your key
-    const translator = new deepl.Translator(authKey);
+    const deeplClient = new deepl.DeepLClient(authKey);
     
     (async () => {
-        const result = await translator.translateText('Hello, world!', null, 'fr');
-        console.log(result.text); // Bonjour, le monde !
+        const result = await deeplClient.translateText('Hello, world!', null, 'fr');
+        console.log(result.text); // Bonjour à tous !
     })();
     ```
+    
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="PHP">
+    ```php
+    require_once 'vendor/autoload.php';
+    use DeepL\Translator;
+
+    $authKey = "f63c02c5-f056-..."; // Replace with your key
+    $deeplClient = new \DeepL\DeepLClient($authKey);
+    
+    $result = $deeplClient->translateText('Hello, world!', null, 'fr');
+    echo $result->text; // Bonjour, le monde!
+    ```
+    
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="C#">
+    ```csharp
+    using DeepL; // this imports the DeepL namespace. Use the code below in your main program.
+
+    var authKey = "f63c02c5-f056-..."; // replace with your key
+    var client = new DeepLClient(authKey);
+    
+    var translatedText = await client.TranslateTextAsync(
+        "Hello, world!",
+        null,
+        LanguageCode.French);
+    Console.WriteLine(translatedText); // "Bonjour à tous !"
+    ```
+    
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
   </Tab>
   <Tab title="Java">
     ```java
     import com.deepl.api.*;
     
-    class Example {
-        Translator translator;
-    
-        public Example() throws Exception {
-            String authKey = "f63c02c5-f056-...";  // Replace with your key
-            translator = new Translator(authKey);
-            TextResult result =
-                    translator.translateText("Hello, world!", null, "fr");
-            System.out.println(result.getText()); // "Bonjour, le monde !"
+    public class Main {
+        public static void main(String[] args) throws DeepLException, InterruptedException {
+            String authKey = "{YOUR_API_KEY}"; // replace with your key
+            DeepLClient client = new DeepLClient(authKey);
+
+            TextResult result = client.translateText("Hello, world!", null, "fr");
+            System.out.println(result.getText()); // "Bonjour à tous !"
         }
     }
     ```
+    
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
   </Tab>
+  <Tab title="Ruby">
+    ```ruby
+    require 'deepl'
+
+    DeepL.configure do |config|
+        config.auth_key = '{YOUR_API_KEY}' # replace with your key
+    end
+    
+    translation = DeepL.translate 'Hello, world!', nil, 'fr'
+    puts translation.text // "Bonjour à tous !"
+    ```
+    
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>     
 </Tabs>
 
 ### Text improvement
@@ -143,9 +185,9 @@ The text improvement endpoint (DeepL API for Write) is currently only available 
   --header 'Content-Type: application/json' \
   --data '{
     "text": [
-      "I could relly use sum help with edits on thiss text !"
+      "Its never to late too fix you'\''re grammer & speling!"
     ],
-    "target_lang": "en-US"
+    "target_lang": "en-GB"
   }'
   ```
 
@@ -153,9 +195,9 @@ The text improvement endpoint (DeepL API for Write) is currently only available 
   {
     "improvements": [
       {
-        "text": "I could really use some help with editing this text!",
-        "target_language": "en-US",
-        "detected_source_language": "en"
+        "text": "It's never too late to fix your grammar and spelling!",
+        "detected_source_language": "en",
+        "target_language": "en-GB"
       }
     ]
   }
