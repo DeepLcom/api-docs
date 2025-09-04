@@ -114,70 +114,70 @@
           {
             "group": "API Reference",
             "pages": [
-            {
-              "group": "Translate text",
-              "pages": [
-                "api-reference/translate",
-                "api-reference/translate/request-translation"
-              ]
-            },
-            {
-              "group": "Translate documents",
-              "pages": [
-                "api-reference/document",
-                "api-reference/document/upload-and-translate-a-document",
-                "api-reference/document/check-document-status",
-                "api-reference/document/download-translated-document"
-              ]
-            },
-            {
-              "group": "Improve text",
-              "pages": [
-                "api-reference/improve-text",
-                "api-reference/improve-text/request-text-improvement"
-              ]
-            },
-            {
-              "group": "Glossaries",
-              "pages": [
-                "api-reference/multilingual-glossaries",
-                "api-reference/multilingual-glossaries/list-language-pairs-supported-by-glossaries",
-                "api-reference/multilingual-glossaries/create-a-glossary",
-                "api-reference/multilingual-glossaries/list-all-glossaries",
-                "api-reference/multilingual-glossaries/retrieve-glossary-details",
-                "api-reference/multilingual-glossaries/edit-glossary-details",
-                "api-reference/multilingual-glossaries/retrieve-glossary-entries",
-                "api-reference/multilingual-glossaries/delete-a-glossary",
-                "api-reference/multilingual-glossaries/deletes-the-dictionary-associated-with-the-given-language-pair-with-the-given-glossary-id",
-                "api-reference/multilingual-glossaries/replaces-or-creates-a-dictionary-in-the-glossary-with-the-specified-entries",
-                {
-                  "group": "Manage Monolingual Glossaries",
-                  "pages": [
-                    "api-reference/glossaries",
-                    "api-reference/glossaries/v2-vs-v3-endpoints",
-                    "api-reference/glossaries/create-a-glossary",
-                    "api-reference/glossaries/list-all-glossaries",
-                    "api-reference/glossaries/retrieve-glossary-details",
-                    "api-reference/glossaries/retrieve-glossary-entries",
-                    "api-reference/glossaries/delete-a-glossary"
-                  ]
-                }
-              ]
-            },
-            {
-              "group": "Retrieve usage and quota",
-              "pages": [
-                "api-reference/usage-and-quota",
-                "api-reference/usage-and-quota/check-usage-and-limits"
-              ]
-            },
-            {
-              "group": "Retrieve languages",
-              "pages": [
-                "api-reference/languages",
-                "api-reference/languages/retrieve-supported-languages"
-              ]
-            },
+              {
+                "group": "Translate text",
+                "pages": [
+                  "api-reference/translate",
+                  "api-reference/translate/request-translation"
+                ]
+              },
+              {
+                "group": "Translate documents",
+                "pages": [
+                  "api-reference/document",
+                  "api-reference/document/upload-and-translate-a-document",
+                  "api-reference/document/check-document-status",
+                  "api-reference/document/download-translated-document"
+                ]
+              },
+              {
+                "group": "Improve text",
+                "pages": [
+                  "api-reference/improve-text",
+                  "api-reference/improve-text/request-text-improvement"
+                ]
+              },
+              {
+                "group": "Glossaries",
+                "pages": [
+                  "api-reference/multilingual-glossaries",
+                  "api-reference/multilingual-glossaries/list-language-pairs-supported-by-glossaries",
+                  "api-reference/multilingual-glossaries/create-a-glossary",
+                  "api-reference/multilingual-glossaries/list-all-glossaries",
+                  "api-reference/multilingual-glossaries/retrieve-glossary-details",
+                  "api-reference/multilingual-glossaries/edit-glossary-details",
+                  "api-reference/multilingual-glossaries/retrieve-glossary-entries",
+                  "api-reference/multilingual-glossaries/delete-a-glossary",
+                  "api-reference/multilingual-glossaries/deletes-the-dictionary-associated-with-the-given-language-pair-with-the-given-glossary-id",
+                  "api-reference/multilingual-glossaries/replaces-or-creates-a-dictionary-in-the-glossary-with-the-specified-entries",
+                  {
+                    "group": "Manage Monolingual Glossaries",
+                    "pages": [
+                      "api-reference/glossaries",
+                      "api-reference/glossaries/v2-vs-v3-endpoints",
+                      "api-reference/glossaries/create-a-glossary",
+                      "api-reference/glossaries/list-all-glossaries",
+                      "api-reference/glossaries/retrieve-glossary-details",
+                      "api-reference/glossaries/retrieve-glossary-entries",
+                      "api-reference/glossaries/delete-a-glossary"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Retrieve usage and quota",
+                "pages": [
+                  "api-reference/usage-and-quota",
+                  "api-reference/usage-and-quota/check-usage-and-limits"
+                ]
+              },
+              {
+                "group": "Retrieve languages",
+                "pages": [
+                  "api-reference/languages",
+                  "api-reference/languages/retrieve-supported-languages"
+                ]
+              },
               {
                 "group": "Admin API",
                 "pages": [
