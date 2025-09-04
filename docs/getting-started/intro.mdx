@@ -29,12 +29,38 @@ New user? Follow these quick steps to get started with the DeepL API.
 
     If you use the sample code below, be sure to replace `{YOUR_API_KEY}` with your own API key.
 
-    <Tip>
-      If you chose a free API plan and you are writing cURL or HTTP requests, replace `https://api.deepl.com` with `https://api-free.deepl.com`.
-    </Tip>
     <Tabs>
-      <Tab title="Curl">
-        Open a terminal.
+      <Tab title="HTTP Request">
+        <Tip>
+          If you chose a free API plan and you are writing cURL or HTTP requests, replace `https://api.deepl.com` with `https://api-free.deepl.com`.
+        </Tip>
+           
+        ```http Sample request
+        POST /v2/translate HTTP/2
+        Host: api.deepl.com
+        Authorization: DeepL-Auth-Key [yourAuthKey] 
+        User-Agent: YourApp/1.2.3
+        Content-Length: 45
+        Content-Type: application/json
+        
+        {"text":["Hello, world!"],"target_lang":"DE"}
+        ```
+
+        ```json Sample response
+        {
+          "translations": [
+            {
+              "detected_source_language": "EN",
+              "text": "Hallo, Welt!"
+            }
+          ]
+        }
+        ```
+      </Tab>
+      <Tab title="cURL">
+        <Tip>
+          If you chose a free API plan and you are writing cURL or HTTP requests, replace `https://api.deepl.com` with `https://api-free.deepl.com`.
+        </Tip>
 
         ```sh Set the API key
         export API_KEY={YOUR_API_KEY}
@@ -62,49 +88,154 @@ New user? Follow these quick steps to get started with the DeepL API.
         ```
       </Tab>
       <Tab title="Python">
-        Choose a local directory to work in.
-
         ```sh Install client library
         pip install deepl
         ```
 
-        ```py Sample Request File
+        ```py Sample request
         import deepl
         
-        auth_key = "{YOUR_API_KEY}"
-        translator = deepl.Translator(auth_key)
+        auth_key = "{YOUR_API_KEY}" # replace with your key
+        deepl_client = deepl.DeeplClient(auth_key)
         
-        result = translator.translate_text("Hello, world!", target_lang="DE")
+        result = deepl_client.translate_text("Hello, world!", target_lang="DE")
         print(result.text)
         ```
 
-        ```text Sample Response
+        ```text Sample output
         Hallo, Welt!
         ```
-      </Tab>
-      <Tab title="NodeJS">
-        Choose a local directory to work in.
 
+        <Tip>
+          In production code, it's safer to store your API key in an environment variable.
+        </Tip>
+      </Tab>
+      <Tab title="JavaScript">
         ```sh Install client library
         npm install deepl-node
         ```
 
-        ```sh Sample Request File
+        ```javascript Sample request
         import * as deepl from 'deepl-node';
         
-        const authKey = "{YOUR_API_KEY}";
-        const translator = new deepl.Translator(authKey);
+        const authKey = "{YOUR_API_KEY}"; // replace with your key
+        const deeplClient = new deepl.DeepLClient(authKey);
         
         (async () => {
-            const result = await translator.translateText('Hello, world!', null, 'de');
+            const result = await deeplClient.translateText('Hello, world!', null, 'de');
             console.log(result.text);
         })();
         ```
 
-        ```text Sample Response
+        ```text Sample output
+        Hallo, Welt!
+
+        ```
+        <Tip>
+          In production code, it's safer to store your API key in an environment variable.
+        </Tip>
+      </Tab>
+      <Tab title="PHP">
+        ```sh Install client library
+        composer require deeplcom/deepl-php
+        ```
+
+        ```php Sample request
+        require_once 'vendor/autoload.php';
+        use DeepL\Translator;
+
+        $authKey = "{YOUR_API_KEY}"; // replace with your key
+        $deeplClient = new \DeepL\DeepLClient($authKey);
+        
+        $result = $deeplClient->translateText('Hello, world!', null, 'de');
+        echo $result->text;
+        ```
+
+        ```text Sample output
         Hallo, Welt!
         ```
+        <Tip>
+          In production code, it's safer to store your API key in an environment variable.
+        </Tip>
       </Tab>
+      <Tab title="C#">
+        ```sh Install client library
+        dotnet add package DeepL.net
+        ```
+
+        ```csharp Sample request
+        using DeepL; // this imports the DeepL namespace. Use the code below in your main program.
+
+        var authKey = "{YOUR_API_KEY}"; // replace with your key
+        var client = new DeepLClient(authKey);
+        
+        var translatedText = await client.TranslateTextAsync(
+            "Hello, world!",
+            null,
+            LanguageCode.German);
+        Console.WriteLine(translatedText);
+        ```
+
+        ```text Sample output
+        Hallo, Welt!
+        ```
+
+        <Tip>
+          In production code, it's safer to store your API key in an environment variable.
+        </Tip>
+      </Tab>
+      <Tab title="Java">
+        ```java Install client library
+        // For instructions on installing the DeepL Java library,
+        // see https://github.com/DeepLcom/deepl-java?tab=readme-ov-file#installation
+        ```
+
+        ```java Sample request
+        import com.deepl.api.*;
+        
+        public class Main {
+            public static void main(String[] args) throws DeepLException, InterruptedException {
+                String authKey = "{YOUR_API_KEY}"; // replace with your key
+                DeepLClient client = new DeepLClient(authKey);
+
+                TextResult result = client.translateText("Hello, world!", null, "de");
+                System.out.println(result.getText());
+            }
+        }
+        ```
+
+        ```text Sample output
+        Hallo, Welt!
+        ```
+
+        <Tip>
+          In production code, it's safer to store your API key in an environment variable.
+        </Tip>
+      </Tab>
+      <Tab title="Ruby">
+        ```sh Install client library
+        gem install deepl-rb
+        ```
+
+        ```ruby Sample request
+        require 'deepl'
+        
+        DeepL.configure do |config|
+            config.auth_key = '{YOUR_API_KEY}' # replace with your key
+        end
+        
+        translation = DeepL.translate 'Hello, world!', nil, 'de'
+        puts translation.text
+        ```
+
+        ```text Sample output
+        Hallo, Welt!
+        ```
+
+        <Tip>
+          In production code, it's safer to store your API key in an environment variable.
+        </Tip>
+      </Tab>                      
     </Tabs>
   </Step>
   <Step title="Step 3: Keep building with our client libraries and how-to guides" titleSize="h3">
