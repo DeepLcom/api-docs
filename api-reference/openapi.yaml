@@ -1735,6 +1735,55 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       security:
         - auth_header: [ ]
+  /v3/customizations/custom_rules:
+    get:
+      summary: Retrieve custom rule lists
+      operationId: getCustomRuleLists
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: The index of the first page to return. Use with `page_size` to get the next page of rule lists
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+            default: 10
+            minimum: 1
+            maximum: 25
+          description: The maximum number of custom rule lists to return.
+        - name: detailed
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: Determines if the rule list's `configured_rules should be included in the response body.
+      responses:
+        200:
+          description: JSON object containing the custom rule lists.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  custom_rules:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CustomRuleList'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
 components:
   parameters:
     DocumentID:
@@ -1893,6 +1942,400 @@ components:
           properties:
             characters:
               $ref: '#/components/schemas/ApiKeyUsageCharacters'
+    ConfiguredRules:
+      description: The enabled rules for the custom rule list including what option was selected for each rule.
+      type: object
+      properties:
+        formatting-v1:
+          type: object
+          properties:
+            email-address-format:
+              type: string
+              description: How email addresses should be formatted.
+              enum:
+                - "use-username-at-symbol-domain"
+                - "use-username-space-at-space-domain"
+                - "use-username-space-at-in-parentheses-space-domain"
+                - "use-username-space-at-in-square-brackets-space-domain"
+                - "use-username-space-at-in-brackets-space-domain"
+                - "use-username-space-at-symbol-domain-in-parentheses"
+                - "use-username-where-dots-are-replaced-with-english-word-dot-in-brackets-followed-by-at-domain-dot-in-brackets-top-level-domain"
+            phone-number-country-code-format:
+              description: How to format the country code in phone numbers.
+              type: string
+              enum:
+                - "use-plus-sign-for-country-code"
+                - "use-00-for-country-code"
+            phone-number-format:
+              description: How phone numbers should be formatted when writing phone numbers that use the North American Numbering Plan (NANP).
+              type: string
+              enum:
+                - "use-parentheses-area-code-space-number"
+                - "use-area-code-space-number"
+                - "use-area-code-slash-number"
+                - "use-area-code-number"
+                - "use-north-american-numbering-plan-format"
+                - "separate-country-code-area-code-local-prefix-and-last-four-digits-with-hyphen"
+                - "separate-country-code-area-code-local-prefix-and-last-four-digits-with-spaces"
+                - "separate-country-code-area-code-local-prefix-and-last-four-digits-with-dot"
+                - "do-not-place-any-spaces-or-special-characters-between-any-of-the-digits-of-the-phone-number"
+
+        grammar-v1:
+          type: object
+          properties:
+            active-passive-voice:
+              type: string
+              description: If active voice should be preferred over passive voice.
+              enum: ["use-active-voice-unless-actor-is-unknown-or-irrelevant"]
+            quotations-modification:
+              description: If text in quotation marks should be modified according to style guide rules.
+              type: string
+              enum: 
+                - "do-not-modify-text-in-quotation-marks"
+                - "modify-text-in-quotation-marks-according-to-style-guide-rules"
+
+        numbers-v1:
+          type: object
+          properties:
+            calendar-era:
+              description: Which year notation to use when specified such as BCE and CE or BC and AD.
+              type: string
+              enum: ["use-bce-and-ce", "use-bc-and-ad"]
+            currency-amount-format:
+              description: How currency amounts should be formatted.
+              type: string
+              enum:
+                - "use-currency-symbol-followed-by-amount-without-space"
+                - "use-currency-symbol-followed-by-space-then-amount"
+                - "use-amount-followed-by-space-then-currency-symbol"
+                - "use-iso-code-followed-by-space-then-amount"
+                - "use-amount-followed-by-space-then-iso-code"
+                - "use-amount-followed-by-space-then-currency-name"
+            date-format:
+              description: How dates should be formatted.
+              type: string
+              enum:
+                - "use-dd-dot-mm-dot-yyyy-with-leading-zeros-for-single-digit-days-and-months"
+                - "use-dd-dot-mm-dot-yy-with-leading-zeros-for-single-digit-days-and-months"
+                - "use-dd-dot-space-month-yyyy"
+                - "use-dd-dot-space-abbreviated-month-yyyy"
+                - "use-mm-slash-dd-slas-yyyy-with-leading-zeros-for-single-digit-days-and-months"
+                - "use-dd-slash-mm-slash-yyyy-with-leading-zeros-for-single-digit-days-and-months"
+                - "use-yyyy-dash-mm-dash-dd-with-leading-zeros-for-single-digit-days-and-months"
+                - "use-dd-space-written-out-month-space-yyyy-without-leading-zeros-for-single-digit-days"
+                - "use-written-out-month-space-dd-comma-space-yyyy-without-leading-zeros-for-single-digit-days"
+                - "use-dd-dot-space-abbreviated-month-yyyy-with-abbreviations-jan-feb-mrz-apr-mai-jun-jul-aug-sep-okt-nov-dez"
+                - "use-dd-dot-space-abbreviated-month-yyyy-with-abbreviations-jan-febr-maerz-apr-mai-juni-juli-aug-sept-okt-nov-dez"
+
+            decimal-numbers-less-than-one:
+              description: If decimal numbers below one should always start with ‘0,’.
+              type: string
+              enum: ["always-use-0-before-decimal-separator-for-numbers-less-than-one"]
+            decimal-separator:
+              description: If a period or comma should be used as the decimal separator.
+              type: string
+              enum: ["use-dot-as-decimal-separator", "use-comma-as-decimal-separator"]
+            dimensions-separator:
+              description: How two-dimensional and three-dimensional measurements should be formatted regarding the multiplication sign and spacing.
+              type: string
+              enum: 
+                - "use-multiplication-sign-between-dimensions-with-space-on-either-side"
+                - "use-multiplication-sign-between-dimensions-without-space-on-either-side"
+                - "use-x-between-dimensions-with-space-on-either-side"
+                - "use-x-between-dimensions-without-space-on-either-side"
+            equation-formula-reference:
+              description: If equations or formulas that are referenced in the text should always use Arabic numerals.
+              type: string
+              enum: ["always-use-arabic-numerals-to-reference-equations-or-formulas-mentioned-in-text"]
+            large-number-format:
+              description: If large numbers such as million, billion, trillion, or quadrillion should be written out or abbreviated.
+              type: string
+              enum: ["use-abbreviations-for-large-numbers", "write-out-large-numbers"]
+            large-number-separator:
+              type: string
+              enum: ["use-comma-to-separate-large-numbers-into-units-of-three", "use-space-to-separate-large-numbers-into-units-of-three"]
+            large-sums-of-money-format:
+              description: How to format large sums of money such as to abbreviate millions or billions and how to handle spacing.
+              type: string
+              enum:
+                - "use-amount-followed-by-abbreviation-for-millions-or-billions-without-space"
+                - "use-amount-followed-by-space-and-abbreviation-for-millions-or-billions"
+                - "use-amount-followed-by-space-and-word-for-millions-or-billions"
+            mathematical-formula-spacing:
+              description: Whether to use spaces between elements in mathematical expressions and equations for increased readability (a + b = c)
+              type: string
+              enum: ["use-space-between-elements-of-mathematical-formula"]
+            percentages-format:
+              description: How to format percentages regarding the percent symbol and spacing.
+              type: string
+              enum: 
+                - "use-numerals-followed-by-percent-symbol"
+                - "use-numerals-followed-by-space-and-percent-symbol"
+                - "use-numerals-followed-by-space-and-write-out-percent"
+                - "use-numerals-followed-by-space-and-write-out-per-cent"
+            reference-to-symbol:
+              description: Whether to, when referring to a symbol, spell out the name followed by the symbol in parentheses.
+              type: string
+              enum: ["spell-out-symbol-name-followed-by-symbol-in-parentheses"]
+            temperature-format:
+              description: How to format temperatures regarding the degree symbol and spacing.
+              type: string
+              enum: 
+                - "use-numerals-followed-by-space-then-degree-symbol-and-unit-symbol"
+                - "use-numerals-followed-by-space-then-degree-symbol-and-write-out-unit"
+                - "use-numerals-followed-by-degree-symbol-and-unit-symbol"
+                - "use-numerals-followed-by-space-then-degree-symbol-and-unit-symbol"
+                - "use-numerals-followed-by-space-then-write-out-degree-and-unit-name"
+            thousand-separator:
+              description: How to separate thousands in large numbers.
+              type: string
+              enum: ["use-dot-as-thousand-separator", "use-space-as-thousand-separator", "do-not-use-thousand-separator", "use-straight-single-quote-as-thousand-separator"]
+            time-format:
+              description: When writing times of the day, how they should be formatted.
+              type: string
+              enum: 
+                - "always-use-hh-colon-mm-german-word-uhr"
+                - "always-use-hh-dot-mm-german-word-uhr"
+                - "use-hh-colon-mm-german-word-uhr-no-leading-zeros"
+                - "use-hh-dot-mm-german-word-uhr-no-leading-zeros-use-single-digit-for-full-hour"
+                - "use-hh-dot-mm-german-word-uhr-no-leading-zeros"
+                - "always-use-12-hour-clock-and-upper-case-am-slash-pm"
+                - "always-use-12-hour-clock-and-upper-case-a-dot-m-slash-p-dot-m-dot"
+                - "always-use-12-hour-clock-and-lower-case-am-slash-pm"
+                - "always-use-12-hour-clock-and-lower-case-a-dot-m-slash-p-dot-m-dot"
+                - "always-use-12-hour-clock-and-upper-case-am-slash-pm-except-use-noon-and-midnight-instead-of-12-am-and-12-pm"
+                - "always-use-12-hour-clock-and-upper-case-a-dot-m-slash-p-dot-m-dot-except-use-noon-and-midnight-instead-of-12-am-and-12-pm"
+                - "always-use-12-hour-clock-and-lower-case-am-slash-pm-except-use-noon-and-midnight-instead-of-12-am-and-12-pm"
+                - "always-use-12-hour-clock-and-lower-case-a-dot-m-slash-p-dot-m-dot-except-use-noon-and-midnight-instead-of-12-am-and-12-pm"
+                - "always-use-24-hour-clock"
+            units-of-measure-spacing:
+              description: Whether to use spaces between numbers and units of measure.
+              type: string
+              enum: 
+                - "use-space-between-numbers-and-units-of-measure"
+                - "do-not-use-space-between-numbers-and-units-of-measure"
+            writing-out-units:
+              description: Whether to always write out units of measure or abbreviate them.
+              type: string
+              enum: 
+                - "always-write-out-units-of-measure"
+                - "abbreviate-units-of-measure-when-used-with-numbers-write-them-out-when-used-without-numbers"
+                - "always-abbreviate-units-of-measure"
+
+        punctuation-v1:
+          type: object
+          properties:
+            abbreviations-parenthetical-commas:
+              description: Whether to have a comma after i.e. and e.g. in text
+              type: string
+              enum:
+                - "use-comma-after-i-e-and-e-g"
+                - "use-comma-before-i-e-and-e-g"
+            academic-degrees:
+              description: Whether to use periods in academic degrees.
+              type: string
+              enum:
+                - "use-periods-in-academic-degrees"
+                - "do-not-use-periods-in-academic-degrees"
+            ampersand-abbreviation-spacing:
+              description: Whether to use spaces before and after the ampersand symbol when it is part of an abbreviation.
+              type: string
+              enum: 
+                - "do-not-use-spaces-before-and-after-ampersand-as-part-of-abbreviation"
+                - "use-spaces-before-and-after-ampersand-as-part-of-abbreviation"
+            ampersand-usage:
+              description: Whether to use the German word 'and' or the English word 'and' to replace the ampersand symbol, except in company names, common abbreviations, titles, software code, and mathematical equations
+              type: string
+              enum: 
+                - "use-german-word-und-except-for-company-names-common-abbreviations-titles-software-codes-and-mathematical-equations"
+                - "use-english-word-and-except-for-company-names-common-abbreviations-titles-software-codes-and-mathematical-equations"
+            apostrophe:
+              description: Whether to use curly apostrophes.
+              type: string
+              enum: ["use-curly-apostrophe"]
+            exclamation-mark:
+              description: Whether to use exclamation marks.
+              type: string
+              enum: ["do-not-use-exclamation-marks"]
+            introductory-phrase:
+              description: Whether to use a comma after a short introductory phrase.
+              type: string
+              enum:
+                - "use-comma-after-short-introductory-phrase"
+                - "do-not-use-comma-after-short-introductory-phrase"
+            plus-sign-usage:
+              description: Whether to use the plus sign to symbolize 'and' unless it is part of a proper noun.
+              type: string
+              enum: ["do-not-use-plus-sign-to-symbolize-and-unless-it-is-in-a-proper-noun-that-is-spelled-that-way"]
+            quotation-mark-and-apostrophe:
+              description: Whether to use straight or curly quotation marks and apostrophes.
+              type: string
+              enum:
+                - "use-straight-quotation-marks-and-apostrophes"
+                - "use-curly-quotation-marks-and-apostrophes"
+            quotation-style:
+              description: What quotation marks should be used for main quotations and nested quotations.
+              type: string
+              enum: 
+                - "use-german-quotation-marks-for-main-quotations-and-simple-german-quotation-marks-for-internal-quotations"
+                - "use-chevrons-for-main-quotations-and-simple-chevrons-for-internal-quotations"
+                - "use-guillemets-for-main-quotations-and-simple-guillemet-for-internal-quotations"
+                - "use-double-quotation-marks-for-main-quotations-and-single-quotation-marks-for-internal-quotations"
+                - "use-single-quotation-marks-for-main-quotations-and-double-quotation-marks-for-internal-quotations"
+            range-indicator:
+              description: How to indicate a range of numbers or dates.
+              type: string
+              enum: 
+                - "use-dash-without-space-on-either-side"
+                - "use-german-word-bis"
+                - "use-en-dash-without-space-on-either-side"
+                - "use-hyphen-without-space-on-either-side"
+                - "use-hyphen-with-space-on-either-side"
+                - "use-english-word-to"
+            salutation:
+              description: What punctuation to use after a salutation.
+              type: string
+              enum: 
+                - "use-comma-after-salutation"
+                - "use-exclamation-mark-after-salutation"
+                - "do-not-use-comma-after-salutation-capitalise-first-word"
+                - "use-colon-after-salutation"
+            sentence-break-indicator:
+              description: How to indicate a break in a sentence or to indicate asides
+              type: string
+              enum: 
+                - "use-dash-with-space-on-either-side"
+                - "use-em-dash-with-space-on-either-side"
+                - "use-em-dash-without-space-on-either-side"
+                - "use-en-dash-with-space-on-either-side"
+            serial-comma:
+              description: Whether to use a serial comma. (e.g. 'Apples, oranges, and bananas' vs 'Apples, oranges and bananas.')
+              type: string
+              enum: ["use-serial-comma", "do-not-use-serial-comma"]
+            slash:
+              description: Whether to use spaces before and after slashes.
+              type: string
+              enum: 
+                - "do-not-use-spaces-before-and-after-slashes"
+                - "use-spaces-before-and-after-slashes"
+                - "use-spaces-before-and-after-slashes-if-there-are-several-words"
+            slash-usage:
+              description: Whether to use the slash symbol to symbolize 'or'.
+              type: string
+              enum: ["do-not-use-slash-symbol-to-symbolize-or"]
+            suspension-points:
+              description: How to denote an ellipsis (e.g. '...' vs '…')
+              type: string
+              enum: 
+                - "use-three-periods-without-spaces-as-suspension-points"
+                - "use-ellipsis-sign-as-suspension-points"
+            upper-case-initialisms-and-acronyms:
+              description: Whether to use periods in uppercase abbreviations.
+              type: string
+              enum: ["do-not-use-periods-in-upper-case-initialisms-and-acronyms"]
+
+        spelling-v1:
+          type: object
+          properties:
+            all-caps:
+              description: If all-caps should be avoided unless it is an acronym, initialism or a proper noun.
+              type: string
+              enum: ["do-not-use-all-caps-except-for-acronyms-abbreviations-or-proper-nouns"]
+            contractions:
+              description: Whether to use contractions.
+              type: string
+              enum:
+                - "do-not-use-contractions"
+                - "use-contractions"
+                - "use-contractions-but-avoid-negative-contractions"
+            eszett:
+              description: If 'ß' should be replaced with 'ss'.
+              type: string
+              enum: ["use-ss"]
+            latin-abbreviations:
+              description: Whether to use Latin abbreviations, such as i.e., ibid., or etc.
+              type: string
+              enum: ["do-not-use-latin-abbreviations-use-spelled-out-counterparts-instead"]
+            umlauts:
+              description: If ‘ä’ should be replaced with 'ae', ‘ö’ with 'oe' and ‘ü’ with 'ue'.
+              type: string
+              enum: ["use-ae-oe-ue"]
+
+        style-and-tone-v1:
+          type: object
+          properties:
+            abbreviations:
+              description: If keyboard shortcuts, abbreviations, symbols or acronyms that can easily be spelled out should be avoided.
+              type: string
+              enum: ["avoid-using-abbreviations-that-can-be-written-out-easily", "use-abbreviations-symbols-and-acronyms"]
+            binary-representation-of-gender:
+              description: Whether to avoid binary representations of gender when you can reword using gender-neutral language. Avoid examples like 'Hiring men and women of diverse backgrounds fosters a culture of innovation.' and instead prefer examples like, 'Hiring people of diverse backgrounds fosters a culture of innovation.'
+              type: string
+              enum: ["avoid-binary-representation-of-gender-when-gender-neutral-language-can-be-used"]
+            complex-sentences:
+              description: Whether to avoid unnecessarily complex sentences.
+              type: string
+              enum: ["avoid-unnecessarily-complex-sentences"]
+            directional-text:
+              description: Whether to use directional language, or words that depend on visual cues, such as “here” or “below.”
+              type: string
+              enum: ["do-not-use-directional-text"]
+            gender-neural-language-readability:
+              description: Whether or not for increased readability, it is not mandatory to use gender-neutral language for common compound nouns that include the generic masculine. The word 'Einwohnerzahl' (population) does not need to be changed to 'Einwohner:innenzahl'. For new compound nouns, an individual decision needs to be made with readability in mind.
+              type: string
+              enum: ["use-generic-masculine-for-common-compound-nouns-if-it-increases-readability"]
+            idioms-colloquial-expressions-and-culture-specific-references:
+              description: Whether to use idioms, colloquialisms, or words or phrases specific to a particular culture.
+              type: string
+              enum: ["avoid-idioms-colloquial-expressions-and-culture-specific-references"]
+            instructions-style:
+              description: What style to use for instructions.
+              type: string
+              enum: ["use-imperative", "use-infinitive", "use-passive", "use-modal-verbs", "use-indicative"]
+            modal-verbs:
+              description: Whether to avoid modal verbs (müssen, können, dürfen, sollen, etc.).
+              type: string
+              enum: ["avoid-using-modal-verbs"]
+            personal-vs-impersonal-style:
+              description: Whether to use a personal writing style (such as addressing the reader directly) or an impersonal style.
+              type: string
+              enum: ["use-personal-style", "use-impersonal-style"]
+            positive-vs-negative-language:
+              description: Whether to use positive language.
+              type: string
+              enum: ["use-positive-language-rather-than-negative-language"]
+            reader-action-required:
+              description: Whether to usee 'must' when an action is required, rather than 'have to', 'should', or other alternatives.
+              type: string
+              enum: ["use-you-must-when-an-action-is-required-from-the-reader"]
+            redundant-introductory-words:
+              description: Whether to avoid reduntant introductory phrases referring to the text itself
+              type: string
+              enum: ["avoid-redundant-introductory-words-that-relate-to-current-text"]
+            redundant-phrases:
+              description: Whether to avoid redundant phrases where the same meaning is repeated in a single phrase (e.g. Added bonus; basic fundamentals)
+              type: string
+              enum: ["do-not-use-redundant-phrases-where-the-same-meaning-is-repeated-in-a-single-phrase"]
+            redundant-words:
+              description: Whether to eliminate qualifying and redundant words when appropriate.
+              type: string
+              enum: ["eliminate-relativising-and-redundant-words-where-appropriate"]
+            short-vs-long-words:
+              description: Whether to use a shorter word when available over the longer word.
+              type: string
+              enum: ["use-short-words"]
+            simple-words-and-sentences:
+              description: Whether to use simple words and sentences to avoid words or figures of speech that are difficult to translate.
+              type: string
+              enum: ["use-simple-words-and-sentences"]
+            text-position-references:
+              description: Whether to use directional text as the only reference to specific positions in the text. Instead of 'left' or 'right', write 'the first element in the following list'. This makes it easier for visually impaired readers to understand the text.
+              type: string
+              enum: ["avoid-using-directional-terms-as-only-reference-to-position-in-text-specify-exact-position-instead"]
+            verbal-vs-nominal-style:
+              description: Whether to use verbal style to achieve a more direct and personal tone or nominalization where appropriate for a less personal tone.
+              type: string
+              enum: ["use-verbal-style", "use-nominal-style"]
     Context:
       description: |-
         Additional context that can influence a translation but is not translated itself.
@@ -1950,6 +2393,55 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GlossaryDictionary'
+    CustomRuleList:
+      type: object
+      required:
+        - customization_id
+        - name
+        - creation_time
+        - updated_time
+        - language
+        - version
+      properties:
+        customization_id:
+          $ref: '#/components/schemas/CustomizationId'
+        name:
+          $ref: '#/components/schemas/CustomRuleName'
+        creation_time:
+          description: 'The creation time of the custom rule in the ISO 8601-1:2019 format
+            (e.g.: `2021-08-03T14:16:18.329Z`).'
+          type: string
+          format: date-time
+        updated_time:
+          description: 'The time of the custom rule when it was last updated in the ISO 8601-1:2019 format
+            (e.g.: `2022-08-03T14:16:18.329Z`).'
+          type: string
+          format: date-time
+        language:
+          $ref: '#/components/schemas/CustomRuleLanguage'
+        version:
+          description: The version of the custom rule. Incremented when the custom rule is updated.
+          type: integer
+          example: 13
+        configured_rules:
+          type: array
+          description: |-
+            List of configured rules enabled for the custom rule list.
+          items:
+            $ref: '#/components/schemas/ConfiguredRules'
+    CustomizationId:
+      type: string
+      description: A unique ID assigned to a custom rule.
+      example: "bd0a38f3-1831-440b-a8dd-2c702e2325ab"
+    CustomRuleLanguage:
+      description: The language that the custom rules are applied to.
+      type: string
+      enum:
+      - de
+      - en
+    CustomRuleName:
+      description: Name associated with the custom rule.
+      type: string
     DocumentTranslationError:
       type: object
       properties:

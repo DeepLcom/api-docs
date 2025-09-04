@@ -1,0 +1,597 @@
+openapi: 3.0.3
+info:
+  title: DeepL API Documentation
+  description: |-
+    The DeepL API provides programmatic access to DeepL’s language AI technology.
+    
+    Note: this OpenAPI spec is embedded into our API documentation and has shortened descriptions.
+  termsOfService: https://www.deepl.com/pro-license
+  contact:
+    name: DeepL - Contact us
+    url: https://www.deepl.com/contact-us
+  version: 3.2.0
+externalDocs:
+  description: DeepL Pro - Plans and pricing
+  url: https://www.deepl.com/pro#developer
+servers:
+- url: https://api.deepl.com
+  description: DeepL API Pro
+- url: https://api-free.deepl.com
+  description: DeepL API Free
+tags:
+- name: TranslateText
+  description: |-
+    The text-translation API currently consists of a single endpoint, `translate`, which is described below.
+x-hideTryItPanel: true
+x-codeSamples: false
+paths:
+  /v2/translate:
+    post:
+      tags:
+        - TranslateText
+      summary: Request Translation
+      operationId: translateText
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - text
+                - target_lang
+              properties:
+                text:
+                  description: |-
+                    Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be specified
+                    many times in a single request, within the request size limit (128KiB). Translations are returned
+                    in the same order as they are requested.
+                  type: array
+                  items:
+                    type: string
+                    example: Hello, World!
+                source_lang:
+                  $ref: '#/components/schemas/SourceLanguage'
+                target_lang:
+                  $ref: '#/components/schemas/TargetLanguageText'
+                context:
+                  $ref: '#/components/schemas/Context'
+                show_billed_characters:
+                  $ref: '#/components/schemas/ShowBilledCharacters'
+                split_sentences:
+                  $ref: '#/components/schemas/SplitSentencesOption'
+                preserve_formatting:
+                  $ref: '#/components/schemas/PreserveFormattingOption'
+                formality:
+                  $ref: '#/components/schemas/Formality'
+                model_type:
+                  $ref: '#/components/schemas/ModelType'
+                  placeholder: "quality_optimized"
+                glossary_id:
+                  description: |-
+                    Specify the glossary to use for the translation. **Important:** This requires the `source_lang`
+                    parameter to be set. The language pair of the glossary has to match the language pair of the
+                    request.
+                  type: string
+                  example: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
+                customization_id:
+                  description: |-
+                    Specify the custom rule list to use for the translation. **Important:** The target language has to 
+                    match the language of the custom rule list.
+                  type: string
+                  example: 7ff9bfd6-cd85-4190-8503-d6215a321519
+                tag_handling:
+                  $ref: '#/components/schemas/TagHandlingOption'
+                outline_detection:
+                  $ref: '#/components/schemas/OutlineDetectionOption'
+                non_splitting_tags:
+                  description: Comma-separated list of XML tags which never split sentences.
+                  type: array
+                  items:
+                    type: string
+                    example: non_splitting_tag
+                splitting_tags:
+                  description: Comma-separated list of XML tags which always cause splits.
+                  type: array
+                  items:
+                    type: string
+                    example: splitting_tag
+                ignore_tags:
+                  description: Comma-separated list of XML tags that indicate text not to be translated.
+                  type: array
+                  items:
+                    type: string
+                    example: ignore_tag
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - text
+                - target_lang
+              properties:
+                text:
+                  description: Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be
+                    specified many times in a single request, within the request size limit (128KiB). Translations are
+                    returned in the same order as they are requested.
+                  type: array
+                  items:
+                    type: string
+                    example: Hello, World!
+                source_lang:
+                  $ref: '#/components/schemas/SourceLanguage'
+                target_lang:
+                  $ref: '#/components/schemas/TargetLanguageText'
+                context:
+                  $ref: '#/components/schemas/Context'
+                show_billed_characters:
+                  $ref: '#/components/schemas/ShowBilledCharacters'
+                split_sentences:
+                  $ref: '#/components/schemas/SplitSentencesOption'
+                preserve_formatting:
+                  $ref: '#/components/schemas/PreserveFormattingOptionStr'
+                formality:
+                  $ref: '#/components/schemas/Formality'
+                model_type:
+                  $ref: '#/components/schemas/ModelType'
+                glossary_id:
+                  description: |-
+                    Specify the glossary to use for the translation. **Important:** This requires the `source_lang`
+                    parameter to be set. The language pair of the glossary has to match the language pair of the
+                    request.
+                  type: string
+                  example: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
+                tag_handling:
+                  $ref: '#/components/schemas/TagHandlingOption'
+                outline_detection:
+                  $ref: '#/components/schemas/OutlineDetectionOptionStr'
+                non_splitting_tags:
+                  description: Comma-separated list of XML tags which never split sentences.
+                  type: array
+                  items:
+                    type: string
+                    example: non_splitting_tag
+                splitting_tags:
+                  description: Comma-separated list of XML tags which always cause splits.
+                  type: array
+                  items:
+                    type: string
+                    example: splitting_tag
+                ignore_tags:
+                  description: Comma-separated list of XML tags that indicate text not to be translated.
+                  type: array
+                  items:
+                    type: string
+                    example: ignore_tag
+            encoding:
+              text:
+                style: form
+                explode: true
+      responses:
+        200:
+          description: The translate function returns a JSON representation of the
+            translations in the order the text parameters have been specified.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  translations:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        detected_source_language:
+                          description: The language detected in the source text. It
+                            reflects the value of the `source_lang` parameter, when
+                            specified.
+                          type: string
+                          example: EN
+                        text:
+                          description: The translated text.
+                          type: string
+                          example: Hallo, Welt!
+                        billed_characters:
+                          description: Number of characters counted by DeepL for billing purposes.
+                            Only present if the show_billed_characters parameter is set to true.
+                          type: integer
+                          example: 42
+                        model_type_used:
+                          description: Indicates the translation model used. Only present if model_type parameter
+                            is included in the request.
+                          type: string
+                          example: quality_optimized
+
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        413:
+          $ref: '#/components/responses/PayloadTooLarge'
+        414:
+          $ref: '#/components/responses/URITooLong'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        456:
+          $ref: '#/components/responses/QuotaExceeded'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        504:
+          $ref: '#/components/responses/ServiceUnavailable'
+        529:
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+        - auth_header: [ ]
+components:
+  parameters:
+    DocumentID:
+      name: document_id
+      description: The document ID that was sent to the client when the document was
+        uploaded to the API.
+      in: path
+      required: true
+      schema:
+        type: string
+      example: 04DE5AD98A02647D83285A36021911C6
+    GlossaryID:
+      name: glossary_id
+      description: A unique ID assigned to the glossary.
+      in: path
+      required: true
+      schema:
+        type: string
+    SourceLanguage:
+      name: source_lang
+      in: query
+      schema:
+        $ref: '#/components/schemas/SourceLanguage'
+    TargetLanguage:
+      name: target_lang
+      in: query
+      required: true
+      schema:
+        $ref: '#/components/schemas/TargetLanguage'
+  responses:
+    BadRequest:
+      description: Bad request. Please check error message and your parameters.
+    BadRequestGlossaries:
+      description: Bad request. Please check error message and your parameters.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                description: Generic description of the error.
+                type: string
+              detail:
+                description: More specific description of the error.
+                type: string
+          example:
+            message: Invalid glossary entries provided
+            detail: Key with the index 1 (starting at position 13) duplicates key
+              with the index 0 (starting at position 0)
+    Unauthorized:
+      description: Authorization failed. Please supply a valid `DeepL-Auth-Key` via
+        the `Authorization` header.
+    Forbidden:
+      description: Authorization failed. Please supply a valid `DeepL-Auth-Key` via
+        the `Authorization` header.
+    ForbiddenGlossaries:
+      description: Forbidden. The access to the requested resource is denied, because
+        of insufficient access rights.
+    NotFound:
+      description: The requested resource could not be found.
+    NotFound404DocTransDownload:
+      description: Trying to download a document using a non-existing document ID
+        or the wrong document key will result in a 404 error. As stated above, documents
+        can only be downloaded once before they are deleted from the server and their
+        document ID is invalidated.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DocumentTranslationError'
+          examples:
+            NotFound:
+              summary: Not Found
+              value:
+                message: Document not found
+    PayloadTooLarge:
+      description: The request size exceeds the limit.
+    URITooLong:
+      description: The request URL is too long. You can avoid this error by using
+        a POST request instead of a GET request, and sending the parameters in the
+        HTTP body.
+    UnsupportedMediaTypeGlossaries:
+      description: The requested entries format specified in the `Accept` header is
+        not supported.
+    TooManyRequests:
+      description: Too many requests. Please wait and resend your request.
+    QuotaExceeded:
+      description: Quota exceeded. The character limit has been reached.
+    QuotaExceededGlossaries:
+      description: Quota exceeded. Too many requests were made to the glossary endpoints recently.
+    InternalServerError:
+      description: Internal error.
+    ServiceUnavailable:
+      description: Resource currently unavailable. Try again later.
+    ServiceUnavailable503DocTransDownload:
+      description: |-
+        A 503 result will be returned if the user tries to download a translated document that is currently being processed and is not yet ready for download.
+        Please make sure to check that the document status is 'done' before trying to send a download request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DocumentTranslationError'
+          examples:
+            AlreadyDownloaded:
+              summary: Already Downloaded
+              value:
+                message: Document already downloaded
+  securitySchemes:
+    auth_header:
+      type: apiKey
+      description: >
+        Authentication with `Authorization` header and 
+        `DeepL-Auth-Key` authentication scheme. Example: 
+        `DeepL-Auth-Key <api-key>`
+      name: Authorization
+      in: header
+  schemas:
+    ApiKeyId:
+      description: API key ID. Consists of two valid GUIDs separated by a colon.
+      type: string
+      example: ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38
+    ApiKey:
+      description: The API key.
+      type: object
+      properties:
+        key_id:
+          $ref: '#/components/schemas/ApiKeyId'
+        label:
+          $ref: '#/components/schemas/ApiKeyLabel'
+        creation_time:
+          description: Timestamp when the key was created (ISO 8601 format)
+          type: string
+          example: "2025-07-08T08:15:29.362Z"
+        deactivated_time:
+          description: Timestamp when the key was deactivated (ISO 8601 format). The default value is `null`.
+          type: string
+          example: "2025-07-09T08:15:29.362Z"
+        is_deactivated:
+          description: Flag indicating whether the API key is deactivated. The default value is `false`.
+          type: boolean
+          example: true
+        usage_limits:
+          description: Usage limits for the API key.
+          type: object
+          properties:
+            characters:
+              $ref: '#/components/schemas/ApiKeyUsageCharacters'
+    Context:
+      description: |-
+        Additional context that can influence a translation but is not translated itself.
+
+        Characters included in the `context` parameter will not be counted toward billing.
+      type: string
+      example: This is context.
+    CustomizationId:
+      type: string
+      description: A unique ID assigned to a custom rule.
+      example: "bd0a38f3-1831-440b-a8dd-2c702e2325ab"
+    Formality:
+      description: |-
+        Sets whether the translated text should lean towards formal or informal language.
+        This feature is only available for certain target languages. Setting this parameter 
+        with a target language that does not support formality will fail, unless one of the 
+        `prefer_...` options are used.
+        Possible options are:
+          * `default` (default)
+          * `more` - for a more formal language
+          * `less` - for a more informal language
+          * `prefer_more` - for a more formal language if available, otherwise fallback to default formality
+          * `prefer_less` - for a more informal language if available, otherwise fallback to default formality
+      type: string
+      enum:
+      - default
+      - more
+      - less
+      - prefer_more
+      - prefer_less
+      default: default
+      example: prefer_more
+    GlossaryId:
+      type: string
+      description: A unique ID assigned to a glossary.
+      example: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
+    ModelType:
+      type: string
+      description: Specifies which DeepL model should be used for translation.
+      enum:
+      - quality_optimized
+      - prefer_quality_optimized
+      - latency_optimized
+      default: "quality_optimized"
+    OutlineDetectionOption:
+      description: |-
+        Disable the automatic detection of XML structure by setting the `outline_detection` parameter 
+        to `false` and selecting the tags that should be considered structure tags. This will split sentences 
+        using the `splitting_tags` parameter.
+      type: boolean
+      default: true
+    OutlineDetectionOptionStr:
+      description: |-
+        Disable the automatic detection of XML structure by setting the `outline_detection` parameter 
+        to `false` and selecting the tags that should be considered structure tags. This will split sentences 
+        using the `splitting_tags` parameter.
+      type: string
+      default: '1'
+      enum:
+      - '0'
+    PreserveFormattingOption:
+      description: |-
+        Sets whether the translation engine should respect the original formatting, even if it would usually 
+        correct some aspects.
+      type: boolean
+      default: false
+    PreserveFormattingOptionStr:
+      description: |-
+        Sets whether the translation engine should respect the original formatting, even if it would usually 
+        correct some aspects.
+      type: string
+      enum:
+      - '0'
+      - '1'
+      default: '0'
+    ShowBilledCharacters:
+      description: |-
+        When true, the response will include the billed_characters parameter, giving the 
+        number of characters from the request that will be counted by DeepL for billing purposes.
+      type: boolean  
+    SplitSentencesOption:
+      description: |-
+        Sets whether the translation engine should first split the input into sentences. 
+
+        Possible values are:
+          * 0 - no splitting at all, whole input is treated as one sentence
+          * 1 (default when tag_handling is not set to html) - splits on punctuation and on newlines
+          * nonewlines (default when tag_handling=html) - splits on punctuation only, ignoring newlines 
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - nonewlines
+      default: '1'
+      example: '1'
+    SourceLanguage:
+      type: string
+      description: |-
+        Language of the text to be translated. If this parameter is omitted, the API will attempt to 
+        detect the language of the text and translate it.
+      enum:
+      - AR
+      - BG
+      - CS
+      - DA
+      - DE
+      - EL
+      - EN
+      - ES
+      - ET
+      - FI
+      - FR
+      - HU
+      - ID
+      - IT
+      - JA
+      - KO
+      - LT
+      - LV
+      - NB
+      - NL
+      - PL
+      - PT
+      - RO
+      - RU
+      - SK
+      - SL
+      - SV
+      - TR
+      - UK
+      - ZH
+      example: EN
+    TagHandlingOption:
+      description: |-
+        Sets which kind of tags should be handled. Options currently available:
+         * `xml`
+         * `html`
+      type: string
+      enum:
+      - xml
+      - html
+      example: html
+    TargetLanguage:
+      type: string
+      description: The language into which the text should be translated.
+      enum:
+      - AR
+      - BG
+      - CS
+      - DA
+      - DE
+      - EL
+      - EN-GB
+      - EN-US
+      - ES
+      - ET
+      - FI
+      - FR
+      - HU
+      - ID
+      - IT
+      - JA
+      - KO
+      - LT
+      - LV
+      - NB
+      - NL
+      - PL
+      - PT-BR
+      - PT-PT
+      - RO
+      - RU
+      - SK
+      - SL
+      - SV
+      - TR
+      - UK
+      - ZH
+      - ZH-HANS
+      - ZH-HANT
+      example: DE
+    TargetLanguageText:
+      type: string
+      description: |-
+        The language into which the text should be translated.
+      enum:
+      - AR
+      - BG
+      - CS
+      - DA
+      - DE
+      - EL
+      - EN-GB
+      - EN-US
+      - ES
+      - ES-419
+      - ET
+      - FI
+      - FR
+      - HE
+      - HU
+      - ID
+      - IT
+      - JA
+      - KO
+      - LT
+      - LV
+      - NB
+      - NL
+      - PL
+      - PT-BR
+      - PT-PT
+      - RO
+      - RU
+      - SK
+      - SL
+      - SV
+      - TH
+      - TR
+      - UK
+      - VI
+      - ZH
+      - ZH-HANS
+      - ZH-HANT
+      example: DE    
