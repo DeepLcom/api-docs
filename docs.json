@@ -365,7 +365,7 @@
   ],
   "integrations": {
     "telemetry": {
-      "enabled": false
+      "enabled": true
     }
   }
 }
