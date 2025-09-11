@@ -97,7 +97,8 @@
                 "pages": [
                   "docs/resources/breaking-changes-change-notices",
                   "docs/resources/breaking-changes-change-notices/july-2024-deprecation-of-insecure-cipher-suites",
-                  "docs/resources/breaking-changes-change-notices/march-2025-deprecating-get-requests-to-translate-and-authenticating-with-auth_key"
+                  "docs/resources/breaking-changes-change-notices/march-2025-deprecating-get-requests-to-translate-and-authenticating-with-auth_key",
+                  "docs/resources/breaking-changes-change-notices/november-2025-deprecation-of-legacy-auth-methods"
                 ]
               },
               "docs/resources/language-release-process",

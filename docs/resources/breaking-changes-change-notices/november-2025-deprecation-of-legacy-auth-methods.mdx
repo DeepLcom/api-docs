@@ -1,0 +1,51 @@
+---
+title: "November 2025: Deprecation of query parameter and request body authentication"
+---
+
+## Change Notice
+
+On November 1st, 2025, DeepL will fully obsolesce support for providing authentication information in an `auth_key` query parameter or in an `auth_key` field of the request body.
+
+Deprecation of this feature was previously announced in [March 2025](/docs/resources/breaking-changes-change-notices/march-2025-deprecating-get-requests-to-translate-and-authenticating-with-auth_key), but we have continued to support it temporarily to allow more time for customers to complete the migration.
+
+You will no longer be able to authenticate a request to any endpoint by sending an API key in a query parameter or request body. Instead, send your API key in an HTTP header named `Authorization`.
+
+* **You will no longer be able to authenticate a request to any endpoint by sending an API key in a query parameter or in the request body.** Instead, send your API key in an HTTP header named `Authorization` .
+* **If you use one of DeepL's officially-supported client libraries, you won't be negatively affected by the breaking changes and do not need to update your application.** Specifically, we've confirmed the following client library versions:
+  * [deepl-php](https://github.com/deeplcom/deepl-php): 1.0.0+
+  * [deepl-python](https://github.com/deeplcom/deepl-python): 1.0.0+
+  * [deepl-java](https://github.com/DeepLcom/deepl-java): 1.0.0+
+  * [deepl-dotnet](https://github.com/DeepLcom/deepl-dotnet): 1.0.0+
+  * [deepl-node](https://github.com/DeepLcom/deepl-node): 1.1.0+
+  * [deepl-rb](https://github.com/DeepLcom/deepl-rb): 3.0.0+
+
+Going forward, you will need to authorize any API request, to any endpoint, by including your 
+API key in an HTTP header named `Authorization`, like this:
+
+```
+Authorization: DeepL-Auth-Key [yourAuthKey]
+```
+
+For detailed information on authorization and how to use the Authorization header, please see the [documentation](https://developers.deepl.com/docs/getting-started/auth). 
+Going forward, you will not be able to authorize any request, to any endpoint, by including your API key in an `auth_key` query parameter or an `auth_key` field of the request body.
+
+### Why is DeepL doing this now?
+The API best practice is to authenticate a request by including the API key in an HTTP header. Sending an API key in a GET request or in a URL risks exposing the API key to the public via logs or other means. For privacy and security reasons, we must disallow this practice.
+
+### What happens if a user continues to use a deprecated cipher suite?
+
+If you continue to use one of the cipher suites we’re deprecating, you won’t be able to access the DeepL API. This means that, for example, CAT tool plugins would no longer work properly.
+
+### What if I continue to use non-header authentication?
+After the date above, translation requests that attempt to authenticate with an `auth_key` query parameter or an `auth_key` field in the request body will fail with a `403 Forbidden` response.
+
+### What action should I take so that I’m not affected?
+If you develop your own application using the DeepL API:
+
+- Ensure your code is not using either of the deprecated features.
+
+If you’re using a third-party plugin that is powered by the DeepL API:
+
+- Update to the most recent version of the plugin. If you experience trouble, contact the plugin provider to make sure they are aware of these deprecations.
+
+For further questions, please visit [our support page](https://support.deepl.com).
