@@ -19,7 +19,7 @@ Get all custom rules lists and their meta-information.
 <Tab title="cURL">
 
 ```sh Example request: get all custom rule lists
-curl -X GET 'https://api.deepl.com/v3/customization/custom_rules' \
+curl -X GET 'https://api.deepl.com/v3/customizations/custom_rules' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' 
 ```
 
@@ -40,7 +40,7 @@ curl -X GET 'https://api.deepl.com/v3/customization/custom_rules' \
 You can also optionally pass in a `detailed` query parameter, to retrieve all configured rules per rule list.
 
 ```sh Example request: get all custom rule lists and their configured rules
-curl -X GET 'https://api.deepl.com/v3/customization/custom_rules?detailed=true' \
+curl -X GET 'https://api.deepl.com/v3/customizations/custom_rules?detailed=true' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' 
 ```
 
@@ -71,7 +71,7 @@ curl -X GET 'https://api.deepl.com/v3/customization/custom_rules?detailed=true' 
 <Tab title ="HTTP Request">
 
 ```http Example request: get all custom rule lists
-GET https://api.deepl.com/v3/customization/custom_rules HTTP/2
+GET https://api.deepl.com/v3/customizations/custom_rules HTTP/2
 Host: api.deepl.com
 Authorization: DeepL-Auth-Key [yourAuthKey] 
 User-Agent: YourApp/1.2.3
@@ -94,7 +94,7 @@ User-Agent: YourApp/1.2.3
 You can also optionally pass in a `detailed` query parameter, to retrieve all configured rules per rule list.
 
 ```http Example request: get all custom rule lists and their configured rules
-GET https://api.deepl.com/v3/customization/custom_rules?detailed=true HTTP/2
+GET https://api.deepl.com/v3/customizations/custom_rules?detailed=true HTTP/2
 Host: api.deepl.com
 Authorization: DeepL-Auth-Key [yourAuthKey] 
 User-Agent: YourApp/1.2.3
