@@ -6,9 +6,9 @@ sidebarTitle: "v2 vs v3 endpoints"
 
 ## Overview
 
-With the [`v2 endpoints`](/api-reference/glossaries/), you can create, delete, and retrieve information on _monolingual_ glossaries - glossaries that map one language to another.
+With the [v2 endpoints](/api-reference/glossaries/), you can create, delete, and retrieve information on _monolingual_ glossaries - glossaries that map one language to another.
 
-The [`v3 endpoints`](/api-reference/multilingual-glossaries) include all the functionality of `v2` endpoints, plus:
+The [v3 endpoints](/api-reference/multilingual-glossaries) include all the functionality of `v2` endpoints, plus:
 
 - `v3` lets you edit glossaries
 - `v3` lets you work with _multilingual_ glossaries - a collection of mappings for a set of language pairs.
@@ -17,7 +17,7 @@ Thus, we recommend you use `v3`. `v2`  is kept for backward compatibility. If yo
 
 We strongly discourage using both `v2` and `v3` endpoints in your code. If you use `v3`  endpoints to edit a glossary, `v2` endpoints may return unexpected results for that glossary, and `v2` endpoints will no longer be able to delete it.
 
-Glossaries from either endpoint can be used in all translation endpoints - which includes both [`/translate`](../translate/) and [`/document`](../document/) .
+Glossaries from either endpoint can be used in all translation endpoints - which includes both [/translate](../translate/) and [/document](../document/) .
 
 Going forward, we will continue to add features and functionality to `v3`. At present, the `/v3` endpoint is only used for editing glossaries and working with multilingual glossaries.
 
