@@ -1,0 +1,33 @@
+---
+title: "Document translations"
+public: true
+---
+
+Below you will find general guidance on how to handle status codes and error details to ensure a smooth document translation experience.
+
+### Document File Size Limits
+We impose [size limits](/docs/resources/usage-limits) per file type. 
+For `.pptx` and `.docx` types, our .NET, PHP and NodeJS client libraries offer functionality to minify files by temporarily extracting large media formats before sending them to the DeepL API. Stripped media are reinserted after document translation is completed. 
+
+This allows users to translate files that might hit the size limit.
+
+### Error 429: Too Many Requests
+This error may occur when: 
+
+- You send concurrent document translation requests that exceed your account quota.
+- You have too many un-retrieved or non-downloaded translated documents.
+
+Documents are stored for only a brief period and must be downloaded promptly after translation.
+
+To avoid this error, we recommend implementing the following measures:
+- Polling document translation status, taking into account its frequency in order to prevent excessive load
+- Quicker time to document retrieval
+- Retries with exponential backoff
+
+### Error 456: Quota Exceeded
+This error indicates that your latest document translation request has exceeded the included characters (API Free) or the character limit you have set (API Pro) for your account.
+Further document translation requests will not be processed.
+
+<Tip>
+  Check out our [code example](https://github.com/DeepLcom/deepl-node/tree/main/examples/bulk-translation) on how to implement bulk document translations.
+</Tip>
