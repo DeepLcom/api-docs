@@ -72,6 +72,7 @@
             "pages": [
               "docs/best-practices/error-handling",
               "docs/best-practices/cors-requests",
+              "docs/best-practices/document-translations",
               "docs/best-practices/working-with-context",
               "docs/best-practices/language-detection",
               "docs/best-practices/cost-control",
