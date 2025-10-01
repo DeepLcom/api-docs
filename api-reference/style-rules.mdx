@@ -1,31 +1,31 @@
 ---
-title: "Custom rules"
+title: "Style rules"
 sidebarTitle: "Overview"
 description: "Manage a shared list of rules for style, formatting, and more"
 ---
 
 <Info>
-    The Custom Rules API is currently available only to Pro API subscribers.
+    The Style Rules API is currently available only to Pro API subscribers.
 </Info>
 
-The custom rules feature allows you to select a set of rules to apply when translating text. These rules make changes to your text according to the selected formatting and spelling conventions.
+The style rules feature allows you to select a set of rules to apply when translating text. These rules make changes to your text according to the selected formatting and spelling conventions.
 
-You can create custom rules in the UI at [https://deepl.com/custom-rules](https://deepl.com/custom-rules). 
+You can create style rules in the UI at [https://deepl.com/custom-rules](https://deepl.com/custom-rules). 
 
-### Get all custom rule lists
-Get all custom rules lists and their meta-information.
+### Get all style rule lists
+Get all style rules lists and their meta-information.
 
 <Tabs>
 <Tab title="cURL">
 
-```sh Example request: get all custom rule lists
-curl -X GET 'https://api.deepl.com/v3/customizations/custom_rules' \
+```sh Example request: get all style rule lists
+curl -X GET 'https://api.deepl.com/v3/style_rules' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' 
 ```
 
 ```json Example response
 {
-  "custom_rules": [
+  "style_rules": [
     {
       "id": "a74d88fb-ed2a-4943-a664-a4512398b994",
       "name": "Technical Documentation Rules",
@@ -39,14 +39,14 @@ curl -X GET 'https://api.deepl.com/v3/customizations/custom_rules' \
 ```
 You can also optionally pass in a `detailed` query parameter, to retrieve all configured rules per rule list.
 
-```sh Example request: get all custom rule lists and their configured rules
-curl -X GET 'https://api.deepl.com/v3/customizations/custom_rules?detailed=true' \
+```sh Example request: get all style rule lists and their configured rules
+curl -X GET 'https://api.deepl.com/v3/style_rules?detailed=true' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' 
 ```
 
 ```json Example response
 {
-  "custom_rules": [
+  "style_rules": [
     {
       "id": "a74d88fb-ed2a-4943-a664-a4512398b994",
       "name": "Technical Documentation Rules",
@@ -70,15 +70,15 @@ curl -X GET 'https://api.deepl.com/v3/customizations/custom_rules?detailed=true'
 </Tab>
 <Tab title ="HTTP Request">
 
-```http Example request: get all custom rule lists
-GET https://api.deepl.com/v3/customizations/custom_rules HTTP/2
+```http Example request: get all style rule lists
+GET https://api.deepl.com/v3/style_rules HTTP/2
 Host: api.deepl.com
 Authorization: DeepL-Auth-Key [yourAuthKey] 
 User-Agent: YourApp/1.2.3
 ```
 ```json Example response
 {
-  "custom_rules": [
+  "style_rules": [
     {
       "id": "a74d88fb-ed2a-4943-a664-a4512398b994",
       "name": "Technical Documentation Rules",
@@ -93,15 +93,15 @@ User-Agent: YourApp/1.2.3
 
 You can also optionally pass in a `detailed` query parameter, to retrieve all configured rules per rule list.
 
-```http Example request: get all custom rule lists and their configured rules
-GET https://api.deepl.com/v3/customizations/custom_rules?detailed=true HTTP/2
+```http Example request: get all style rule lists and their configured rules
+GET https://api.deepl.com/v3/style_rules?detailed=true HTTP/2
 Host: api.deepl.com
 Authorization: DeepL-Auth-Key [yourAuthKey] 
 User-Agent: YourApp/1.2.3
 ```
 ```json Example response
 {
-  "custom_rules": [
+  "style_rules": [
     {
       "id": "a74d88fb-ed2a-4943-a664-a4512398b994",
       "name": "Technical Documentation Rules",
@@ -133,5 +133,5 @@ Determines if the rule list's `configured_rules` should be included in the respo
 The index of the first page to return. Default: 0 (the first page). Use with `page_size` to get the next page of rule lists.
 </ParamField>
 <ParamField query="page_size" type="int">
-The maximum number of custom rule lists to return. Default: 10. Minimum: 1. Maximum: 25.
+The maximum number of style rule lists to return. Default: 10. Minimum: 1. Maximum: 25.
 </ParamField>
