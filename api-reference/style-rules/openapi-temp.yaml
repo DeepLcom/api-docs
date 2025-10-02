@@ -74,10 +74,10 @@ paths:
                     request.
                   type: string
                   example: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
-                customization_id:
+                style_id:
                   description: |-
-                    Specify the custom rule list to use for the translation. **Important:** The target language has to 
-                    match the language of the custom rule list.
+                    Specify the style rule list to use for the translation. **Important:** The target language has to 
+                    match the language of the style rule list.
                   type: string
                   example: 7ff9bfd6-cd85-4190-8503-d6215a321519
                 tag_handling:
@@ -377,9 +377,9 @@ components:
         Characters included in the `context` parameter will not be counted toward billing.
       type: string
       example: This is context.
-    CustomizationId:
+    StyleId:
       type: string
-      description: A unique ID assigned to a custom rule.
+      description: A unique ID assigned to a style rule.
       example: "bd0a38f3-1831-440b-a8dd-2c702e2325ab"
     Formality:
       description: |-

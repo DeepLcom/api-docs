@@ -1735,10 +1735,10 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       security:
         - auth_header: [ ]
-  /v3/customizations/custom_rules:
+  /v3/style_rules:
     get:
-      summary: Retrieve custom rule lists
-      operationId: getCustomRuleLists
+      summary: Retrieve style rule lists
+      operationId: getStyleRuleLists
       parameters:
         - name: page
           in: query
@@ -1753,25 +1753,25 @@ paths:
             default: 10
             minimum: 1
             maximum: 25
-          description: The maximum number of custom rule lists to return.
+          description: The maximum number of style rule lists to return.
         - name: detailed
           in: query
           schema:
             type: boolean
             default: false
-          description: Determines if the rule list's `configured_rules should be included in the response body.
+          description: Determines if the rule list's `configured_rules` should be included in the response body.
       responses:
         200:
-          description: JSON object containing the custom rule lists.
+          description: JSON object containing the style rule lists.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  custom_rules:
+                  style_rules:
                     type: array
                     items:
-                      $ref: '#/components/schemas/CustomRuleList'
+                      $ref: '#/components/schemas/StyleRuleList'
         401:
           $ref: '#/components/responses/Unauthorized'
         403:
@@ -1943,7 +1943,7 @@ components:
             characters:
               $ref: '#/components/schemas/ApiKeyUsageCharacters'
     ConfiguredRules:
-      description: The enabled rules for the custom rule list including what option was selected for each rule.
+      description: The enabled rules for the style rule list including what option was selected for each rule.
       type: object
       properties:
         formatting-v1:
@@ -2393,54 +2393,54 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GlossaryDictionary'
-    CustomRuleList:
+    StyleRuleList:
       type: object
       required:
-        - customization_id
+        - style_id
         - name
         - creation_time
         - updated_time
         - language
         - version
       properties:
-        customization_id:
-          $ref: '#/components/schemas/CustomizationId'
+        style_id:
+          $ref: '#/components/schemas/StyleId'
         name:
-          $ref: '#/components/schemas/CustomRuleName'
+          $ref: '#/components/schemas/StyleRuleName'
         creation_time:
-          description: 'The creation time of the custom rule in the ISO 8601-1:2019 format
+          description: 'The creation time of the style rule in the ISO 8601-1:2019 format
             (e.g.: `2021-08-03T14:16:18.329Z`).'
           type: string
           format: date-time
         updated_time:
-          description: 'The time of the custom rule when it was last updated in the ISO 8601-1:2019 format
+          description: 'The time of the style rule when it was last updated in the ISO 8601-1:2019 format
             (e.g.: `2022-08-03T14:16:18.329Z`).'
           type: string
           format: date-time
         language:
-          $ref: '#/components/schemas/CustomRuleLanguage'
+          $ref: '#/components/schemas/StyleRuleLanguage'
         version:
-          description: The version of the custom rule. Incremented when the custom rule is updated.
+          description: The version of the style rule. Incremented when the style rule is updated.
           type: integer
           example: 13
         configured_rules:
           type: array
           description: |-
-            List of configured rules enabled for the custom rule list.
+            List of configured rules enabled for the style rule list.
           items:
             $ref: '#/components/schemas/ConfiguredRules'
-    CustomizationId:
+    StyleId:
       type: string
-      description: A unique ID assigned to a custom rule.
+      description: A unique ID assigned to a style rule.
       example: "bd0a38f3-1831-440b-a8dd-2c702e2325ab"
-    CustomRuleLanguage:
-      description: The language that the custom rules are applied to.
+    StyleRuleLanguage:
+      description: The language that the style rules are applied to.
       type: string
       enum:
       - de
       - en
-    CustomRuleName:
-      description: Name associated with the custom rule.
+    StyleRuleName:  
+      description: Name associated with the style rule.
       type: string
     DocumentTranslationError:
       type: object
