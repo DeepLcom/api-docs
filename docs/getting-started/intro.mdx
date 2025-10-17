@@ -96,7 +96,7 @@ New user? Follow these quick steps to get started with the DeepL API.
         import deepl
         
         auth_key = "{YOUR_API_KEY}" # replace with your key
-        deepl_client = deepl.DeeplClient(auth_key)
+        deepl_client = deepl.DeepLClient(auth_key)
         
         result = deepl_client.translate_text("Hello, world!", target_lang="DE")
         print(result.text)
