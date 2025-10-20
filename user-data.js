@@ -2,7 +2,7 @@ const h1 = document.getElementById('page-title');
 const apiBaseUrl = 'https://w.deepl.com/web'; //TODO: change this when we're in prod
 const apiParams = 'request_type=jsonrpc&il=en&method=getClientState';
 
-const apiUrl = `${apiBaseUrl}/${apiParams}`;
+const apiUrl = `${apiBaseUrl}?${apiParams}`;
 
 (async () => {
   const hasApiSubscription = await getApiSubscription();
