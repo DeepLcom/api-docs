@@ -24,7 +24,12 @@ async function getApiSubscription() {
     const response = await fetch(apiUrl,
       {
         method: "POST",
-        body: {"id":17980001,"jsonrpc":"2.0","method":"getClientState","params":{"v":"20180814","clientVars":{}}}
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: '{"id":17980001,"jsonrpc":"2.0","method":"getClientState","params":{"v":"20180814","clientVars":{}}}',
+        credentials: 'include'
       }
     );
     const json = await response.json();
