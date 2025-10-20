@@ -28,7 +28,7 @@ async function getApiSubscription() {
           "Accept": "application/json",
           "Content-Type": "application/json"
         },
-        body: '{"id":17980001,"jsonrpc":"2.0","method":"getClientState","params":{"v":"20180814","clientVars":{}}}',
+        body: '{"jsonrpc":"2.0","method":"getClientState"}',
         credentials: 'include'
       }
     );
