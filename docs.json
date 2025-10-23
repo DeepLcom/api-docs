@@ -39,7 +39,8 @@
               "docs/getting-started/managing-api-keys",
               "docs/getting-started/your-first-api-request",
               "docs/getting-started/test-your-api-requests-with-postman",
-              "docs/getting-started/supported-languages"
+              "docs/getting-started/supported-languages",
+              "docs/getting-started/deepl-developer-community"
             ]
           },
           {
@@ -104,8 +105,7 @@
               },
               "docs/resources/language-release-process",
               "docs/resources/alpha-and-beta-features",
-              "docs/resources/open-api-spec",
-              "docs/resources/deepl-developer-community"
+              "docs/resources/open-api-spec"
             ]
           }
         ]
