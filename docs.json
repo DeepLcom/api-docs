@@ -2,6 +2,10 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "DeepL Documentation",
+  "banner": {
+    "content": "[Join the Developer Community on DeepL Bridges](https://dee.pl/7iwrt)",
+    "dismissible": true
+  },
   "colors": {
     "primary": "#0f2b46",
     "light": "#ffffff",
