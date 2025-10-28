@@ -1,0 +1,67 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "DeepL Style Rules",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#0D9373",
+    "light": "#07C983",
+    "dark": "#0D9373",
+    "anchors": {
+      "from": "#0D9373",
+      "to": "#07C983"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "https://support.deepl.com"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "https://www.deepl.com/pro"
+  },
+  "tabs": [
+    {
+      "name": "API Reference",
+      "url": "api-reference"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Get Started",
+      "pages": [
+        "index",
+        "getting-started"
+      ]
+    },
+    {
+      "group": "Languages",
+      "pages": [
+        "languages/en",
+        "languages/de",
+        "languages/es",
+        "languages/fr",
+        "languages/it",
+        "languages/ja",
+        "languages/ko",
+        "languages/zh"
+      ]
+    },
+    {
+      "group": "API",
+      "pages": [
+        "api-reference"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "twitter": "https://twitter.com/deeplcom",
+    "github": "https://github.com/DeepLcom",
+    "linkedin": "https://www.linkedin.com/company/deepl"
+  }
+}

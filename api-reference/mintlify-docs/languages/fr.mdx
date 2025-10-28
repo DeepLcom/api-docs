@@ -1,0 +1,374 @@
+---
+title: "French Style Rules"
+description: "Complete guide to style rules for French translations"
+---
+
+# French Style Rules
+
+*Language code: `fr`*
+
+This guide covers all available style rules for French translations. Each rule helps you control specific aspects of how your content is formatted and styled.
+
+## Overview
+
+<CardGroup cols={2}>
+  <Card title="Rule Categories" icon="layers">
+    5 categories available
+  </Card>
+  <Card title="Total Rules" icon="settings">
+    34 rules available
+  </Card>
+</CardGroup>
+
+## Available Rules
+
+### 📅 Dates and Times
+
+Control how dates, times, and temporal expressions are formatted in your translations.
+
+**Rules available:** 6
+
+<AccordionGroup>
+<Accordion title="Centuries">
+Control specific formatting options.
+
+**Available options:**
+1. **`spell-out`** - Spell out numbers in words
+2. **`use-roman-numerals`** - Use Roman numerals (I, II, III)
+3. **`use-arabic-numerals`** - Use Arabic numerals (1, 2, 3)
+
+</Accordion>
+<Accordion title="Date Format">
+Control how dates are displayed (month/day/year vs day/month/year, etc.).
+
+**Available options:**
+1. **`use-dd-space-spelled-out-month-space-yyyy`** - Day Month Year format (e.g., 15 March 2024)
+2. **`use-dd-slash-mm-slash-yyyy`** - Day/Month/Year format (DD/MM/YYYY)
+3. **`use-dd-period-mm-period-yyyy`** - Day.Month.Year format (DD.MM.YYYY)
+4. **`use-yyyy-slash-mm-slash-dd`** - Year/Month/Day format (YYYY/MM/DD)
+5. **`use-yyyy-period-mm-period-dd`** - Yyyy period mm period dd
+
+</Accordion>
+<Accordion title="Decades">
+Control specific formatting options.
+
+**Available options:**
+1. **`spell-out`** - Spell out numbers in words
+2. **`use-yyyy`** - Yyyy
+3. **`use-yy-for-20th-century-but-yyyy-for-other-centuries`** - Yy for 20th century but yyyy for other centuries
+
+</Accordion>
+<Accordion title="Hours Minutes Separator">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-letter-h-with-regular-space-on-either-side`** - Letter h with regular space on either side
+2. **`use-letter-h-without-spaces`** - Letter h without spaces
+3. **`use-colon-without-spaces`** - Colon without spaces
+
+</Accordion>
+<Accordion title="Single Digit Hours">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-leading-zero`** - Leading zero
+2. **`do-not-use-leading-zero`** - Do not leading zero
+
+</Accordion>
+<Accordion title="Time Format">
+Choose between 12-hour and 24-hour clock formats.
+
+**Available options:**
+1. **`use-24-hour-clock`** - 24-hour clock format (00:00-23:59)
+2. **`use-12-hour-clock-and-specify-morning-or-evening`** - 12 hour clock and specify morning or evening
+3. **`use-12-hour-clock-and-do-not-specify-morning-or-evening`** - 12 hour clock and do not specify morning or evening
+
+</Accordion>
+</AccordionGroup>
+
+### 🔢 Numbers and Currency
+
+Control how numbers, currency, percentages, and measurements are displayed.
+
+**Rules available:** 2
+
+<AccordionGroup>
+<Accordion title="Currency Format">
+Control how currency amounts are displayed (symbol placement, spacing, etc.).
+
+**Available options:**
+1. **`spell-out`** - Spell out numbers in words
+2. **`use-iso-code`** - Use ISO currency codes (e.g., USD, EUR)
+3. **`use-currency-symbol-but-use-iso-code-if-no-symbol-exists`** - Currency symbol but iso code if no symbol exists
+4. **`use-currency-symbol-but-spell-out-if-no-symbol-exists`** - Currency symbol but spell out if no symbol exists
+
+</Accordion>
+<Accordion title="Spelling Out Units">
+Control specific formatting options.
+
+**Available options:**
+1. **`always-abbreviate-units-of-measure`** - Always abbreviate units of measure
+2. **`abbreviate-units-of-measure-when-used-with-numeral-but-spell-out-when-used-without-numeral`** - Abbreviate units of measure when used with numeral but spell out when used without numeral
+3. **`always-spell-out-units-of-measure`** - Always spell out units of measure
+
+</Accordion>
+</AccordionGroup>
+
+### ✏️ Punctuation
+
+Manage punctuation marks, quotation marks, and other typographic elements.
+
+**Rules available:** 5
+
+<AccordionGroup>
+<Accordion title="Apostrophe">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-straight-apostrophes`** - Straight apostrophes
+2. **`use-curly-apostrophes`** - Curly apostrophes
+
+</Accordion>
+<Accordion title="Ellipsis">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-ellipsis-character`** - Ellipsis character
+2. **`use-three-periods`** - Three periods
+
+</Accordion>
+<Accordion title="Quotation Mark">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-guillemets`** - Guillemets
+2. **`use-double-straight-quotation-marks`** - Double straight quotation marks
+3. **`use-double-curly-quotation-marks`** - Double curly quotation marks
+
+</Accordion>
+<Accordion title="Slash">
+Control specific formatting options.
+
+**Available options:**
+1. **`do-not-use-spaces-before-and-after-slashes`** - Do not spaces before and after slashes
+2. **`use-spaces-before-and-after-slashes-if-there-are-multiple-words-before-or-after-slash`** - Spaces before and after slashes if there are multiple words before or after slash
+3. **`use-spaces-before-and-after-slashes`** - Spaces before and after slashes
+
+</Accordion>
+<Accordion title="Spacing And Punctuation">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-regular-space`** - Regular space
+2. **`do-not-use-space`** - Do not space
+
+</Accordion>
+</AccordionGroup>
+
+### 📚 Spelling and Grammar
+
+Control spelling conventions, grammar rules, and language-specific preferences.
+
+**Rules available:** 15
+
+<AccordionGroup>
+<Accordion title="Abbreviating French Word Numero">
+Control specific formatting options.
+
+**Available options:**
+1. **`abbreviate-as-no`** - Abbreviate as no
+2. **`abbreviate-as-n-then-o-in-superscript`** - Abbreviate as n then o in superscript
+3. **`abbreviate-as-n-then-degree-symbol`** - Abbreviate as n then degree symbol
+
+</Accordion>
+<Accordion title="Accents And Cedillas">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-even-on-capital-letters`** - Even on capital letters
+2. **`do-not-use-on-capital-letters`** - Do not on capital letters
+3. **`never-use`** - Never use
+
+</Accordion>
+<Accordion title="Accents In Verbs Conjugated Like French Word Céder">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-grave-accent`** - Grave accent
+2. **`use-acute-accent`** - Acute accent
+
+</Accordion>
+<Accordion title="Accents With Subject Verb Inversion">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-grave-accent`** - Grave accent
+2. **`use-acute-accent`** - Acute accent
+
+</Accordion>
+<Accordion title="Complete Sentences">
+Control specific formatting options.
+
+**Available options:**
+1. **`always-write-complete-sentences`** - Always write complete sentences
+
+</Accordion>
+<Accordion title="Compound Nouns">
+Control specific formatting options.
+
+**Available options:**
+1. **`write-as-one-word`** - Write as one word
+2. **`write-with-hyphen`** - Write with hyphen
+
+</Accordion>
+<Accordion title="Conjunctions">
+Control specific formatting options.
+
+**Available options:**
+1. **`never-start-sentence-with-coordinating-conjunction`** - Never start sentence with coordinating conjunction
+
+</Accordion>
+<Accordion title="French Verbs Ending In Eler And Eter">
+Control specific formatting options.
+
+**Available options:**
+1. **`transcribe-open-e-sound-with-grave-accent`** - Transcribe open e sound with grave accent
+2. **`transcribe-open-e-sound-by-doubling-next-consonant`** - Transcribe open e sound by doubling next consonant
+
+</Accordion>
+<Accordion title="I And U With Circumflex Accents">
+Control specific formatting options.
+
+**Available options:**
+1. **`do-not-use-circumflex-accents-except-in-verbs-and-to-distinguish-homophones`** - Do not circumflex accents except in verbs and to distinguish homophones
+2. **`use-circumflex-accents`** - Circumflex accents
+
+</Accordion>
+<Accordion title="Passive Voice">
+Control specific formatting options.
+
+**Available options:**
+1. **`avoid-passive-voice-when-agent-is-known`** - Avoid passive voice when agent is known
+
+</Accordion>
+<Accordion title="Past Participle Of French Word Laisser Followed By Infinitive">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-invariable-form-french-word-laissé`** - Invariable form french word laissé
+2. **`make-french-word-laisser-agree-with-direct-object-complement-if-it-appears-before-verb`** - Make french word laisser agree with direct object complement if it appears before verb
+
+</Accordion>
+<Accordion title="Personal Titles">
+Control specific formatting options.
+
+**Available options:**
+1. **`abbreviate`** - Abbreviate
+2. **`do-not-abbreviate`** - Do not abbreviate
+
+</Accordion>
+<Accordion title="Pluralizing Foreign Words">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-french-spelling-rules`** - French spelling rules
+2. **`use-original-language-spelling`** - Original language spelling
+
+</Accordion>
+<Accordion title="Special Characters">
+Control specific formatting options.
+
+**Available options:**
+1. **`never-use-symbols`** - Never symbols
+
+</Accordion>
+<Accordion title="Spelled Out Numbers">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-hyphens`** - Hyphens
+2. **`use-hyphens-between-elements-under-100-and-not-separated-by-french-word-et`** - Hyphens between elements under 100 and not separated by french word et
+
+</Accordion>
+</AccordionGroup>
+
+### 🎭 Style and Tone
+
+Manage the overall tone, formality, and stylistic choices in your translations.
+
+**Rules available:** 6
+
+<AccordionGroup>
+<Accordion title="Addressing The Reader">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-informal-french-word-tu`** - Informal french word tu
+2. **`use-formal-french-word-vous`** - Formal french word vous
+
+</Accordion>
+<Accordion title="Anglicisms">
+Control specific formatting options.
+
+**Available options:**
+1. **`avoid-anglicisms-when-there-is-a-french-equivalent`** - Avoid anglicisms when there is a french equivalent
+
+</Accordion>
+<Accordion title="Country Names">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-long-form`** - Long form
+2. **`use-short-form`** - Short form
+
+</Accordion>
+<Accordion title="Gender Unspecified">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-gender-neutral-terms`** - Gender neutral terms
+2. **`use-middle-dots`** - Middle dots
+3. **`use-periods`** - Periods
+4. **`use-parentheses`** - Parentheses
+5. **`use-both-masculine-and-feminine-forms`** - Both masculine and feminine forms
+6. **`use-masculine-form-only`** - Masculine form only
+
+</Accordion>
+<Accordion title="Inflected Words Masculine Noun Agreement">
+Control specific formatting options.
+
+**Available options:**
+1. **`place-masculine-nouns-closest-to-inflected-words`** - Place masculine nouns closest to inflected words
+
+</Accordion>
+<Accordion title="Proximity Agreement">
+Control specific formatting options.
+
+**Available options:**
+1. **`use`** - Use
+
+</Accordion>
+</AccordionGroup>
+
+## Language-Specific Information
+
+French has formal and informal registers, plus regional variations. Style rules help you maintain appropriate formality levels.
+
+## Common Use Cases
+
+- Business communications (formal vous address)
+- Academic writing (formal register)
+- Technical documentation (clear, precise language)
+- Marketing content (appropriate formality)
+
+## Getting Started
+
+1. **Identify your needs** - What type of content are you translating?
+2. **Choose relevant rules** - Focus on rules that affect your content type
+3. **Test different options** - Try various combinations to find what works best
+4. **Apply consistently** - Use the same rules across all your content
+
+## Related Resources
+
+- [API Reference](/api-reference) - Technical implementation details
+- [Getting Started](/getting-started) - Learn how to use style rules effectively

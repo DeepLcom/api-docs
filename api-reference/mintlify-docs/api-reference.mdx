@@ -1,0 +1,2284 @@
+---
+title: "API Reference"
+description: "Complete API reference for DeepL Style Rules"
+---
+
+# API Reference
+
+## OpenAPI Specification
+
+The complete API specification is available in OpenAPI 3.0.3 format.
+
+<CardGroup cols={{{2}}}>
+  <Card title="OpenAPI Spec" icon="file-text" href="/configured_rules_openapi.yaml">
+    Download YAML specification
+  </Card>
+  <Card title="Schema" icon="database">
+    ConfiguredRules schema
+  </Card>
+</CardGroup>
+
+## Schema Structure
+
+The `ConfiguredRules` schema contains the following main categories:
+
+### Dates And Times
+
+#### calendar_era
+
+- **Type**: `string`
+- **Description**: Formatting options for Calendar Era
+
+**Available options (2):**
+
+```
+use_bc_and_ad
+use_bce_and_ce
+```
+
+#### centuries
+
+- **Type**: `string`
+- **Description**: Formatting options for Centuries
+
+**Available options (4):**
+
+```
+spell_out
+use_arabic_numerals
+use_numerals
+use_roman_numerals
+```
+
+#### date_format
+
+- **Type**: `string`
+- **Description**: Formatting options for Date Format
+
+**Available options (28):**
+
+```
+use_dd_period_mm_period_yy_with_leading_zeros_for_single_digit_days_and_months
+use_dd_period_mm_period_yyyy
+use_dd_period_mm_period_yyyy_with_leading_zeros_for_single_digit_days_and_months
+use_dd_period_space_abbreviated_month_yyyy_with_abbreviations_jan_period_feb_period_mrz_period_apr_period_mai_jun_period_jul_period_aug_period_sep_period_okt_period_nov_period_dez_period_without_leading_zeros_for_single_digit_days
+use_dd_period_space_abbreviated_month_yyyy_with_abbreviations_jan_period_febr_period_maerz_apr_period_mai_juni_juli_aug_period_sept_period_okt_period_nov_period_dez_period_without_leading_zeros_for_single_digit_days
+use_dd_period_space_month_yyyy_without_leading_zeros_for_single_digit_days
+use_dd_slash_mm_slash_yyyy
+use_dd_slash_mm_slash_yyyy_with_leading_zeros_for_single_digit_days_and_months
+use_dd_space_spelled_out_month_space_yyyy
+use_dd_space_spelled_out_month_space_yyyy_and_use_spanish_word_septiembre_for_ninth_month
+use_dd_space_spelled_out_month_space_yyyy_and_use_spanish_word_setiembre_for_ninth_month
+use_dd_space_spelled_out_month_space_yyyy_without_leading_zeros_for_single_digit_days
+use_historical_eras_and_write_numbers_in_chinese_followed_by_chinese_word_公元前_or_公元后_with_arabic_numerals_in_parentheses
+use_mm_slash_dd_slash_yyyy_with_leading_zeros_for_single_digit_days_and_months
+use_numerals_only_with_leading_zero_for_single_digits
+use_numerals_only_without_leading_zero_for_single_digits
+use_spelled_out_month_space_dd_comma_space_yyyy_and_use_spanish_word_septiembre_for_ninth_month
+use_spelled_out_month_space_dd_comma_space_yyyy_without_leading_zeros_for_single_digit_days
+use_traditional_calendar_system_with_chinese_numbers
+use_yyyy_chinese_word_年_mm_chinese_word_月_dd_chinese_word_日_with_chinese_numbers
+use_yyyy_chinese_word_年_mm_chinese_word_月_dd_chinese_word_日_without_leading_zero_for_single_digit_months_and_days
+use_yyyy_hyphen_mm_hyphen_dd_with_leading_zero_for_single_digit_days_and_months
+use_yyyy_hyphen_mm_hyphen_dd_with_leading_zeros_for_single_digit_days_and_months
+use_yyyy_korean word_년_space_mm_korean word_월_space_dd_korean word_일_without_leading_zero_for_single_digit_days_and_months
+use_yyyy_period_mm_period_dd
+use_yyyy_period_space_mm_period_space_dd_period_space_without_leading_zero_for_single_digit_days_and_months
+use_yyyy_slash_mm_slash_dd
+use_yyyy_slash_mm_slash_dd_with_leading_zero_for_single_digit_days_and_months
+```
+
+#### dates_in_numerical_form
+
+- **Type**: `string`
+- **Description**: Formatting options for Dates In Numerical Form
+
+**Available options (3):**
+
+```
+use_dd_hyphen_mm_hyphen_yyyy
+use_dd_period_mm_period_yyyy
+use_dd_slash_mm_slash_yyyy
+```
+
+#### decades
+
+- **Type**: `string`
+- **Description**: Formatting options for Decades
+
+**Available options (5):**
+
+```
+spell_out
+use_apostrophe_yy
+use_yy_for_20th_century_but_yyyy_for_other_centuries
+use_yy_without_apostrophe
+use_yyyy
+```
+
+#### hours_minutes_seconds_separator
+
+- **Type**: `string`
+- **Description**: Formatting options for Hours Minutes Seconds Separator
+
+**Available options (2):**
+
+```
+use_colon
+use_period
+```
+
+#### hours_minutes_separator
+
+- **Type**: `string`
+- **Description**: Formatting options for Hours Minutes Separator
+
+**Available options (3):**
+
+```
+use_colon_without_spaces
+use_letter_h_with_regular_space_on_either_side
+use_letter_h_without_spaces
+```
+
+#### midnight_in_numerals
+
+- **Type**: `string`
+- **Description**: Formatting options for Midnight In Numerals
+
+**Available options (2):**
+
+```
+use_00_00
+use_24_00
+```
+
+#### single_digit_days_and_months
+
+- **Type**: `string`
+- **Description**: Formatting options for Single Digit Days And Months
+
+**Available options (2):**
+
+```
+do_not_use_leading_zero
+use_leading_zero
+```
+
+#### single_digit_hours
+
+- **Type**: `string`
+- **Description**: Formatting options for Single Digit Hours
+
+**Available options (2):**
+
+```
+do_not_use_leading_zero
+use_leading_zero
+```
+
+#### time_format
+
+- **Type**: `string`
+- **Description**: Formatting options for Time Format
+
+**Available options (30):**
+
+```
+spell_out_time_in_words
+use_12_hour_clock_and_do_not_specify_morning_or_evening
+use_12_hour_clock_and_lowercase_am_or_pm_with_periods
+use_12_hour_clock_and_lowercase_am_or_pm_with_periods_except_use_noon_and_midnight_instead_of_12_am_and_12_pm
+use_12_hour_clock_and_lowercase_am_or_pm_without_periods
+use_12_hour_clock_and_lowercase_am_or_pm_without_periods_except_use_noon_and_midnight_instead_of_12_am_and_12_pm
+use_12_hour_clock_and_specify_morning_or_evening
+use_12_hour_clock_and_uppercase_am_or_pm_with_periods
+use_12_hour_clock_and_uppercase_am_or_pm_with_periods_except_use_noon_and_midnight_instead_of_12_am_and_12_pm
+use_12_hour_clock_and_uppercase_am_or_pm_without_periods
+use_12_hour_clock_and_uppercase_am_or_pm_without_periods_except_use_noon_and_midnight_instead_of_12_am_and_12_pm
+use_12_hour_clock_and_write_chinese_word_上午_or_下午_or_chinese_word_早上_or_晚上_followed_by_arabic_numerals
+use_12_hour_clock_and_write_chinese_word_上午_or_下午_or_chinese_word_早上_or_晚上_followed_by_arabic_numerals_with_chinese_word_点_for_hours
+use_12_hour_clock_and_write_chinese_word_上午_or_下午_or_chinese_word_早上_or_晚上_followed_by_arabic_numerals_with_chinese_words_时_and_分_for_hours_and_minutes
+use_12_hour_clock_and_write_chinese_word_上午_or_下午_or_chinese_word_早上_or_晚上_followed_by_chinese_numbers_with_chinese_words_时_and_分_for_hours_and_minutes
+use_12_hour_clock_with_arabic_numerals_and_colon
+use_12_hour_clock_with_korean_words_시_and_분
+use_12_hour_clock_without_leading_zero_or_minutes_for_full_hours_use_colon_as_separator_and_lowercase_am_or_pm_without_periods
+use_12_hour_clock_without_leading_zero_or_minutes_for_full_hours_use_colon_as_separator_and_uppercase_am_or_pm_without_periods
+use_12_hour_clock_without_leading_zero_use_period_as_separator_and_lowercase_am_or_pm_with_periods_and_spaces
+use_24_hour_clock
+use_24_hour_clock_with_arabic_numerals_and_colon
+use_24_hour_clock_with_colon_as_separator
+use_24_hour_clock_with_korean_words_시_and_분
+use_24_hour_clock_with_period_as_separator
+use_hh_colon_mm_german_word_uhr_with_leading_zeros_for_single_digit_hours
+use_hh_colon_mm_german_word_uhr_without_leading_zeros_for_single_digit_hours
+use_hh_period_mm_german_word_uhr_with_leading_zeros_for_single_digit_hours
+use_hh_period_mm_german_word_uhr_without_leading_zeros_for_single_digit_hours
+use_hh_period_mm_german_word_uhr_without_leading_zeros_for_single_digit_hours_and_for_full_hours_state_hour_only
+```
+
+#### writing_dates
+
+- **Type**: `string`
+- **Description**: Formatting options for Writing Dates
+
+**Available options (2):**
+
+```
+use_dd_space_spelled_out_month_space_yyyy
+use_numerals
+```
+
+#### years
+
+- **Type**: `string`
+- **Description**: Formatting options for Years
+
+**Available options (4):**
+
+```
+use_apostrophe_yy
+use_common_era
+use_japanese_imperial_era
+use_yyyy
+```
+
+### Formatting
+
+#### email_address_format
+
+- **Type**: `string`
+- **Description**: Formatting options for Email Address Format
+
+**Available options (6):**
+
+```
+place_domain_in_parentheses
+replace_at_symbol_with_english_word_at_in_brackets_and_replace_periods_with_english_word_dot_in_brackets
+replace_at_symbol_with_english_word_at_in_brackets_with_space_on_either_side
+replace_at_symbol_with_english_word_at_in_parentheses_with_space_on_either_side
+replace_at_symbol_with_english_word_at_with_space_on_either_side
+use_standard_format
+```
+
+#### email_address_website_url
+
+- **Type**: `string`
+- **Description**: Formatting options for Email Address Website Url
+
+**Available options (1):**
+
+```
+use_lowercase_for_email_addresses_and_website_urls_except_when_url_includes_case_sensitive_elements
+```
+
+#### headings_case_style
+
+- **Type**: `string`
+- **Description**: Formatting options for Headings Case Style
+
+**Available options (2):**
+
+```
+use_sentence_case_for_titles_and_headings
+use_title_case_for_titles_and_headings
+```
+
+#### phone_number_country_code_format
+
+- **Type**: `string`
+- **Description**: Formatting options for Phone Number Country Code Format
+
+**Available options (2):**
+
+```
+use_00_before_country_code
+use_plus_sign_before_country_code
+```
+
+#### phone_number_format
+
+- **Type**: `string`
+- **Description**: Formatting options for Phone Number Format
+
+**Available options (11):**
+
+```
+do_not_use_spaces
+do_not_use_spaces_or_special_characters_between_digits_of_phone_number
+keep_original_format
+place_area_code_in_parentheses_followed_by_space
+separate_area_code_and_phone_number_with_slash
+separate_area_code_and_phone_number_with_space
+separate_country_code_area_code_local_prefix_and_last_four_digits_with_hyphens
+separate_country_code_area_code_local_prefix_and_last_four_digits_with_periods
+separate_country_code_area_code_local_prefix_and_last_four_digits_with_spaces
+use_north_american_numbering_plan_format
+use_space_after_country_code
+```
+
+#### space_between_arabic_numerals_and_unit
+
+- **Type**: `string`
+- **Description**: Formatting options for Space Between Arabic Numerals And Unit
+
+**Available options (1):**
+
+```
+do_not_use
+```
+
+#### space_between_chinese_and_english
+
+- **Type**: `string`
+- **Description**: Formatting options for Space Between Chinese And English
+
+**Available options (1):**
+
+```
+do_not_use
+```
+
+#### space_between_chinese_characters_and_arabic_numerals
+
+- **Type**: `string`
+- **Description**: Formatting options for Space Between Chinese Characters And Arabic Numerals
+
+**Available options (1):**
+
+```
+do_not_use
+```
+
+#### titles_headings_punctuation
+
+- **Type**: `string`
+- **Description**: Formatting options for Titles Headings Punctuation
+
+**Available options (2):**
+
+```
+do_not_use_colon_at_end_of_titles_or_headings
+do_not_use_colons_or_periods_at_end_of_titles_or_headings
+```
+
+### Numbers
+
+#### approximate_numbers
+
+- **Type**: `string`
+- **Description**: Formatting options for Approximate Numbers
+
+**Available options (1):**
+
+```
+use_kanji_numbers
+```
+
+#### currency_format
+
+- **Type**: `string`
+- **Description**: Formatting options for Currency Format
+
+**Available options (22):**
+
+```
+spell_out
+spell_out_currency_name_followed_by_amount_in_arabic_numerals_without_space
+spell_out_currency_name_followed_by_amount_in_chinese
+use_amount_followed_by_currency_symbol_without_space
+use_amount_followed_by_space_then_currency_symbol
+use_amount_followed_by_space_then_iso_code
+use_amount_followed_by_space_then_spell_out_currency_name
+use_amount_followed_by_space_then_spell_out_currency_name_in_lowercase
+use_amount_followed_by_spelled_out_currency_name_in_japanese_without_space
+use_amount_followed_by_spelled_out_currency_name_without_space
+use_currency_symbol_but_spell_out_if_no_symbol_exists
+use_currency_symbol_but_use_iso_code_if_no_symbol_exists
+use_currency_symbol_followed_by_amount_in_arabic_numerals_without_space
+use_currency_symbol_followed_by_amount_without_space
+use_currency_symbol_followed_by_space_then_amount
+use_currency_symbol_followed_by_space_then_amount_in_arabic_numerals
+use_full_width_currency_symbol_followed_by_amount_without_space
+use_half_width_currency_symbol_followed_by_amount_without_space
+use_half_width_currency_symbol_followed_by_space_then_amount
+use_iso_code
+use_iso_code_followed_by_space_then_amount
+use_iso_code_followed_by_space_then_amount_in_arabic_numerals
+```
+
+#### decimal_numbers_less_than_one
+
+- **Type**: `string`
+- **Description**: Formatting options for Decimal Numbers Less Than One
+
+**Available options (1):**
+
+```
+always_use_0_before_decimal_separator
+```
+
+#### decimal_separator
+
+- **Type**: `string`
+- **Description**: Formatting options for Decimal Separator
+
+**Available options (5):**
+
+```
+use_comma_and_do_not_use_thousands_separator
+use_comma_as_decimal_separator
+use_comma_do_not_use_thousands_separator_and_use_period_only_for_radio_stations
+use_period_and_do_not_use_thousands_separator
+use_period_as_decimal_separator
+```
+
+#### dimensions_separator
+
+- **Type**: `string`
+- **Description**: Formatting options for Dimensions Separator
+
+**Available options (4):**
+
+```
+use_multiplication_sign_between_dimensions_with_space_on_either_side
+use_multiplication_sign_between_dimensions_without_space_on_either_side
+use_x_between_dimensions_with_space_on_either_side
+use_x_between_dimensions_without_space_on_either_side
+```
+
+#### equation_formula_reference
+
+- **Type**: `string`
+- **Description**: Formatting options for Equation Formula Reference
+
+**Available options (1):**
+
+```
+always_use_arabic_numerals_to_number_equations_or_formulas_referenced_in_text
+```
+
+#### kanji_numbers
+
+- **Type**: `string`
+- **Description**: Formatting options for Kanji Numbers
+
+**Available options (1):**
+
+```
+use_kanji_numbers_for_numbers_in_phrases_and_counting_method_based_on_native_japanese_readings
+```
+
+#### large_number_format
+
+- **Type**: `string`
+- **Description**: Formatting options for Large Number Format
+
+**Available options (8):**
+
+```
+always_use_arabic_numerals
+spell_out_large_numbers
+use_abbreviations_for_large_numbers
+use_chinese_characters_for_ten_thousands_and_hundred_millions
+use_comma_to_separate_large_numbers_into_units_of_three_except_for_calendar_years
+use_kanji_for_trillions_hundred_millions_and_ten_thousands
+use_korean_words_만_억_조_with_space
+use_korean_words_만_억_조_without_space
+```
+
+#### large_sums_of_money
+
+- **Type**: `string`
+- **Description**: Formatting options for Large Sums Of Money
+
+**Available options (2):**
+
+```
+spell_out_italian_words_milione_and_miliardo
+use_italian_words_mio_and_mrd_instead_of_italian_words_milione_and_miliardo
+```
+
+#### large_sums_of_money_format
+
+- **Type**: `string`
+- **Description**: Formatting options for Large Sums Of Money Format
+
+**Available options (3):**
+
+```
+use_amount_followed_by_abbreviation_for_million_or_billion_without_space
+use_amount_followed_by_space_then_abbreviation_for_million_or_billion
+use_amount_followed_by_space_then_english_word_million_or_billion
+```
+
+#### list_of_measurements_with_units
+
+- **Type**: `string`
+- **Description**: Formatting options for List Of Measurements With Units
+
+**Available options (1):**
+
+```
+repeat_unit_for_each_measurement_in_list
+```
+
+#### mathematical_expression_spacing
+
+- **Type**: `string`
+- **Description**: Formatting options for Mathematical Expression Spacing
+
+**Available options (1):**
+
+```
+use_space_between_elements_of_mathematical_expression_or_equation
+```
+
+#### number_format
+
+- **Type**: `string`
+- **Description**: Formatting options for Number Format
+
+**Available options (1):**
+
+```
+use_half_width_comma_to_separate_large_numbers_into_units_of_three_except_for_calendar_years_and_use_half_width_period_as_decimal_separator
+```
+
+#### number_separator
+
+- **Type**: `string`
+- **Description**: Formatting options for Number Separator
+
+**Available options (2):**
+
+```
+do_not_use_chinese_comma_to_separate_numbers_indicating_approximate_value
+use_chinese_comma_to_separate_numbers_in_abbreviations
+```
+
+#### numbers_of_5_digits_or_more
+
+- **Type**: `string`
+- **Description**: Formatting options for Numbers Of 5 Digits Or More
+
+**Available options (6):**
+
+```
+use_comma_as_decimal_separator_and_period_as_thousands_separator
+use_comma_as_decimal_separator_and_space_as_thousands_separator
+use_comma_as_decimal_separator_period_as_thousands_separator_and_period_for_radio_stations
+use_comma_as_decimal_separator_space_as_thousands_separator_and_period_for_radio_stations
+use_period_as_decimal_separator_and_comma_as_thousands_separator
+use_period_as_decimal_separator_and_space_as_thousands_separator
+```
+
+#### numbers_up_to_4_digits
+
+- **Type**: `string`
+- **Description**: Formatting options for Numbers Up To 4 Digits
+
+**Available options (6):**
+
+```
+use_comma_as_decimal_separator_and_period_as_thousands_separator
+use_comma_as_decimal_separator_and_space_as_thousands_separator
+use_comma_as_decimal_separator_period_as_thousands_separator_and_period_for_radio_stations
+use_comma_as_decimal_separator_space_as_thousands_separator_and_period_for_radio_stations
+use_period_as_decimal_separator_and_comma_as_thousands_separator
+use_period_as_decimal_separator_and_space_as_thousands_separator
+```
+
+#### percentage_format
+
+- **Type**: `string`
+- **Description**: Formatting options for Percentage Format
+
+**Available options (16):**
+
+```
+use_arabic_numerals_followed_by_percent_symbol_without_space
+use_chinese_numbers_followed_by_chinese_word_百分之
+use_numerals_followed_by_full_width_percent_symbol_without_space
+use_numerals_followed_by_japanese_word_パーセント_without_space
+use_numerals_followed_by_korean_word_퍼센트
+use_numerals_followed_by_percent_symbol
+use_numerals_followed_by_space_then_german_word_prozent
+use_numerals_followed_by_space_then_half_width_percent_symbol
+use_numerals_followed_by_space_then_italian_word_per_cento
+use_numerals_followed_by_space_then_italian_word_percento
+use_numerals_followed_by_space_then_korean_word_퍼센트
+use_numerals_followed_by_space_then_percent_symbol
+use_numerals_followed_by_space_then_spell_out_per_cent
+use_numerals_followed_by_space_then_spell_out_percent
+use_spanish_word_por_cien
+use_spanish_word_por_ciento
+```
+
+#### reference_to_symbol
+
+- **Type**: `string`
+- **Description**: Formatting options for Reference To Symbol
+
+**Available options (1):**
+
+```
+spell_out_symbol_name_followed_by_symbol_in_parentheses
+```
+
+#### spelling_out_units
+
+- **Type**: `string`
+- **Description**: Formatting options for Spelling Out Units
+
+**Available options (8):**
+
+```
+abbreviate_units_of_measure_when_used_with_numeral_but_spell_out_when_used_without_numeral
+always_abbreviate_units_of_measure
+always_spell_out_units_of_measure
+spell_out_units_in_korean
+spell_out_units_of_measure_when_used_with_spelled_out_numbers_but_abbreviate_when_used_with_numeral
+spell_out_units_of_measure_with_katakana_or_katakana_and_kanji
+use_si_symbols
+use_unit_symbols
+```
+
+#### temperature_format
+
+- **Type**: `string`
+- **Description**: Formatting options for Temperature Format
+
+**Available options (13):**
+
+```
+spell_out_unit
+spell_out_unit_followed_by_numerals_then_korean_word_도
+use_arabic_numerals_followed_by_space_then_spell_out_unit
+use_arabic_numerals_followed_by_unit_symbol_without_space
+use_arabic_numerals_then_spell_out_unit
+use_chinese_numbers_then_spell_out_unit
+use_italian_word_grado_and_do_not_specify_temperature_scale
+use_numerals_followed_by_japanese_word_度_without_space
+use_numerals_followed_by_korean_word_도
+use_numerals_followed_by_space_then_spell_out_unit
+use_numerals_followed_by_space_then_unit_symbol
+use_numerals_followed_by_unit_symbol_without_space
+use_spanish_word_grado_and_do_not_specify_temperature_scale
+```
+
+#### thousands_separator
+
+- **Type**: `string`
+- **Description**: Formatting options for Thousands Separator
+
+**Available options (10):**
+
+```
+do_not_use
+do_not_use_thousands_separator
+use_comma
+use_comma_to_separate_large_numbers_into_units_of_three
+use_period
+use_period_as_thousands_separator
+use_space
+use_space_as_thousands_separator
+use_space_to_separate_large_numbers_into_units_of_three
+use_straight_apostrophe_as_thousands_separator
+```
+
+#### units_of_measure_spacing
+
+- **Type**: `string`
+- **Description**: Formatting options for Units Of Measure Spacing
+
+**Available options (2):**
+
+```
+do_not_use_space_between_numeral_and_unit_of_measure
+use_space_between_numeral_and_unit_of_measure
+```
+
+#### use_of_hiragana_and_kanji
+
+- **Type**: `string`
+- **Description**: Formatting options for Use Of Hiragana And Kanji
+
+**Available options (1):**
+
+```
+use_hiragana_japanese_word_か所_or_か月_when_using_arabic_numerals_in_horizontal_writing_but_use_kanji_japanese_word_箇所_or_箇月_when_using_kanji_numbers
+```
+
+#### writing_numbers
+
+- **Type**: `string`
+- **Description**: Formatting options for Writing Numbers
+
+**Available options (4):**
+
+```
+always_use_kanji_numbers
+use_arabic_numerals
+use_full_width_arabic_numerals_and_only_use_kanji_numbers_where_it_would_otherwise_sound_unnatural
+use_half_width_arabic_numerals_and_only_use_kanji_numbers_where_it_would_otherwise_sound_unnatural
+```
+
+#### zero_format
+
+- **Type**: `string`
+- **Description**: Formatting options for Zero Format
+
+**Available options (2):**
+
+```
+use_chinese_word_〇_for_numbering
+use_chinese_word_零_for_measurement
+```
+
+### Punctuation
+
+#### abbreviations
+
+- **Type**: `string`
+- **Description**: Formatting options for Abbreviations
+
+**Available options (4):**
+
+```
+do_not_separate_abbreviated_words
+separate_each_abbreviated_word_with_period_and_space
+separate_each_abbreviated_word_with_period_without_space
+separate_each_abbreviated_word_with_space_without_period
+```
+
+#### acronyms
+
+- **Type**: `string`
+- **Description**: Formatting options for Acronyms
+
+**Available options (1):**
+
+```
+do_not_use_periods
+```
+
+#### ampersand_abbreviation_spacing
+
+- **Type**: `string`
+- **Description**: Formatting options for Ampersand Abbreviation Spacing
+
+**Available options (2):**
+
+```
+do_not_use_spaces_before_and_after_ampersand_as_part_of_abbreviation
+use_spaces_before_and_after_ampersand_as_part_of_abbreviation
+```
+
+#### ampersand_usage
+
+- **Type**: `string`
+- **Description**: Formatting options for Ampersand Usage
+
+**Available options (4):**
+
+```
+use_english_word_and_except_in_company_names_common_abbreviations_titles_software_code_and_mathematical_equations
+use_full_width_ampersand
+use_german_word_und_except_in_company_names_common_abbreviations_titles_software_code_and_mathematical_equations
+use_half_width_ampersand
+```
+
+#### apostrophe
+
+- **Type**: `string`
+- **Description**: Formatting options for Apostrophe
+
+**Available options (2):**
+
+```
+use_curly_apostrophes
+use_straight_apostrophes
+```
+
+#### bracket
+
+- **Type**: `string`
+- **Description**: Formatting options for Bracket
+
+**Available options (4):**
+
+```
+use_hexagonal_brackets
+use_lenticular_brackets
+use_parentheses
+use_square_brackets_for_nationality_and_hexagonal_brackets_for_historical_period
+```
+
+#### chinese_mixed_with_english
+
+- **Type**: `string`
+- **Description**: Formatting options for Chinese Mixed With English
+
+**Available options (2):**
+
+```
+do_not_place_english_in_quotation_marks
+place_english_in_quotation_marks
+```
+
+#### colon
+
+- **Type**: `string`
+- **Description**: Formatting options for Colon
+
+**Available options (2):**
+
+```
+use_full_width_colon
+use_half_width_colon
+```
+
+#### colon_between_hours_and_minutes_or_chapters_and_verses
+
+- **Type**: `string`
+- **Description**: Formatting options for Colon Between Hours And Minutes Or Chapters And Verses
+
+**Available options (1):**
+
+```
+do_not_use_space_before_or_after_colon
+```
+
+#### colon_in_heading
+
+- **Type**: `string`
+- **Description**: Formatting options for Colon In Heading
+
+**Available options (1):**
+
+```
+use_space_after_colon_not_before
+```
+
+#### colon_to_replace_versus_or_to
+
+- **Type**: `string`
+- **Description**: Formatting options for Colon To Replace Versus Or To
+
+**Available options (1):**
+
+```
+do_not_use_space_before_or_after_colon
+```
+
+#### comma_after_conjunctive_adverbs
+
+- **Type**: `string`
+- **Description**: Formatting options for Comma After Conjunctive Adverbs
+
+**Available options (2):**
+
+```
+do_not_use
+use
+```
+
+#### comma_after_i_e_and_e_g
+
+- **Type**: `string`
+- **Description**: Formatting options for Comma After I E And E G
+
+**Available options (2):**
+
+```
+do_not_use
+use
+```
+
+#### comma_after_short_introductory_phrase
+
+- **Type**: `string`
+- **Description**: Formatting options for Comma After Short Introductory Phrase
+
+**Available options (2):**
+
+```
+do_not_use
+use
+```
+
+#### comma_and_semicolon
+
+- **Type**: `string`
+- **Description**: Formatting options for Comma And Semicolon
+
+**Available options (2):**
+
+```
+use_comma_between_clauses
+use_semicolon_between_clauses
+```
+
+#### corner_bracket_and_periods
+
+- **Type**: `string`
+- **Description**: Formatting options for Corner Bracket And Periods
+
+**Available options (1):**
+
+```
+add_period_after_closing_corner_bracket_at_end_of_sentence
+```
+
+#### corner_brackets_and_periods
+
+- **Type**: `string`
+- **Description**: Formatting options for Corner Brackets And Periods
+
+**Available options (1):**
+
+```
+do_not_add_period_before_closing_corner_bracket_when_sentence_continues
+```
+
+#### dash
+
+- **Type**: `string`
+- **Description**: Formatting options for Dash
+
+**Available options (3):**
+
+```
+use_em_dash
+use_hyphen
+use_tilde
+```
+
+#### ellipsis
+
+- **Type**: `string`
+- **Description**: Formatting options for Ellipsis
+
+**Available options (11):**
+
+```
+use_ellipsis_character
+use_one_ellipsis_character
+use_six_dots_at_the_bottom
+use_six_dots_in_the_center
+use_three_dots_at_the_bottom
+use_three_dots_in_the_center
+use_three_ellipsis_characters
+use_three_periods
+use_three_periods_without_spaces
+use_three_spaced_periods
+use_two_ellipsis_characters
+```
+
+#### em_dash
+
+- **Type**: `string`
+- **Description**: Formatting options for Em Dash
+
+**Available options (1):**
+
+```
+use_double_em_dash
+```
+
+#### emphasis
+
+- **Type**: `string`
+- **Description**: Formatting options for Emphasis
+
+**Available options (1):**
+
+```
+use_double_corner_brackets
+```
+
+#### exclamation_marks
+
+- **Type**: `string`
+- **Description**: Formatting options for Exclamation Marks
+
+**Available options (1):**
+
+```
+do_not_use
+```
+
+#### explanatory_note_indicator
+
+- **Type**: `string`
+- **Description**: Formatting options for Explanatory Note Indicator
+
+**Available options (2):**
+
+```
+use_double_em_dash
+use_parentheses
+```
+
+#### full_sentence_in_round_brackets
+
+- **Type**: `string`
+- **Description**: Formatting options for Full Sentence In Round Brackets
+
+**Available options (1):**
+
+```
+add_period_before_closing_round_bracket
+```
+
+#### highlighting_specific_expressions
+
+- **Type**: `string`
+- **Description**: Formatting options for Highlighting Specific Expressions
+
+**Available options (2):**
+
+```
+use_single_curly_quotation_marks
+use_single_straight_quotation_marks
+```
+
+#### japanese_reference_materials
+
+- **Type**: `string`
+- **Description**: Formatting options for Japanese Reference Materials
+
+**Available options (1):**
+
+```
+use_double_corner_brackets
+```
+
+#### parentheses_for_supplementary_information
+
+- **Type**: `string`
+- **Description**: Formatting options for Parentheses For Supplementary Information
+
+**Available options (1):**
+
+```
+use_parentheses_without_space_on_either_side
+```
+
+#### passage_of_time_and_movement_between_locations
+
+- **Type**: `string`
+- **Description**: Formatting options for Passage Of Time And Movement Between Locations
+
+**Available options (1):**
+
+```
+use_double_em_dash
+```
+
+#### periods_and_commas
+
+- **Type**: `string`
+- **Description**: Formatting options for Periods And Commas
+
+**Available options (4):**
+
+```
+use_full_width_japanese_periods_and_full_width_japanese_commas
+use_full_width_japanese_periods_and_full_width_non_japanese_commas
+use_full_width_non_japanese_periods_and_full_width_japanese_commas
+use_full_width_non_japanese_periods_and_full_width_non_japanese_commas
+```
+
+#### periods_in_academic_degrees
+
+- **Type**: `string`
+- **Description**: Formatting options for Periods In Academic Degrees
+
+**Available options (2):**
+
+```
+do_not_use
+use
+```
+
+#### periods_in_direct_quotes
+
+- **Type**: `string`
+- **Description**: Formatting options for Periods In Direct Quotes
+
+**Available options (2):**
+
+```
+do_not_use
+use
+```
+
+#### periods_in_uppercase_initialisms_and_acronyms
+
+- **Type**: `string`
+- **Description**: Formatting options for Periods In Uppercase Initialisms And Acronyms
+
+**Available options (1):**
+
+```
+do_not_use
+```
+
+#### plus_sign_usage
+
+- **Type**: `string`
+- **Description**: Formatting options for Plus Sign Usage
+
+**Available options (1):**
+
+```
+do_not_use_plus_sign_to_symbolize_english_word_and_unless_it_is_part_of_a_proper_noun
+```
+
+#### possessives_of_proper_names_ending_in_s_style
+
+- **Type**: `string`
+- **Description**: Formatting options for Possessives Of Proper Names Ending In S Style
+
+**Available options (2):**
+
+```
+add_apostrophe_only
+add_apostrophe_s
+```
+
+#### quotation_mark
+
+- **Type**: `string`
+- **Description**: Formatting options for Quotation Mark
+
+**Available options (5):**
+
+```
+use_curly_quotation_marks
+use_double_curly_quotation_marks
+use_double_straight_quotation_marks
+use_guillemets
+use_straight_quotation_marks
+```
+
+#### quotation_mark_and_apostrophe
+
+- **Type**: `string`
+- **Description**: Formatting options for Quotation Mark And Apostrophe
+
+**Available options (6):**
+
+```
+use_curly_quotation_marks_and_apostrophes
+use_double_and_single_curly_quotation_marks_and_curly_apostrophes
+use_double_and_single_straight_quotation_marks_and_straight_apostrophes
+use_guillemets_and_curly_apostrophes
+use_guillemets_and_straight_apostrophes
+use_straight_quotation_marks_and_apostrophes
+```
+
+#### quotation_style
+
+- **Type**: `string`
+- **Description**: Formatting options for Quotation Style
+
+**Available options (13):**
+
+```
+use_corner_brackets_for_primary_quotations_and_double_corner_brackets_for_secondary_quotations
+use_double_curly_quotation_marks_for_primary_quotations_and_single_curly_quotation_marks_for_secondary_quotations
+use_double_curly_quotation_marks_for_primary_quotations_then_alternate_with_single_curly_quotation_marks_for_nested_quotations
+use_double_german_quotation_marks_for_primary_quotations_and_single_german_quotation_marks_for_secondary_quotations
+use_double_quotation_marks_for_primary_quotations_and_single_quotation_marks_for_secondary_quotations
+use_double_straight_quotation_marks_for_primary_quotations_and_single_straight_quotation_marks_for_secondary_quotations
+use_double_straight_quotation_marks_for_primary_quotations_then_alternate_with_single_straight_quotation_marks_for_nested_quotations
+use_guillemets_for_primary_quotations_and_double_curly_quotation_marks_for_secondary_quotations
+use_guillemets_for_primary_quotations_and_double_straight_quotation_marks_for_secondary_quotations
+use_guillemets_for_primary_quotations_and_single_guillemets_for_secondary_quotations
+use_guillemets_for_primary_quotations_double_curly_quotation_marks_for_secondary_quotations_and_single_curly_quotation_marks_for_further_nested_quotations
+use_reversed_guillemets_for_primary_quotations_and_single_reversed_guillemets_for_secondary_quotations
+use_single_quotation_marks_for_primary_quotations_and_double_quotation_marks_for_secondary_quotations
+```
+
+#### range_indicator
+
+- **Type**: `string`
+- **Description**: Formatting options for Range Indicator
+
+**Available options (18):**
+
+```
+use_en_dash_with_spaces
+use_en_dash_without_space_on_either_side
+use_en_dash_without_spaces
+use_english_word_to
+use_full_width_dash
+use_full_width_wave_dash
+use_german_word_bis
+use_half_width_dash
+use_hyphen
+use_hyphen_with_space_on_either_side
+use_hyphen_with_spaces
+use_hyphen_without_space_on_either_side
+use_hyphen_without_spaces
+use_italian_words_da_a
+use_japanese_word_から
+use_korean_words_부터_까지
+use_spanish_words_de_a
+use_tilde
+```
+
+#### related_phrases_indicator
+
+- **Type**: `string`
+- **Description**: Formatting options for Related Phrases Indicator
+
+**Available options (3):**
+
+```
+use_comma
+use_hyphen
+use_middle_dot
+```
+
+#### round_brackets
+
+- **Type**: `string`
+- **Description**: Formatting options for Round Brackets
+
+**Available options (2):**
+
+```
+use_full_width_round_brackets
+use_half_width_round_brackets
+```
+
+#### salutation
+
+- **Type**: `string`
+- **Description**: Formatting options for Salutation
+
+**Available options (4):**
+
+```
+do_not_use_comma_after_salutation_capitalize_following_word
+use_colon_after_salutation
+use_comma_after_salutation
+use_exclamation_mark_after_salutation
+```
+
+#### sentence_break_indicator
+
+- **Type**: `string`
+- **Description**: Formatting options for Sentence Break Indicator
+
+**Available options (3):**
+
+```
+use_em_dash_with_space_on_either_side
+use_em_dash_without_space_on_either_side
+use_en_dash_with_space_on_either_side
+```
+
+#### serial_comma
+
+- **Type**: `string`
+- **Description**: Formatting options for Serial Comma
+
+**Available options (4):**
+
+```
+do_not_use
+do_not_use_serial_comma_when_using_chinese_comma
+use
+use_serial_comma_when_using_comma
+```
+
+#### setting_off_non_quoted_phrases
+
+- **Type**: `string`
+- **Description**: Formatting options for Setting Off Non Quoted Phrases
+
+**Available options (2):**
+
+```
+use_full_width_quotation_marks
+use_half_width_quotation_marks
+```
+
+#### slash
+
+- **Type**: `string`
+- **Description**: Formatting options for Slash
+
+**Available options (4):**
+
+```
+do_not_use_spaces_before_and_after_slashes
+use_spaces_before_and_after_slashes
+use_spaces_before_and_after_slashes_if_there_are_multiple_words_before_and_after_slash
+use_spaces_before_and_after_slashes_if_there_are_multiple_words_before_or_after_slash
+```
+
+#### slash_usage
+
+- **Type**: `string`
+- **Description**: Formatting options for Slash Usage
+
+**Available options (1):**
+
+```
+do_not_use_slash_to_symbolize_english_word_or
+```
+
+#### spacing_and_punctuation
+
+- **Type**: `string`
+- **Description**: Formatting options for Spacing And Punctuation
+
+**Available options (2):**
+
+```
+do_not_use_space
+use_regular_space
+```
+
+#### text_in_round_brackets_referring_to_previous_sentence
+
+- **Type**: `string`
+- **Description**: Formatting options for Text In Round Brackets Referring To Previous Sentence
+
+**Available options (2):**
+
+```
+add_period_after_closing_round_bracket
+add_period_before_closing_round_bracket
+```
+
+#### text_in_round_brackets_supplementing_preceding_text
+
+- **Type**: `string`
+- **Description**: Formatting options for Text In Round Brackets Supplementing Preceding Text
+
+**Available options (1):**
+
+```
+add_period_after_closing_round_bracket
+```
+
+#### titles_of_books_and_newspapers
+
+- **Type**: `string`
+- **Description**: Formatting options for Titles Of Books And Newspapers
+
+**Available options (3):**
+
+```
+use_double_angle_brackets
+use_double_corner_brackets
+use_double_straight_quotation_marks
+```
+
+#### titles_of_creative_works_trade_names_laws_and_regulations
+
+- **Type**: `string`
+- **Description**: Formatting options for Titles Of Creative Works Trade Names Laws And Regulations
+
+**Available options (3):**
+
+```
+use_single_angle_brackets
+use_single_corner_brackets
+use_single_straight_quotation_marks
+```
+
+#### uppercase_acronyms
+
+- **Type**: `string`
+- **Description**: Formatting options for Uppercase Acronyms
+
+**Available options (2):**
+
+```
+do_not_use_spaces
+use_spaces
+```
+
+### Spelling And Grammar
+
+#### abbreviating_french_word_numero
+
+- **Type**: `string`
+- **Description**: Formatting options for Abbreviating French Word Numero
+
+**Available options (3):**
+
+```
+abbreviate_as_n_then_degree_symbol
+abbreviate_as_n_then_o_in_superscript
+abbreviate_as_no
+```
+
+#### abbreviation_usage
+
+- **Type**: `string`
+- **Description**: Formatting options for Abbreviation Usage
+
+**Available options (4):**
+
+```
+do_not_use_abbreviations
+do_not_use_abbreviations_unless_necessary
+use_abbreviations
+use_abbreviations_as_needed
+```
+
+#### accents_and_cedillas
+
+- **Type**: `string`
+- **Description**: Formatting options for Accents And Cedillas
+
+**Available options (3):**
+
+```
+do_not_use_on_capital_letters
+never_use
+use_even_on_capital_letters
+```
+
+#### accents_in_verbs_conjugated_like_french_word_céder
+
+- **Type**: `string`
+- **Description**: Formatting options for Accents In Verbs Conjugated Like French Word Céder
+
+**Available options (2):**
+
+```
+use_acute_accent
+use_grave_accent
+```
+
+#### accents_with_subject_verb_inversion
+
+- **Type**: `string`
+- **Description**: Formatting options for Accents With Subject Verb Inversion
+
+**Available options (2):**
+
+```
+use_acute_accent
+use_grave_accent
+```
+
+#### active_passive_voice
+
+- **Type**: `string`
+- **Description**: Formatting options for Active Passive Voice
+
+**Available options (6):**
+
+```
+use_active_voice_if_subject_is_prominent_and_agent_is_clear
+use_active_voice_to_describe_operations_with_user_as_subject
+use_active_voice_unless_agent_is_unknown_or_irrelevant
+use_passive_voice_as_needed
+use_passive_voice_for_automatic_operations_from_user_perspective
+use_passive_voice_if_agent_is_unknown_or_irrelevant
+```
+
+#### all_caps
+
+- **Type**: `string`
+- **Description**: Formatting options for All Caps
+
+**Available options (2):**
+
+```
+do_not_use_all_caps_except_for_acronyms_initialisms_or_proper_nouns
+do_not_use_all_caps_except_for_acronyms_or_brand_names
+```
+
+#### complete_sentences
+
+- **Type**: `string`
+- **Description**: Formatting options for Complete Sentences
+
+**Available options (1):**
+
+```
+always_write_complete_sentences
+```
+
+#### compound_nouns
+
+- **Type**: `string`
+- **Description**: Formatting options for Compound Nouns
+
+**Available options (2):**
+
+```
+write_as_one_word
+write_with_hyphen
+```
+
+#### conjunctions
+
+- **Type**: `string`
+- **Description**: Formatting options for Conjunctions
+
+**Available options (1):**
+
+```
+never_start_sentence_with_coordinating_conjunction
+```
+
+#### contractions
+
+- **Type**: `string`
+- **Description**: Formatting options for Contractions
+
+**Available options (3):**
+
+```
+do_not_use_contractions
+use_contractions
+use_contractions_but_avoid_negative_contractions
+```
+
+#### email_address_website_url
+
+- **Type**: `string`
+- **Description**: Formatting options for Email Address Website Url
+
+**Available options (1):**
+
+```
+use_lowercase_for_email_addresses_and_website_urls_except_when_url_includes_case_sensitive_elements
+```
+
+#### established_loanwords
+
+- **Type**: `string`
+- **Description**: Formatting options for Established Loanwords
+
+**Available options (2):**
+
+```
+use_as_is
+use_native_or_sino_korean_equivalents
+```
+
+#### eszett
+
+- **Type**: `string`
+- **Description**: Formatting options for Eszett
+
+**Available options (1):**
+
+```
+replace_eszett_with_ss
+```
+
+#### foreign_word_translation
+
+- **Type**: `string`
+- **Description**: Formatting options for Foreign Word Translation
+
+**Available options (6):**
+
+```
+use_equivalent_expressions_in_chinese
+use_foreign_forms_or_abbreviations_for_technical_terms_or_brand_names
+use_literal_translation
+use_localized_names_for_brands_with_official_chinese_translations
+use_mixture_of_transliteration_and_translation
+use_transliteration
+```
+
+#### french_verbs_ending_in_eler_and_eter
+
+- **Type**: `string`
+- **Description**: Formatting options for French Verbs Ending In Eler And Eter
+
+**Available options (2):**
+
+```
+transcribe_open_e_sound_by_doubling_next_consonant
+transcribe_open_e_sound_with_grave_accent
+```
+
+#### i_and_u_with_circumflex_accents
+
+- **Type**: `string`
+- **Description**: Formatting options for I And U With Circumflex Accents
+
+**Available options (2):**
+
+```
+do_not_use_circumflex_accents_except_in_verbs_and_to_distinguish_homophones
+use_circumflex_accents
+```
+
+#### informal_address_pronouns
+
+- **Type**: `string`
+- **Description**: Formatting options for Informal Address Pronouns
+
+**Available options (2):**
+
+```
+capitalize_informal_address_pronouns
+do_not_capitalize_informal_address_pronouns
+```
+
+#### latin_abbreviations
+
+- **Type**: `string`
+- **Description**: Formatting options for Latin Abbreviations
+
+**Available options (1):**
+
+```
+do_not_use_latin_abbreviations
+```
+
+#### passive_voice
+
+- **Type**: `string`
+- **Description**: Formatting options for Passive Voice
+
+**Available options (1):**
+
+```
+avoid_passive_voice_when_agent_is_known
+```
+
+#### past_participle_of_french_word_laisser_followed_by_infinitive
+
+- **Type**: `string`
+- **Description**: Formatting options for Past Participle Of French Word Laisser Followed By Infinitive
+
+**Available options (2):**
+
+```
+make_french_word_laisser_agree_with_direct_object_complement_if_it_appears_before_verb
+use_invariable_form_french_word_laissé
+```
+
+#### personal_titles
+
+- **Type**: `string`
+- **Description**: Formatting options for Personal Titles
+
+**Available options (2):**
+
+```
+abbreviate
+do_not_abbreviate
+```
+
+#### pluralizing_foreign_words
+
+- **Type**: `string`
+- **Description**: Formatting options for Pluralizing Foreign Words
+
+**Available options (2):**
+
+```
+use_french_spelling_rules
+use_original_language_spelling
+```
+
+#### quotation_modification
+
+- **Type**: `string`
+- **Description**: Formatting options for Quotation Modification
+
+**Available options (2):**
+
+```
+do_not_modify_text_in_quotation_marks
+modify_text_in_quotation_marks_according_to_custom_rules
+```
+
+#### spanish_word_solo
+
+- **Type**: `string`
+- **Description**: Formatting options for Spanish Word Solo
+
+**Available options (2):**
+
+```
+never_use_acute_accent
+use_acute_accent_when_used_as_adverb
+```
+
+#### special_characters
+
+- **Type**: `string`
+- **Description**: Formatting options for Special Characters
+
+**Available options (1):**
+
+```
+never_use_symbols
+```
+
+#### spelled_out_numbers
+
+- **Type**: `string`
+- **Description**: Formatting options for Spelled Out Numbers
+
+**Available options (2):**
+
+```
+use_hyphens
+use_hyphens_between_elements_under_100_and_not_separated_by_french_word_et
+```
+
+#### umlauts
+
+- **Type**: `string`
+- **Description**: Formatting options for Umlauts
+
+**Available options (1):**
+
+```
+replace_umlauts_with_ae_oe_ue
+```
+
+#### unestablished_loanwords
+
+- **Type**: `string`
+- **Description**: Formatting options for Unestablished Loanwords
+
+**Available options (3):**
+
+```
+paraphrase_in_korean
+use_as_is
+use_as_is_with_explanation_in_parentheses
+```
+
+### Style And Tone
+
+#### abbreviations
+
+- **Type**: `string`
+- **Description**: Formatting options for Abbreviations
+
+**Available options (2):**
+
+```
+avoid_abbreviations_and_symbols_that_can_be_spelled_out_easily
+use_abbreviations_and_symbols
+```
+
+#### addressing_non_binary_people
+
+- **Type**: `string`
+- **Description**: Formatting options for Addressing Non Binary People
+
+**Available options (2):**
+
+```
+use_spanish_word_elle
+use_spanish_word_ellx
+```
+
+#### addressing_the_reader
+
+- **Type**: `string`
+- **Description**: Formatting options for Addressing The Reader
+
+**Available options (4):**
+
+```
+use_formal_french_word_vous
+use_formal_italian_word_lei
+use_informal_french_word_tu
+use_informal_italian_word_tu
+```
+
+#### anglicisms
+
+- **Type**: `string`
+- **Description**: Formatting options for Anglicisms
+
+**Available options (1):**
+
+```
+avoid_anglicisms_when_there_is_a_french_equivalent
+```
+
+#### binary_representation_of_gender
+
+- **Type**: `string`
+- **Description**: Formatting options for Binary Representation Of Gender
+
+**Available options (3):**
+
+```
+avoid_binary_representation_of_gender_when_gender_neutral_language_can_be_used
+replace_binary_representations_of_gender_with_gender_neutral_language
+use_neutral_pronouns
+```
+
+#### call_to_action
+
+- **Type**: `string`
+- **Description**: Formatting options for Call To Action
+
+**Available options (1):**
+
+```
+use_calls_to_action
+```
+
+#### complex_sentences
+
+- **Type**: `string`
+- **Description**: Formatting options for Complex Sentences
+
+**Available options (1):**
+
+```
+avoid_unnecessarily_complex_sentences
+```
+
+#### country_names
+
+- **Type**: `string`
+- **Description**: Formatting options for Country Names
+
+**Available options (2):**
+
+```
+use_long_form
+use_short_form
+```
+
+#### declarative_endings
+
+- **Type**: `string`
+- **Description**: Formatting options for Declarative Endings
+
+**Available options (5):**
+
+```
+mix_hapsho_and_haeyo_styles
+use_hae_style
+use_haeyo_style
+use_hapsho_style
+use_hara_style
+```
+
+#### default_first_person_pronoun
+
+- **Type**: `string`
+- **Description**: Formatting options for Default First Person Pronoun
+
+**Available options (3):**
+
+```
+do_not_use_first_person_pronouns
+omit_first_person_subject_when_clear_from_context
+use_first_person_pronouns
+```
+
+#### default_second_person_pronoun
+
+- **Type**: `string`
+- **Description**: Formatting options for Default Second Person Pronoun
+
+**Available options (2):**
+
+```
+do_not_use_second_person_pronouns
+use_second_person_pronouns
+```
+
+#### default_third_person_singular_pronoun
+
+- **Type**: `string`
+- **Description**: Formatting options for Default Third Person Singular Pronoun
+
+**Available options (7):**
+
+```
+use_feminine_pronoun
+use_he_him
+use_he_or_she_him_or_her
+use_masculine_pronoun
+use_masculine_pronoun_german_word_oder_feminine_pronoun
+use_she_her
+use_they_them
+```
+
+#### directional_language
+
+- **Type**: `string`
+- **Description**: Formatting options for Directional Language
+
+**Available options (1):**
+
+```
+do_not_use_directional_language
+```
+
+#### double_negatives
+
+- **Type**: `string`
+- **Description**: Formatting options for Double Negatives
+
+**Available options (2):**
+
+```
+do_not_use_double_negatives
+use_double_negatives
+```
+
+#### formality
+
+- **Type**: `string`
+- **Description**: Formatting options for Formality
+
+**Available options (2):**
+
+```
+use_casual_tone
+use_formal_tone
+```
+
+#### gender_neutral_language_readability
+
+- **Type**: `string`
+- **Description**: Formatting options for Gender Neutral Language Readability
+
+**Available options (1):**
+
+```
+use_generic_masculine_for_common_compound_nouns_if_it_increases_readability
+```
+
+#### gender_unspecified
+
+- **Type**: `string`
+- **Description**: Formatting options for Gender Unspecified
+
+**Available options (6):**
+
+```
+use_both_masculine_and_feminine_forms
+use_gender_neutral_terms
+use_masculine_form_only
+use_middle_dots
+use_parentheses
+use_periods
+```
+
+#### gender_unspecified_or_mixed
+
+- **Type**: `string`
+- **Description**: Formatting options for Gender Unspecified Or Mixed
+
+**Available options (5):**
+
+```
+use_both_feminine_and_masculine_forms
+use_feminine_form_only
+use_inclusive_nouns_and_adjectives
+use_masculine_form_only
+use_neutral_nouns_and_adjectives
+```
+
+#### idioms_colloquialisms_and_culture_specific_references
+
+- **Type**: `string`
+- **Description**: Formatting options for Idioms Colloquialisms And Culture Specific References
+
+**Available options (1):**
+
+```
+do_not_use
+```
+
+#### inflected_words_masculine_noun_agreement
+
+- **Type**: `string`
+- **Description**: Formatting options for Inflected Words Masculine Noun Agreement
+
+**Available options (1):**
+
+```
+place_masculine_nouns_closest_to_inflected_words
+```
+
+#### instructions_style
+
+- **Type**: `string`
+- **Description**: Formatting options for Instructions Style
+
+**Available options (5):**
+
+```
+use_imperative
+use_indicative
+use_infinitive
+use_modal_verbs
+use_passive_voice
+```
+
+#### mixing_styles
+
+- **Type**: `string`
+- **Description**: Formatting options for Mixing Styles
+
+**Available options (1):**
+
+```
+do_not_mix_desu_masu_style_and_dearu_style
+```
+
+#### modal_verbs
+
+- **Type**: `string`
+- **Description**: Formatting options for Modal Verbs
+
+**Available options (1):**
+
+```
+avoid_modal_verbs
+```
+
+#### person_vs_identity_first_language
+
+- **Type**: `string`
+- **Description**: Formatting options for Person Vs Identity First Language
+
+**Available options (2):**
+
+```
+use_identity_first_language
+use_person_first_language
+```
+
+#### personal_vs_impersonal_style
+
+- **Type**: `string`
+- **Description**: Formatting options for Personal Vs Impersonal Style
+
+**Available options (2):**
+
+```
+use_impersonal_style
+use_personal_style
+```
+
+#### positive_vs_negative_language
+
+- **Type**: `string`
+- **Description**: Formatting options for Positive Vs Negative Language
+
+**Available options (1):**
+
+```
+use_positive_language
+```
+
+#### proximity_agreement
+
+- **Type**: `string`
+- **Description**: Formatting options for Proximity Agreement
+
+**Available options (1):**
+
+```
+use
+```
+
+#### reader_action_required
+
+- **Type**: `string`
+- **Description**: Formatting options for Reader Action Required
+
+**Available options (1):**
+
+```
+use_you_must_when_action_is_required_from_reader
+```
+
+#### redundant_introductory_phrases
+
+- **Type**: `string`
+- **Description**: Formatting options for Redundant Introductory Phrases
+
+**Available options (2):**
+
+```
+avoid_redundant_introductory_phrases
+do_not_use_redundant_phrases_that_refer_to_current_text
+```
+
+#### redundant_phrases
+
+- **Type**: `string`
+- **Description**: Formatting options for Redundant Phrases
+
+**Available options (2):**
+
+```
+avoid_relativizing_and_redundant_phrases
+do_not_use_redundant_phrases
+```
+
+#### referring_to_non_binary_people
+
+- **Type**: `string`
+- **Description**: Formatting options for Referring To Non Binary People
+
+**Available options (1):**
+
+```
+use_the_singular_and_plural_schwa
+```
+
+#### short_vs_long_words
+
+- **Type**: `string`
+- **Description**: Formatting options for Short Vs Long Words
+
+**Available options (1):**
+
+```
+use_short_words
+```
+
+#### simple_words_and_sentences
+
+- **Type**: `string`
+- **Description**: Formatting options for Simple Words And Sentences
+
+**Available options (1):**
+
+```
+use_simple_words_and_sentences_avoid_hard_to_translate_words_and_figures_of_speech
+```
+
+#### specialized_language
+
+- **Type**: `string`
+- **Description**: Formatting options for Specialized Language
+
+**Available options (1):**
+
+```
+avoid_specialized_language_unless_text_is_aimed_at_experts
+```
+
+#### text_position_references
+
+- **Type**: `string`
+- **Description**: Formatting options for Text Position References
+
+**Available options (1):**
+
+```
+avoid_directional_terms_as_only_reference_to_position_in_text_specify_exact_position_instead
+```
+
+#### tone
+
+- **Type**: `string`
+- **Description**: Formatting options for Tone
+
+**Available options (2):**
+
+```
+use_dearu_style_to_give_impression_content_is_accurate_and_rigorous_or_to_convey_sense_of_confidence_and_reliability
+use_desu_masu_style_to_give_impression_content_is_plain_and_straightforward_or_to_give_reader_reassuring_or_soft_impression
+```
+
+#### verbal_vs_nominal_style
+
+- **Type**: `string`
+- **Description**: Formatting options for Verbal Vs Nominal Style
+
+**Available options (2):**
+
+```
+use_nominal_style
+use_verbal_style
+```
+
+### Vocabulary
+
+#### abbreviations
+
+- **Type**: `string`
+- **Description**: Formatting options for Abbreviations
+
+**Available options (1):**
+
+```
+write_original_term_then_abbreviation_and_explanation
+```
+
+#### loanwords
+
+- **Type**: `string`
+- **Description**: Formatting options for Loanwords
+
+**Available options (4):**
+
+```
+add_explanation_to_loanword_if_difficult_to_rephrase
+rephrase_loanword_in_daily_use_chinese_or_japanese_words_if_possible
+rephrase_loanword_with_another_expression_if_not_established
+use_loanword_as_is_if_well_established
+```
+
+## Usage Examples
+
+### JSON Configuration Example
+
+```json
+{
+  "dates_and_times": {
+    "calendar_era": "use_bc_and_ad",
+    "date_format": "use_dd_slash_mm_slash_yyyy_with_leading_zeros_for_single_digit_days_and_months"
+  },
+  "formatting": {
+    "email_address_format": "use_standard_format"
+  }
+}
+```
+
+### API Integration
+
+The OpenAPI specification can be used with various tools:
+
+- **Swagger UI** - Interactive API documentation
+- **Code Generation** - Generate client libraries
+- **Validation** - Validate rule configurations
+- **Testing** - Generate test cases
+
+## Validation
+
+All rule configurations should be validated against the OpenAPI schema to ensure:
+
+1. Only valid rule categories are used
+2. Only valid parameter names are specified
+3. Only valid option values are selected
+4. Required fields are present
+
+## Error Handling
+
+When invalid configurations are provided:
+
+- **400 Bad Request** - Invalid rule category or parameter
+- **422 Unprocessable Entity** - Invalid option value
+- **500 Internal Server Error** - Server-side processing error

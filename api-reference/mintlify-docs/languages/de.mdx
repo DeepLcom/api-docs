@@ -1,0 +1,502 @@
+---
+title: "German Style Rules"
+description: "Complete guide to style rules for German translations"
+---
+
+# German Style Rules
+
+*Language code: `de`*
+
+This guide covers all available style rules for German translations. Each rule helps you control specific aspects of how your content is formatted and styled.
+
+## Overview
+
+<CardGroup cols={2}>
+  <Card title="Rule Categories" icon="layers">
+    6 categories available
+  </Card>
+  <Card title="Total Rules" icon="settings">
+    50 rules available
+  </Card>
+</CardGroup>
+
+## Available Rules
+
+### 📅 Dates and Times
+
+Control how dates, times, and temporal expressions are formatted in your translations.
+
+**Rules available:** 2
+
+<AccordionGroup>
+<Accordion title="Date Format">
+Control how dates are displayed (month/day/year vs day/month/year, etc.).
+
+**Available options:**
+1. **`use-dd-period-mm-period-yy-with-leading-zeros-for-single-digit-days-and-months`** - Dd period mm period yy with leading zeros for single digit days and months
+2. **`use-dd-period-mm-period-yyyy-with-leading-zeros-for-single-digit-days-and-months`** - Dd period mm period yyyy with leading zeros for single digit days and months
+3. **`use-dd-period-space-abbreviated-month-yyyy-with-abbreviations-jan-period-feb-period-mrz-period-apr-period-mai-jun-period-jul-period-aug-period-sep-period-okt-period-nov-period-dez-period-without-leading-zeros-for-single-digit-days`** - Dd period space abbreviated month yyyy with abbreviations jan period feb period mrz period apr period mai jun period jul period aug period sep period okt period nov period dez period without leading zeros for single digit days
+4. **`use-dd-period-space-abbreviated-month-yyyy-with-abbreviations-jan-period-febr-period-maerz-apr-period-mai-juni-juli-aug-period-sept-period-okt-period-nov-period-dez-period-without-leading-zeros-for-single-digit-days`** - Dd period space abbreviated month yyyy with abbreviations jan period febr period maerz apr period mai juni juli aug period sept period okt period nov period dez period without leading zeros for single digit days
+5. **`use-dd-period-space-month-yyyy-without-leading-zeros-for-single-digit-days`** - Dd period space month yyyy without leading zeros for single digit days
+
+</Accordion>
+<Accordion title="Time Format">
+Choose between 12-hour and 24-hour clock formats.
+
+**Available options:**
+1. **`use-hh-colon-mm-german-word-uhr-with-leading-zeros-for-single-digit-hours`** - Hh colon mm german word uhr with leading zeros for single digit hours
+2. **`use-hh-colon-mm-german-word-uhr-without-leading-zeros-for-single-digit-hours`** - Hh colon mm german word uhr without leading zeros for single digit hours
+3. **`use-hh-period-mm-german-word-uhr-with-leading-zeros-for-single-digit-hours`** - Hh period mm german word uhr with leading zeros for single digit hours
+4. **`use-hh-period-mm-german-word-uhr-without-leading-zeros-for-single-digit-hours`** - Hh period mm german word uhr without leading zeros for single digit hours
+5. **`use-hh-period-mm-german-word-uhr-without-leading-zeros-for-single-digit-hours-and-for-full-hours-state-hour-only`** - Hh period mm german word uhr without leading zeros for single digit hours and for full hours state hour only
+
+</Accordion>
+</AccordionGroup>
+
+### 📝 Text Formatting
+
+Manage formatting of URLs, email addresses, phone numbers, and other structured text.
+
+**Rules available:** 4
+
+<AccordionGroup>
+<Accordion title="Email Address Website Url">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-lowercase-for-email-addresses-and-website-urls-except-when-url-includes-case-sensitive-elements`** - Lowercase for email addresses and website urls except when url includes case sensitive elements
+
+</Accordion>
+<Accordion title="Email Address Format">
+Control how email addresses are displayed and formatted.
+
+**Available options:**
+1. **`replace-at-symbol-with-english-word-at-in-brackets-with-space-on-either-side`** - Replace at symbol with english word at in brackets with space on either side
+2. **`replace-at-symbol-with-english-word-at-in-parentheses-with-space-on-either-side`** - Replace at symbol with english word at in parentheses with space on either side
+3. **`replace-at-symbol-with-english-word-at-with-space-on-either-side`** - Replace at symbol with english word at with space on either side
+4. **`use-standard-format`** - Apply standard formatting rules
+
+</Accordion>
+<Accordion title="Phone Number Format">
+Manage phone number formatting and display.
+
+**Available options:**
+1. **`do-not-use-spaces-or-special-characters-between-digits-of-phone-number`** - Do not spaces or special characters between digits of phone number
+2. **`place-area-code-in-parentheses-followed-by-space`** - Place area code in parentheses followed by space
+3. **`separate-area-code-and-phone-number-with-slash`** - Separate area code and phone number with slash
+4. **`separate-area-code-and-phone-number-with-space`** - Separate area code and phone number with space
+
+</Accordion>
+<Accordion title="Titles Headings Punctuation">
+Control specific formatting options.
+
+**Available options:**
+1. **`do-not-use-colon-at-end-of-titles-or-headings`** - Do not colon at end of titles or headings
+
+</Accordion>
+</AccordionGroup>
+
+### 🔢 Numbers and Currency
+
+Control how numbers, currency, percentages, and measurements are displayed.
+
+**Rules available:** 13
+
+<AccordionGroup>
+<Accordion title="Currency Format">
+Control how currency amounts are displayed (symbol placement, spacing, etc.).
+
+**Available options:**
+1. **`use-amount-followed-by-space-then-currency-symbol`** - Amount followed by space then currency symbol
+2. **`use-amount-followed-by-space-then-iso-code`** - Amount followed by space then iso code
+3. **`use-amount-followed-by-space-then-spell-out-currency-name`** - Amount followed by space then spell out currency name
+4. **`use-currency-symbol-followed-by-space-then-amount`** - Currency symbol followed by space then amount
+5. **`use-iso-code-followed-by-space-then-amount`** - Iso code followed by space then amount
+
+</Accordion>
+<Accordion title="Decimal Numbers Less Than One">
+Control specific formatting options.
+
+**Available options:**
+1. **`always-use-0-before-decimal-separator`** - Always 0 before decimal separator
+
+</Accordion>
+<Accordion title="Decimal Separator">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-comma-as-decimal-separator`** - Comma as decimal separator
+2. **`use-period-as-decimal-separator`** - Period as decimal separator
+
+</Accordion>
+<Accordion title="Dimensions Separator">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-multiplication-sign-between-dimensions-with-space-on-either-side`** - Multiplication sign between dimensions with space on either side
+2. **`use-multiplication-sign-between-dimensions-without-space-on-either-side`** - Multiplication sign between dimensions without space on either side
+3. **`use-x-between-dimensions-with-space-on-either-side`** - X between dimensions with space on either side
+4. **`use-x-between-dimensions-without-space-on-either-side`** - X between dimensions without space on either side
+
+</Accordion>
+<Accordion title="Equation Formula Reference">
+Control specific formatting options.
+
+**Available options:**
+1. **`always-use-arabic-numerals-to-number-equations-or-formulas-referenced-in-text`** - Always arabic numerals to number equations or formulas referenced in text
+
+</Accordion>
+<Accordion title="Large Number Format">
+Manage formatting of large numbers (commas, spaces, etc.).
+
+**Available options:**
+1. **`spell-out-large-numbers`** - Spell out large numbers
+2. **`use-abbreviations-for-large-numbers`** - Abbreviations for large numbers
+
+</Accordion>
+<Accordion title="List Of Measurements With Units">
+Control specific formatting options.
+
+**Available options:**
+1. **`repeat-unit-for-each-measurement-in-list`** - Repeat unit for each measurement in list
+
+</Accordion>
+<Accordion title="Mathematical Expression Spacing">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-space-between-elements-of-mathematical-expression-or-equation`** - Space between elements of mathematical expression or equation
+
+</Accordion>
+<Accordion title="Percentage Format">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-numerals-followed-by-percent-symbol`** - Numerals followed by percent symbol
+2. **`use-numerals-followed-by-space-then-german-word-prozent`** - Numerals followed by space then german word prozent
+3. **`use-numerals-followed-by-space-then-percent-symbol`** - Numerals followed by space then percent symbol
+
+</Accordion>
+<Accordion title="Spelling Out Units">
+Control specific formatting options.
+
+**Available options:**
+1. **`abbreviate-units-of-measure-when-used-with-numeral-but-spell-out-when-used-without-numeral`** - Abbreviate units of measure when used with numeral but spell out when used without numeral
+2. **`always-abbreviate-units-of-measure`** - Always abbreviate units of measure
+3. **`always-spell-out-units-of-measure`** - Always spell out units of measure
+
+</Accordion>
+<Accordion title="Temperature Format">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-numerals-followed-by-space-then-spell-out-unit`** - Numerals followed by space then spell out unit
+2. **`use-numerals-followed-by-space-then-unit-symbol`** - Numerals followed by space then unit symbol
+
+</Accordion>
+<Accordion title="Thousands Separator">
+Control specific formatting options.
+
+**Available options:**
+1. **`do-not-use-thousands-separator`** - Do not thousands separator
+2. **`use-period-as-thousands-separator`** - Period as thousands separator
+3. **`use-space-as-thousands-separator`** - Space as thousands separator
+4. **`use-straight-apostrophe-as-thousands-separator`** - Straight apostrophe as thousands separator
+
+</Accordion>
+<Accordion title="Units Of Measure Spacing">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-space-between-numeral-and-unit-of-measure`** - Space between numeral and unit of measure
+
+</Accordion>
+</AccordionGroup>
+
+### ✏️ Punctuation
+
+Manage punctuation marks, quotation marks, and other typographic elements.
+
+**Rules available:** 9
+
+<AccordionGroup>
+<Accordion title="Ampersand Abbreviation Spacing">
+Control specific formatting options.
+
+**Available options:**
+1. **`do-not-use-spaces-before-and-after-ampersand-as-part-of-abbreviation`** - Do not spaces before and after ampersand as part of abbreviation
+2. **`use-spaces-before-and-after-ampersand-as-part-of-abbreviation`** - Spaces before and after ampersand as part of abbreviation
+
+</Accordion>
+<Accordion title="Ampersand Usage">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-german-word-und-except-in-company-names-common-abbreviations-titles-software-code-and-mathematical-equations`** - German word und except in company names common abbreviations titles software code and mathematical equations
+
+</Accordion>
+<Accordion title="Apostrophe">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-curly-apostrophes`** - Curly apostrophes
+
+</Accordion>
+<Accordion title="Ellipsis">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-ellipsis-character`** - Ellipsis character
+2. **`use-three-periods-without-spaces`** - Three periods without spaces
+
+</Accordion>
+<Accordion title="Quotation Style">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-double-german-quotation-marks-for-primary-quotations-and-single-german-quotation-marks-for-secondary-quotations`** - Double german quotation marks for primary quotations and single german quotation marks for secondary quotations
+2. **`use-guillemets-for-primary-quotations-and-single-guillemets-for-secondary-quotations`** - Guillemets for primary quotations and single guillemets for secondary quotations
+3. **`use-reversed-guillemets-for-primary-quotations-and-single-reversed-guillemets-for-secondary-quotations`** - Reversed guillemets for primary quotations and single reversed guillemets for secondary quotations
+
+</Accordion>
+<Accordion title="Range Indicator">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-en-dash-without-space-on-either-side`** - En dash without space on either side
+2. **`use-german-word-bis`** - German word bis
+
+</Accordion>
+<Accordion title="Salutation">
+Control specific formatting options.
+
+**Available options:**
+1. **`do-not-use-comma-after-salutation-capitalize-following-word`** - Do not comma after salutation capitalize following word
+2. **`use-comma-after-salutation`** - Comma after salutation
+3. **`use-exclamation-mark-after-salutation`** - Exclamation mark after salutation
+
+</Accordion>
+<Accordion title="Sentence Break Indicator">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-en-dash-with-space-on-either-side`** - En dash with space on either side
+
+</Accordion>
+<Accordion title="Slash">
+Control specific formatting options.
+
+**Available options:**
+1. **`do-not-use-spaces-before-and-after-slashes`** - Do not spaces before and after slashes
+2. **`use-spaces-before-and-after-slashes`** - Spaces before and after slashes
+3. **`use-spaces-before-and-after-slashes-if-there-are-multiple-words-before-and-after-slash`** - Spaces before and after slashes if there are multiple words before and after slash
+
+</Accordion>
+</AccordionGroup>
+
+### 📚 Spelling and Grammar
+
+Control spelling conventions, grammar rules, and language-specific preferences.
+
+**Rules available:** 6
+
+<AccordionGroup>
+<Accordion title="Active Passive Voice">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-active-voice-unless-agent-is-unknown-or-irrelevant`** - Active voice unless agent is unknown or irrelevant
+
+</Accordion>
+<Accordion title="All Caps">
+Control specific formatting options.
+
+**Available options:**
+1. **`do-not-use-all-caps-except-for-acronyms-initialisms-or-proper-nouns`** - Do not all caps except for acronyms initialisms or proper nouns
+
+</Accordion>
+<Accordion title="Eszett">
+Control specific formatting options.
+
+**Available options:**
+1. **`replace-eszett-with-ss`** - Replace eszett with ss
+
+</Accordion>
+<Accordion title="Informal Address Pronouns">
+Control specific formatting options.
+
+**Available options:**
+1. **`capitalize-informal-address-pronouns`** - Capitalize informal address pronouns
+2. **`do-not-capitalize-informal-address-pronouns`** - Do not capitalize informal address pronouns
+
+</Accordion>
+<Accordion title="Quotation Modification">
+Control specific formatting options.
+
+**Available options:**
+1. **`do-not-modify-text-in-quotation-marks`** - Do not modify text in quotation marks
+2. **`modify-text-in-quotation-marks-according-to-custom-rules`** - Modify text in quotation marks according to custom rules
+
+</Accordion>
+<Accordion title="Umlauts">
+Control specific formatting options.
+
+**Available options:**
+1. **`replace-umlauts-with-ae-oe-ue`** - Replace umlauts with ae oe ue
+
+</Accordion>
+</AccordionGroup>
+
+### 🎭 Style and Tone
+
+Manage the overall tone, formality, and stylistic choices in your translations.
+
+**Rules available:** 16
+
+<AccordionGroup>
+<Accordion title="Abbreviations">
+Control specific formatting options.
+
+**Available options:**
+1. **`avoid-abbreviations-and-symbols-that-can-be-spelled-out-easily`** - Avoid abbreviations and symbols that can be spelled out easily
+2. **`use-abbreviations-and-symbols`** - Abbreviations and symbols
+
+</Accordion>
+<Accordion title="Binary Representation Of Gender">
+Control specific formatting options.
+
+**Available options:**
+1. **`avoid-binary-representation-of-gender-when-gender-neutral-language-can-be-used`** - Avoid binary representation of gender when gender neutral language can be used
+
+</Accordion>
+<Accordion title="Complex Sentences">
+Control specific formatting options.
+
+**Available options:**
+1. **`avoid-unnecessarily-complex-sentences`** - Avoid unnecessarily complex sentences
+
+</Accordion>
+<Accordion title="Default Third Person Singular Pronoun">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-feminine-pronoun`** - Feminine pronoun
+2. **`use-masculine-pronoun`** - Masculine pronoun
+3. **`use-masculine-pronoun-german-word-oder-feminine-pronoun`** - Masculine pronoun german word oder feminine pronoun
+
+</Accordion>
+<Accordion title="Gender Neutral Language Readability">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-generic-masculine-for-common-compound-nouns-if-it-increases-readability`** - Generic masculine for common compound nouns if it increases readability
+
+</Accordion>
+<Accordion title="Instructions Style">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-imperative`** - Imperative
+2. **`use-indicative`** - Indicative
+3. **`use-infinitive`** - Infinitive
+4. **`use-modal-verbs`** - Modal verbs
+5. **`use-passive-voice`** - Prefer passive voice constructions
+
+</Accordion>
+<Accordion title="Modal Verbs">
+Control specific formatting options.
+
+**Available options:**
+1. **`avoid-modal-verbs`** - Avoid modal verbs
+
+</Accordion>
+<Accordion title="Person Vs Identity First Language">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-identity-first-language`** - Identity first language
+2. **`use-person-first-language`** - Person first language
+
+</Accordion>
+<Accordion title="Personal vs Impersonal Style">
+Choose between personal (using "you") and impersonal (using "one") writing styles.
+
+**Available options:**
+1. **`use-impersonal-style`** - Use impersonal style (one, it)
+2. **`use-personal-style`** - Use personal pronouns (you, we)
+
+</Accordion>
+<Accordion title="Redundant Introductory Phrases">
+Control specific formatting options.
+
+**Available options:**
+1. **`avoid-redundant-introductory-phrases`** - Avoid redundant introductory phrases
+
+</Accordion>
+<Accordion title="Redundant Phrases">
+Control specific formatting options.
+
+**Available options:**
+1. **`avoid-relativizing-and-redundant-phrases`** - Avoid relativizing and redundant phrases
+
+</Accordion>
+<Accordion title="Short Vs Long Words">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-short-words`** - Prefer shorter, simpler words
+
+</Accordion>
+<Accordion title="Simple Words And Sentences">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-simple-words-and-sentences-avoid-hard-to-translate-words-and-figures-of-speech`** - Simple words and sentences avoid hard to translate words and figures of speech
+
+</Accordion>
+<Accordion title="Specialized Language">
+Control specific formatting options.
+
+**Available options:**
+1. **`avoid-specialized-language-unless-text-is-aimed-at-experts`** - Avoid specialized language unless text is aimed at experts
+
+</Accordion>
+<Accordion title="Text Position References">
+Control specific formatting options.
+
+**Available options:**
+1. **`avoid-directional-terms-as-only-reference-to-position-in-text-specify-exact-position-instead`** - Avoid directional terms as only reference to position in text specify exact position instead
+
+</Accordion>
+<Accordion title="Verbal Vs Nominal Style">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-nominal-style`** - Nominal style
+2. **`use-verbal-style`** - Verbal style
+
+</Accordion>
+</AccordionGroup>
+
+## Language-Specific Information
+
+German has specific rules for compound words, capitalization, and formal/informal address. These rules help maintain proper German grammar and style.
+
+## Common Use Cases
+
+- Business documents (formal Sie address)
+- Technical manuals (precise, clear language)
+- Academic papers (formal register)
+- Marketing materials (appropriate formality level)
+
+## Getting Started
+
+1. **Identify your needs** - What type of content are you translating?
+2. **Choose relevant rules** - Focus on rules that affect your content type
+3. **Test different options** - Try various combinations to find what works best
+4. **Apply consistently** - Use the same rules across all your content
+
+## Related Resources
+
+- [API Reference](/api-reference) - Technical implementation details
+- [Getting Started](/getting-started) - Learn how to use style rules effectively

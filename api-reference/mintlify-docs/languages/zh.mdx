@@ -1,0 +1,326 @@
+---
+title: "Chinese Style Rules"
+description: "Complete guide to style rules for Chinese translations"
+---
+
+# Chinese Style Rules
+
+*Language code: `zh`*
+
+This guide covers all available style rules for Chinese translations. Each rule helps you control specific aspects of how your content is formatted and styled.
+
+## Overview
+
+<CardGroup cols={2}>
+  <Card title="Rule Categories" icon="layers">
+    6 categories available
+  </Card>
+  <Card title="Total Rules" icon="settings">
+    27 rules available
+  </Card>
+</CardGroup>
+
+## Available Rules
+
+### 📅 Dates and Times
+
+Control how dates, times, and temporal expressions are formatted in your translations.
+
+**Rules available:** 2
+
+<AccordionGroup>
+<Accordion title="Date Format">
+Control how dates are displayed (month/day/year vs day/month/year, etc.).
+
+**Available options:**
+1. **`use-yyyy-chinese-word-年-mm-chinese-word-月-dd-chinese-word-日-without-leading-zero-for-single-digit-months-and-days`** - Yyyy chinese word 年 mm chinese word 月 dd chinese word 日 without leading zero for single digit months and days
+2. **`use-yyyy-hyphen-mm-hyphen-dd-with-leading-zero-for-single-digit-days-and-months`** - Yyyy hyphen mm hyphen dd with leading zero for single digit days and months
+3. **`use-yyyy-chinese-word-年-mm-chinese-word-月-dd-chinese-word-日-with-chinese-numbers`** - Yyyy chinese word 年 mm chinese word 月 dd chinese word 日 with chinese numbers
+4. **`use-traditional-calendar-system-with-chinese-numbers`** - Traditional calendar system with chinese numbers
+5. **`use-historical-eras-and-write-numbers-in-chinese-followed-by-chinese-word-公元前-or-公元后-with-arabic-numerals-in-parentheses`** - Historical eras and write numbers in chinese followed by chinese word 公元前 or 公元后 with arabic numerals in parentheses
+
+</Accordion>
+<Accordion title="Time Format">
+Choose between 12-hour and 24-hour clock formats.
+
+**Available options:**
+1. **`use-12-hour-clock-and-write-chinese-word-上午-or-下午-or-chinese-word-早上-or-晚上-followed-by-arabic-numerals`** - 12 hour clock and write chinese word 上午 or 下午 or chinese word 早上 or 晚上 followed by arabic numerals
+2. **`use-12-hour-clock-and-write-chinese-word-上午-or-下午-or-chinese-word-早上-or-晚上-followed-by-arabic-numerals-with-chinese-words-时-and-分-for-hours-and-minutes`** - 12 hour clock and write chinese word 上午 or 下午 or chinese word 早上 or 晚上 followed by arabic numerals with chinese words 时 and 分 for hours and minutes
+3. **`use-12-hour-clock-and-write-chinese-word-上午-or-下午-or-chinese-word-早上-or-晚上-followed-by-arabic-numerals-with-chinese-word-点-for-hours`** - 12 hour clock and write chinese word 上午 or 下午 or chinese word 早上 or 晚上 followed by arabic numerals with chinese word 点 for hours
+4. **`use-12-hour-clock-and-write-chinese-word-上午-or-下午-or-chinese-word-早上-or-晚上-followed-by-chinese-numbers-with-chinese-words-时-and-分-for-hours-and-minutes`** - 12 hour clock and write chinese word 上午 or 下午 or chinese word 早上 or 晚上 followed by chinese numbers with chinese words 时 and 分 for hours and minutes
+5. **`use-24-hour-clock`** - 24-hour clock format (00:00-23:59)
+
+</Accordion>
+</AccordionGroup>
+
+### 📝 Text Formatting
+
+Manage formatting of URLs, email addresses, phone numbers, and other structured text.
+
+**Rules available:** 3
+
+<AccordionGroup>
+<Accordion title="Space Between Arabic Numerals And Unit">
+Control specific formatting options.
+
+**Available options:**
+1. **`do-not-use`** - Do not use
+
+</Accordion>
+<Accordion title="Space Between Chinese And English">
+Control specific formatting options.
+
+**Available options:**
+1. **`do-not-use`** - Do not use
+
+</Accordion>
+<Accordion title="Space Between Chinese Characters And Arabic Numerals">
+Control specific formatting options.
+
+**Available options:**
+1. **`do-not-use`** - Do not use
+
+</Accordion>
+</AccordionGroup>
+
+### 🔢 Numbers and Currency
+
+Control how numbers, currency, percentages, and measurements are displayed.
+
+**Rules available:** 7
+
+<AccordionGroup>
+<Accordion title="Currency Format">
+Control how currency amounts are displayed (symbol placement, spacing, etc.).
+
+**Available options:**
+1. **`use-currency-symbol-followed-by-amount-in-arabic-numerals-without-space`** - Currency symbol followed by amount in arabic numerals without space
+2. **`use-currency-symbol-followed-by-space-then-amount-in-arabic-numerals`** - Currency symbol followed by space then amount in arabic numerals
+3. **`use-iso-code-followed-by-space-then-amount-in-arabic-numerals`** - Iso code followed by space then amount in arabic numerals
+4. **`spell-out-currency-name-followed-by-amount-in-arabic-numerals-without-space`** - Spell out currency name followed by amount in arabic numerals without space
+5. **`spell-out-currency-name-followed-by-amount-in-chinese`** - Spell out currency name followed by amount in chinese
+
+</Accordion>
+<Accordion title="Large Number Format">
+Manage formatting of large numbers (commas, spaces, etc.).
+
+**Available options:**
+1. **`use-chinese-characters-for-ten-thousands-and-hundred-millions`** - Chinese characters for ten thousands and hundred millions
+
+</Accordion>
+<Accordion title="Number Separator">
+Control specific formatting options.
+
+**Available options:**
+1. **`do-not-use-chinese-comma-to-separate-numbers-indicating-approximate-value`** - Do not chinese comma to separate numbers indicating approximate value
+2. **`use-chinese-comma-to-separate-numbers-in-abbreviations`** - Chinese comma to separate numbers in abbreviations
+
+</Accordion>
+<Accordion title="Percentage Format">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-arabic-numerals-followed-by-percent-symbol-without-space`** - Arabic numerals followed by percent symbol without space
+2. **`use-chinese-numbers-followed-by-chinese-word-百分之`** - Chinese numbers followed by chinese word 百分之
+
+</Accordion>
+<Accordion title="Temperature Format">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-arabic-numerals-followed-by-unit-symbol-without-space`** - Arabic numerals followed by unit symbol without space
+2. **`use-chinese-numbers-then-spell-out-unit`** - Chinese numbers then spell out unit
+3. **`use-arabic-numerals-then-spell-out-unit`** - Arabic numerals then spell out unit
+4. **`use-arabic-numerals-followed-by-space-then-spell-out-unit`** - Arabic numerals followed by space then spell out unit
+
+</Accordion>
+<Accordion title="Writing Numbers">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-arabic-numerals`** - Use Arabic numerals (1, 2, 3)
+
+</Accordion>
+<Accordion title="Zero Format">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-chinese-word-零-for-measurement`** - Chinese word 零 for measurement
+2. **`use-chinese-word-〇-for-numbering`** - Chinese word 〇 for numbering
+
+</Accordion>
+</AccordionGroup>
+
+### ✏️ Punctuation
+
+Manage punctuation marks, quotation marks, and other typographic elements.
+
+**Rules available:** 9
+
+<AccordionGroup>
+<Accordion title="Bracket">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-parentheses`** - Parentheses
+2. **`use-square-brackets-for-nationality-and-hexagonal-brackets-for-historical-period`** - Square brackets for nationality and hexagonal brackets for historical period
+3. **`use-lenticular-brackets`** - Lenticular brackets
+4. **`use-hexagonal-brackets`** - Hexagonal brackets
+
+</Accordion>
+<Accordion title="Chinese Mixed With English">
+Control specific formatting options.
+
+**Available options:**
+1. **`do-not-place-english-in-quotation-marks`** - Do not place english in quotation marks
+2. **`place-english-in-quotation-marks`** - Place english in quotation marks
+
+</Accordion>
+<Accordion title="Colon">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-full-width-colon`** - Full width colon
+2. **`use-half-width-colon`** - Half width colon
+
+</Accordion>
+<Accordion title="Comma And Semicolon">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-comma-between-clauses`** - Comma between clauses
+2. **`use-semicolon-between-clauses`** - Semicolon between clauses
+
+</Accordion>
+<Accordion title="Dash">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-em-dash`** - Em dash
+2. **`use-tilde`** - Tilde
+3. **`use-hyphen`** - Hyphen
+
+</Accordion>
+<Accordion title="Em Dash">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-double-em-dash`** - Double em dash
+
+</Accordion>
+<Accordion title="Explanatory Note Indicator">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-double-em-dash`** - Double em dash
+2. **`use-parentheses`** - Parentheses
+
+</Accordion>
+<Accordion title="Quotation Style">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-double-straight-quotation-marks-for-primary-quotations-and-single-straight-quotation-marks-for-secondary-quotations`** - Double straight quotation marks for primary quotations and single straight quotation marks for secondary quotations
+
+</Accordion>
+<Accordion title="Serial Comma">
+Control specific formatting options.
+
+**Available options:**
+1. **`do-not-use-serial-comma-when-using-chinese-comma`** - Do not serial comma when using chinese comma
+2. **`use-serial-comma-when-using-comma`** - Serial comma when using comma
+
+</Accordion>
+</AccordionGroup>
+
+### 📚 Spelling and Grammar
+
+Control spelling conventions, grammar rules, and language-specific preferences.
+
+**Rules available:** 3
+
+<AccordionGroup>
+<Accordion title="Abbreviation Usage">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-abbreviations`** - Abbreviations
+2. **`do-not-use-abbreviations`** - Do not abbreviations
+
+</Accordion>
+<Accordion title="Active Passive Voice">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-passive-voice-if-agent-is-unknown-or-irrelevant`** - Passive voice if agent is unknown or irrelevant
+2. **`use-active-voice-if-subject-is-prominent-and-agent-is-clear`** - Active voice if subject is prominent and agent is clear
+
+</Accordion>
+<Accordion title="Foreign Word Translation">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-foreign-forms-or-abbreviations-for-technical-terms-or-brand-names`** - Foreign forms or abbreviations for technical terms or brand names
+2. **`use-localized-names-for-brands-with-official-chinese-translations`** - Localized names for brands with official chinese translations
+3. **`use-equivalent-expressions-in-chinese`** - Equivalent expressions in chinese
+4. **`use-transliteration`** - Transliteration
+5. **`use-mixture-of-transliteration-and-translation`** - Mixture of transliteration and translation
+6. **`use-literal-translation`** - Literal translation
+
+</Accordion>
+</AccordionGroup>
+
+### 🎭 Style and Tone
+
+Manage the overall tone, formality, and stylistic choices in your translations.
+
+**Rules available:** 3
+
+<AccordionGroup>
+<Accordion title="Binary Representation Of Gender">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-neutral-pronouns`** - Neutral pronouns
+
+</Accordion>
+<Accordion title="Double Negatives">
+Control specific formatting options.
+
+**Available options:**
+1. **`use-double-negatives`** - Double negatives
+2. **`do-not-use-double-negatives`** - Do not double negatives
+
+</Accordion>
+<Accordion title="Formality Level">
+Control the level of formality in your translations.
+
+**Available options:**
+1. **`use-formal-tone`** - Use formal, professional tone
+2. **`use-casual-tone`** - Use casual, conversational tone
+
+</Accordion>
+</AccordionGroup>
+
+## Language-Specific Information
+
+Chinese has simplified and traditional characters, plus regional variations. Style rules help you choose the appropriate character set and style.
+
+## Common Use Cases
+
+- Simplified vs Traditional characters
+- Business communications (formal tone)
+- Academic writing (formal register)
+- Technical documentation (clear language)
+
+## Getting Started
+
+1. **Identify your needs** - What type of content are you translating?
+2. **Choose relevant rules** - Focus on rules that affect your content type
+3. **Test different options** - Try various combinations to find what works best
+4. **Apply consistently** - Use the same rules across all your content
+
+## Related Resources
+
+- [API Reference](/api-reference) - Technical implementation details
+- [Getting Started](/getting-started) - Learn how to use style rules effectively
