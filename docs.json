@@ -194,7 +194,9 @@
                   "api-reference/admin-api/managing-developer-keys/get-keys",
                   "api-reference/admin-api/managing-developer-keys/deactivate-key",
                   "api-reference/admin-api/managing-developer-keys/rename-key",
-                  "api-reference/admin-api/managing-developer-keys/set-usage-limits"
+                  "api-reference/admin-api/managing-developer-keys/set-usage-limits",
+                  "api-reference/admin-api/organization-usage-analytics",
+                  "api-reference/admin-api/get-usage-analytics"
                 ]
               },
               {
