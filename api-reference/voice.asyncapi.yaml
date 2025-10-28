@@ -32,6 +32,10 @@ channels:
         examples:
           - VGhpcyBpcyBhIGZha2UgdG9rZW4K
     messages:
+      SourceDataChunk:
+        $ref: '#/components/messages/SourceDataChunk'
+      EndOfSourceData:
+        $ref: '#/components/messages/EndOfSourceData'
       SourceTranscriptUpdate:
         $ref: '#/components/messages/SourceTranscriptUpdate'
       TargetTranscriptUpdate:
@@ -44,27 +48,8 @@ channels:
         $ref: '#/components/messages/Error'
       Acknowledged:
         $ref: '#/components/messages/Acknowledged'
-      SourceDataChunk:
-        $ref: '#/components/messages/SourceDataChunk'
-      EndOfSourceData:
-        $ref: '#/components/messages/EndOfSourceData'
 
 operations:
-  receiveTranscriptions:
-    action: receive
-    channel:
-      $ref: '#/channels/voiceStream'
-    summary: Receive transcriptions and translations
-    description: |-
-      Receive real-time transcription and translation messages from the server.
-      The server sends transcript updates, end of transcript notifications, errors, and acknowledgements.
-    messages:
-      - $ref: '#/channels/voiceStream/messages/SourceTranscriptUpdate'
-      - $ref: '#/channels/voiceStream/messages/TargetTranscriptUpdate'
-      - $ref: '#/channels/voiceStream/messages/EndOfSourceTranscript'
-      - $ref: '#/channels/voiceStream/messages/EndOfTargetTranscript'
-      - $ref: '#/channels/voiceStream/messages/Error'
-      - $ref: '#/channels/voiceStream/messages/Acknowledged'
   sendAudioData:
     action: send
     channel:
@@ -73,6 +58,21 @@ operations:
     description: |-
       Send audio chunks and control messages to the server.
       Audio data must be base64-encoded and match the configured format.
+    messages:
+      - $ref: '#/channels/voiceStream/messages/SourceTranscriptUpdate'
+      - $ref: '#/channels/voiceStream/messages/TargetTranscriptUpdate'
+      - $ref: '#/channels/voiceStream/messages/EndOfSourceTranscript'
+      - $ref: '#/channels/voiceStream/messages/EndOfTargetTranscript'
+      - $ref: '#/channels/voiceStream/messages/Error'
+      - $ref: '#/channels/voiceStream/messages/Acknowledged'
+  receiveTranscriptions:
+    action: receive
+    channel:
+      $ref: '#/channels/voiceStream'
+    summary: Receive transcriptions and translations
+    description: |-
+      Receive real-time transcription and translation messages from the server.
+      The server sends transcript updates, end of transcript notifications, errors, and acknowledgements.
     messages:
       - $ref: '#/channels/voiceStream/messages/SourceDataChunk'
       - $ref: '#/channels/voiceStream/messages/EndOfSourceData'
