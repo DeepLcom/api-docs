@@ -2135,7 +2135,7 @@ components:
         languages.
       type: object
       properties:
-        dates_and_times-v2:
+        dates_and_times_v2:
           type: object
           properties:
             calendar_era:
@@ -2279,7 +2279,7 @@ components:
               - use_common_era
               - use_japanese_imperial_era
               - use_yyyy
-        formatting-v2:
+        formatting_v2:
           type: object
           properties:
             email_address_format:
@@ -2347,7 +2347,7 @@ components:
               enum:
               - do_not_use_colon_at_end_of_titles_or_headings
               - do_not_use_colons_or_periods_at_end_of_titles_or_headings
-        numbers-v2:
+        numbers_v2:
           type: object
           properties:
             approximate_numbers:
@@ -2572,7 +2572,7 @@ components:
               enum:
               - use_chinese_word_〇_for_numbering
               - use_chinese_word_零_for_measurement
-        punctuation-v2:
+        punctuation_v2:
           type: object
           properties:
             abbreviations:
@@ -2939,7 +2939,7 @@ components:
               enum:
               - do_not_use_spaces
               - use_spaces
-        spelling_and_grammar-v2:
+        spelling_and_grammar_v2:
           type: object
           properties:
             abbreviating_french_word_numero:
@@ -3125,7 +3125,7 @@ components:
               - paraphrase_in_korean
               - use_as_is
               - use_as_is_with_explanation_in_parentheses
-        style_and_tone-v2:
+        style_and_tone_v2:
           type: object
           properties:
             abbreviations:
@@ -3356,7 +3356,7 @@ components:
               enum:
               - use_nominal_style
               - use_verbal_style
-        vocabulary-v2:
+        vocabulary_v2:
           type: object
           properties:
             abbreviations:
