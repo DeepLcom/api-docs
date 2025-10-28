@@ -1,0 +1,53 @@
+---
+title: "Accessing organization usage analytics"
+description: "Learn how admins can retrieve and analyze usage data across their organization."
+public: true
+---
+
+The Admin API allows admins to retrieve detailed usage statistics for their organization through the [Get usage analytics](/api-reference/admin-api/get-usage-analytics) endpoint.
+
+This analytics functionality enables you to:
+* Track character usage across your entire organization
+* Monitor usage by individual API keys
+* Analyze usage patterns over time
+* Generate reports for specific date ranges
+* Break down usage by service type (text translation, document translation, text improvement)
+
+## Usage statistics endpoint
+
+The analytics endpoint provides detailed usage information for a specified date range with flexible grouping options.
+
+### Date range queries
+
+Retrieve usage statistics by specifying a start and end date. Both `start_date` and `end_date` parameters are required and support the following formats (all in UTC):
+* `YYYY-MM-DD` - Simple date format (e.g., `2025-09-29`)
+* `YYYY-MM-DDTHH:MM:SS` - Full datetime format (e.g., `2025-09-29T14:30:00`)
+
+The maximum date range is 366 days.
+
+### Grouping options
+
+The optional `group_by` parameter allows you to organize usage data in different ways:
+
+* **No grouping** (default): Returns total usage for the entire date range across all API keys
+* **`key`**: Groups usage by individual API key, showing totals for each key over the entire date range
+* **`key_and_day`**: Groups usage by both API key and day, providing daily breakdowns for each key
+
+### Usage breakdown
+
+All responses include a breakdown of character usage by service type:
+* **Total characters**: Combined usage across all services
+* **Text translation characters**: Characters used for text translation
+* **Document translation characters**: Characters used for document translation
+* **Text improvement characters**: Characters used for text improvement (rephrasing)
+
+## Use cases
+
+The account-level analytics endpoint is particularly useful for:
+
+* **Cost monitoring**: Track usage to stay within budget limits and forecast costs
+* **Resource allocation**: Identify which teams or projects (represented by API keys) are using the most resources
+* **Usage trends**: Analyze daily or weekly usage patterns to optimize resource planning
+* **Compliance and auditing**: Generate detailed usage reports for compliance requirements
+* **Performance tracking**: Monitor adoption and usage of different DeepL services within your organization
+
