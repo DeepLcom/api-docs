@@ -2,5 +2,6 @@
 
 .DS_Store
 .DS_Store?
-node_modules/
-package-lock.json
+# Removed - not needed since we don't use external packages
+# node_modules/
+# package-lock.json

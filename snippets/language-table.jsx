@@ -260,9 +260,9 @@ export const LanguageTable = () => {
                 </div>
             </div>
 
-            <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-zinc-200 dark:divide-zinc-700">
-                    <thead className="bg-zinc-50 dark:bg-zinc-800">
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-zinc-200 dark:divide-zinc-700">
+          <thead className="bg-zinc-50 dark:bg-zinc-800 sticky top-16 z-50">
                         <tr>
                             <th
                                 className="px-4 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700"
