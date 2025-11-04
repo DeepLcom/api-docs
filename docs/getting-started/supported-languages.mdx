@@ -96,7 +96,7 @@ If trying to convert between variants of the same language (e.g. `EN-US` to `EN-
 DeepL offers additional languages that are currently in Beta phase. These languages have limitations regarding feature support and translation quality.
 
 <Info>
-  Beta languages can be enabled by adding `enable_beta_languages: true` to the body of your translation request. Note that these languages do not support glossaries or formality yet.
+  Beta languages can be enabled by adding `enable_beta_languages: true` (or 1 in url-encoded requests) to the body of your translation request. Note that these languages do not support glossaries or formality yet.
 
   Any request with the `enable_beta_languages` parameter enabled will use `quality_optimized` models. Requests combining `enable_beta_languages: true` and `model_type: latency_optimized` will be rejected.
 
