@@ -397,6 +397,12 @@ paths:
                     request.
                   type: string
                   example: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
+                style_id:
+                  description: |-
+                    Specify the style rule list to use for the translation. **Important:** The target language has to 
+                    match the language of the style rule list.
+                  type: string
+                  example: 7ff9bfd6-cd85-4190-8503-d6215a321519
                 tag_handling:
                   $ref: '#/components/schemas/TagHandlingOption'
                 tag_handling_version:
@@ -1898,7 +1904,7 @@ paths:
           schema:
             type: boolean
             default: false
-          description: Determines if the rule list's `configured_rules` should be included in the response body.
+          description: Determines if the rule list's `configured_rules` and `custom_instructions` should be included in the response body.
       responses:
         200:
           description: JSON object containing the style rule lists.
@@ -2157,7 +2163,7 @@ components:
         languages.
       type: object
       properties:
-        dates_and_times_v2:
+        dates_and_times:
           type: object
           properties:
             calendar_era:
@@ -2301,7 +2307,7 @@ components:
               - use_common_era
               - use_japanese_imperial_era
               - use_yyyy
-        formatting_v2:
+        formatting:
           type: object
           properties:
             email_address_format:
@@ -2369,7 +2375,7 @@ components:
               enum:
               - do_not_use_colon_at_end_of_titles_or_headings
               - do_not_use_colons_or_periods_at_end_of_titles_or_headings
-        numbers_v2:
+        numbers:
           type: object
           properties:
             approximate_numbers:
@@ -2594,7 +2600,7 @@ components:
               enum:
               - use_chinese_word_〇_for_numbering
               - use_chinese_word_零_for_measurement
-        punctuation_v2:
+        punctuation:
           type: object
           properties:
             abbreviations:
@@ -2961,7 +2967,7 @@ components:
               enum:
               - do_not_use_spaces
               - use_spaces
-        spelling_and_grammar_v2:
+        spelling_and_grammar:
           type: object
           properties:
             abbreviating_french_word_numero:
@@ -3147,7 +3153,7 @@ components:
               - paraphrase_in_korean
               - use_as_is
               - use_as_is_with_explanation_in_parentheses
-        style_and_tone_v2:
+        style_and_tone:
           type: object
           properties:
             abbreviations:
@@ -3378,7 +3384,7 @@ components:
               enum:
               - use_nominal_style
               - use_verbal_style
-        vocabulary_v2:
+        vocabulary:
           type: object
           properties:
             abbreviations:
@@ -3451,6 +3457,22 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GlossaryDictionary'
+    CustomInstruction:
+      description: All enabled custom instructions for the style rule list
+      type: object
+      properties:
+        label:
+          type: string
+          description: Name associated with the custom instruction
+          example: "Currency custom instruction"
+        prompt:
+          type: string
+          description: Prompt of the custom instruction
+          example: "Have currency symbols before the numerical value (e.g. $100, €100)"
+        source_language:
+          type: string
+          description: Optional source language of the custom instruction
+          example: "en"
     StyleRuleList:
       type: object
       required:
@@ -3487,6 +3509,12 @@ components:
             List of configured rules enabled for the style rule list.
           items:
             $ref: '#/components/schemas/ConfiguredRules'
+        custom_instructions:
+          type: array
+          description: |-
+            List of custom instructions enabled for the style rule list.
+          items:
+            $ref: '#/components/schemas/CustomInstruction'
     StyleId:
       type: string
       description: A unique ID assigned to a style rule.
@@ -3497,6 +3525,12 @@ components:
       enum:
       - de
       - en
+      - es
+      - fr
+      - it
+      - ja
+      - ko
+      - zh
     StyleRuleName:  
       description: Name associated with the style rule.
       type: string
