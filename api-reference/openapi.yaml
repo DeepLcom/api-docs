@@ -1923,11 +1923,7 @@ paths:
                 glossary_id:
                   $ref: '#/components/schemas/GlossaryId'
                 formality:
-                  $ref: '#/components/schemas/FormalityOption'
-                spoken_terms_id:
-                  type: string
-                  description: '[Planned] A unique ID of a spoken terms list to use for transcription.'
-                  example: 'your_spoken_terms_id'
+                  $ref: '#/components/schemas/Formality'
             examples:
               basic:
                 summary: Basic configuration
@@ -1944,7 +1940,7 @@ paths:
                   source_language_mode: 'fixed'
                   target_languages: ['de', 'fr']
                   glossary_id: 'def3a26b-3e84-45b3-84ae-0c0aaf3525f7'
-                  formality: 'formal'
+                  formality: 'more'
       responses:
         200:
           description: Successfully obtained streaming URL and token
@@ -3497,24 +3493,17 @@ components:
     Formality:
       description: |-
         Sets whether the translated text should lean towards formal or informal language.
-        This feature is only available for certain target languages. Setting this parameter 
-        with a target language that does not support formality will fail, unless one of the 
-        `prefer_...` options are used.
         Possible options are:
-          * `default` (default)
-          * `more` - for a more formal language
-          * `less` - for a more informal language
-          * `prefer_more` - for a more formal language if available, otherwise fallback to default formality
-          * `prefer_less` - for a more informal language if available, otherwise fallback to default formality
+          * `default` - use the default formality for the target language
+          * `formal` - for a more formal language
+          * `informal` - for a more informal language
       type: string
       enum:
       - default
-      - more
-      - less
-      - prefer_more
-      - prefer_less
+      - formal
+      - informal
       default: default
-      example: prefer_more
+      example: formal
     GlossaryDictionary:
       type: object
       description: A dictionary contained in a multilingual glossary. Each dictionary contains the mapping of source terms to target language terms.
