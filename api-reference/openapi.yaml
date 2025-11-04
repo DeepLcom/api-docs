@@ -3497,24 +3497,17 @@ components:
     Formality:
       description: |-
         Sets whether the translated text should lean towards formal or informal language.
-        This feature is only available for certain target languages. Setting this parameter 
-        with a target language that does not support formality will fail, unless one of the 
-        `prefer_...` options are used.
         Possible options are:
-          * `default` (default)
-          * `more` - for a more formal language
-          * `less` - for a more informal language
-          * `prefer_more` - for a more formal language if available, otherwise fallback to default formality
-          * `prefer_less` - for a more informal language if available, otherwise fallback to default formality
+          * `default` - use the default formality for the target language
+          * `formal` - for a more formal language
+          * `informal` - for a more informal language
       type: string
       enum:
       - default
-      - more
-      - less
-      - prefer_more
-      - prefer_less
+      - formal
+      - informal
       default: default
-      example: prefer_more
+      example: formal
     GlossaryDictionary:
       type: object
       description: A dictionary contained in a multilingual glossary. Each dictionary contains the mapping of source terms to target language terms.
