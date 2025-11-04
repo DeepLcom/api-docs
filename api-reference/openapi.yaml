@@ -1923,7 +1923,7 @@ paths:
                 glossary_id:
                   $ref: '#/components/schemas/GlossaryId'
                 formality:
-                  $ref: '#/components/schemas/FormalityOption'
+                  $ref: '#/components/schemas/Formality'
                 spoken_terms_id:
                   type: string
                   description: '[Planned] A unique ID of a spoken terms list to use for transcription.'
@@ -1944,7 +1944,7 @@ paths:
                   source_language_mode: 'fixed'
                   target_languages: ['de', 'fr']
                   glossary_id: 'def3a26b-3e84-45b3-84ae-0c0aaf3525f7'
-                  formality: 'formal'
+                  formality: 'more'
       responses:
         200:
           description: Successfully obtained streaming URL and token
