@@ -1924,10 +1924,6 @@ paths:
                   $ref: '#/components/schemas/GlossaryId'
                 formality:
                   $ref: '#/components/schemas/Formality'
-                spoken_terms_id:
-                  type: string
-                  description: '[Planned] A unique ID of a spoken terms list to use for transcription.'
-                  example: 'your_spoken_terms_id'
             examples:
               basic:
                 summary: Basic configuration
