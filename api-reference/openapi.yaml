@@ -401,6 +401,11 @@ paths:
                   $ref: '#/components/schemas/TagHandlingOption'
                 outline_detection:
                   $ref: '#/components/schemas/OutlineDetectionOption'
+                enable_beta_languages:
+                  description: |-
+                    Enables 75 additional beta languages. See the [full list](/docs/getting-started/supported-languages#beta-languages). **Note:** Any request with the `enable_beta_languages` parameter enabled will use `quality_optimized` models. Requests combining `enable_beta_languages: true` and `model_type: latency_optimized` will be rejected. Beta languages do not support formality or glossaries.
+                  type: boolean
+                  default: false
                 non_splitting_tags:
                   description: Comma-separated list of XML tags which never split sentences.
                   type: array
@@ -461,6 +466,11 @@ paths:
                   $ref: '#/components/schemas/TagHandlingOption'
                 outline_detection:
                   $ref: '#/components/schemas/OutlineDetectionOptionStr'
+                enable_beta_languages:
+                  description: |-
+                    Enables 75 additional beta languages. See the [full list](/docs/getting-started/supported-languages#beta-languages). **Note:** Any request with the `enable_beta_languages` parameter enabled will use `quality_optimized` models. Requests combining `enable_beta_languages: true` and `model_type: latency_optimized` will be rejected. Beta languages do not support formality or glossaries.
+                  type: boolean
+                  default: false
                 non_splitting_tags:
                   description: Comma-separated list of XML tags which never split sentences.
                   type: array
@@ -599,6 +609,11 @@ paths:
                   $ref: '#/components/schemas/Formality'
                 glossary_id:
                   $ref: '#/components/schemas/GlossaryId'
+                enable_beta_languages:
+                  description: |-
+                    Enables 75 additional beta languages. See the [full list](/docs/getting-started/supported-languages#beta-languages). **Note:** Any request with the `enable_beta_languages` parameter enabled will use `quality_optimized` models. Requests combining `enable_beta_languages: true` and `model_type: latency_optimized` will be rejected. Beta languages do not support formality or glossaries.
+                  type: boolean
+                  default: false
       responses:
         200:
           description: The document function returns a JSON object containing the
