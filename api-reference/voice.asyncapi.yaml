@@ -32,10 +32,10 @@ channels:
         examples:
           - VGhpcyBpcyBhIGZha2UgdG9rZW4K
     messages:
-      SourceDataChunk:
-        $ref: '#/components/messages/SourceDataChunk'
-      EndOfSourceData:
-        $ref: '#/components/messages/EndOfSourceData'
+      SourceMediaChunk:
+        $ref: '#/components/messages/SourceMediaChunk'
+      EndOfSourceMedia:
+        $ref: '#/components/messages/EndOfSourceMedia'
       SourceTranscriptUpdate:
         $ref: '#/components/messages/SourceTranscriptUpdate'
       TargetTranscriptUpdate:
@@ -74,44 +74,44 @@ operations:
       Receive real-time transcription and translation messages from the server.
       The server sends transcript updates, end of transcript notifications, errors, and acknowledgements.
     messages:
-      - $ref: '#/channels/voiceStream/messages/SourceDataChunk'
-      - $ref: '#/channels/voiceStream/messages/EndOfSourceData'
+      - $ref: '#/channels/voiceStream/messages/SourceMediaChunk'
+      - $ref: '#/channels/voiceStream/messages/EndOfSourceMedia'
 
 components:
   messages:
-    SourceDataChunk:
-      name: SourceDataChunk
-      title: Source Data Chunk
-      summary: Send audio data chunk to server
+    SourceMediaChunk:
+      name: SourceMediaChunk
+      title: Source Media Chunk
+      summary: Send media data chunk to server
       description: |-
-        A binary chunk of audio data encoded according to the format specified in the session request.
+        A binary chunk of media data encoded according to the format specified in the session request.
         Constraints: Max 100 KByte, max 1 second duration, recommended 50-250ms for low latency.
         Minimum interval between chunks: half the duration of the preceding chunk.
       contentType: application/json
       payload:
-        $ref: '#/components/schemas/SourceDataChunkPayload'
+        $ref: '#/components/schemas/SourceMediaChunkPayload'
       examples:
-        - name: AudioChunk
-          summary: Audio data chunk
+        - name: SourceMediaChunk
+          summary: Source media chunk
           payload:
-            source_data_chunk:
+            source_media_chunk:
               data: VGhpcyBpcyBhIGZha2UgYXVkaW8gY2h1bmsK
 
-    EndOfSourceData:
-      name: EndOfSourceData
-      title: End of Source Data
+    EndOfSourceMedia:
+      name: EndOfSourceMedia
+      title: End of Source Media
       summary: Signal end of audio stream
       description: |-
         Indicates the end of source data. Causes finalization of tentative transcripts
         and triggers emission of final transcript updates and end of transcript messages.
       contentType: application/json
       payload:
-        $ref: '#/components/schemas/EndOfSourceDataPayload'
+        $ref: '#/components/schemas/EndOfSourceMediaPayload'
       examples:
         - name: EndStream
           summary: End of audio stream
           payload:
-            end_of_source_data: {}
+            end_of_source_media: {}
 
     SourceTranscriptUpdate:
       name: SourceTranscriptUpdate
@@ -213,7 +213,7 @@ components:
           summary: Audio format error
           payload:
             error:
-              request_type: source_data_chunk
+              request_type: source_media_chunk
               error_code: 400
               reason_code: 4000403
               error_message: Audio format not supported
@@ -233,15 +233,15 @@ components:
           summary: Chunk acknowledged
           payload:
             acknowledged:
-              request_type: source_data_chunk
+              request_type: source_media_chunk
 
   schemas:
-    SourceDataChunkPayload:
+    SourceMediaChunkPayload:
       type: object
       required:
-        - source_data_chunk
+        - source_media_chunk
       properties:
-        source_data_chunk:
+        source_media_chunk:
           type: object
           required:
             - data
@@ -249,16 +249,16 @@ components:
             data:
               type: string
               format: byte
-              description: Base64-encoded audio data in the format specified during session initialization
+              description: Base64-encoded media data in the format specified during session initialization
 
-    EndOfSourceDataPayload:
+    EndOfSourceMediaPayload:
       type: object
       required:
-        - end_of_source_data
+        - end_of_source_media
       properties:
-        end_of_source_data:
+        end_of_source_media:
           type: object
-          description: Empty object signaling end of audio stream
+          description: Empty object signaling end of media stream
 
     TranscriptSegment:
       type: object
@@ -382,7 +382,7 @@ components:
               type: string
               description: The type of request that caused the error
               examples:
-                - source_data_chunk
+                - source_media_chunk
             error_code:
               type: integer
               description: HTTP-style error code
@@ -413,4 +413,4 @@ components:
               type: string
               description: The type of request being acknowledged
               examples:
-                - source_data_chunk
+                - source_media_chunk
