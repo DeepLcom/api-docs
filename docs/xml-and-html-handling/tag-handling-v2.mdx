@@ -23,5 +23,7 @@ Before switching to `v2`, ensure you've thoroughly tested your system and are aw
 <Info>
   As of now, tag handling v2 is only compatible with the <a href="/api-reference/translate#param-model-type">quality-optimized model type</a>.
   When you set `tag_handling_version` to `v2`, the `model_type` is implicitly set to `quality_optimized`. 
+
+  Setting both `model_type=latency_optimized` and `tag_handling_version=v2` in a request will lead to an error.
 </Info>
 
