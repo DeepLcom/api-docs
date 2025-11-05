@@ -1,0 +1,29 @@
+---
+title: "New: XML/HTML handling v2"
+description: "Information on the improved version 2 of tag-handling translations"
+---
+
+In 2025, we completely overhauled the tag-handling algorithm that backs translation of XML and HTML in the DeepL API.
+
+The new **tag handling v2** represents a major step forward for customers who need best-in-class XML and HTML tag handling.
+To enable it and benefit from all the improvements, set the 'tag_handling_version' parameter to 'v2'.
+Our updates ensure the best possible translation quality across all use cases.
+
+As a result of these major updates, tag handling is expected to give different results when v2 is used. 
+Before switching to `v2`, ensure you've thoroughly tested your system and are aware of any differences in the output.
+
+
+<Info>
+  Please note that v2 will become the default on 1 December 2025.
+  To ensure a seamless transition, existing customers will have the option to request v1 for an additional grace period.
+  This allows to adaptions to existing integrations, for example if they are contingent on particular tag handling behaviours exhibited by v1.
+</Info>
+
+
+<Info>
+  As of now, tag handling v2 is only compatible with the <a href="/api-reference/translate#param-model-type">quality-optimized model type</a>.
+  When you set `tag_handling_version` to `v2`, the `model_type` is implicitly set to `quality_optimized`. 
+
+  Setting both `model_type=latency_optimized` and `tag_handling_version=v2` in a request will lead to an error.
+</Info>
+

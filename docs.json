@@ -89,7 +89,8 @@
               "docs/xml-and-html-handling/xml",
               "docs/xml-and-html-handling/structured-content",
               "docs/xml-and-html-handling/customized-xml-outline-detection",
-              "docs/xml-and-html-handling/html"
+              "docs/xml-and-html-handling/html",
+              "docs/xml-and-html-handling/tag-handling-v2"
             ]
           },
           {
