@@ -217,7 +217,12 @@ Note that we do not include examples for our client libraries in every single se
 
   <p>Note: In the future, if DeepL's quality optimized models achieve language pair and latency performance parity with classic models, it's possible that next-gen models will be used regardless of the value passed in the <code>model_type</code> parameter.</p>
 
-  <p>Language pairs supported by DeepL’s next-gen models are documented <a href="/api-reference/translate#about-the-model_type-parameter">below</a>.</p>
+  <p>
+    Note: <a href="/docs/xml-and-html-handling/tag-handling-v2">tag handling v2</a> is compatible only with next-gen models, and the default `model_type` value is implictly changed to `quality_optimized` for tag handling v2 requests.
+    Setting both <code>model_type=latency_optimized</code> and <code>tag_handling_version=v2</code> in a request will lead to an error.
+    </p>
+
+  <p>Language pairs supported by DeepL’s next-gen models are documented <a href="/api-reference/translate#about-the-model-type-parameter">below</a>.</p>
 </ParamField>
 <ParamField body="split_sentences" type="string">
   Sets whether the translation engine should first split the input into sentences. For text translations where <code>tag_handling</code> is not set to <code>html</code>, the default value is <code>1</code>, meaning the engine splits on punctuation and on newlines.
@@ -290,6 +295,13 @@ Note that we do not include examples for our client libraries in every single se
   <ul>
     <li><code>xml</code>: Enable XML tag handling; see <a href="/docs/xml-and-html-handling/xml">XML handling</a>.</li>
     <li><code>html</code>: Enable HTML tag handling; see <a href="/docs/xml-and-html-handling/html">HTML handling</a>.</li>
+  </ul>
+</ParamField>
+<ParamField body="tag_handling_version" type="string">
+  Select which version of the tag handling algorithm should be used. See <a href="/docs/xml-and-html-handling/tag-handling-v2">tag handling v2</a>.
+  <ul>
+    <li><code>v2</code>: Use the improved v2 algorithm.</li>
+    <li><code>v1</code>: Use the previous v1 algorithm.</li>
   </ul>
 </ParamField>
 <ParamField body="outline_detection" type="boolean">
