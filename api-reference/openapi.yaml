@@ -1779,6 +1779,9 @@ paths:
                 - language: FR
                   name: French
                   supports_formality: true
+                - language: HE
+                  name: Hebrew
+                  supports_formality: false
                 - language: HU
                   name: Hungarian
                   supports_formality: false
@@ -1830,11 +1833,17 @@ paths:
                 - language: SV
                   name: Swedish
                   supports_formality: false
+                - language: TH
+                  name: Thai
+                  supports_formality: false
                 - language: TR
                   name: Turkish
                   supports_formality: false
                 - language: UK
                   name: Ukrainian
+                  supports_formality: false
+                - language: VI
+                  name: Vietnamese
                   supports_formality: false
                 - language: ZH
                   name: Chinese (simplified)
@@ -3796,7 +3805,7 @@ components:
     SourceLanguage:
       type: string
       description: |-
-        Language of the text to be translated. If this parameter is omitted, the API will attempt to 
+        Language of the text to be translated. If this parameter is omitted, the API will attempt to
         detect the language of the text and translate it.
       enum:
       - AR
@@ -3810,6 +3819,7 @@ components:
       - ET
       - FI
       - FR
+      - HE
       - HU
       - ID
       - IT
@@ -3826,8 +3836,10 @@ components:
       - SK
       - SL
       - SV
+      - TH
       - TR
       - UK
+      - VI
       - ZH
       example: EN
     TagHandlingOption:
@@ -3938,6 +3950,7 @@ components:
       - ET
       - FI
       - FR
+      - HE
       - HU
       - ID
       - IT
@@ -3955,8 +3968,10 @@ components:
       - SK
       - SL
       - SV
+      - TH
       - TR
       - UK
+      - VI
       - ZH
       - ZH-HANS
       - ZH-HANT
