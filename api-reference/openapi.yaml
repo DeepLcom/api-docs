@@ -1927,10 +1927,10 @@ paths:
             schema:
               type: object
               required:
-                - media_content_type
+                - source_media_content_type
               properties:
-                media_content_type:
-                  $ref: '#/components/schemas/VoiceMediaContentType'
+                source_media_content_type:
+                  $ref: '#/components/schemas/VoiceSourceMediaContentType'
                 source_language:
                   $ref: '#/components/schemas/VoiceSourceLanguage'
                 source_language_mode:
@@ -1945,14 +1945,14 @@ paths:
               basic:
                 summary: Basic configuration
                 value:
-                  media_content_type: 'audio/ogg; codecs=opus'
+                  source_media_content_type: 'audio/ogg; codecs=opus'
                   source_language: 'en'
                   source_language_mode: 'auto'
                   target_languages: ['de', 'fr', 'es']
               with_glossary:
                 summary: With glossary and formality
                 value:
-                  media_content_type: 'audio/pcm; encoding=s16le; rate=16000'
+                  source_media_content_type: 'audio/pcm; encoding=s16le; rate=16000'
                   source_language: 'en'
                   source_language_mode: 'fixed'
                   target_languages: ['de', 'fr']
@@ -4100,7 +4100,7 @@ components:
           format: date-time
           description: Only present for API Pro users. End time of the current billing period (ISO 8601).
           example: '2025-06-13T09:18:42Z'
-    VoiceMediaContentType:
+    VoiceSourceMediaContentType:
       type: string
       description: |-
         The audio format for streaming. Specifies container, codec, and encoding parameters.
