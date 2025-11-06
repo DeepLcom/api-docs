@@ -5,7 +5,7 @@ description: "API reference for real-time voice transcription and translation wi
 public: true
 ---
 
-The DeepL Voice API provides real-time voice transcription and translation services. The API is designed to be highly available, low latency, and easy for developers to integrate into their applications.
+The Voice API provides real-time voice transcription and translation services. It consists of POST endpoint `voice/realtime` to initialize a session and a WebSocket endpoint `voice/realtime/connect` to stream audio data.
 
 <Info>
   The Voice API is currently available to select DeepL API Pro customers only. Contact your DeepL representative for access.
@@ -13,21 +13,21 @@ The DeepL Voice API provides real-time voice transcription and translation servi
 
 ## Overview
 
-The Voice API provides a way to open a streaming connection to DeepL Voice streaming endpoints. With each streaming connection, you can:
+The Voice API provides a way to open WebSocket streaming connections to transcribe and translate audio data. With each streaming connection, you can:
 
 * Send a single audio stream
-* Receive transcription in the source language
-* Receive translations in multiple target languages simultaneously
+* Receive transcriptions in the source language
+* Receive translations in multiple target languages
 
 The API uses a two-step flow:
-1. **Request a streaming URL** via REST API
-2. **Stream audio and receive transcriptions** via WebSocket
+1. **Request a streaming URL** via POST request
+2. **Stream audio** via WebSocket
 
 ## Supported Languages
 
 ### Source Languages
 
-As of July 2025, the following source languages are supported for voice input:
+The following source languages are supported for voice input:
 
 * Chinese (Mandarin)
 * Dutch
@@ -47,13 +47,9 @@ As of July 2025, the following source languages are supported for voice input:
 * Turkish
 * Ukrainian
 
-Several new additions are planned for later in the year.
-
 ### Target Languages
 
-All source languages can be translated to all [DeepL Translate supported languages](/docs/getting-started/supported-languages#translation-target-languages), including:
-
-Arabic, Bulgarian, Chinese (simplified), Chinese (traditional), Czech, Danish, Dutch, English (American), English (British), Estonian, Finnish, French, German, Greek, Hebrew, Hungarian, Indonesian, Italian, Japanese, Korean, Latvian, Lithuanian, Norwegian, Polish, Portuguese, Portuguese (Brazilian), Romanian, Russian, Slovak, Slovenian, Spanish, Swedish, Turkish, Ukrainian, and Vietnamese.
+All source languages can be translated to all [DeepL Translate supported languages](/docs/getting-started/supported-languages#translation-target-languages).
 
 ## Two-Step API Flow
 
@@ -86,9 +82,8 @@ See the [WebSocket Streaming](/api-reference/voice/websocket-streaming) document
 * Maximum 5 target languages per stream
 * Maximum streaming connection duration: 3 hours
 * Audio chunk size: should not exceed 100 KByte or 1 second duration
-* Recommended chunk duration: 50-250ms for low latency
+* Recommended chunk duration: 50-250 ms for low latency
 * Audio stream speed: maximum 2x real-time
-* Request body size: no specified limit for streaming (differs from text translation)
 
 ## Getting Started
 
@@ -101,5 +96,5 @@ To start using the Voice API:
 5. Implement the two-step flow in your application
 
 <Info>
-  For privacy and security, streaming URLs are ephemeral and valid for one-time use only. Once a WebSocket connection is established, you must send audio data within the specified timeout period to prevent connection closure.
+  For privacy and security, streaming URLs are ephemeral and valid for one-time use only. Once a WebSocket connection is established, you must send audio data to prevent connection closure.
 </Info>
