@@ -23,25 +23,6 @@ The API uses a two-step flow:
 1. **Request a streaming URL** via REST API
 2. **Stream audio and receive transcriptions** via WebSocket
 
-## Use Cases
-
-### Call Center
-
-In a call center with two participants needing translation, you would use two DeepL Voice API streams. Each stream handles one participant's audio, specifying the audio format, source language (or autodetect), and the other participant's language as the target.
-
-Integration with services like Twilio can be achieved by directing Twilio's audio streams to DeepL for translation and then returning the translated text to the Twilio call flow.
-
-### Townhall/Live Streaming
-
-For townhall meetings or live streaming events, the DeepL Voice API processes a single audio stream and generates source and multiple target language transcripts. This allows a diverse audience to access real-time translations in their own language, providing efficient simultaneous interpretation from one audio source.
-
-## Billing Model
-
-* Billing is based on the total duration of audio sent to DeepL servers, billed in seconds
-* There is a single basic rate including transcript and up to 5 target languages
-* DeepL Voice is available on the same API plan as DeepL Translate / Write
-* Prepaid usage commitments are separate - Translate/Write keeps one pool in characters, and Voice uses a separate pool committed in minutes, with no transfers between pools
-
 ## Supported Languages
 
 ### Source Languages
