@@ -4117,10 +4117,41 @@ components:
           example: '2025-06-13T09:18:42Z'
     VoiceSourceMediaContentType:
       type: string
-      description: |-
-        The audio format for streaming. Specifies container, codec, and encoding parameters.
-        Supported formats include PCM (recommended), OPUS (recommended for low bandwidth), FLAC, MP3, and AAC.
-        PCM formats require explicit sample rate. Mono audio only.
+      description: "
+        The audio format for streaming, which specifies container, codec, and encoding parameters.
+        See the table below for supported formats. If `audio/auto` is specified, the server
+        will auto-detect the container and codec for all supported combinations, except PCM. That requires
+        explicit encoding parameters. All formats need to be single channel audio.\n
+        \n
+        | Content Type | Container | Codec |\n
+        | :--- | :--- | :--- |\n
+        | `audio/auto` | Auto-detect: FLAC / Matroska / MPEG / Ogg/WebM | Auto-detect AAC / FLAC / MP3/ OPUS\n
+        | `audio/flac` | FLAC (flac) | FLAC, interleaved |\n
+        | `audio/mpeg` | MPEG (mp3/m4a) | MP3 |\n
+        | `audio/ogg`  | Ogg (ogg/oga) | Auto-detect FLAC / OPUS |\n
+        | `audio/webm` | WebM (webm) | OPUS |\n
+        | `audio/x-matroska` | Matroska (mkv/mka) | Auto-detect: AAC / FLAC / MP3 / OPUS |\n
+        | `audio/ogg;codecs=flac` | Ogg (ogg/oga) | FLAC, interleaved |\n
+        | `audio/ogg;codecs=opus` | Ogg (ogg/oga) | OPUS |\n
+        | `audio/pcm;encoding=s16le;rate=8000` | - | PCM signed 16-bit little-endian, 8000 Hz, interleaved |\n
+        | `audio/pcm;encoding=s16le;rate=16000` | - | PCM signed 16-bit little-endian, 16000 Hz, interleaved |\n
+        | `audio/pcm;encoding=s16le;rate=44100` | - | PCM signed 16-bit little-endian, 44100 Hz, interleaved |\n
+        | `audio/pcm;encoding=s16le;rate=48000` | - | PCM signed 16-bit little-endian, 48000 Hz, interleaved |\n
+        | `audio/webm;codecs=opus` | WebM (webm) | OPUS |\n
+        | `audio/x-matroska;codecs=aac` | Matroska (mkv/mka) | AAC |\n
+        | `audio/x-matroska;codecs=flac` | Matroska (mkv/mka) | FLAC, interleaved |\n
+        | `audio/x-matroska;codecs=mp3` | Matroska (mkv/mka) | MP3 |\n
+        | `audio/x-matroska;codecs=opus` | Matroska (mkv/mka) | OPUS |\n
+        \n
+
+        We recommend the following bitrates as good tradeoff between quality and bandwidth:\n
+        - AAC: 96 kbps\n
+        - FLAC: 256 kbps  (16000 Hz)\n
+        - MP3: 128 kbps\n
+        - OPUS: 32 kbps (recommendation for low bandwidth scenarios)\n
+        - PCM: 256 kbps (16000 Hz, default recommendation)\n
+        "
+
       enum:
         - audio/auto
         - audio/flac
@@ -4128,41 +4159,42 @@ components:
         - audio/ogg
         - audio/webm
         - audio/x-matroska
-        - audio/ogg; codecs=flac
-        - audio/ogg; codecs=opus
-        - audio/pcm; encoding=s16le; rate=8000
-        - audio/pcm; encoding=s16le; rate=16000
-        - audio/pcm; encoding=s16le; rate=44100
-        - audio/pcm; encoding=s16le; rate=48000
-        - audio/webm; codecs=opus
-        - audio/x-matroska; codecs=aac
-        - audio/x-matroska; codecs=flac
-        - audio/x-matroska; codecs=mp3
-        - audio/x-matroska; codecs=opus
-      example: audio/ogg; codecs=opus
+        - audio/ogg;codecs=flac
+        - audio/ogg;codecs=opus
+        - audio/pcm;encoding=s16le;rate=8000
+        - audio/pcm;encoding=s16le;rate=16000
+        - audio/pcm;encoding=s16le;rate=44100
+        - audio/pcm;encoding=s16le;rate=48000
+        - audio/webm;codecs=opus
+        - audio/x-matroska;codecs=aac
+        - audio/x-matroska;codecs=flac
+        - audio/x-matroska;codecs=mp3
+        - audio/x-matroska;codecs=opus
+      example: audio/ogg;codecs=opus
     VoiceSourceLanguage:
       type: string
-      description: |-
-        Source language of the audio stream. Must be one of the supported Voice API source languages.
-        Language identifier must comply with IETF BCP 47 language tags.
+      description: >
+        The source language of the audio stream. It can be left empty or must be one of the
+        supported Voice API source languages and comply with IETF BCP 47 language tags.
       enum:
-        - zh
-        - nl
-        - en
-        - fr
         - de
+        - en
+        - es
+        - fr
         - id
         - it
         - ja
         - ko
+        - nl
         - pl
         - pt
         - ro
         - ru
-        - es
         - sv
         - tr
         - uk
+        - zh
+      default:
       example: en
     VoiceSourceLanguageMode:
       type: string
@@ -4174,16 +4206,57 @@ components:
         - auto
         - fixed
       default: auto
-      example: auto
+      example: fixed
     VoiceTargetLanguages:
       type: array
-      description: |-
+      description: >
         List of target languages for translation. The stream will emit translations for each language.
-        Maximum 5 target languages per stream. Language identifiers must comply with IETF BCP 47.
+        The maximum allowed target languages per stream is 5. Language identifiers must comply with IETF BCP 47.
       items:
         type: string
+        enum:
+          - ar
+          - bg
+          - cs
+          - da
+          - de
+          - el
+          - en
+          - en-GB
+          - en-US
+          - es
+          - et
+          - fi
+          - fr
+          - he
+          - hu
+          - id
+          - it
+          - ja
+          - ko
+          - lt
+          - lv
+          - nb
+          - nl
+          - pl
+          - pt
+          - pt-BR
+          - pt-PT
+          - ro
+          - ru
+          - sk
+          - sl
+          - sv
+          - tr
+          - uk
+          - vi
+          - zh
+          - zh-Hans
+          - zh-Hant
+
       maxItems: 5
-      example: ['de', 'fr', 'es']
+      default: []
+      example: ["de", "fr", "es"]
     VoiceStreamingResponse:
       type: object
       required:
@@ -4192,11 +4265,17 @@ components:
       properties:
         streaming_url:
           type: string
-          description: The WebSocket URL to use for establishing the streaming connection. This URL is ephemeral and valid for one-time use only.
+          description: >
+            The WebSocket URL to use for establishing
+            [the stream connection](/api-reference/voice/websocket-streaming).
           example: wss://api.deepl.com/v1/voice/realtime/connect
         token:
           type: string
-          description: A unique ephemeral token for authentication with the streaming endpoint. Pass this as a query parameter when connecting to the WebSocket URL.
+          description: >
+            A unique ephemeral token for authentication with the streaming endpoint.
+            Pass this as a query parameter when connecting to
+            [the streaming URL](/api-reference/voice/websocket-streaming).
+            This token is ephemeral and valid for a short time and one-time use only.
           example: VGhpcyBpcyBhIGZha2UgdG9rZW4K
     AdminUsageReport:
       type: object
