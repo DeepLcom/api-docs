@@ -89,7 +89,7 @@ components:
         The message contains a binary chunk of input data encoded according to the format specified in the
         [Get Streaming URL](/api-reference/voice/get-streaming-url) request.
         \n\n
-        The chunk size must not be more than 100 KByte or one second in duration. The recommended duration is
+        The chunk size must not be more than 100 kilobyte or one second in duration. The recommended duration is
         50 - 250 milliseconds to achieve the best tradeoff between latency and quality.
         The interval between chunks must not be less than half of the duration of the preceding chunk and not
         exceed 30 seconds. Otherwise you'll run into rate limits or the session will time out and the stream
@@ -188,7 +188,7 @@ components:
       title: End of Source Transcript
       description: >
         The message indicates that the *source* transcript is complete and no further updates will be sent.
-        It gets emitted after client sends End of Source Media or after an input timeout. You can safely close
+        It gets emitted after client sends End of Source Media. You can safely close
         the stream after receiving this message, if no target transcription was configured.
       contentType: application/json
       payload:
@@ -204,7 +204,7 @@ components:
       title: End of Target Transcript
       description: >
         This message indicates that the *target* transcript is complete and no further updates will be sent.
-        It gets emitted after client sends End of Source Media or after an input timeout. You can safely close
+        It gets emitted after client sends End of Source Media. You can safely close
         the stream after you received this message for each configured target languages.
       contentType: application/json
       payload:
