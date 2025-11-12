@@ -172,6 +172,13 @@
                 ]
               },
               {
+                "group": "Style rules",
+                "pages": [
+                  "api-reference/style-rules",
+                  "api-reference/style-rules/list-all-style-rules"
+                ]
+              },
+              {
                 "group": "Retrieve usage and quota",
                 "pages": [
                   "api-reference/usage-and-quota",

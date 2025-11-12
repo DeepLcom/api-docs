@@ -37,7 +37,7 @@ curl -X GET 'https://api.deepl.com/v3/style_rules' \
   ]
 }
 ```
-You can also optionally pass in a `detailed` query parameter, to retrieve all configured rules per rule list.
+You can also optionally pass in a `detailed` query parameter, to retrieve all configured rules and custom instructions per rule list.
 
 ```sh Example request: get all style rule lists and their configured rules
 curl -X GET 'https://api.deepl.com/v3/style_rules?detailed=true' \
@@ -62,6 +62,10 @@ curl -X GET 'https://api.deepl.com/v3/style_rules?detailed=true' \
             "instructions_style": "use-imperative",
             "redundant_introductory_words": "avoid-redundant-introductory-words-that-relate-to-current-text"
         }
+      },
+      "custom_instructions": {
+        "label": "My Custom instruction",
+        "prompt": "Use a friendly, diplomatic tone"
       }
     }
   ]
@@ -91,7 +95,7 @@ User-Agent: YourApp/1.2.3
 }
 ```
 
-You can also optionally pass in a `detailed` query parameter, to retrieve all configured rules per rule list.
+You can also optionally pass in a `detailed` query parameter, to retrieve all configured rules and custom instructions per rule list.
 
 ```http Example request: get all style rule lists and their configured rules
 GET https://api.deepl.com/v3/style_rules?detailed=true HTTP/2
@@ -117,6 +121,10 @@ User-Agent: YourApp/1.2.3
             "instructions_style": "use-imperative",
             "redundant_introductory_words": "avoid-redundant-introductory-words-that-relate-to-current-text"
         }
+      },
+      "custom_instructions": {
+        "label": "My Custom instruction",
+        "prompt": "Use a friendly, diplomatic tone"
       }
     }
   ]
@@ -127,7 +135,7 @@ User-Agent: YourApp/1.2.3
 
 ### Query parameters
 <ParamField query="detailed" type="boolean">
-Determines if the rule list's `configured_rules` should be included in the response body. If `detailed` parameter is not included, defaults to `false`.
+Determines if the rule list's `configured_rules` and `custom_instructions` should be included in the response body. If `detailed` parameter is not included, defaults to `false`.
 </ParamField>
 <ParamField query="page" type="int">
 The index of the first page to return. Default: 0 (the first page). Use with `page_size` to get the next page of rule lists.
