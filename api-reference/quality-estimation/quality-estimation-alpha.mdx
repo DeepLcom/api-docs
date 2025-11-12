@@ -17,8 +17,16 @@ The Quality Estimation API allows you to evaluate the quality of translations by
   **Please report issues**: If you notice consistently high error rates or reliability problems, please contact your DeepL representative so we can investigate and address them promptly.
 </Note>
 
+## Account Access
 
-[//]: # (Add details about how you can only opt-in one account id at a time. By contacting deepl directly.)
+Access to this alpha endpoint is granted on a per-account basis. Due to the alpha nature of this feature:
+- **One account at a time**: Only one account ID can be enrolled in the quality estimation alpha program at any given time
+- **Manual enrollment required**: Access must be requested directly by contacting your DeepL representative
+- **Feature flag enabled**: Your account must have the `QualityEstimationAuthorization` feature flag activated
+
+To request access, contact your DeepL representative with your account ID.
+
+- Note that this endpoint is currently not available for API-US.
 
 ## Best Practices
 
@@ -31,15 +39,6 @@ The Quality Estimation API allows you to evaluate the quality of translations by
 4. **Error Handling**: Always check the HTTP status code and handle errors appropriately. Alpha endpoints may experience higher error rates.
 
 5. **Batch Requests**: The API supports multiple prompts in a single request. Results are returned in the same order as the prompts array.
-
-## Feature Availability
-
-This is an **unstable alpha feature** that requires:
-- Account enrollment in the quality estimation alpha program
-- Compatible API key with appropriate permissions (deployed tier access)
-- Feature flag: `QualityEstimationAuthorization` enabled for your account
-
-Reach out to your DeepL contact to request access to the quality estimation API alpha.
 
 ## Endpoint
 
@@ -139,17 +138,18 @@ Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
   - `preset_category` (string): A predefined quality category
   - `custom_prompt` (string): A custom evaluation prompt
 
-  **Important**: When both fields are provided in the same prompt object, `preset_category` takes precedence due to protobuf oneof behavior.
+  **Important**: Do not provide both fields to `preset_category`, only one of `preset_category` or `custom_prompt`
 
-  The response will contain results in the same order as the prompts array.
+  **Note**: The response will contain results in the same order as the prompts array.
 </ParamField>
 
 ### Prompts Array Structure
 
 Each item in the `prompts` array is an object with one of these fields:
 
-[//]: # (TODO add 3 preset categories here)
 **Using Preset Categories:**
+
+Example:
 ```json
 {
   "preset_category": "adequacy"
@@ -163,14 +163,12 @@ Each item in the `prompts` array is an object with one of these fields:
 }
 ```
 
-[//]: # (TODO remove this example)
 **Multiple Prompts:**
 ```json
 {
   "prompts": [
     {"preset_category": "adequacy"},
-    {"preset_category": "fluency"},
-    {"custom_prompt": "Does the translation sound natural to a native speaker?"}
+    {"preset_category": "fluency"}
   ]
 }
 ```
@@ -392,10 +390,7 @@ See [supported languages](/docs/getting-started/supported-languages) for detaile
 
 ## Limitations
 
-- This is an **unstable alpha endpoint** with lower reliability guarantees than production APIs
-- Only supports languages available in DeepL's translation service
-- Requires both source and target text to be provided (bilingual evaluation only)
-- The API evaluates translation quality but does not provide corrections or alternatives
 - Custom prompts have length limitations (specific limits may vary)
 - Rate limiting applies to prevent abuse
-- Feature availability is restricted to accounts enrolled in the alpha program
+- Operational support is lower grade because of alpha expectations
+
