@@ -1,0 +1,325 @@
+---
+title: "Quality Estimation API (Unstable Alpha)"
+description: "(Hidden Page) Evaluate translation quality using DeepL's bilingual quality estimation service"
+---
+
+<Note>
+  **Work in Progress** - This documentation page is still being developed and is not ready for public consumption.
+</Note>
+
+The Quality Estimation API allows you to evaluate the quality of translations by comparing source and target text pairs. This unstable alpha feature requires special access permissions and is currently available only to select accounts.
+
+## Alpha Reliability Notice
+
+<Note>
+  **Alpha Endpoint Standards** - This is an unstable alpha endpoint with lower reliability and higher error rate thresholds compared to production APIs. While we strive for stability, you may experience occasional errors or service interruptions.
+
+  **Please report issues**: If you notice consistently high error rates or reliability problems, please contact your DeepL representative so we can investigate and address them promptly.
+</Note>
+
+## Best Practices
+
+1. **Text Quality**: Provide complete, well-formed text in both source and target fields for accurate quality assessment.
+
+2. **Language Codes**: Always specify explicit language codes. Use language variants (e.g., `en-US`, `pt-BR`) when appropriate for more accurate evaluation.
+
+3. **Prompt Selection**: Choose preset categories that match your quality criteria, or use custom prompts for specific evaluation needs. Note that when both `preset_category` and `custom_prompt` are provided in the same prompt object, `preset_category` takes precedence.
+
+4. **Error Handling**: Always check the HTTP status code and handle errors appropriately. Alpha endpoints may experience higher error rates.
+
+5. **Batch Requests**: The API supports multiple prompts in a single request. Results are returned in the same order as the prompts array.
+
+## Feature Availability
+
+This is an **unstable alpha feature** that requires:
+- Account enrollment in the quality estimation alpha program
+- Compatible API key with appropriate permissions (deployed tier access)
+- Feature flag: `QualityEstimationAuthorization` enabled for your account
+
+Reach out to your DeepL contact to request access to the quality estimation API alpha.
+
+## Endpoint
+
+```
+POST /unstable/quality-estimation/bilingual
+```
+
+## Authentication
+
+This endpoint requires authentication using the `Authorization` header with a valid API key that has access to the quality estimation feature.
+
+```
+Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
+```
+
+## Request Formats
+
+<Tabs>
+  <Tab title="JSON Request">
+    ```bash
+    curl -X POST "https://api.deepl.com/unstable/quality-estimation/bilingual" \
+      -H "Authorization: DeepL-Auth-Key YOUR_AUTH_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "source_text": "Hello world",
+        "source_lang": "en",
+        "target_text": "Bonjour le monde",
+        "target_lang": "fr",
+        "prompts": [
+          {"preset_category": "adequacy"},
+          {"preset_category": "fluency"}
+        ]
+      }'
+    ```
+  </Tab>
+  <Tab title="Form-Encoded Request">
+    ```bash
+    curl -X POST "https://api.deepl.com/unstable/quality-estimation/bilingual" \
+      -H "Authorization: DeepL-Auth-Key YOUR_AUTH_KEY" \
+      -H "Content-Type: application/x-www-form-urlencoded" \
+      -d "source_text=Hello world" \
+      -d "source_lang=en" \
+      -d "target_text=Bonjour le monde" \
+      -d "target_lang=fr" \
+      -d "prompts[0][preset_category]=adequacy" \
+      -d "prompts[1][preset_category]=fluency"
+    ```
+  </Tab>
+  <Tab title="HTTP Request">
+    ```http
+    POST /unstable/quality-estimation/bilingual HTTP/1.1
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
+    Content-Type: application/json
+    Content-Length: 238
+
+    {
+      "source_text": "Hello world",
+      "source_lang": "en",
+      "target_text": "Bonjour le monde",
+      "target_lang": "fr",
+      "prompts": [
+        {"preset_category": "adequacy"},
+        {"preset_category": "fluency"}
+      ]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Request Parameters
+
+<ParamField body="source_text" type="string" required>
+  The source text to evaluate. This is the original text before translation.
+</ParamField>
+
+<ParamField body="source_lang" type="string" required>
+  Language code of the source text. Must be a valid source language code (case-insensitive).
+
+  See [Valid Language Codes](#valid-language-codes) for the complete list of supported languages.
+</ParamField>
+
+<ParamField body="target_text" type="string" required>
+  The translated target text to evaluate. This is the translation that will be assessed for quality.
+</ParamField>
+
+<ParamField body="target_lang" type="string" required>
+  Language code of the target text. Must be a valid target language code (case-insensitive).
+
+  Target languages include language variants (e.g., `en-US`, `en-GB`, `pt-BR`, `pt-PT`).
+
+  See [Valid Language Codes](#valid-language-codes) for the complete list.
+</ParamField>
+
+<ParamField body="prompts" type="array" required>
+  List of quality estimation prompts to evaluate. Each prompt object must contain **one** of:
+  - `preset_category` (string): A predefined quality category
+  - `custom_prompt` (string): A custom evaluation prompt
+
+  **Important**: When both fields are provided in the same prompt object, `preset_category` takes precedence due to protobuf oneof behavior.
+
+  The response will contain results in the same order as the prompts array.
+</ParamField>
+
+### Prompts Array Structure
+
+Each item in the `prompts` array is an object with one of these fields:
+
+**Using Preset Categories:**
+```json
+{
+  "preset_category": "adequacy"
+}
+```
+
+**Using Custom Prompts:**
+```json
+{
+  "custom_prompt": "Evaluate whether the translation maintains the technical accuracy of the original text"
+}
+```
+
+**Multiple Prompts:**
+```json
+{
+  "prompts": [
+    {"preset_category": "adequacy"},
+    {"preset_category": "fluency"},
+    {"custom_prompt": "Does the translation sound natural to a native speaker?"}
+  ]
+}
+```
+
+## Valid Values
+
+### Preset Categories
+
+The following 16 preset categories are available for quality estimation:
+
+1. **`adequacy`** - Evaluates whether the translation is complete and preserves the meaning of the source text
+2. **`idiomatic_speech`** - Checks if the translation uses natural, idiomatic language
+3. **`clarity`** - Assesses whether the translated message is clear and easy to understand
+4. **`coherence`** - Evaluates the logical flow and consistency of the translation
+5. **`engagement`** - Measures how engaging and compelling the translation is for readers
+6. **`persuasiveness`** - Evaluates how convincing and persuasive the translation is
+7. **`creativity`** - Assesses the creative expression and originality in the translation
+8. **`emotional_impact`** - Measures the emotional resonance and impact of the translation
+9. **`jargon`** - Evaluates the appropriate use of technical terminology and jargon
+10. **`complexity_of_words`** - Assesses the complexity and sophistication of word choice
+11. **`grammar`** - Checks grammatical correctness of the translation
+12. **`syntax`** - Evaluates the sentence structure and word order
+13. **`punctuation`** - Checks proper punctuation usage
+14. **`fluency`** - Assesses the overall fluency and readability
+15. **`politeness`** - Evaluates the tone and level of politeness
+16. **`formality`** - Measures the formality level of the translation
+
+All preset category names are case-sensitive and must be provided exactly as shown above.
+
+### Valid Language Codes
+
+Language codes are **case-insensitive**.
+
+**Source Languages (31 languages):**
+
+`AR`, `BG`, `CS`, `DA`, `DE`, `EL`, `EN`, `ES`, `ET`, `FI`, `FR`, `HE`, `HU`, `ID`, `IT`, `JA`, `KO`, `LT`, `LV`, `NB`, `NL`, `PL`, `PT`, `RO`, `RU`, `SK`, `SL`, `SV`, `TH`, `TR`, `UK`, `VI`, `ZH`
+
+**Target Languages (42 languages including variants):**
+
+`AR`, `BG`, `CS`, `DA`, `DE`, `EL`, `EN`, `EN-GB`, `EN-US`, `ES`, `ES-419`, `ET`, `FI`, `FR`, `HE`, `HU`, `ID`, `IT`, `JA`, `KO`, `LT`, `LV`, `NB`, `NL`, `PL`, `PT`, `PT-BR`, `PT-PT`, `RO`, `RU`, `SK`, `SL`, `SV`, `TH`, `TR`, `UK`, `VI`, `ZH`, `ZH-HANS`, `ZH-HANT`
+
+See [supported languages](/docs/getting-started/supported-languages) for detailed information about each language.
+
+## Response Format
+
+<Tabs>
+  <Tab title="200 Success">
+    ```json
+    {
+      "result": [
+        {
+          "quality_estimation_text": "The translation accurately conveys the meaning of the source text without omissions or additions.",
+          "quality_estimation_score": 5
+        },
+        {
+          "quality_estimation_text": "The translation reads naturally and fluently in the target language.",
+          "quality_estimation_score": 4
+        }
+      ]
+    }
+    ```
+
+    The response contains one result object for each prompt in the request, in the same order.
+
+    Example with null score:
+    ```json
+    {
+      "result": [
+        {
+          "quality_estimation_text": "The translation maintains good adequacy overall with minor improvements possible in technical terminology.",
+          "quality_estimation_score": null
+        }
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="400 Bad Request">
+    ```json
+    {
+      "Message": "Missing parameter source_text."
+    }
+    ```
+
+    This error occurs when:
+    - Required parameters are missing (`source_text`, `source_lang`, `target_text`, `target_lang`, `prompts`)
+    - Parameters have invalid data types
+    - JSON is malformed
+    - Request body is empty
+  </Tab>
+  <Tab title="403 Forbidden">
+    ```json
+    {
+      "Message": "Forbidden"
+    }
+    ```
+
+    This error occurs when:
+    - The API key doesn't have access to the quality estimation feature
+    - The account doesn't have the required feature flag enabled
+    - The account is not enrolled in the alpha program
+    - Invalid or missing authentication credentials
+  </Tab>
+  <Tab title="415 Unsupported Media Type">
+    ```json
+    {
+      "Message": "Called with an unsupported media type. Supported media types: application/json or application/x-www-form-urlencoded. Please set the Content-Type header to a supported type."
+    }
+    ```
+
+    This error occurs when:
+    - The `Content-Type` header is missing
+    - The `Content-Type` header specifies an unsupported format
+  </Tab>
+  <Tab title="500 Internal Server Error">
+    ```json
+    {
+      "Message": "Internal server error."
+    }
+    ```
+
+    This error occurs when there are issues with the backend quality estimation service.
+
+    **Note**: As an alpha endpoint, you may encounter higher error rates. Please report persistent 500 errors to your DeepL contact.
+  </Tab>
+</Tabs>
+
+### Response Fields
+
+<ResponseField name="result" type="array" required>
+  Array of quality estimation results. Contains one result object for each prompt in the request, returned in the same order.
+</ResponseField>
+
+<ResponseField name="quality_estimation_text" type="string" required>
+  Natural language explanation of the quality assessment for this specific prompt. Provides detailed feedback about the translation quality aspect being evaluated.
+</ResponseField>
+
+<ResponseField name="quality_estimation_score" type="integer">
+  Optional numeric quality score ranging from 1 to 5, where:
+  - **5** = Excellent quality
+  - **4** = Good quality
+  - **3** = Acceptable quality
+  - **2** = Poor quality
+  - **1** = Very poor quality
+  - **null** = No score provided
+
+  The score may be `null` if the quality assessment doesn't include a numeric rating.
+</ResponseField>
+
+## Limitations
+
+- This is an **unstable alpha endpoint** with lower reliability guarantees than production APIs
+- Only supports languages available in DeepL's translation service
+- Requires both source and target text to be provided (bilingual evaluation only)
+- The API evaluates translation quality but does not provide corrections or alternatives
+- Custom prompts have length limitations (specific limits may vary)
+- Rate limiting applies to prevent abuse
+- Feature availability is restricted to accounts enrolled in the alpha program
