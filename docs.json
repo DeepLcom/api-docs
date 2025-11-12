@@ -49,7 +49,7 @@
           {
             "group": "Learning & How Tos",
             "pages": [
-              { 
+              {
                 "group": "Cookbook",
                 "pages": [
                   "docs/learning-how-tos/cookbook",
@@ -202,9 +202,7 @@
               },
               {
                 "group": "Client libraries",
-                "pages": [
-                  "api-reference/client-libraries"
-                ]
+                "pages": ["api-reference/client-libraries"]
               }
             ]
           }
@@ -376,5 +374,8 @@
     "telemetry": {
       "enabled": false
     }
+  },
+  "contextual": {
+    "options": ["copy", "chatgpt", "claude", "cursor", "vscode"]
   }
 }
