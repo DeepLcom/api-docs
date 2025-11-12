@@ -172,7 +172,7 @@
                 ]
               },
               {
-                "group": "Style Rules",
+                "group": "Style rules",
                 "pages": [
                   "api-reference/style-rules",
                   "api-reference/style-rules/list-all-style-rules"
