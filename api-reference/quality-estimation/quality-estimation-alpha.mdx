@@ -115,7 +115,9 @@ Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
 <ParamField body="source_lang" type="string" required>
     Language code of the source text. Must be a valid source language code (case-insensitive).
 
-    See [Valid Language Codes](#valid-language-codes) for the complete list of supported languages.
+    Language codes are **case-insensitive**.
+
+    See [supported languages](/docs/getting-started/supported-languages) for detailed information about each language.
 </ParamField>
 
 <ParamField body="target_text" type="string" required>
@@ -127,7 +129,9 @@ Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
 
     Target languages include language variants (e.g., `en-US`, `en-GB`, `pt-BR`, `pt-PT`).
 
-    See [Valid Language Codes](#valid-language-codes) for the complete list.
+    Language codes are **case-insensitive**.
+
+    See [supported languages](/docs/getting-started/supported-languages) for detailed information about each language.
 </ParamField>
 
 <ParamField body="prompts" type="array" required>
@@ -138,7 +142,117 @@ Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
     **Important**: Do not provide both fields to `preset_category`, only one of `preset_category` or `custom_prompt`
 
     **Note**: The response will contain results in the same order as the prompts array.
+
+    See [Valid Prompt Values](#valid-prompt-values) for more info
 </ParamField>
+
+
+## Response Format
+
+<Tabs>
+    <Tab title="200 Success">
+        ```json
+        {
+            "result": [
+        {
+            "quality_estimation_text": "The translation accurately conveys the meaning of the source text without omissions or additions.",
+            "quality_estimation_score": 5
+        },
+        {
+            "quality_estimation_text": "The translation reads naturally and fluently in the target language.",
+            "quality_estimation_score": 4
+        }
+            ]
+        }
+        ```
+
+        The response contains one result object for each prompt in the request, in the same order.
+
+        Example with undefined score:
+        ```json
+        {
+            "result": [
+        {
+            "quality_estimation_text": "The translation maintains good adequacy overall with minor improvements possible in technical terminology.",
+        }
+            ]
+        }
+        ```
+    </Tab>
+    <Tab title="400 Bad Request">
+        ```json
+        {
+            "Message": "Missing parameter source_text."
+        }
+        ```
+
+        This error occurs when:
+        - Required parameters are missing (`source_text`, `source_lang`, `target_text`, `target_lang`, `prompts`)
+        - Parameters have invalid data types
+        - JSON is malformed
+        - Request body is empty
+    </Tab>
+    <Tab title="403 Forbidden">
+        ```json
+        {
+            "Message": "Forbidden"
+        }
+        ```
+
+        This error occurs when:
+        - The API key doesn't have access to the quality estimation feature
+        - The customer doesn't have the required feature flag enabled
+        - The customer is not enrolled in the alpha program
+        - Invalid or missing authentication credentials
+    </Tab>
+    <Tab title="415 Unsupported Media Type">
+        ```json
+        {
+            "Message": "Called with an unsupported media type. Supported media types: application/json or application/x-www-form-urlencoded. Please set the Content-Type header to a supported type."
+        }
+        ```
+
+        This error occurs when:
+        - The `Content-Type` header is missing
+        - The `Content-Type` header specifies an unsupported format
+    </Tab>
+    <Tab title="500 Internal Server Error">
+        ```json
+        {
+            "Message": "Internal server error."
+        }
+        ```
+
+        This error occurs when there are issues with the backend quality estimation service.
+
+        **Note**: As an alpha endpoint, you may encounter higher error rates. Please report persistent 500 errors to your DeepL contact.
+    </Tab>
+</Tabs>
+
+### Response Fields
+
+<ResponseField name="result" type="array" required>
+    Array of quality estimation results. Contains one result object for each prompt in the request, returned in the same order.
+
+    <Expandable title="fields">
+        <ResponseField name="quality_estimation_text" type="string" required>
+            Natural language explanation of the quality assessment for this specific prompt. Provides detailed feedback about the translation quality aspect being evaluated.
+        </ResponseField>
+
+        <ResponseField name="quality_estimation_score" type="integer">
+            Optional numeric quality score ranging from 1 to 5, where:
+            - **5** = Excellent quality
+            - **4** = Good quality
+            - **3** = Acceptable quality
+            - **2** = Poor quality
+            - **1** = Very poor quality
+            - **undefined** = No score provided
+
+            The score may be `undefined` if the quality assessment doesn't include a numeric rating.
+        </ResponseField>
+    </Expandable>
+
+</ResponseField>
 
 ### Prompts Array Structure
 
@@ -170,7 +284,7 @@ Example:
 }
 ```
 
-## Valid Values
+## Valid Prompt Values
 
 ### Preset Categories
 
@@ -265,119 +379,6 @@ Does the text use simple sentences with a single clause or is it using an intric
 **Complex syntax example:** "Despite the misgivings of the harried council members, who questioned both the veracity of her arcane research and the prudence of embarking on such a perilous voyage—an undertaking complicated further by the baffling instructions, scant provisions, and unreliable cartographic clues—she nevertheless resolved, with an unwavering sense of duty, to traverse the uncharted seas in hopes of unearthing the fabled relic that, if the legends and cryptic manuscripts held any grain of truth, promised to restore balance to their beleaguered kingdom."
 
 All preset category names are case-sensitive and must be provided exactly as shown above.
-
-### Valid Language Codes
-
-Language codes are **case-insensitive**.
-
-See [supported languages](/docs/getting-started/supported-languages) for detailed information about each language.
-
-## Response Format
-
-<Tabs>
-    <Tab title="200 Success">
-        ```json
-        {
-            "result": [
-        {
-            "quality_estimation_text": "The translation accurately conveys the meaning of the source text without omissions or additions.",
-            "quality_estimation_score": 5
-        },
-        {
-            "quality_estimation_text": "The translation reads naturally and fluently in the target language.",
-            "quality_estimation_score": 4
-        }
-            ]
-        }
-        ```
-
-        The response contains one result object for each prompt in the request, in the same order.
-
-        Example with undefined score:
-        ```json
-        {
-            "result": [
-        {
-            "quality_estimation_text": "The translation maintains good adequacy overall with minor improvements possible in technical terminology.",
-        }
-            ]
-        }
-        ```
-    </Tab>
-    <Tab title="400 Bad Request">
-        ```json
-        {
-            "Message": "Missing parameter source_text."
-        }
-        ```
-
-        This error occurs when:
-        - Required parameters are missing (`source_text`, `source_lang`, `target_text`, `target_lang`, `prompts`)
-        - Parameters have invalid data types
-        - JSON is malformed
-        - Request body is empty
-    </Tab>
-    <Tab title="403 Forbidden">
-        ```json
-        {
-            "Message": "Forbidden"
-        }
-        ```
-
-        This error occurs when:
-        - The API key doesn't have access to the quality estimation feature
-        - The customer doesn't have the required feature flag enabled
-        - The customer is not enrolled in the alpha program
-        - Invalid or missing authentication credentials
-    </Tab>
-    <Tab title="415 Unsupported Media Type">
-        ```json
-        {
-            "Message": "Called with an unsupported media type. Supported media types: application/json or application/x-www-form-urlencoded. Please set the Content-Type header to a supported type."
-        }
-        ```
-
-        This error occurs when:
-        - The `Content-Type` header is missing
-        - The `Content-Type` header specifies an unsupported format
-    </Tab>
-    <Tab title="500 Internal Server Error">
-        ```json
-        {
-            "Message": "Internal server error."
-        }
-        ```
-
-        This error occurs when there are issues with the backend quality estimation service.
-
-        **Note**: As an alpha endpoint, you may encounter higher error rates. Please report persistent 500 errors to your DeepL contact.
-    </Tab>
-</Tabs>
-
-### Response Fields
-
-<ResponseField name="result" type="array" required>
-    Array of quality estimation results. Contains one result object for each prompt in the request, returned in the same order.
-
-    <Expandable title="fields">
-        <ResponseField name="quality_estimation_text" type="string" required>
-            Natural language explanation of the quality assessment for this specific prompt. Provides detailed feedback about the translation quality aspect being evaluated.
-        </ResponseField>
-    
-        <ResponseField name="quality_estimation_score" type="integer">
-            Optional numeric quality score ranging from 1 to 5, where:
-            - **5** = Excellent quality
-            - **4** = Good quality
-            - **3** = Acceptable quality
-            - **2** = Poor quality
-            - **1** = Very poor quality
-            - **undefined** = No score provided
-    
-            The score may be `undefined` if the quality assessment doesn't include a numeric rating.
-        </ResponseField>
-    </Expandable>
-        
-</ResponseField>
 
 ## Limitations
 
