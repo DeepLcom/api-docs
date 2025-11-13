@@ -271,16 +271,16 @@ components:
         text:
           type: string
           description: Source or target transcript text
-          start_time:
-            type: integer
-            description: Estimated start time of the segment in the input stream in milliseconds
-            examples:
-              - 1250
-          end_time:
-            type: integer
-            description: Estimated end time of the segment in the input stream in milliseconds
-            examples:
-              - 1570
+        start_time:
+          type: integer
+          description: Estimated start time of the segment in the input stream in milliseconds
+          examples:
+            - 1250
+        end_time:
+          type: integer
+          description: Estimated end time of the segment in the input stream in milliseconds
+          examples:
+            - 1570
 
     SourceTranscriptSegment:
       allOf:
