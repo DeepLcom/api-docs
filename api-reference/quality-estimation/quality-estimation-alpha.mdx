@@ -4,7 +4,7 @@ description: "(Hidden Page) Evaluate translation quality using DeepL's bilingual
 ---
 
 <Danger>
-  **Work in Progress** - This documentation page is hidden from the public and should not be shared with non-approved stakeholders. Updates to this endpoint may be more frequent than normal because this endpoint is expected to have a higher rate of change during alpha development.
+    **Work in Progress** - This documentation page is hidden from the public and should not be shared with non-approved stakeholders. Updates to this endpoint may be more frequent than normal because this endpoint is expected to have a higher rate of change during alpha development.
 </Danger>
 
 The Quality Estimation API allows you to evaluate the quality of translations by comparing source and target text pairs. This unstable alpha feature requires special access permissions and is currently available only to select customers.
@@ -12,21 +12,20 @@ The Quality Estimation API allows you to evaluate the quality of translations by
 ## Alpha Reliability Notice
 
 <Note>
-  **Alpha Endpoint Standards** - This is an unstable alpha endpoint with lower reliability and higher error rate thresholds compared to production APIs. While we strive for stability, you may experience occasional errors or service interruptions.
+    **Alpha Endpoint Standards** - This is an unstable alpha endpoint with lower reliability and higher error rate thresholds compared to production APIs. While we strive for stability, you may experience occasional errors or service interruptions.
 
-  **Please report issues**: If you notice consistently high error rates or reliability problems, please contact your DeepL representative so we can investigate and address them.
+    **Please report issues**: If you notice consistently high error rates or reliability problems, please contact your DeepL representative so we can investigate and address them.
 </Note>
 
-## Account Access
+## Customer Access
 
-Access to this alpha endpoint is granted on a per-account basis. Due to the alpha nature of this feature:
-- **One account at a time**: Each account must individually request access to the the quality estimation alpha program
-- **Manual enrollment required**: Access must be requested directly by contacting your DeepL representative
+Access to this alpha endpoint is granted on a per-customer basis. Due to the alpha nature of this feature:
+- Each customer must individually request access to the quality estimation alpha program
+- Access is manually granted by contacting your DeepL representative
 
-To request access, contact your DeepL representative.
 
-- This endpoint is supported by 0 DeepL SDK/CLs. 
-- There is no promise that breaking changes will not occur.
+- This endpoint is not supported by any DeepL SDKs or client libraries.
+- There is no guarantee that breaking changes won't occur.
 
 ## Best Practices
 
@@ -57,90 +56,90 @@ Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
 ## Request Formats
 
 <Tabs>
-  <Tab title="JSON Request">
-    ```bash
-    curl -X POST "https://api.deepl.com/unstable/quality-estimation/bilingual" \
-      -H "Authorization: DeepL-Auth-Key YOUR_AUTH_KEY" \
-      -H "Content-Type: application/json" \
-      -d '{
+    <Tab title="JSON Request">
+        ```bash
+        curl -X POST "https://api.deepl.com/unstable/quality-estimation/bilingual" \
+        -H "Authorization: DeepL-Auth-Key YOUR_AUTH_KEY" \
+        -H "Content-Type: application/json" \
+        -d '{
         "source_text": "Hello world",
         "source_lang": "en",
         "target_text": "Bonjour le monde",
         "target_lang": "fr",
         "prompts": [
-          {"preset_category": "adequacy"},
-          {"preset_category": "fluency"}
+    {"preset_category": "adequacy"},
+    {"preset_category": "fluency"}
         ]
-      }'
-    ```
-  </Tab>
-  <Tab title="Form-Encoded Request">
-    ```bash
-    curl -X POST "https://api.deepl.com/unstable/quality-estimation/bilingual" \
-      -H "Authorization: DeepL-Auth-Key YOUR_AUTH_KEY" \
-      -H "Content-Type: application/x-www-form-urlencoded" \
-      -d "source_text=Hello world" \
-      -d "source_lang=en" \
-      -d "target_text=Bonjour le monde" \
-      -d "target_lang=fr" \
-      -d "prompts[0][preset_category]=adequacy" \
-      -d "prompts[1][preset_category]=fluency"
-    ```
-  </Tab>
-  <Tab title="HTTP Request">
-    ```http
-    POST /unstable/quality-estimation/bilingual HTTP/1.1
-    Host: api.deepl.com
-    Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
-    Content-Type: application/json
-    Content-Length: 238
+    }'
+        ```
+    </Tab>
+    <Tab title="Form-Encoded Request">
+        ```bash
+        curl -X POST "https://api.deepl.com/unstable/quality-estimation/bilingual" \
+        -H "Authorization: DeepL-Auth-Key YOUR_AUTH_KEY" \
+        -H "Content-Type: application/x-www-form-urlencoded" \
+        -d "source_text=Hello world" \
+        -d "source_lang=en" \
+        -d "target_text=Bonjour le monde" \
+        -d "target_lang=fr" \
+        -d "prompts[0][preset_category]=adequacy" \
+        -d "prompts[1][preset_category]=fluency"
+        ```
+    </Tab>
+    <Tab title="HTTP Request">
+        ```http
+        POST /unstable/quality-estimation/bilingual HTTP/1.1
+        Host: api.deepl.com
+        Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
+        Content-Type: application/json
+        Content-Length: 238
 
-    {
-      "source_text": "Hello world",
-      "source_lang": "en",
-      "target_text": "Bonjour le monde",
-      "target_lang": "fr",
-      "prompts": [
+        {
+            "source_text": "Hello world",
+            "source_lang": "en",
+            "target_text": "Bonjour le monde",
+            "target_lang": "fr",
+            "prompts": [
         {"preset_category": "adequacy"},
         {"preset_category": "fluency"}
-      ]
-    }
-    ```
-  </Tab>
+            ]
+        }
+        ```
+    </Tab>
 </Tabs>
 
 ### Request Parameters
 
 <ParamField body="source_text" type="string" required>
-  The source text to evaluate. This is the original text before translation.
+    The source text to evaluate. This is the original text before translation.
 </ParamField>
 
 <ParamField body="source_lang" type="string" required>
-  Language code of the source text. Must be a valid source language code (case-insensitive).
+    Language code of the source text. Must be a valid source language code (case-insensitive).
 
-  See [Valid Language Codes](#valid-language-codes) for the complete list of supported languages.
+    See [Valid Language Codes](#valid-language-codes) for the complete list of supported languages.
 </ParamField>
 
 <ParamField body="target_text" type="string" required>
-  The translated target text to evaluate. This is the translation that will be assessed for quality.
+    The translated target text to evaluate. This is the translation that will be assessed for quality.
 </ParamField>
 
 <ParamField body="target_lang" type="string" required>
-  Language code of the target text. Must be a valid target language code (case-insensitive).
+    Language code of the target text. Must be a valid target language code (case-insensitive).
 
-  Target languages include language variants (e.g., `en-US`, `en-GB`, `pt-BR`, `pt-PT`).
+    Target languages include language variants (e.g., `en-US`, `en-GB`, `pt-BR`, `pt-PT`).
 
-  See [Valid Language Codes](#valid-language-codes) for the complete list.
+    See [Valid Language Codes](#valid-language-codes) for the complete list.
 </ParamField>
 
 <ParamField body="prompts" type="array" required>
-  List of quality estimation prompts to evaluate. Each prompt object must contain **one** of:
-  - `preset_category` (string): A predefined quality category
-  - `custom_prompt` (string): A custom evaluation prompt
+    List of quality estimation prompts to evaluate. Each prompt object must contain **one** of:
+    - `preset_category` (string): A predefined quality category
+    - `custom_prompt` (string): A custom evaluation prompt
 
-  **Important**: Do not provide both fields to `preset_category`, only one of `preset_category` or `custom_prompt`
+    **Important**: Do not provide both fields to `preset_category`, only one of `preset_category` or `custom_prompt`
 
-  **Note**: The response will contain results in the same order as the prompts array.
+    **Note**: The response will contain results in the same order as the prompts array.
 </ParamField>
 
 ### Prompts Array Structure
@@ -273,119 +272,110 @@ All preset category names are case-sensitive and must be provided exactly as sho
 
 Language codes are **case-insensitive**.
 
-**Source Languages (31 languages):**
-
-`AR`, `BG`, `CS`, `DA`, `DE`, `EL`, `EN`, `ES`, `ET`, `FI`, `FR`, `HE`, `HU`, `ID`, `IT`, `JA`, `KO`, `LT`, `LV`, `NB`, `NL`, `PL`, `PT`, `RO`, `RU`, `SK`, `SL`, `SV`, `TH`, `TR`, `UK`, `VI`, `ZH`
-
-**Target Languages (42 languages including variants):**
-
-`AR`, `BG`, `CS`, `DA`, `DE`, `EL`, `EN`, `EN-GB`, `EN-US`, `ES`, `ES-419`, `ET`, `FI`, `FR`, `HE`, `HU`, `ID`, `IT`, `JA`, `KO`, `LT`, `LV`, `NB`, `NL`, `PL`, `PT`, `PT-BR`, `PT-PT`, `RO`, `RU`, `SK`, `SL`, `SV`, `TH`, `TR`, `UK`, `VI`, `ZH`, `ZH-HANS`, `ZH-HANT`
-
 See [supported languages](/docs/getting-started/supported-languages) for detailed information about each language.
 
 ## Response Format
 
 <Tabs>
-  <Tab title="200 Success">
-    ```json
-    {
-      "result": [
+    <Tab title="200 Success">
+        ```json
         {
-          "quality_estimation_text": "The translation accurately conveys the meaning of the source text without omissions or additions.",
-          "quality_estimation_score": 5
+            "result": [
+        {
+            "quality_estimation_text": "The translation accurately conveys the meaning of the source text without omissions or additions.",
+            "quality_estimation_score": 5
         },
         {
-          "quality_estimation_text": "The translation reads naturally and fluently in the target language.",
-          "quality_estimation_score": 4
+            "quality_estimation_text": "The translation reads naturally and fluently in the target language.",
+            "quality_estimation_score": 4
         }
-      ]
-    }
-    ```
+            ]
+        }
+        ```
 
-    The response contains one result object for each prompt in the request, in the same order.
+        The response contains one result object for each prompt in the request, in the same order.
 
-    Example with null score:
-    ```json
-    {
-      "result": [
+        Example with undefined score:
+        ```json
         {
-          "quality_estimation_text": "The translation maintains good adequacy overall with minor improvements possible in technical terminology.",
-          "quality_estimation_score": null
+            "result": [
+        {
+            "quality_estimation_text": "The translation maintains good adequacy overall with minor improvements possible in technical terminology.",
         }
-      ]
-    }
-    ```
-  </Tab>
-  <Tab title="400 Bad Request">
-    ```json
-    {
-      "Message": "Missing parameter source_text."
-    }
-    ```
+            ]
+        }
+        ```
+    </Tab>
+    <Tab title="400 Bad Request">
+        ```json
+        {
+            "Message": "Missing parameter source_text."
+        }
+        ```
 
-    This error occurs when:
-    - Required parameters are missing (`source_text`, `source_lang`, `target_text`, `target_lang`, `prompts`)
-    - Parameters have invalid data types
-    - JSON is malformed
-    - Request body is empty
-  </Tab>
-  <Tab title="403 Forbidden">
-    ```json
-    {
-      "Message": "Forbidden"
-    }
-    ```
+        This error occurs when:
+        - Required parameters are missing (`source_text`, `source_lang`, `target_text`, `target_lang`, `prompts`)
+        - Parameters have invalid data types
+        - JSON is malformed
+        - Request body is empty
+    </Tab>
+    <Tab title="403 Forbidden">
+        ```json
+        {
+            "Message": "Forbidden"
+        }
+        ```
 
-    This error occurs when:
-    - The API key doesn't have access to the quality estimation feature
-    - The account doesn't have the required feature flag enabled
-    - The account is not enrolled in the alpha program
-    - Invalid or missing authentication credentials
-  </Tab>
-  <Tab title="415 Unsupported Media Type">
-    ```json
-    {
-      "Message": "Called with an unsupported media type. Supported media types: application/json or application/x-www-form-urlencoded. Please set the Content-Type header to a supported type."
-    }
-    ```
+        This error occurs when:
+        - The API key doesn't have access to the quality estimation feature
+        - The customer doesn't have the required feature flag enabled
+        - The customer is not enrolled in the alpha program
+        - Invalid or missing authentication credentials
+    </Tab>
+    <Tab title="415 Unsupported Media Type">
+        ```json
+        {
+            "Message": "Called with an unsupported media type. Supported media types: application/json or application/x-www-form-urlencoded. Please set the Content-Type header to a supported type."
+        }
+        ```
 
-    This error occurs when:
-    - The `Content-Type` header is missing
-    - The `Content-Type` header specifies an unsupported format
-  </Tab>
-  <Tab title="500 Internal Server Error">
-    ```json
-    {
-      "Message": "Internal server error."
-    }
-    ```
+        This error occurs when:
+        - The `Content-Type` header is missing
+        - The `Content-Type` header specifies an unsupported format
+    </Tab>
+    <Tab title="500 Internal Server Error">
+        ```json
+        {
+            "Message": "Internal server error."
+        }
+        ```
 
-    This error occurs when there are issues with the backend quality estimation service.
+        This error occurs when there are issues with the backend quality estimation service.
 
-    **Note**: As an alpha endpoint, you may encounter higher error rates. Please report persistent 500 errors to your DeepL contact.
-  </Tab>
+        **Note**: As an alpha endpoint, you may encounter higher error rates. Please report persistent 500 errors to your DeepL contact.
+    </Tab>
 </Tabs>
 
 ### Response Fields
 
 <ResponseField name="result" type="array" required>
-  Array of quality estimation results. Contains one result object for each prompt in the request, returned in the same order.
+    Array of quality estimation results. Contains one result object for each prompt in the request, returned in the same order.
 </ResponseField>
 
 <ResponseField name="quality_estimation_text" type="string" required>
-  Natural language explanation of the quality assessment for this specific prompt. Provides detailed feedback about the translation quality aspect being evaluated.
+    Natural language explanation of the quality assessment for this specific prompt. Provides detailed feedback about the translation quality aspect being evaluated.
 </ResponseField>
 
 <ResponseField name="quality_estimation_score" type="integer">
-  Optional numeric quality score ranging from 1 to 5, where:
-  - **5** = Excellent quality
-  - **4** = Good quality
-  - **3** = Acceptable quality
-  - **2** = Poor quality
-  - **1** = Very poor quality
-  - **null** = No score provided
+    Optional numeric quality score ranging from 1 to 5, where:
+    - **5** = Excellent quality
+    - **4** = Good quality
+    - **3** = Acceptable quality
+    - **2** = Poor quality
+    - **1** = Very poor quality
+    - **undefined** = No score provided
 
-  The score may be `null` if the quality assessment doesn't include a numeric rating.
+    The score may be `undefined` if the quality assessment doesn't include a numeric rating.
 </ResponseField>
 
 ## Limitations
