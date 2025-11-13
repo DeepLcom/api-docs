@@ -22,8 +22,6 @@ The Quality Estimation API allows you to evaluate the quality of translations by
 Access to this alpha endpoint is granted on a per-customer basis. Due to the alpha nature of this feature:
 - Each customer must individually request access to the quality estimation alpha program
 - Access is manually granted by contacting your DeepL representative
-
-
 - This endpoint is not supported by any DeepL SDKs or client libraries.
 - There is no guarantee that breaking changes won't occur.
 
@@ -360,22 +358,25 @@ See [supported languages](/docs/getting-started/supported-languages) for detaile
 
 <ResponseField name="result" type="array" required>
     Array of quality estimation results. Contains one result object for each prompt in the request, returned in the same order.
-</ResponseField>
 
-<ResponseField name="quality_estimation_text" type="string" required>
-    Natural language explanation of the quality assessment for this specific prompt. Provides detailed feedback about the translation quality aspect being evaluated.
-</ResponseField>
-
-<ResponseField name="quality_estimation_score" type="integer">
-    Optional numeric quality score ranging from 1 to 5, where:
-    - **5** = Excellent quality
-    - **4** = Good quality
-    - **3** = Acceptable quality
-    - **2** = Poor quality
-    - **1** = Very poor quality
-    - **undefined** = No score provided
-
-    The score may be `undefined` if the quality assessment doesn't include a numeric rating.
+    <Expandable title="fields">
+        <ResponseField name="quality_estimation_text" type="string" required>
+            Natural language explanation of the quality assessment for this specific prompt. Provides detailed feedback about the translation quality aspect being evaluated.
+        </ResponseField>
+    
+        <ResponseField name="quality_estimation_score" type="integer">
+            Optional numeric quality score ranging from 1 to 5, where:
+            - **5** = Excellent quality
+            - **4** = Good quality
+            - **3** = Acceptable quality
+            - **2** = Poor quality
+            - **1** = Very poor quality
+            - **undefined** = No score provided
+    
+            The score may be `undefined` if the quality assessment doesn't include a numeric rating.
+        </ResponseField>
+    </Expandable>
+        
 </ResponseField>
 
 ## Limitations
