@@ -261,40 +261,6 @@ components:
           type: object
           description: Empty object signaling end of media stream
 
-    TranscriptSegment:
-      type: object
-      required:
-        - text
-        - start_time
-        - end_time
-      properties:
-        text:
-          type: string
-          description: Source or target transcript text
-        start_time:
-          type: integer
-          description: Estimated start time of the segment in the input stream in milliseconds
-          examples:
-            - 1250
-        end_time:
-          type: integer
-          description: Estimated end time of the segment in the input stream in milliseconds
-          examples:
-            - 1570
-
-    SourceTranscriptSegment:
-      allOf:
-        - $ref: '#/components/schemas/TranscriptSegment'
-        - type: object
-          required:
-            - language
-          properties:
-            language:
-              type: string
-              description: IETF BCP 47 language tag of the detected source language
-              examples:
-                - en
-
     SourceTranscriptUpdatePayload:
       type: object
       required:
@@ -310,12 +276,60 @@ components:
               type: array
               description: Array of fixed transcript segments that will not change anymore
               items:
-                $ref: '#/components/schemas/SourceTranscriptSegment'
+                type: object
+                required:
+                  - text
+                  - start_time
+                  - end_time
+                  - language
+                properties:
+                  text:
+                    type: string
+                    description: Source transcript text
+                  start_time:
+                    type: integer
+                    description: Estimated start time of the segment in the input stream in milliseconds
+                    examples:
+                      - 1250
+                  end_time:
+                    type: integer
+                    description: Estimated end time of the segment in the input stream in milliseconds
+                    examples:
+                      - 1570
+                  language:
+                    type: string
+                    description: IETF BCP 47 language tag of the detected source language
+                    examples:
+                      - en
             tentative:
               type: array
               description: Array of preliminary transcript segments that are subject to change
               items:
-                $ref: '#/components/schemas/SourceTranscriptSegment'
+                type: object
+                required:
+                  - text
+                  - start_time
+                  - end_time
+                  - language
+                properties:
+                  text:
+                    type: string
+                    description: Source transcript text
+                  start_time:
+                    type: integer
+                    description: Estimated start time of the segment in the input stream in milliseconds
+                    examples:
+                      - 1250
+                  end_time:
+                    type: integer
+                    description: Estimated end time of the segment in the input stream in milliseconds
+                    examples:
+                      - 1570
+                  language:
+                    type: string
+                    description: IETF BCP 47 language tag of the detected source language
+                    examples:
+                      - en
 
     TargetTranscriptUpdatePayload:
       type: object
@@ -338,12 +352,48 @@ components:
               type: array
               description: Array of fixed transcript segments that will not change anymore
               items:
-                $ref: '#/components/schemas/TranscriptSegment'
+                type: object
+                required:
+                  - text
+                  - start_time
+                  - end_time
+                properties:
+                  text:
+                    type: string
+                    description: Target transcript text
+                  start_time:
+                    type: integer
+                    description: Estimated start time of the segment in the input stream in milliseconds
+                    examples:
+                      - 1250
+                  end_time:
+                    type: integer
+                    description: Estimated end time of the segment in the input stream in milliseconds
+                    examples:
+                      - 1570
             tentative:
               type: array
               description: Array of preliminary transcript segments that are subject to change
               items:
-                $ref: '#/components/schemas/TranscriptSegment'
+                type: object
+                required:
+                  - text
+                  - start_time
+                  - end_time
+                properties:
+                  text:
+                    type: string
+                    description: Target transcript text
+                  start_time:
+                    type: integer
+                    description: Estimated start time of the segment in the input stream in milliseconds
+                    examples:
+                      - 1250
+                  end_time:
+                    type: integer
+                    description: Estimated end time of the segment in the input stream in milliseconds
+                    examples:
+                      - 1570
 
     EndOfSourceTranscriptPayload:
       type: object
