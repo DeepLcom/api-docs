@@ -25,65 +25,69 @@ The API uses a two-step flow:
 
 ## Supported Languages
 
-The following source languages are supported for voice input:
-<Accordion title="Show supported source languages">
-* Chinese (Mandarin)
-* Dutch
-* English
-* French
-* German
-* Indonesian
-* Italian
-* Japanese
-* Korean
-* Polish
-* Portuguese
-* Romanian
-* Russian
-* Spanish
-* Swedish
-* Turkish
-* Ukrainian
-</Accordion>
+All source languages can be translated into any target language.
 
-All source languages can be translated into the following target languages:
-
-<Accordion title="Show supported target languages">
-* Arabic
-* Bulgarian
-* Chinese (Simplified)
-* Chinese (Traditional)
-* Czech
-* Danish
-* Dutch
-* English (American)
-* English (British)
-* Estonian
-* Finnish
-* French
-* German
-* Greek
-* Hebrew
-* Hungarian
-* Indonesian
-* Italian
-* Japanese
-* Korean
-* Latvian
-* Lithuanian
-* Norwegian Bokmål
-* Polish
-* Portuguese (Brazil)
-* Portuguese (Portugal)
-* Romanian
-* Russian
-* Slovak
-* Slovenian
-* Spanish
-* Swedish
-* Turkish
-* Ukrainian
-* Vietnamese
+<Accordion title="Show supported languages">
+  <Columns cols={2}>
+  <div>
+    <b>Source languages</b>
+    <div>Chinese (Mandarin)</div>
+    <div>Dutch</div>
+    <div>English</div>
+    <div>French</div>
+    <div>German</div>
+    <div>Indonesian</div>
+    <div>Italian</div>
+    <div>Japanese</div>
+    <div>Korean</div>
+    <div>Polish</div>
+    <div>Portuguese</div>
+    <div>Romanian</div>
+    <div>Russian</div>
+    <div>Spanish</div>
+    <div>Swedish</div>
+    <div>Turkish</div>
+    <div>Ukrainian</div>
+  </div>
+  <div>
+    <b>Target languages</b>
+    <div>Arabic</div>
+    <div>Bulgarian</div>
+    <div>Chinese (Simplified)</div>
+    <div>Chinese (Traditional)</div>
+    <div>Czech</div>
+    <div>Danish</div>
+    <div>Dutch</div>
+    <div>English (American)</div>
+    <div>English (British)</div>
+    <div>Estonian</div>
+    <div>Finnish</div>
+    <div>French</div>
+    <div>German</div>
+    <div>Greek</div>
+    <div>Hebrew</div>
+    <div>Hungarian</div>
+    <div>Indonesian</div>
+    <div>Italian</div>
+    <div>Japanese</div>
+    <div>Korean</div>
+    <div>Latvian</div>
+    <div>Lithuanian</div>
+    <div>Norwegian Bokmål</div>
+    <div>Polish</div>
+    <div>Portuguese (Brazil)</div>
+    <div>Portuguese (Portugal)</div>
+    <div>Romanian</div>
+    <div>Russian</div>
+    <div>Slovak</div>
+    <div>Slovenian</div>
+    <div>Spanish</div>
+    <div>Swedish</div>
+    <div>Turkish</div>
+    <div>Ukrainian</div>
+    <div>Vietnamese</div>
+    </div>
+  </Columns>
 </Accordion>
 
 ## Two-Step API Flow
@@ -109,25 +113,25 @@ sequenceDiagram
 
     par 
       loop Send audio data
-        Client->>Voice API: SourceMediaChunk
+        Client->>Voice API: source_media_chunk
       end
     and 
       loop Receive updates
-        Voice API-->>Client: SourceTranscriptUpdate
-        Voice API-->>Client: TargetTranscriptUpdate
+        Voice API-->>Client: source_transcript_update
+        Voice API-->>Client: target_transcript_update
       end
     end
 
-    Client->>Voice API: EndOfSourceAudio
+    Client->>Voice API: end_of_source_audio
 
     loop Final updates
-        Voice API-->>Client: SourceTranscriptUpdate
-        Voice API-->>Client: TargetTranscriptUpdate
+        Voice API-->>Client: source_transcript_update
+        Voice API-->>Client: target_transcript_update
     end
 
-    Voice API-->>Client: EndOfSourceTranscript
+    Voice API-->>Client: end_of_source_transcript
 
-    Voice API-->>Client: EndOfTargetTranscript<br>(once per target language)
+    Voice API-->>Client: end_of_target_transcript<br>(once per target language)
 
     Note over Client,Voice API: Connection Closed
 ```
