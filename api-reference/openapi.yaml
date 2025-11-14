@@ -4214,6 +4214,7 @@ components:
         supported Voice API source languages and comply with IETF BCP 47 language tags.
       enum:
         - de
+        - cs
         - en
         - es
         - fr
