@@ -25,10 +25,8 @@ The API uses a two-step flow:
 
 ## Supported Languages
 
-### Source Languages
-
 The following source languages are supported for voice input:
-
+<Accordion title="Show supported source languages">
 * Chinese (Mandarin)
 * Dutch
 * English
@@ -46,11 +44,11 @@ The following source languages are supported for voice input:
 * Swedish
 * Turkish
 * Ukrainian
-
-### Target Languages
+</Accordion>
 
 All source languages can be translated into the following target languages:
 
+<Accordion title="Show supported target languages">
 * Arabic
 * Bulgarian
 * Chinese (Simplified)
@@ -86,35 +84,13 @@ All source languages can be translated into the following target languages:
 * Turkish
 * Ukrainian
 * Vietnamese
+</Accordion>
 
 ## Two-Step API Flow
 
-The Voice API uses a two-step flow to initiate streaming:
+The Voice API uses a two-step flow to initiate streaming.
 
-### Step 1: Request Session and Stream URL (REST)
-
-Make a POST request to obtain an ephemeral streaming URL and authentication token:
-
-```http
-POST https://api.deepl.com/v1/voice/realtime
-```
-
-This step handles:
-* Authentication and authorization
-* Main configuration options (audio format, languages, glossaries, etc.)
-
-See the [Get Streaming URL](/api-reference/voice/get-streaming-url) documentation for details.
-
-### Step 2: Streaming Audio and Text (WebSocket)
-
-Use the received URL to establish a WebSocket connection for:
-* Sending audio data
-* Receiving transcriptions and translations in real-time
-
-See the [WebSocket Streaming](/api-reference/voice/websocket-streaming) documentation for details.
-
-### Message Flow
-
+<Accordion title="Show streaming flow">
 ```mermaid
 sequenceDiagram
     participant Client
@@ -155,6 +131,30 @@ sequenceDiagram
 
     Note over Client,Voice API: Connection Closed
 ```
+</Accordion>
+
+<Steps>
+  <Step title="Request Session and Stream URL">
+    Make a POST request to obtain an ephemeral streaming URL and authentication token:
+
+    ```http
+    POST https://api.deepl.com/v1/voice/realtime
+    ```
+
+    This step handles:
+    * Authentication and authorization
+    * Main configuration options (audio format, languages, glossaries, etc.)
+
+    See the [Get Streaming URL](/api-reference/voice/get-streaming-url) documentation for details.
+  </Step>
+  <Step title="Streaming Audio and Text (WebSocket)">
+    Use the received URL to establish a WebSocket connection for:
+    * Sending audio data
+    * Receiving transcriptions and translations in real-time
+
+    See the [WebSocket Streaming](/api-reference/voice/websocket-streaming) documentation for details.
+  </Step>
+</Steps>
 
 ## Limitations and Constraints
 
