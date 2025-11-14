@@ -150,12 +150,20 @@ sequenceDiagram
     * Authentication and authorization
     * Main configuration options (audio format, languages, glossaries, etc.)
 
+    <Note>
+      URL and token are valid for one-time use only.
+    </Note>
+
     See the [Get Streaming URL](/api-reference/voice/get-streaming-url) documentation for details.
   </Step>
   <Step title="Streaming Audio and Text (WebSocket)">
     Use the received URL to establish a WebSocket connection for:
     * Sending audio data
     * Receiving transcriptions and translations in real-time
+
+    <Note>
+      Once a WebSocket connection is established, you must send audio data to prevent connection closure.
+    </Note>
 
     See the [WebSocket Streaming](/api-reference/voice/websocket-streaming) documentation for details.
   </Step>
@@ -178,7 +186,3 @@ To start using the Voice API:
 3. Review the [WebSocket Streaming](/api-reference/voice/websocket-streaming) documentation
 4. Choose your audio format and configuration
 5. Implement the two-step flow in your application
-
-<Info>
-  For privacy and security, streaming URLs are ephemeral and valid for one-time use only. Once a WebSocket connection is established, you must send audio data to prevent connection closure.
-</Info>
