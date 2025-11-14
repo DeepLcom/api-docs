@@ -119,15 +119,23 @@ sequenceDiagram
     and 
       loop Receive updates
         Voice API-->>Client: source_transcript_update
+      end
+    and Per target language
+      loop Receive updates
         Voice API-->>Client: target_transcript_update
       end
     end
 
     Client->>Voice API: end_of_source_audio
 
-    loop Final updates
+    par
+      loop Final updates
         Voice API-->>Client: source_transcript_update
+      end
+    and Per target language
+      loop Final updates
         Voice API-->>Client: target_transcript_update
+      end
     end
 
     Voice API-->>Client: end_of_source_transcript
