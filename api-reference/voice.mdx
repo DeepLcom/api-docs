@@ -113,6 +113,49 @@ Use the received URL to establish a WebSocket connection for:
 
 See the [WebSocket Streaming](/api-reference/voice/websocket-streaming) documentation for details.
 
+### Message Flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Voice API
+
+    Note over Client,Voice API: Step 1: Request Session (POST)
+
+    Client->>Voice API: Configuration options
+    Voice API->>Client: Streaming URL
+
+    Note over Client,Voice API: Step 2: Start Streaming (WebSocket)
+
+    Client->>Voice API: Establish WebSocket connection<br>using the streaming URL
+
+    Note over Client,Voice API: WebSocket
+
+    par 
+      loop Send audio data
+        Client->>Voice API: SourceMediaChunk
+      end
+    and 
+      loop Receive updates
+        Voice API-->>Client: SourceTranscriptUpdate
+        Voice API-->>Client: TargetTranscriptUpdate
+      end
+    end
+
+    Client->>Voice API: EndOfSourceAudio
+
+    loop Final updates
+        Voice API-->>Client: SourceTranscriptUpdate
+        Voice API-->>Client: TargetTranscriptUpdate
+    end
+
+    Voice API-->>Client: EndOfSourceTranscript
+
+    Voice API-->>Client: EndOfTargetTranscript<br>(once per target language)
+
+    Note over Client,Voice API: Connection Closed
+```
+
 ## Limitations and Constraints
 
 * Maximum 5 target languages per stream
