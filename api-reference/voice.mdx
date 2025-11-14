@@ -20,7 +20,7 @@ The Voice API provides a way to open WebSocket streaming connections to transcri
 * Receive translations in multiple target languages
 
 The API uses a two-step flow:
-1. [**Request a streaming URL**](/api-reference/voice/get-streaming-url) via POST request
+1. [**Request a streaming URL**](/api-reference/voice/request-stream) via POST request
 2. [**Stream audio**](/api-reference/voice/websocket-streaming) via WebSocket
 
 ## Supported Languages
@@ -147,7 +147,7 @@ sequenceDiagram
 </Accordion>
 
 <Steps>
-  <Step title="Request Session and Stream URL">
+  <Step title="Request Stream">
     Make a POST request to obtain an ephemeral streaming URL and authentication token:
 
     ```http
@@ -162,7 +162,7 @@ sequenceDiagram
       URL and token are valid for one-time use only.
     </Note>
 
-    See the [Get Streaming URL](/api-reference/voice/get-streaming-url) documentation for details.
+    See the [Request Stream](/api-reference/voice/request-stream) documentation for details.
   </Step>
   <Step title="Streaming Audio and Text (WebSocket)">
     Use the received URL to establish a WebSocket connection for:
@@ -191,7 +191,7 @@ sequenceDiagram
 To start using the Voice API:
 
 1. Ensure you have a DeepL API Pro account with Voice API access
-2. Review the [Get Streaming URL](/api-reference/voice/get-streaming-url) documentation
+2. Review the [Request Stream](/api-reference/voice/request-stream) documentation
 3. Review the [WebSocket Streaming](/api-reference/voice/websocket-streaming) documentation
 4. Choose your audio format and configuration
 5. Implement the two-step flow in your application
