@@ -91,6 +91,22 @@ All source languages can be translated into any target language.
   </Columns>
 </Accordion>
 
+## Supported Audio Formats
+
+The API supports various common combinations of streaming codecs and containers having a single channel (mono) audio stream.
+For a detailed list, please refer to
+[Source Media Content Type](/api-reference/voice/get-streaming-url#body-source-media-content-type).
+
+| Audio Codec                   | Audio Container           | Recommended Bitrate                                   |
+| :---                          | :---                      | :---                                                  |
+| **PCM** <Icon icon="star"/>   | **-**                     | **256 kbps (16kHz), default recommendation**          |
+| **OPUS** <Icon icon="star"/>  | **Matroska / Ogg / WebM** | **32 kbps, recommended for low bandwidth scenarios**  |
+| AAC                           | Matroska                  | 96 kbps                                               |
+| FLAC                          | FLAC / Matroska / Ogg     | 256 kbps (16kHz)                                      |
+| MP3                           | Matroska / MPEG           | 128 kbps                                              |
+
+
+
 ## Two-Step API Flow
 
 The Voice API uses a two-step flow to initiate streaming.
@@ -170,7 +186,7 @@ sequenceDiagram
     * Receiving transcriptions and translations in real-time
 
     <Note>
-      Once a WebSocket connection is established, you must send audio data to prevent connection closure.
+      Once a WebSocket connection is established, you must send audio data to prevent connection closure within 30s.
     </Note>
 
     See the [WebSocket Streaming](/api-reference/voice/websocket-streaming) documentation for details.
