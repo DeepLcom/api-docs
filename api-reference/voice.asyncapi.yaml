@@ -26,8 +26,8 @@ channels:
   voiceStream:
     address: /v1/voice/realtime/connect?token={token}
     description: >
-        WebSocket channel for streaming audio and receiving transcriptions.
-        You may only send TEXT messages. No BINARY messages are allowed.
+        WebSocket channel for streaming audio and receiving transcriptions and translations.
+        Messages are exchanged in JSON format and WebSocket frames must be of type TEXT.
     parameters:
       token:
         description: >
@@ -86,8 +86,8 @@ components:
       name: SourceMediaChunk
       title: Source Media Chunk
       description: "
-        The message contains a binary chunk of input data encoded according to the format specified in the
-        [Get Streaming URL](/api-reference/voice/get-streaming-url) request.
+        The message contains a base64-encoded binary chunk of audio data.
+        The audio encoding must be the same that was specified in the [Get Streaming URL](/api-reference/voice/get-streaming-url) request.
         \n\n
         The chunk size must not be more than 100 kilobyte or one second in duration. The recommended duration is
         50 - 250 milliseconds to achieve the best tradeoff between latency and quality.
