@@ -1977,7 +1977,7 @@ paths:
                   formality: 'more'
       responses:
         200:
-          description: Successfully obtained streaming URL and token
+          description: Successfully obtained streaming URL and token.
           content:
             application/json:
               schema:
@@ -1985,6 +1985,7 @@ paths:
               example:
                 streaming_url: 'wss://api.deepl.com/v1/voice/realtime/connect'
                 token: 'VGhpcyBpcyBhIGZha2UgdG9rZW4K'
+                session_id: '4f911080-cfe2-41d4-8269-0e6ec15a0354'
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -4314,6 +4315,11 @@ components:
             [the streaming URL](/api-reference/voice/websocket-streaming).
             This token is ephemeral and valid for a short time and one-time use only.
           example: VGhpcyBpcyBhIGZha2UgdG9rZW4K
+        session_id:
+          type: string
+          description: >
+            Internal use only. A unique identifier for the requested stream.
+          example: 4f911080-cfe2-41d4-8269-0e6ec15a0354
     AdminUsageReport:
       type: object
       description: The response for admin usage statistics.
