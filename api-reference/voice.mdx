@@ -95,7 +95,7 @@ All source languages can be translated into any target language.
 
 The API supports various common combinations of streaming codecs and containers with a single channel (mono) audio stream.
 For a detailed list, please refer to
-[Source Media Content Type](/api-reference/voice/get-streaming-url#body-source-media-content-type).
+[Source Media Content Type](/api-reference/voice/request-stream#body-source-media-content-type).
 
 | Audio Codec                   | Audio Container           | Recommended Bitrate                                   |
 | :---                          | :---                      | :---                                                  |
@@ -169,6 +169,13 @@ sequenceDiagram
     ```http
     POST https://api.deepl.com/v1/voice/realtime
     ```
+    Response:
+    ```json
+    {
+      "streaming_url": "wss://api.deepl.com/v1/voice/realtime/connect",
+      "token": "VGhpcyBpcyBhIGZha2UgdG9rZW4K",
+    }
+    ```
 
     This step handles:
     * Authentication and authorization
@@ -181,12 +188,16 @@ sequenceDiagram
     See the [Request Stream](/api-reference/voice/request-stream) documentation for details.
   </Step>
   <Step title="Streaming Audio and Text (WebSocket)">
-    Use the received URL to establish a WebSocket connection for:
+    Use the received URL to establish a WebSocket connection:
+    ```http
+    CONNECT wss://api.deepl.com/v1/voice/realtime/connect?token=VGhpcyBpcyBhIGZha2UgdG9rZW4K
+    ```
+    This step handles exchanging JSON messages on the WebSocket connection:
     * Sending audio data
     * Receiving transcriptions and translations in real-time
 
     <Note>
-      Once a WebSocket connection is established, you must send audio data to prevent connection closure within 30s.
+      Once a WebSocket connection is established, you must send audio data to prevent connection closure within 30 seconds.
     </Note>
 
     See the [WebSocket Streaming](/api-reference/voice/websocket-streaming) documentation for details.
