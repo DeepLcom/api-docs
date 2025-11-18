@@ -309,13 +309,13 @@ components:
             concluded:
               type: array
               # list properties of referenced items here because there is a bug in mintlify that does not render them properly for array types
-              description: Array of fixed transcript segments that will not change anymore. Array objects contain `language` property of type `string` (IETF BCP 47 language tag of the detected source language).
+              description: Array of fixed transcript segments that will not change anymore. Array objects contain `language` property of type `string` (IETF BCP 47 language tag of the detected source language), `text` property of type `string` (Source or target transcript text), `start_time` property of type `integer` (Estimated start time of the segment in the input stream in milliseconds) and `end_time` property of type `integer` (Estimated end time of the segment in the input stream in milliseconds).
               items:
                 $ref: '#/components/schemas/SourceTranscriptSegment'
             tentative:
               type: array
               # list properties of referenced items here because there is a bug in mintlify that does not render them properly for array types
-              description: Array of preliminary transcript segments that are subject to change. Array objects contain `language` property of type `string` (IETF BCP 47 language tag of the detected source language).
+              description: Array of preliminary transcript segments that are subject to change. Array objects contain `language` property of type `string` (IETF BCP 47 language tag of the detected source language), `text` property of type `string` (Source or target transcript text), `start_time` property of type `integer` (Estimated start time of the segment in the input stream in milliseconds) and `end_time` property of type `integer` (Estimated end time of the segment in the input stream in milliseconds).
               items:
                 $ref: '#/components/schemas/SourceTranscriptSegment'
 
