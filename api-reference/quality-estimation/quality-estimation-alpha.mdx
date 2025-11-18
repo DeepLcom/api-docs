@@ -1,10 +1,10 @@
 ---
-title: "Quality Estimation API (Alpha ⚠️)"
+title: "Quality Estimation API - Alpha Release ⚠️"
 description: "(Hidden Page) Evaluate translation quality using DeepL's bilingual quality estimation service"
 ---
 
 <Danger>
-    **Work in Progress** - This documentation page is hidden from the public and should not be shared with non-approved stakeholders. Updates to this endpoint may be more frequent than normal because this endpoint is expected to have a higher rate of change during alpha development.
+    This documentation page is hidden from the public and should not be shared with non-approved stakeholders. Updates to this endpoint may be more frequent than normal because this endpoint is expected to have a higher rate of change during alpha development.
 </Danger>
 
 The Quality Estimation API allows you to evaluate the quality of translations by comparing source and target text pairs. This unstable alpha feature requires special access permissions and is currently available only to select customers.
@@ -57,18 +57,18 @@ Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
     <Tab title="JSON Request">
         ```bash
         curl -X POST "https://api.deepl.com/unstable/quality-estimation/bilingual" \
-        -H "Authorization: DeepL-Auth-Key YOUR_AUTH_KEY" \
-        -H "Content-Type: application/json" \
-        -d '{
-        "source_text": "Hello world",
-        "source_lang": "en",
-        "target_text": "Bonjour le monde",
-        "target_lang": "fr",
-        "prompts": [
-    {"preset_category": "adequacy"},
-    {"preset_category": "fluency"}
-        ]
-    }'
+            -H "Authorization: DeepL-Auth-Key YOUR_AUTH_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{
+                "source_text": "Hello world",
+                "source_lang": "en",
+                "target_text": "Bonjour le monde",
+                "target_lang": "fr",
+                "prompts": [
+                    {"preset_category": "adequacy"},
+                    {"preset_category": "fluency"}
+                ]
+            }'
         ```
     </Tab>
     <Tab title="Form-Encoded Request">
@@ -98,8 +98,8 @@ Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
             "target_text": "Bonjour le monde",
             "target_lang": "fr",
             "prompts": [
-        {"preset_category": "adequacy"},
-        {"preset_category": "fluency"}
+                {"preset_category": "adequacy"},
+                {"preset_category": "fluency"}
             ]
         }
         ```
@@ -143,41 +143,35 @@ Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
 
     **Note**: The response will contain results in the same order as the prompts array.
 
-    See [Valid Prompt Values](#valid-prompt-values) for more info
+    See [
+    More Details on Special Inputs](#more-details-on-special-inputs) for more info
 </ParamField>
 
 
-## Response Format
+## Response Formats
 
 <Tabs>
     <Tab title="200 Success">
         ```json
         {
             "result": [
-        {
-            "quality_estimation_text": "The translation accurately conveys the meaning of the source text without omissions or additions.",
-            "quality_estimation_score": 5
-        },
-        {
-            "quality_estimation_text": "The translation reads naturally and fluently in the target language.",
-            "quality_estimation_score": 4
-        }
+                {
+                    "quality_estimation_text": "The translation accurately conveys the meaning of the source text without omissions or additions.",
+                    "quality_estimation_score": 5
+                },
+                {
+                    "quality_estimation_text": "The translation reads naturally and fluently in the target language.",
+                    "quality_estimation_score": 4
+                },
+                {
+                    // Example with undefined score:
+                    "quality_estimation_text": "The translation maintains good adequacy overall with minor improvements possible in technical terminology.",
+                }
             ]
         }
         ```
 
         The response contains one result object for each prompt in the request, in the same order.
-
-        Example with undefined score:
-        ```json
-        {
-            "result": [
-        {
-            "quality_estimation_text": "The translation maintains good adequacy overall with minor improvements possible in technical terminology.",
-        }
-            ]
-        }
-        ```
     </Tab>
     <Tab title="400 Bad Request">
         ```json
@@ -234,7 +228,7 @@ Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
 <ResponseField name="result" type="array" required>
     Array of quality estimation results. Contains one result object for each prompt in the request, returned in the same order.
 
-    <Expandable title="fields">
+    <Expandable title="fields" defaultOpen>
         <ResponseField name="quality_estimation_text" type="string" required>
             Natural language explanation of the quality assessment for this specific prompt. Provides detailed feedback about the translation quality aspect being evaluated.
         </ResponseField>
@@ -284,7 +278,7 @@ Example:
 }
 ```
 
-## Valid Prompt Values
+## More Details on Special Inputs
 
 ### Preset Categories
 
