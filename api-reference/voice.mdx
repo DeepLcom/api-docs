@@ -124,16 +124,12 @@ The Voice API uses a two-step flow to initiate streaming.
 
 <Steps>
   <Step title="Request Stream">
-    Make a POST request to obtain an ephemeral streaming URL and authentication token:
+    Make a POST request `v1/voice/realtime` to obtain an ephemeral streaming URL and authentication token. The response will look like this:
 
-    ```http
-    POST https://api.deepl.com/v1/voice/realtime
-    ```
-    Response:
     ```json
     {
       "streaming_url": "wss://api.deepl.com/v1/voice/realtime/connect",
-      "token": "VGhpcyBpcyBhIGZha2UgdG9rZW4K",
+      "token": <secure access token>,
     }
     ```
 
@@ -148,10 +144,7 @@ The Voice API uses a two-step flow to initiate streaming.
     See the [Request Stream](/api-reference/voice/request-stream) documentation for details.
   </Step>
   <Step title="Streaming Audio and Text (WebSocket)">
-    Use the received URL to establish a WebSocket connection:
-    ```http
-    CONNECT wss://api.deepl.com/v1/voice/realtime/connect?token=VGhpcyBpcyBhIGZha2UgdG9rZW4K
-    ```
+    Use the received URL to establish a WebSocket connection to `wss://api.deepl.com/v1/voice/realtime/connect?token=<secure access token>`.
     This step handles exchanging JSON messages on the WebSocket connection:
     * Sending audio data
     * Receiving transcriptions and translations in real-time
