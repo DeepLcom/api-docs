@@ -207,6 +207,14 @@
                   "api-reference/admin-api/organization-usage-analytics",
                   "api-reference/admin-api/get-usage-analytics"
                 ]
+              },
+              {
+                "group": "Voice API",
+                "pages": [
+                  "api-reference/voice",
+                  "api-reference/voice/request-stream",
+                  "api-reference/voice/websocket-streaming"
+                ]
               }
             ]
           }
