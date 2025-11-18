@@ -139,12 +139,13 @@ Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
     - `preset_category` (string): A predefined quality category
     - `custom_prompt` (string): A custom evaluation prompt
 
-    **Important**: Do not provide both fields to `preset_category`, only one of `preset_category` or `custom_prompt`
+    Note that the response will contain results in the same order as the prompts array.
+    
+    **Important**: Do not provide both fields in one object entry, only one of `preset_category` or `custom_prompt`
 
-    **Note**: The response will contain results in the same order as the prompts array.
 
-    See [
-    More Details on Special Inputs](#more-details-on-special-inputs) for more info
+    See [More Details on Special Inputs](#more-details-on-special-inputs) for more info on [Preset Categories](#preset-categories) 
+    and [Custom Prompts](#custom-prompts).
 </ParamField>
 
 
@@ -373,6 +374,16 @@ Does the text use simple sentences with a single clause or is it using an intric
 **Complex syntax example:** "Despite the misgivings of the harried council members, who questioned both the veracity of her arcane research and the prudence of embarking on such a perilous voyage—an undertaking complicated further by the baffling instructions, scant provisions, and unreliable cartographic clues—she nevertheless resolved, with an unwavering sense of duty, to traverse the uncharted seas in hopes of unearthing the fabled relic that, if the legends and cryptic manuscripts held any grain of truth, promised to restore balance to their beleaguered kingdom."
 
 All preset category names are case-sensitive and must be provided exactly as shown above.
+
+### Custom Prompts
+
+Please insert your own freeform sentence for evaluation. Results may vary.
+
+**Examples of strong custom prompts** 
+
+- Assess the technical level of the text - whether the text is highly detailed and domain specific.
+
+- Assess the assertiveness level of the text - whether the text exudes confidence and decisiveness.
 
 ## Limitations
 
