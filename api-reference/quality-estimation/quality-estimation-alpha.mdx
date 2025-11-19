@@ -3,28 +3,28 @@ title: "Quality Estimation API - Alpha Release ⚠️"
 description: "Evaluate translation quality using DeepL's bilingual quality estimation service"
 ---
 
-
-## Alpha Reliability Notice
-
 <Danger>
+    **Access**: This feature requires special access permissions and is currently available only to select customers.
+
     **Alpha Change Expectations**: Updates to this endpoint may be more frequent than normal because this endpoint is expected to have a higher rate of change during alpha development.
 
-    **Endpoint Standards**: This is an unstable alpha endpoint with lower reliability and higher error rate thresholds compared to production APIs. While we strive for stability, you may experience occasional errors or service interruptions.
+    **Reliability Standards**: This alpha endpoint has lower reliability and higher error rate thresholds compared to production APIs.
     
-    **Please report issues**: If you notice consistently high error rates or reliability problems, please contact your DeepL representative so we can investigate and address them.
+    **Please Report Issues**: If you notice consistently high error rates or reliability problems, please contact your DeepL representative so we can investigate and address them.
+
+    **General Release**: It has not yet been determined if this endpoint will be released to all users in the future.
 </Danger>
 
 ## Summary
 
-The Quality Estimation API allows you to compare source and target text pairs to get an evaluation score against preset or custom prompts. This feature requires special access permissions and is currently available only to select customers.
-
-```json
-// Here is an example response to showcase the functionality: 
-{
-    "quality_estimation_text": "The translation reads naturally and fluently in the target language.",
-    "quality_estimation_score": 4
-}
-```
+The Quality Estimation API evaluates the quality of
+translations by comparing source text (original) and target
+text (translation) pairs. Rather than simply checking if
+texts match, it assesses how well the translation preserves
+specific linguistic qualities such as clarity, formality,
+grammatical complexity, and other categories. You can
+evaluate translations using 16 preset quality categories or even define your own custom
+prompt to examine. 
 
 ## Customer Access
 
