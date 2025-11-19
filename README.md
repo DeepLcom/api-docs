@@ -1,12 +1,6 @@
 # DeepL Developer Docs
 
-Click on `Use this template` to copy the Mintlify starter kit. The starter kit contains examples including
-
-- Guide pages
-- Navigation
-- Customizations
-- API Reference pages
-- Use of popular components
+This repo is home to the [DeepL Developer Docs](https://developers.deepl.com/).
 
 ### Development
 
