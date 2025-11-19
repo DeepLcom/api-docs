@@ -6,9 +6,17 @@ rss: true
 
 <Update label="In active development">
 - Add more events to audit logs for Pro API customers (API key management, cost control and usage limit changes)
-- Add usage analytics in the Admin API, including key-level reporting.
-- Allow multiple admins in an API subscription
-- Add support for custom rules in the API to programmatically manage and translate using custom rules.
+- Add a new parameter to the text translation API to allow custom instructions, making it possible to customize the translation behavior (e.g. ["Use a friendly, diplomatic tone"])
+</Update>
+
+<Update label="Q4 2025">
+- Add contextual menu in the to make it easier to copy any API documentation page as context for AI tools
+- Add support for style rules in the API to programmatically get your created style rules and translate with them.
+- Overhauled the tag-handling algorithm that backs translation of XML and HTML in the DeepL API. To enable it and benefit from all the improvements, set the `tag_handling_version` parameter to `v2` in the text translation API. See [here](../xml-and-html-handling/tag-handling-v2) for more information.
+- Added new usage analytics endpoint in the Admin API, including key-level reporting. See [here](/api-reference/admin-api/get-usage-analytics) for more details
+- Enabled support for multiple admins in an API subscription
+- Added support for 75 new languages, initially through the `enable_beta_languages` parameter, for text and document translation. Beta languages are not billed during the beta phase and do not yet support glossaries or formality. See [here](../getting-started/supported-languages#beta-languages) for more information
+- Added HE, TH and VI to the languages endpoint, since they are now also available in document translation
 </Update>
 
 <Update label="Q3 2025">

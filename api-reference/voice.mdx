@@ -1,11 +1,11 @@
 ---
-title: "Voice API"
+title: "Translate Speech in Realtime"
 sidebarTitle: "Overview"
 description: "API reference for real-time voice transcription and translation with the DeepL Voice API."
 public: true
 ---
 
-The DeepL Voice API provides real-time voice transcription and translation services. The API is designed to be highly available, low latency, and easy for developers to integrate into their applications.
+The Voice API provides real-time voice transcription and translation services using WebSocket streaming.
 
 <Info>
   The Voice API is currently available to select DeepL API Pro customers only. Contact your DeepL representative for access.
@@ -13,112 +13,208 @@ The DeepL Voice API provides real-time voice transcription and translation servi
 
 ## Overview
 
-The Voice API provides a way to open a streaming connection to DeepL Voice streaming endpoints. With each streaming connection, you can:
+The Voice API provides a way to open WebSocket streaming connections to transcribe and translate audio data. With each streaming connection, you can:
 
 * Send a single audio stream
-* Receive transcription in the source language
-* Receive translations in multiple target languages simultaneously
+* Receive transcriptions in the source language
+* Receive translations in multiple target languages
 
 The API uses a two-step flow:
-1. **Request a streaming URL** via REST API
-2. **Stream audio and receive transcriptions** via WebSocket
-
-## Use Cases
-
-### Call Center
-
-In a call center with two participants needing translation, you would use two DeepL Voice API streams. Each stream handles one participant's audio, specifying the audio format, source language (or autodetect), and the other participant's language as the target.
-
-Integration with services like Twilio can be achieved by directing Twilio's audio streams to DeepL for translation and then returning the translated text to the Twilio call flow.
-
-### Townhall/Live Streaming
-
-For townhall meetings or live streaming events, the DeepL Voice API processes a single audio stream and generates source and multiple target language transcripts. This allows a diverse audience to access real-time translations in their own language, providing efficient simultaneous interpretation from one audio source.
-
-## Billing Model
-
-* Billing is based on the total duration of audio sent to DeepL servers, billed in seconds
-* There is a single basic rate including transcript and up to 5 target languages
-* DeepL Voice is available on the same API plan as DeepL Translate / Write
-* Prepaid usage commitments are separate - Translate/Write keeps one pool in characters, and Voice uses a separate pool committed in minutes, with no transfers between pools
-
-## Supported Languages
-
-### Source Languages
-
-As of July 2025, the following source languages are supported for voice input:
-
-* Chinese (Mandarin)
-* Dutch
-* English
-* French
-* German
-* Indonesian
-* Italian
-* Japanese
-* Korean
-* Polish
-* Portuguese
-* Romanian
-* Russian
-* Spanish
-* Swedish
-* Turkish
-* Ukrainian
-
-Several new additions are planned for later in the year.
-
-### Target Languages
-
-All source languages can be translated to all [DeepL Translate supported languages](/docs/getting-started/supported-languages#translation-target-languages), including:
-
-Arabic, Bulgarian, Chinese (simplified), Chinese (traditional), Czech, Danish, Dutch, English (American), English (British), Estonian, Finnish, French, German, Greek, Hebrew, Hungarian, Indonesian, Italian, Japanese, Korean, Latvian, Lithuanian, Norwegian, Polish, Portuguese, Portuguese (Brazilian), Romanian, Russian, Slovak, Slovenian, Spanish, Swedish, Turkish, Ukrainian, and Vietnamese.
-
-## Two-Step API Flow
-
-The Voice API uses a two-step flow to initiate streaming:
-
-### Step 1: Request Session and Stream URL (REST)
-
-Make a POST request to obtain an ephemeral streaming URL and authentication token:
-
-```http
-POST https://api.deepl.com/v1/voice/realtime
-```
-
-This step handles:
-* Authentication and authorization
-* Main configuration options (audio format, languages, glossaries, etc.)
-
-See the [Get Streaming URL](/api-reference/voice/get-streaming-url) documentation for details.
-
-### Step 2: Streaming Audio and Text (WebSocket)
-
-Use the received URL to establish a WebSocket connection for:
-* Sending audio data
-* Receiving transcriptions and translations in real-time
-
-See the [WebSocket Streaming](/api-reference/voice/websocket-streaming) documentation for details.
-
-## Limitations and Constraints
-
-* Maximum 5 target languages per stream
-* Maximum streaming connection duration: 3 hours
-* Audio chunk size: should not exceed 100 KByte or 1 second duration
-* Recommended chunk duration: 50-250ms for low latency
-* Audio stream speed: maximum 2x real-time
-* Request body size: no specified limit for streaming (differs from text translation)
+1. [**Request a streaming URL**](/api-reference/voice/request-stream) via POST request
+2. [**Stream audio**](/api-reference/voice/websocket-streaming) via WebSocket
 
 ## Getting Started
 
 To start using the Voice API:
 
 1. Ensure you have a DeepL API Pro account with Voice API access
-2. Review the [Get Streaming URL](/api-reference/voice/get-streaming-url) documentation
+2. Review the [Request Stream](/api-reference/voice/request-stream) documentation
 3. Review the [WebSocket Streaming](/api-reference/voice/websocket-streaming) documentation
 4. Choose your audio format and configuration
 5. Implement the two-step flow in your application
 
-<Info>
-  For privacy and security, streaming URLs are ephemeral and valid for one-time use only. Once a WebSocket connection is established, you must send audio data within the specified timeout period to prevent connection closure.
-</Info>
+
+## Supported Languages
+
+All source languages can be translated into any target language.
+
+<Accordion title="Show supported languages">
+  <Columns cols={2}>
+  <div>
+    <b>Source languages</b>
+    <div>Chinese</div>
+    <div>Czech</div>
+    <div>Dutch</div>
+    <div>English</div>
+    <div>French</div>
+    <div>German</div>
+    <div>Indonesian</div>
+    <div>Italian</div>
+    <div>Japanese</div>
+    <div>Korean</div>
+    <div>Polish</div>
+    <div>Portuguese</div>
+    <div>Romanian</div>
+    <div>Russian</div>
+    <div>Spanish</div>
+    <div>Swedish</div>
+    <div>Turkish</div>
+    <div>Ukrainian</div>
+  </div>
+  <div>
+    <b>Target languages</b>
+    <div>Arabic</div>
+    <div>Bulgarian</div>
+    <div>Chinese (Simplified)</div>
+    <div>Chinese (Traditional)</div>
+    <div>Czech</div>
+    <div>Danish</div>
+    <div>Dutch</div>
+    <div>English (American)</div>
+    <div>English (British)</div>
+    <div>Estonian</div>
+    <div>Finnish</div>
+    <div>French</div>
+    <div>German</div>
+    <div>Greek</div>
+    <div>Hebrew</div>
+    <div>Hungarian</div>
+    <div>Indonesian</div>
+    <div>Italian</div>
+    <div>Japanese</div>
+    <div>Korean</div>
+    <div>Latvian</div>
+    <div>Lithuanian</div>
+    <div>Norwegian Bokmål</div>
+    <div>Polish</div>
+    <div>Portuguese (Brazil)</div>
+    <div>Portuguese (Portugal)</div>
+    <div>Romanian</div>
+    <div>Russian</div>
+    <div>Slovak</div>
+    <div>Slovenian</div>
+    <div>Spanish</div>
+    <div>Swedish</div>
+    <div>Turkish</div>
+    <div>Ukrainian</div>
+    <div>Vietnamese</div>
+    </div>
+  </Columns>
+</Accordion>
+
+## Supported Audio Formats
+
+The API supports various common combinations of streaming codecs and containers with a single channel (mono) audio stream.
+For a detailed list, please refer to
+[Source Media Content Type](/api-reference/voice/request-stream#body-source-media-content-type).
+
+| Audio Codec                   | Audio Container           | Recommended Bitrate                                   |
+| :---                          | :---                      | :---                                                  |
+| **PCM** <Icon icon="star"/>   | **-**                     | **256 kbps (16kHz), default recommendation**          |
+| **OPUS** <Icon icon="star"/>  | **Matroska / Ogg / WebM** | **32 kbps, recommended for low bandwidth scenarios**  |
+| AAC                           | Matroska                  | 96 kbps                                               |
+| FLAC                          | FLAC / Matroska / Ogg     | 256 kbps (16kHz)                                      |
+| MP3                           | Matroska / MPEG           | 128 kbps                                              |
+
+
+
+## Two-Step API Flow
+
+The Voice API uses a two-step flow to initiate streaming.
+
+<Steps>
+  <Step title="Request Stream">
+    Make a POST request `v1/voice/realtime` to obtain an ephemeral streaming URL and authentication token. The response will look like this:
+
+    ```json
+    {
+      "streaming_url": "wss://api.deepl.com/v1/voice/realtime/connect",
+      "token": <secure access token>,
+    }
+    ```
+
+    This step handles:
+    * Authentication and authorization
+    * Main configuration options (audio format, languages, glossaries, etc.)
+
+    <Note>
+      URL and token are valid for one-time use only.
+    </Note>
+
+    See the [Request Stream](/api-reference/voice/request-stream) documentation for details.
+  </Step>
+  <Step title="Streaming Audio and Text (WebSocket)">
+    Use the received URL to establish a WebSocket connection to `wss://api.deepl.com/v1/voice/realtime/connect?token=<secure access token>`.
+    This step handles exchanging JSON messages on the WebSocket connection:
+    * Sending audio data
+    * Receiving transcriptions and translations in real-time
+
+    <Note>
+      Once a WebSocket connection is established, you must send audio data to prevent connection closure within 30 seconds.
+    </Note>
+
+    See the [WebSocket Streaming](/api-reference/voice/websocket-streaming) documentation for details.
+  </Step>
+</Steps>
+
+<Accordion title="Show streaming flow">
+The following sequence diagram shows the flow of messages.
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Voice API
+
+    Note over Client,Voice API: Step 1: Request Session (POST)
+
+    Client->>Voice API: Configuration options
+    Voice API->>Client: Streaming URL
+
+    Note over Client,Voice API: Step 2: Start Streaming (WebSocket)
+
+    Client->>Voice API: Establish WebSocket connection<br>using the streaming URL
+
+    Note over Client,Voice API: WebSocket
+
+    par 
+      loop Send audio data
+        Client->>Voice API: source_media_chunk
+      end
+    and 
+      loop Receive updates
+        Voice API-->>Client: source_transcript_update
+      end
+    and Per target language
+      loop Receive updates
+        Voice API-->>Client: target_transcript_update
+      end
+    end
+
+    Client->>Voice API: end_of_source_audio
+
+    par
+      loop Final updates
+        Voice API-->>Client: source_transcript_update
+      end
+    and Per target language
+      loop Final updates
+        Voice API-->>Client: target_transcript_update
+      end
+    end
+
+    Voice API-->>Client: end_of_source_transcript
+
+    Voice API-->>Client: end_of_target_transcript<br>(once per target language)
+
+    Note over Client,Voice API: Connection Closed
+```
+`par` means parallel execution and `loop` means looped execution.
+</Accordion>
+
+## Limitations and Constraints
+
+* Maximum 5 target languages per stream
+* Maximum streaming connection duration: 3 hours
+* Audio chunk size: should not exceed 100 kilobyte or 1 second duration
+* Recommended chunk duration: 50-250 milliseconds for low latency
+* Audio stream speed: maximum 2x real-time
+* Timeout: If no data is received for 30 seconds, the session will be terminated

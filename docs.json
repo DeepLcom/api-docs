@@ -49,7 +49,7 @@
           {
             "group": "Learning & How Tos",
             "pages": [
-              { 
+              {
                 "group": "Cookbook",
                 "pages": [
                   "docs/learning-how-tos/cookbook",
@@ -89,7 +89,8 @@
               "docs/xml-and-html-handling/xml",
               "docs/xml-and-html-handling/structured-content",
               "docs/xml-and-html-handling/customized-xml-outline-detection",
-              "docs/xml-and-html-handling/html"
+              "docs/xml-and-html-handling/html",
+              "docs/xml-and-html-handling/tag-handling-v2"
             ]
           },
           {
@@ -171,6 +172,13 @@
                 ]
               },
               {
+                "group": "Style rules",
+                "pages": [
+                  "api-reference/style-rules",
+                  "api-reference/style-rules/list-all-style-rules"
+                ]
+              },
+              {
                 "group": "Retrieve usage and quota",
                 "pages": [
                   "api-reference/usage-and-quota",
@@ -201,9 +209,7 @@
               },
               {
                 "group": "Client libraries",
-                "pages": [
-                  "api-reference/client-libraries"
-                ]
+                "pages": ["api-reference/client-libraries"]
               }
             ]
           }
@@ -375,5 +381,8 @@
     "telemetry": {
       "enabled": false
     }
+  },
+  "contextual": {
+    "options": ["copy", "chatgpt", "claude", "cursor", "vscode"]
   }
 }

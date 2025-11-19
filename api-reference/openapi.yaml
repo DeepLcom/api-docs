@@ -397,10 +397,26 @@ paths:
                     request.
                   type: string
                   example: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
+                style_id:
+                  description: |-
+                    Specify the [style rule list](/api-reference/style-rules) to use for the translation. 
+
+                    **Important:**  The target language has to match the language of the style rule list. 
+                    
+                    **Note:** Any request with the `style_id` parameter enabled will use `quality_optimized` models. Requests combining `style_id` and `model_type: latency_optimized` will be rejected.
+                  type: string
+                  example: 7ff9bfd6-cd85-4190-8503-d6215a321519
                 tag_handling:
                   $ref: '#/components/schemas/TagHandlingOption'
+                tag_handling_version:
+                  $ref: '#/components/schemas/TagHandlingVersionOption'
                 outline_detection:
                   $ref: '#/components/schemas/OutlineDetectionOption'
+                enable_beta_languages:
+                  description: |-
+                    Enables 75 additional beta languages. See the [full list](/docs/getting-started/supported-languages#beta-languages). **Note:** Any request with the `enable_beta_languages` parameter enabled will use `quality_optimized` models. Requests combining `enable_beta_languages: true` and `model_type: latency_optimized` will be rejected. Beta languages do not support formality or glossaries.
+                  type: boolean
+                  default: false
                 non_splitting_tags:
                   description: Comma-separated list of XML tags which never split sentences.
                   type: array
@@ -461,6 +477,11 @@ paths:
                   $ref: '#/components/schemas/TagHandlingOption'
                 outline_detection:
                   $ref: '#/components/schemas/OutlineDetectionOptionStr'
+                enable_beta_languages:
+                  description: |-
+                    Enables 75 additional beta languages. See the [full list](/docs/getting-started/supported-languages#beta-languages). **Note:** Any request with the `enable_beta_languages` parameter enabled will use `quality_optimized` models. Requests combining `enable_beta_languages: true` and `model_type: latency_optimized` will be rejected. Beta languages do not support formality or glossaries.
+                  type: boolean
+                  default: false
                 non_splitting_tags:
                   description: Comma-separated list of XML tags which never split sentences.
                   type: array
@@ -599,6 +620,11 @@ paths:
                   $ref: '#/components/schemas/Formality'
                 glossary_id:
                   $ref: '#/components/schemas/GlossaryId'
+                enable_beta_languages:
+                  description: |-
+                    Enables 75 additional beta languages. See the [full list](/docs/getting-started/supported-languages#beta-languages). **Note:** Any request with the `enable_beta_languages` parameter enabled will use `quality_optimized` models. Requests combining `enable_beta_languages: true` and `model_type: latency_optimized` will be rejected. Beta languages do not support formality or glossaries.
+                  type: boolean
+                  default: false
       responses:
         200:
           description: The document function returns a JSON object containing the
@@ -1762,6 +1788,9 @@ paths:
                 - language: FR
                   name: French
                   supports_formality: true
+                - language: HE
+                  name: Hebrew
+                  supports_formality: false
                 - language: HU
                   name: Hungarian
                   supports_formality: false
@@ -1813,11 +1842,17 @@ paths:
                 - language: SV
                   name: Swedish
                   supports_formality: false
+                - language: TH
+                  name: Thai
+                  supports_formality: false
                 - language: TR
                   name: Turkish
                   supports_formality: false
                 - language: UK
                   name: Ukrainian
+                  supports_formality: false
+                - language: VI
+                  name: Vietnamese
                   supports_formality: false
                 - language: ZH
                   name: Chinese (simplified)
@@ -1872,7 +1907,7 @@ paths:
           schema:
             type: boolean
             default: false
-          description: Determines if the rule list's `configured_rules` should be included in the response body.
+          description: Determines if the rule list's `configured_rules` and `custom_instructions` should be included in the response body.
       responses:
         200:
           description: JSON object containing the style rule lists.
@@ -1910,10 +1945,10 @@ paths:
             schema:
               type: object
               required:
-                - media_content_type
+                - source_media_content_type
               properties:
-                media_content_type:
-                  $ref: '#/components/schemas/VoiceMediaContentType'
+                source_media_content_type:
+                  $ref: '#/components/schemas/VoiceSourceMediaContentType'
                 source_language:
                   $ref: '#/components/schemas/VoiceSourceLanguage'
                 source_language_mode:
@@ -1923,31 +1958,27 @@ paths:
                 glossary_id:
                   $ref: '#/components/schemas/GlossaryId'
                 formality:
-                  $ref: '#/components/schemas/FormalityOption'
-                spoken_terms_id:
-                  type: string
-                  description: '[Planned] A unique ID of a spoken terms list to use for transcription.'
-                  example: 'your_spoken_terms_id'
+                  $ref: '#/components/schemas/Formality'
             examples:
               basic:
                 summary: Basic configuration
                 value:
-                  media_content_type: 'audio/ogg; codecs=opus'
+                  source_media_content_type: 'audio/ogg; codecs=opus'
                   source_language: 'en'
                   source_language_mode: 'auto'
                   target_languages: ['de', 'fr', 'es']
               with_glossary:
                 summary: With glossary and formality
                 value:
-                  media_content_type: 'audio/pcm; encoding=s16le; rate=16000'
+                  source_media_content_type: 'audio/pcm; encoding=s16le; rate=16000'
                   source_language: 'en'
                   source_language_mode: 'fixed'
                   target_languages: ['de', 'fr']
                   glossary_id: 'def3a26b-3e84-45b3-84ae-0c0aaf3525f7'
-                  formality: 'formal'
+                  formality: 'more'
       responses:
         200:
-          description: Successfully obtained streaming URL and token
+          description: Successfully obtained streaming URL and token.
           content:
             application/json:
               schema:
@@ -1955,6 +1986,7 @@ paths:
               example:
                 streaming_url: 'wss://api.deepl.com/v1/voice/realtime/connect'
                 token: 'VGhpcyBpcyBhIGZha2UgdG9rZW4K'
+                session_id: '4f911080-cfe2-41d4-8269-0e6ec15a0354'
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -2135,7 +2167,7 @@ components:
         languages.
       type: object
       properties:
-        dates_and_times_v2:
+        dates_and_times:
           type: object
           properties:
             calendar_era:
@@ -2279,7 +2311,7 @@ components:
               - use_common_era
               - use_japanese_imperial_era
               - use_yyyy
-        formatting_v2:
+        formatting:
           type: object
           properties:
             email_address_format:
@@ -2347,7 +2379,7 @@ components:
               enum:
               - do_not_use_colon_at_end_of_titles_or_headings
               - do_not_use_colons_or_periods_at_end_of_titles_or_headings
-        numbers_v2:
+        numbers:
           type: object
           properties:
             approximate_numbers:
@@ -2572,7 +2604,7 @@ components:
               enum:
               - use_chinese_word_〇_for_numbering
               - use_chinese_word_零_for_measurement
-        punctuation_v2:
+        punctuation:
           type: object
           properties:
             abbreviations:
@@ -2939,7 +2971,7 @@ components:
               enum:
               - do_not_use_spaces
               - use_spaces
-        spelling_and_grammar_v2:
+        spelling_and_grammar:
           type: object
           properties:
             abbreviating_french_word_numero:
@@ -3125,7 +3157,7 @@ components:
               - paraphrase_in_korean
               - use_as_is
               - use_as_is_with_explanation_in_parentheses
-        style_and_tone_v2:
+        style_and_tone:
           type: object
           properties:
             abbreviations:
@@ -3356,7 +3388,7 @@ components:
               enum:
               - use_nominal_style
               - use_verbal_style
-        vocabulary_v2:
+        vocabulary:
           type: object
           properties:
             abbreviations:
@@ -3429,6 +3461,22 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GlossaryDictionary'
+    CustomInstruction:
+      description: All enabled custom instructions for the style rule list
+      type: object
+      properties:
+        label:
+          type: string
+          description: Name associated with the custom instruction
+          example: "Currency custom instruction"
+        prompt:
+          type: string
+          description: Prompt of the custom instruction
+          example: "Have currency symbols before the numerical value (e.g. $100, €100)"
+        source_language:
+          type: string
+          description: Optional source language of the custom instruction
+          example: "en"
     StyleRuleList:
       type: object
       required:
@@ -3465,6 +3513,12 @@ components:
             List of configured rules enabled for the style rule list.
           items:
             $ref: '#/components/schemas/ConfiguredRules'
+        custom_instructions:
+          type: array
+          description: |-
+            List of custom instructions enabled for the style rule list.
+          items:
+            $ref: '#/components/schemas/CustomInstruction'
     StyleId:
       type: string
       description: A unique ID assigned to a style rule.
@@ -3475,6 +3529,12 @@ components:
       enum:
       - de
       - en
+      - es
+      - fr
+      - it
+      - ja
+      - ko
+      - zh
     StyleRuleName:  
       description: Name associated with the style rule.
       type: string
@@ -3497,24 +3557,17 @@ components:
     Formality:
       description: |-
         Sets whether the translated text should lean towards formal or informal language.
-        This feature is only available for certain target languages. Setting this parameter 
-        with a target language that does not support formality will fail, unless one of the 
-        `prefer_...` options are used.
         Possible options are:
-          * `default` (default)
-          * `more` - for a more formal language
-          * `less` - for a more informal language
-          * `prefer_more` - for a more formal language if available, otherwise fallback to default formality
-          * `prefer_less` - for a more informal language if available, otherwise fallback to default formality
+          * `default` - use the default formality for the target language
+          * `formal` - for a more formal language
+          * `informal` - for a more informal language
       type: string
       enum:
       - default
-      - more
-      - less
-      - prefer_more
-      - prefer_less
+      - formal
+      - informal
       default: default
-      example: prefer_more
+      example: formal
     GlossaryDictionary:
       type: object
       description: A dictionary contained in a multilingual glossary. Each dictionary contains the mapping of source terms to target language terms.
@@ -3790,7 +3843,7 @@ components:
     SourceLanguage:
       type: string
       description: |-
-        Language of the text to be translated. If this parameter is omitted, the API will attempt to 
+        Language of the text to be translated. If this parameter is omitted, the API will attempt to
         detect the language of the text and translate it.
       enum:
       - AR
@@ -3804,6 +3857,7 @@ components:
       - ET
       - FI
       - FR
+      - HE
       - HU
       - ID
       - IT
@@ -3820,8 +3874,10 @@ components:
       - SK
       - SL
       - SV
+      - TH
       - TR
       - UK
+      - VI
       - ZH
       example: EN
     TagHandlingOption:
@@ -3834,6 +3890,16 @@ components:
       - xml
       - html
       example: html
+    TagHandlingVersionOption:
+      description: |-
+        Sets which version of the tag handling algorithm should be used. Options currently available:
+        * `v1`: Traditional algorithm (currently the default, will become deprecated in the future).
+        * `v2`: Improved algorithm released in October 2025 (will become the default in the future).
+         
+      type: string
+      enum:
+      - v1
+      - v2
     NonSplittingTagCommaSeparatedList:
       allOf:
       - $ref: '#/components/schemas/TagCommaSeparatedList'
@@ -3922,6 +3988,7 @@ components:
       - ET
       - FI
       - FR
+      - HE
       - HU
       - ID
       - IT
@@ -3939,8 +4006,10 @@ components:
       - SK
       - SL
       - SV
+      - TH
       - TR
       - UK
+      - VI
       - ZH
       - ZH-HANS
       - ZH-HANT
@@ -4084,12 +4153,43 @@ components:
           format: date-time
           description: Only present for API Pro users. End time of the current billing period (ISO 8601).
           example: '2025-06-13T09:18:42Z'
-    VoiceMediaContentType:
+    VoiceSourceMediaContentType:
       type: string
-      description: |-
-        The audio format for streaming. Specifies container, codec, and encoding parameters.
-        Supported formats include PCM (recommended), OPUS (recommended for low bandwidth), FLAC, MP3, and AAC.
-        PCM formats require explicit sample rate. Mono audio only.
+      description: "
+        The audio format for streaming, which specifies container, codec, and encoding parameters.
+        See the table below for supported formats. If `audio/auto` is specified, the server
+        will auto-detect the container and codec for all supported combinations, except PCM. That requires
+        explicit encoding parameters. All formats need to be single channel audio.\n
+        \n
+        | Content Type | Container | Codec |\n
+        | :--- | :--- | :--- |\n
+        | `audio/auto` | Auto-detect: FLAC / Matroska / MPEG / Ogg/WebM | Auto-detect AAC / FLAC / MP3/ OPUS\n
+        | `audio/flac` | FLAC (flac) | FLAC, interleaved |\n
+        | `audio/mpeg` | MPEG (mp3/m4a) | MP3 |\n
+        | `audio/ogg`  | Ogg (ogg/oga) | Auto-detect FLAC / OPUS |\n
+        | `audio/webm` | WebM (webm) | OPUS |\n
+        | `audio/x-matroska` | Matroska (mkv/mka) | Auto-detect: AAC / FLAC / MP3 / OPUS |\n
+        | `audio/ogg;codecs=flac` | Ogg (ogg/oga) | FLAC, interleaved |\n
+        | `audio/ogg;codecs=opus` | Ogg (ogg/oga) | OPUS |\n
+        | `audio/pcm;encoding=s16le;rate=8000` | - | PCM signed 16-bit little-endian, 8000 Hz, interleaved |\n
+        | `audio/pcm;encoding=s16le;rate=16000` | - | PCM signed 16-bit little-endian, 16000 Hz, interleaved |\n
+        | `audio/pcm;encoding=s16le;rate=44100` | - | PCM signed 16-bit little-endian, 44100 Hz, interleaved |\n
+        | `audio/pcm;encoding=s16le;rate=48000` | - | PCM signed 16-bit little-endian, 48000 Hz, interleaved |\n
+        | `audio/webm;codecs=opus` | WebM (webm) | OPUS |\n
+        | `audio/x-matroska;codecs=aac` | Matroska (mkv/mka) | AAC |\n
+        | `audio/x-matroska;codecs=flac` | Matroska (mkv/mka) | FLAC, interleaved |\n
+        | `audio/x-matroska;codecs=mp3` | Matroska (mkv/mka) | MP3 |\n
+        | `audio/x-matroska;codecs=opus` | Matroska (mkv/mka) | OPUS |\n
+        \n
+
+        We recommend the following bitrates as good tradeoff between quality and bandwidth:\n
+        - AAC: 96 kbps\n
+        - FLAC: 256 kbps  (16000 Hz)\n
+        - MP3: 128 kbps\n
+        - OPUS: 32 kbps (recommendation for low bandwidth scenarios)\n
+        - PCM: 256 kbps (16000 Hz, default recommendation)\n
+        "
+
       enum:
         - audio/auto
         - audio/flac
@@ -4097,41 +4197,43 @@ components:
         - audio/ogg
         - audio/webm
         - audio/x-matroska
-        - audio/ogg; codecs=flac
-        - audio/ogg; codecs=opus
-        - audio/pcm; encoding=s16le; rate=8000
-        - audio/pcm; encoding=s16le; rate=16000
-        - audio/pcm; encoding=s16le; rate=44100
-        - audio/pcm; encoding=s16le; rate=48000
-        - audio/webm; codecs=opus
-        - audio/x-matroska; codecs=aac
-        - audio/x-matroska; codecs=flac
-        - audio/x-matroska; codecs=mp3
-        - audio/x-matroska; codecs=opus
-      example: audio/ogg; codecs=opus
+        - audio/ogg;codecs=flac
+        - audio/ogg;codecs=opus
+        - audio/pcm;encoding=s16le;rate=8000
+        - audio/pcm;encoding=s16le;rate=16000
+        - audio/pcm;encoding=s16le;rate=44100
+        - audio/pcm;encoding=s16le;rate=48000
+        - audio/webm;codecs=opus
+        - audio/x-matroska;codecs=aac
+        - audio/x-matroska;codecs=flac
+        - audio/x-matroska;codecs=mp3
+        - audio/x-matroska;codecs=opus
+      example: audio/ogg;codecs=opus
     VoiceSourceLanguage:
       type: string
-      description: |-
-        Source language of the audio stream. Must be one of the supported Voice API source languages.
-        Language identifier must comply with IETF BCP 47 language tags.
+      description: >
+        The source language of the audio stream. It can be left empty or must be one of the
+        supported Voice API source languages and comply with IETF BCP 47 language tags.
       enum:
-        - zh
-        - nl
-        - en
-        - fr
         - de
+        - cs
+        - en
+        - es
+        - fr
         - id
         - it
         - ja
         - ko
+        - nl
         - pl
         - pt
         - ro
         - ru
-        - es
         - sv
         - tr
         - uk
+        - zh
+      default:
       example: en
     VoiceSourceLanguageMode:
       type: string
@@ -4143,16 +4245,57 @@ components:
         - auto
         - fixed
       default: auto
-      example: auto
+      example: fixed
     VoiceTargetLanguages:
       type: array
-      description: |-
+      description: >
         List of target languages for translation. The stream will emit translations for each language.
-        Maximum 5 target languages per stream. Language identifiers must comply with IETF BCP 47.
+        The maximum allowed target languages per stream is 5. Language identifiers must comply with IETF BCP 47.
       items:
         type: string
+        enum:
+          - ar
+          - bg
+          - cs
+          - da
+          - de
+          - el
+          - en
+          - en-GB
+          - en-US
+          - es
+          - et
+          - fi
+          - fr
+          - he
+          - hu
+          - id
+          - it
+          - ja
+          - ko
+          - lt
+          - lv
+          - nb
+          - nl
+          - pl
+          - pt
+          - pt-BR
+          - pt-PT
+          - ro
+          - ru
+          - sk
+          - sl
+          - sv
+          - tr
+          - uk
+          - vi
+          - zh
+          - zh-Hans
+          - zh-Hant
+
       maxItems: 5
-      example: ['de', 'fr', 'es']
+      default: []
+      example: ["de", "fr", "es"]
     VoiceStreamingResponse:
       type: object
       required:
@@ -4161,12 +4304,23 @@ components:
       properties:
         streaming_url:
           type: string
-          description: The WebSocket URL to use for establishing the streaming connection. This URL is ephemeral and valid for one-time use only.
+          description: >
+            The WebSocket URL to use for establishing
+            [the stream connection](/api-reference/voice/websocket-streaming).
           example: wss://api.deepl.com/v1/voice/realtime/connect
         token:
           type: string
-          description: A unique ephemeral token for authentication with the streaming endpoint. Pass this as a query parameter when connecting to the WebSocket URL.
+          description: >
+            A unique ephemeral token for authentication with the streaming endpoint.
+            Pass this as a query parameter when connecting to
+            [the streaming URL](/api-reference/voice/websocket-streaming).
+            This token is ephemeral and valid for a short time and one-time use only.
           example: VGhpcyBpcyBhIGZha2UgdG9rZW4K
+        session_id:
+          type: string
+          description: >
+            Internal use only. A unique identifier for the requested stream.
+          example: 4f911080-cfe2-41d4-8269-0e6ec15a0354
     AdminUsageReport:
       type: object
       description: The response for admin usage statistics.

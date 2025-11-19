@@ -2,12 +2,19 @@
 title: "XML handling"
 description: "Learn how to translate XML content with the DeepL API."
 ---
+<Info>
+  We've released [tag handling v2](/docs/xml-and-html-handling/tag-handling-v2), providing major improvements to XML and HTML tag handling. Note that v2 enforces strict XML parsing.
+</Info>
 
 By default, the translation engine does not take tags into account. By setting the `tag_handling` parameter to `xml`, the API will process XML input by extracting the text out of the structure, splitting it into individual sentences, translating them, and placing them back into the XML structure.
+
+
+For best results, also set the [`tag_handling_version` parameter](/docs/xml-and-html-handling/tag-handling-v2) to `v2` in your request. 
 
 <Info>
   For the translation of HTML content please see [HTML Handling](/docs/xml-and-html-handling/html)
 </Info>
+
 
 ### Sentences with Markup
 
