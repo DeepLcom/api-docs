@@ -4,15 +4,11 @@ description: "Evaluate translation quality using DeepL's bilingual quality estim
 ---
 
 <Danger>
-    **Access**: This feature requires special access permissions and is currently available only to select customers.
-
     **Alpha Change Expectations**: Updates to this endpoint may be more frequent than normal because this endpoint is expected to have a higher rate of change during alpha development.
 
     **Reliability Standards**: This alpha endpoint has lower reliability and higher error rate thresholds compared to production APIs.
     
     **Please Report Issues**: If you notice consistently high error rates or reliability problems, please contact your DeepL representative so we can investigate and address them.
-
-    **General Release**: It has not yet been determined if this endpoint will be released to all users in the future.
 </Danger>
 
 ## Summary
@@ -33,18 +29,6 @@ Access to this alpha endpoint is granted on a per-customer basis. Due to the alp
 - Access is manually granted by contacting your DeepL representative
 - This endpoint is not supported by any DeepL SDKs or client libraries
 - Breaking changes may occur without notice
-
-## Best Practices
-
-1. **Text Quality**: Provide complete, well-formed text in both source and target fields for accurate quality assessment.
-
-2. **Language Codes**: Always specify explicit language codes. Use language variants (e.g., `en-US`, `pt-BR`) when appropriate for more accurate evaluation.
-
-3. **Prompt Selection**: Choose preset categories that match your quality criteria, or use custom prompts for specific evaluation needs. 
-
-4. **Error Handling**: Always check the HTTP status code and handle errors appropriately. Alpha endpoints may experience higher error rates.
-
-5. **Batch Requests**: The API supports multiple prompts in a single request. Results are returned in the same order as the prompts array.
 
 ## Endpoint
 
@@ -145,12 +129,31 @@ Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
     - `custom_prompt` (string): A custom evaluation prompt
 
     Note that the response will contain results in the same order as the prompts array.
+
+    Available preset categories: `adequacy`,`clarity`, `coherence`, `complexity_of_words`,`creativity`, `emotional_impact`, `engagement`, `fluency`, `formality`, `grammar`,`idiomatic_speech`, `jargon`, `persuasiveness`, `politeness`, `punctuation`, `syntax`
     
-    **Important**: Do not provide both fields in one object entry, only one of `preset_category` or `custom_prompt`
-
-
     See [More Details on Special Inputs](#more-details-on-special-inputs) for more info on [Preset Categories](#preset-categories) 
     and [Custom Prompts](#custom-prompts).
+
+    ---
+    
+    **Warning**: Do not provide both fields in one `prompts` object entry, like this: 
+    ```json
+    {
+        "preset_category": "fluency",
+        "custom_prompt": "How well does the style fit a project planning document?"
+    }
+    ```
+    
+    Do this:
+    ```json
+    [
+        { "preset_category": "fluency" },
+        { "custom_prompt": "How well does the style fit a project planning document?" }
+    ]    
+    ```
+
+
 </ParamField>
 
 
@@ -389,6 +392,19 @@ Please insert your own freeform sentence for evaluation. Results may vary.
 - Assess the technical level of the text - whether the text is highly detailed and domain specific.
 
 - How well does the style fit a patent document?
+
+
+## Best Practices
+
+1. **Text Quality**: Provide complete, well-formed text in both source and target fields for accurate quality assessment.
+
+2. **Language Codes**: Always specify explicit language codes. Use language variants (e.g., `en-US`, `pt-BR`) when appropriate for more accurate evaluation.
+
+3. **Prompt Selection**: Choose preset categories that match your quality criteria, or use custom prompts for specific evaluation needs.
+
+4. **Error Handling**: Always check the HTTP status code and handle errors appropriately. Alpha endpoints may experience higher error rates.
+
+5. **Batch Requests**: The API supports multiple prompts in a single request. Results are returned in the same order as the prompts array.
 
 
 ## Limitations
