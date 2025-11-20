@@ -208,6 +208,14 @@
                 ]
               },
               {
+                "group": "Voice API",
+                "pages": [
+                  "api-reference/voice",
+                  "api-reference/voice/request-stream",
+                  "api-reference/voice/websocket-streaming"
+                ]
+              },
+              {
                 "group": "Client libraries",
                 "pages": ["api-reference/client-libraries"]
               }
