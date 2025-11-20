@@ -1958,7 +1958,7 @@ paths:
                 glossary_id:
                   $ref: '#/components/schemas/GlossaryId'
                 formality:
-                  $ref: '#/components/schemas/Formality'
+                  $ref: '#/components/schemas/VoiceFormality'
             examples:
               basic:
                 summary: Basic configuration
@@ -1975,7 +1975,7 @@ paths:
                   source_language_mode: 'fixed'
                   target_languages: ['de', 'fr']
                   glossary_id: 'def3a26b-3e84-45b3-84ae-0c0aaf3525f7'
-                  formality: 'more'
+                  formality: 'formal'
       responses:
         200:
           description: Successfully obtained streaming URL and token.
@@ -3557,17 +3557,24 @@ components:
     Formality:
       description: |-
         Sets whether the translated text should lean towards formal or informal language.
+        This feature is only available for certain target languages. Setting this parameter 
+        with a target language that does not support formality will fail, unless one of the 
+        `prefer_...` options are used.
         Possible options are:
-          * `default` - use the default formality for the target language
-          * `formal` - for a more formal language
-          * `informal` - for a more informal language
+          * `default` (default)
+          * `more` - for a more formal language
+          * `less` - for a more informal language
+          * `prefer_more` - for a more formal language if available, otherwise fallback to default formality
+          * `prefer_less` - for a more informal language if available, otherwise fallback to default formality
       type: string
       enum:
       - default
-      - formal
-      - informal
+      - more
+      - less
+      - prefer_more
+      - prefer_less
       default: default
-      example: formal
+      example: prefer_more
     GlossaryDictionary:
       type: object
       description: A dictionary contained in a multilingual glossary. Each dictionary contains the mapping of source terms to target language terms.
@@ -4074,36 +4081,6 @@ components:
       - pt-BR
       - pt-PT
       example: de
-    WritingStyle:
-      type: string
-      description: |-
-        Specify a style to rephrase your text in a way that fits your audience and goals.
-        The `prefer_` prefix allows falling back to the default style if the language does not yet support styles.
-      enum:
-      - academic
-      - business
-      - casual
-      - default
-      - simple
-      - prefer_academic
-      - prefer_business
-      - prefer_casual
-      - prefer_simple
-    WritingTone:
-      type: string
-      description: |-
-        Specify the desired tone for your text.
-        The `prefer_` prefix allows falling back to the default tone if the language does not yet support tones.
-      enum:
-      - confident
-      - default
-      - diplomatic
-      - enthusiastic
-      - friendly
-      - prefer_confident
-      - prefer_diplomatic
-      - prefer_enthusiastic
-      - prefer_friendly
     UsageResponse:
       type: object
       properties:
@@ -4153,6 +4130,20 @@ components:
           format: date-time
           description: Only present for API Pro users. End time of the current billing period (ISO 8601).
           example: '2025-06-13T09:18:42Z'
+    VoiceFormality:
+      description: |-
+        Sets whether the translated text should lean towards formal or informal language.
+        Possible options are:
+          * `default` - use the default formality for the target language
+          * `formal` - for a more formal language
+          * `informal` - for a more informal language
+      type: string
+      enum:
+      - default
+      - formal
+      - informal
+      default: default
+      example: formal
     VoiceSourceMediaContentType:
       type: string
       description: "
@@ -4321,6 +4312,36 @@ components:
           description: >
             Internal use only. A unique identifier for the requested stream.
           example: 4f911080-cfe2-41d4-8269-0e6ec15a0354
+    WritingStyle:
+      type: string
+      description: |-
+        Specify a style to rephrase your text in a way that fits your audience and goals.
+        The `prefer_` prefix allows falling back to the default style if the language does not yet support styles.
+      enum:
+      - academic
+      - business
+      - casual
+      - default
+      - simple
+      - prefer_academic
+      - prefer_business
+      - prefer_casual
+      - prefer_simple
+    WritingTone:
+      type: string
+      description: |-
+        Specify the desired tone for your text.
+        The `prefer_` prefix allows falling back to the default tone if the language does not yet support tones.
+      enum:
+      - confident
+      - default
+      - diplomatic
+      - enthusiastic
+      - friendly
+      - prefer_confident
+      - prefer_diplomatic
+      - prefer_enthusiastic
+      - prefer_friendly
     AdminUsageReport:
       type: object
       description: The response for admin usage statistics.
