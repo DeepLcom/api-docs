@@ -98,6 +98,7 @@
             "pages": [
               "docs/resources/roadmap-and-release-notes",
               "docs/resources/usage-limits",
+              "docs/resources/deepl-developer-community",
               {
                 "group": "Breaking changes (change notices)",
                 "pages": [
@@ -109,8 +110,7 @@
               },
               "docs/resources/language-release-process",
               "docs/resources/alpha-and-beta-features",
-              "docs/resources/open-api-spec",
-              "docs/resources/deepl-developer-community"
+              "docs/resources/open-api-spec"
             ]
           }
         ]
