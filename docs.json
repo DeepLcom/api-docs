@@ -40,6 +40,7 @@
               "docs/getting-started/intro",
               "docs/getting-started/about",
               "docs/getting-started/auth",
+              "docs/getting-started/client-libraries",
               "docs/getting-started/managing-api-keys",
               "docs/getting-started/your-first-api-request",
               "docs/getting-started/test-your-api-requests-with-postman",
@@ -206,10 +207,6 @@
                   "api-reference/admin-api/organization-usage-analytics",
                   "api-reference/admin-api/get-usage-analytics"
                 ]
-              },
-              {
-                "group": "Client libraries",
-                "pages": ["api-reference/client-libraries"]
               }
             ]
           }
