@@ -1932,7 +1932,7 @@ paths:
           $ref: '#/components/responses/ServiceUnavailable'
       security:
       - auth_header: []
-  /v1/voice/realtime:
+  /v3/voice/realtime:
     post:
       tags:
         - VoiceAPI
@@ -1984,7 +1984,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/VoiceStreamingResponse'
               example:
-                streaming_url: 'wss://api.deepl.com/v1/voice/realtime/connect'
+                streaming_url: 'wss://api.deepl.com/v3/voice/realtime/connect'
                 token: 'VGhpcyBpcyBhIGZha2UgdG9rZW4K'
                 session_id: '4f911080-cfe2-41d4-8269-0e6ec15a0354'
         400:
@@ -4298,7 +4298,7 @@ components:
           description: >
             The WebSocket URL to use for establishing
             [the stream connection](/api-reference/voice/websocket-streaming).
-          example: wss://api.deepl.com/v1/voice/realtime/connect
+          example: wss://api.deepl.com/v3/voice/realtime/connect
         token:
           type: string
           description: >
