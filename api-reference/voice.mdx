@@ -8,7 +8,9 @@ public: true
 The Voice API provides real-time voice transcription and translation services using WebSocket streaming.
 
 <Info>
-  The Voice API is currently available to select DeepL API Pro customers only. Contact your DeepL representative for access.
+  DeepL API for speech to text is now generally available via the v3 API endpoint for customers with a DeepL API Pro subscription. The supported scope of DeepL API for the speech to text functionality is covered in this documentation page.
+  
+  Please note that the existing provisions applying to customers' DeepL API Pro subscription also apply to DeepL API for speech to text with the following applicable additions to the [Terms and Conditions, the Service Specification and the Data Processing Agreement](/api-reference/voice/deepl-voice-api-service-specification-updates) (as a new sub-processor has been added to serve specific languages for the API for speech to text).
 </Info>
 
 ## Overview
@@ -124,11 +126,11 @@ The Voice API uses a two-step flow to initiate streaming.
 
 <Steps>
   <Step title="Request Stream">
-    Make a POST request `v1/voice/realtime` to obtain an ephemeral streaming URL and authentication token. The response will look like this:
+    Make a POST request `v3/voice/realtime` to obtain an ephemeral streaming URL and authentication token. The response will look like this:
 
     ```json
     {
-      "streaming_url": "wss://api.deepl.com/v1/voice/realtime/connect",
+      "streaming_url": "wss://api.deepl.com/v3/voice/realtime/connect",
       "token": <secure access token>,
     }
     ```
@@ -144,7 +146,7 @@ The Voice API uses a two-step flow to initiate streaming.
     See the [Request Stream](/api-reference/voice/request-stream) documentation for details.
   </Step>
   <Step title="Streaming Audio and Text (WebSocket)">
-    Use the received URL to establish a WebSocket connection to `wss://api.deepl.com/v1/voice/realtime/connect?token=<secure access token>`.
+    Use the received URL to establish a WebSocket connection to `wss://api.deepl.com/v3/voice/realtime/connect?token=<secure access token>`.
     This step handles exchanging JSON messages on the WebSocket connection:
     * Sending audio data
     * Receiving transcriptions and translations in real-time
