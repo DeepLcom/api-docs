@@ -370,6 +370,10 @@
       "destination": "/docs/resources/roadmap-and-release-notes"
     },
     {
+      "source": "/api-reference/client-libraries",
+      "destination": "/docs/getting-started/client-libraries"
+    },
+    {
       "source": "/docs/resources/release-notes/rss.xml",
       "destination": "/docs/resources/roadmap-and-release-notes/rss.xml"
     }
