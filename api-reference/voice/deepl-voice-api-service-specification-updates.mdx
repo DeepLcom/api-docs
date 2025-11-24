@@ -1,0 +1,118 @@
+---
+title: "DeepL Voice API Service Specification Updates"
+---
+
+
+**In the section “Definitions” the following definition will be added:**
+   * **“Audio Minutes”** refers to the total duration of audio data streamed through the API, measured in minutes. The calculation of audio minutes is based on the actual playback duration of the audio content, regardless of the speed at which the audio data is transmitted. The duration of audio content is determined by its standard playback speed, which is defined as 1x (normal speed). If audio data is streamed at an accelerated rate, up to a maximum speed allowed in the Documentation, the Audio Minutes are still calculated based on the standard playback duration.
+
+**In the section “Remuneration” the following paragraph will be added:**
+   * Deviating from the DeepL API Pro for translating or improving text, the DeepL API Pro for speech to text charges Customer based on the total Audio Minutes streamed, irrespective of the connection duration or the speed of transmission. Any fractional Audio Minutes will be rounded up to the nearest whole minute for billing purposes.
+
+**In the DeepL Pro Service Specification for the DeepL API Pro and DeepL API Free the following will be added:**
+
+The DeepL API Pro (v3 endpoint only) also includes a speech-to-text translation function for realtime audio. This function is only available to users with a DeepL API Pro subscription type. The speech-to-text function for realtime audio provides the following functionality:
+
+<table>
+   <thead></thead>
+   <tbody>
+      <tr>
+         <td>Audio Stream</td>
+         <td>Realtime Audio stream to be translated into text in up to 5 languages.</td>
+      </tr>
+      <tr>
+         <td>Input Languages (Audio)</td>
+         <td>
+            <p>The realtime audio stream you want to have translated can be in one of the following languages:</p>
+            <ul>
+               <li>`CS` (Czech)</li>
+               <li>`DE` (German)</li>
+               <li>`EN` (English)</li>
+               <li>`ES` (Spanish)</li>
+               <li>`FR` (French)</li>
+               <li>`ID` (Indonesian)</li>
+               <li>`IT` (Italian)</li>
+               <li>`JA` (Japanese)</li>
+               <li>`KO` (Korean)</li>
+               <li>`NL` (Dutch)</li>
+               <li>`PL` (Polish)</li>
+               <li>`PT` (Portuguese)</li>
+               <li>`RO` (Romanian)</li>
+               <li>`RU` (Russian)</li>
+               <li>`SV` (Swedish)</li>
+               <li>`TR` (Turkish)</li>
+               <li>`UK` (Ukrainian)</li>
+               <li>`ZH` (Chinese)</li>
+            </ul>
+         </td>
+      </tr>
+      <tr>
+         <td>Target language (Text)</td>
+         <td>
+            <p>The language in which your translations are provided can be one of the following:</p>
+            <ul>
+               <li>`AR` (Arabic)</li>
+               <li>`BG` (Bulgarian)</li>
+               <li>`CS` (Czech)</li>
+               <li>`DA` (Danish)</li>
+               <li>`DE` (German)</li>
+               <li>`EL` (Greek)</li>
+               <li>`EN-GB` (British-British)</li>
+               <li>`EN-US` (American-English)</li>
+               <li>`ES` (Spanish)</li>
+               <li>`ET` (Estonian)</li>
+               <li>`FI` (Finnish)</li>
+               <li>`FR` (French)</li>
+               <li>`HE` (Hebrew)</li>
+               <li>`HU` (Hungarian)</li>
+               <li>`ID` (Indonesian)</li>
+               <li>`IT` (Italian)</li>
+               <li>`JA` (Japanese)</li>
+               <li>`KO` (Korean)</li>
+               <li>`LI` (Lithuanian)</li>
+               <li>`LV` (Latvian)</li>
+               <li>`NL` (Dutch)</li>
+               <li>`NO` (Norwegian)</li>
+               <li>`PL` (Polish)</li>
+               <li>`PT-PT` (Portuguese) (all Portuguese varieties excluding Brazilian Portuguese)</li>
+               <li>`PT-BR` (Brazilian Portuguese)</li>
+               <li>`PT` (Portuguese) (unspecified variant for backward compatibility; please select `PT-PT` or `PT-BR` instead)</li>
+               <li>`RO` (Romanian)</li>
+               <li>`RU` (Russian)</li>
+               <li>`SK` (Slovak)</li>
+               <li>`SL` (Slovenian)</li>
+               <li>`SV` (Swedish)</li>
+               <li>`TR` (Turkish)</li>
+               <li>`UK` (Ukrainian)</li>
+               <li>`VI` (Vietnamese)</li>
+               <li>`ZH-HANS` (Chinese (simplified))</li>
+               <li>`ZH-HANT` (Chinese (traditional))</li>
+            </ul>
+         </td>
+      </tr>
+   </tbody>
+</table>
+
+The speech to text function returns the following representation of the processing result:
+
+<table>
+   <thead></thead>
+   <tbody>
+      <tr>
+         <td>Language</td>
+         <td>The language which has been detected for your audio.</td>
+      </tr>
+      <tr>
+         <td>Text</td>
+         <td>The translated text(s) and the transcribed source as a text.</td>
+      </tr>
+   </tbody>
+</table>
+
+The DeepL API Pro for speech to text is designed to process a specific amount of target languages per stream for a specific maximum streaming connection duration and audio chunk size. The exact applicable information and units can be found in the Documentation. The audio stream speed shall not exceed two times real time; exceeding use may be limited, and Customers may encounter a 429 “Too Many Requests” error message, as described in the documentation.
+
+Applications using the DeepL API Pro should implement a mechanism to handle such responses accordingly and, if appropriate, to try again later. A mechanism increasing the delay for another request exponentially is recommended.
+
+**Amazon Web Services EMEA SARL will be added as a new sub-processor to the Data Processing Agreement. The following new section will apply:**
+
+When using the DeepL API Pro speech to text v3 endpoint specific languages will be processed through AWS Transcribe. These languages are currently not set out above and will be explicitly mentioned in our Help Center. DeepL will be available to add these additional languages for the service by leveraging the real-time transcription capabilities of the Amazon Transcribe API. DeepL has concluded a data processing agreement (“DPA”) with Amazon Web Services EMEA SARL (“AWS) and therefore AWS may only process the data according to DeepL’s instructions and not for their own purposes. When using the v3 endpoint, Customer accepts and agrees that – in case of an existing DPA with DeepL – this DPA will be amended to this regard that AWS will be added as new sub-processors.
