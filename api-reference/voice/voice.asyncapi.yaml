@@ -13,7 +13,7 @@ info:
 servers:
   production:
     host: api.deepl.com
-    pathname: /v1/voice/realtime/connect
+    pathname: /v3/voice/realtime/connect
     protocol: wss
     description: DeepL Voice API WebSocket endpoint.
     variables:
@@ -24,7 +24,7 @@ servers:
 
 channels:
   voiceStream:
-    address: /v1/voice/realtime/connect?token={token}
+    address: /v3/voice/realtime/connect?token={token}
     description: >
         WebSocket channel for streaming audio and receiving transcriptions and translations.
         Messages are exchanged in JSON format and WebSocket frames must be of type TEXT.
