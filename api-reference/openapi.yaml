@@ -4135,13 +4135,15 @@ components:
         Sets whether the translated text should lean towards formal or informal language.
         Possible options are:
           * `default` - use the default formality for the target language
-          * `formal` - for a more formal language
-          * `informal` - for a more informal language
+          * `formal`/`more` - for a more formal language
+          * `informal`/`less` - for a more informal language
       type: string
       enum:
       - default
       - formal
+      - more
       - informal
+      - less
       default: default
       example: formal
     VoiceSourceMediaContentType:
