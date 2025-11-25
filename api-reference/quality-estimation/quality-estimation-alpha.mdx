@@ -106,9 +106,9 @@ Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
 </ParamField>
 
 <ParamField body="source_lang" type="string" required>
-    Language code of the source text. Must be a valid source language code (case-insensitive).
+    Language code of the source text.
 
-    See [supported languages](/docs/getting-started/supported-languages) for detailed information about each language.
+    Acceptable source languages: `de`, `en`, `es`, `fr`, `it`, `ja`, `ko`, `zh`
 </ParamField>
 
 <ParamField body="target_text" type="string" required>
@@ -116,11 +116,9 @@ Authorization: DeepL-Auth-Key YOUR_AUTH_KEY
 </ParamField>
 
 <ParamField body="target_lang" type="string" required>
-    Language code of the target text. Must be a valid target language code (case-insensitive).
+    Language code of the target text.
 
-    Target languages include language variants (e.g., `en-US`, `en-GB`, `pt-BR`, `pt-PT`).
-
-    See [supported languages](/docs/getting-started/supported-languages) for detailed information about each language.
+    Acceptable target languages: `de`, `en`, `es`, `fr`, `it`, `ja`, `ko`, `zh`
 </ParamField>
 
 <ParamField body="prompts" type="array" required>
@@ -396,15 +394,11 @@ Please insert your own freeform sentence for evaluation. Results may vary.
 
 ## Best Practices
 
-1. **Text Quality**: Provide complete, well-formed text in both source and target fields for accurate quality assessment.
+- **Text Quality**: Provide complete, well-formed text in both source and target fields for accurate quality assessment.
 
-2. **Language Codes**: Always specify explicit language codes. Use language variants (e.g., `en-US`, `pt-BR`) when appropriate for more accurate evaluation.
+- **Prompt Selection**: Choose preset categories that match your quality criteria, or use custom prompts for specific evaluation needs.
 
-3. **Prompt Selection**: Choose preset categories that match your quality criteria, or use custom prompts for specific evaluation needs.
-
-4. **Error Handling**: Always check the HTTP status code and handle errors appropriately. Alpha endpoints may experience higher error rates.
-
-5. **Batch Requests**: The API supports multiple prompts in a single request. Results are returned in the same order as the prompts array.
+- **Error Handling**: Always check the HTTP status code and handle errors appropriately. Alpha endpoints may experience higher error rates.
 
 
 ## Limitations
