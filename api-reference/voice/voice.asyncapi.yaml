@@ -50,6 +50,8 @@ channels:
         $ref: '#/components/messages/EndOfSourceTranscript'
       EndOfTargetTranscript:
         $ref: '#/components/messages/EndOfTargetTranscript'
+      EndOfStream:
+        $ref: '#/components/messages/EndOfStream'
       Error:
         $ref: '#/components/messages/Error'
 
@@ -67,6 +69,7 @@ operations:
       - $ref: '#/channels/voiceStream/messages/TargetTranscriptUpdate'
       - $ref: '#/channels/voiceStream/messages/EndOfSourceTranscript'
       - $ref: '#/channels/voiceStream/messages/EndOfTargetTranscript'
+      - $ref: '#/channels/voiceStream/messages/EndOfStream'
       - $ref: '#/channels/voiceStream/messages/Error'
   receiveTranscriptions:
     action: receive
@@ -111,8 +114,8 @@ components:
       title: End of Source Media
       description: >
         The message indicates the end of source media data. It causes the finalization of tentative transcript segments
-        and triggers the emission of final transcript updates and end of transcript messages. No more data chunks can
-        be send afterwards. It marks the end of the input stream.
+        and triggers the emission of final transcript updates, end of transcript messages and the end of stream message.
+        No more data chunks can be send afterwards. It marks the end of the stream input.
       contentType: application/json
       payload:
         $ref: '#/components/schemas/EndOfSourceMediaPayload'
@@ -188,8 +191,7 @@ components:
       title: End of Source Transcript
       description: >
         The message indicates that the *source* transcript is complete and no further updates will be sent.
-        It gets emitted after client sends End of Source Media. You can safely close
-        the stream after receiving this message, if no target transcription was configured.
+        It gets emitted after client sends End of Source Media.
       contentType: application/json
       payload:
         $ref: '#/components/schemas/EndOfSourceTranscriptPayload'
@@ -204,8 +206,7 @@ components:
       title: End of Target Transcript
       description: >
         This message indicates that the *target* transcript is complete and no further updates will be sent.
-        It gets emitted after client sends End of Source Media. You can safely close
-        the stream after you received this message for each configured target languages.
+        It gets emitted after client sends End of Source Media.
       contentType: application/json
       payload:
         $ref: '#/components/schemas/EndOfTargetTranscriptPayload'
@@ -215,6 +216,22 @@ components:
           payload:
             end_of_target_transcript:
               language: fr
+
+    EndOfStream:
+      name: EndOfStream
+      title: End of Stream
+      description: >
+        This message indicates that all outputs are complete and the stream ended.
+        It is the very last message the client will receive after it sends End of Source Media.
+        You can safely close the connection after you received this message.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/EndOfStreamPayload'
+      examples:
+        - name: EndStream
+          summary: Stream ended
+          payload:
+            end_of_stream: {}
 
     Error:
       name: Error
@@ -373,6 +390,11 @@ components:
               description: IETF BCP 47 language tag indicating which target transcript has ended
               examples:
                 - fr
+
+    EndOfStreamPayload:
+      type: object
+      required:
+        - end_of_stream
 
     ErrorPayload:
       type: object
