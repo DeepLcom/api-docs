@@ -207,6 +207,8 @@ sequenceDiagram
 
     Voice API-->>Client: end_of_target_transcript<br>(once per target language)
 
+    Voice API-->>Client: end_of_stream
+
     Note over Client,Voice API: Connection Closed
 ```
 `par` means parallel execution and `loop` means looped execution.
