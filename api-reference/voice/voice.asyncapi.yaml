@@ -115,7 +115,7 @@ components:
       description: >
         The message indicates the end of source media data. It causes the finalization of tentative transcript segments
         and triggers the emission of final transcript updates, end of transcript messages and the end of stream message.
-        No more data chunks can be send afterwards. It marks the end of the stream input.
+        No more data chunks can be sent afterwards. It marks the end of the stream input.
       contentType: application/json
       payload:
         $ref: '#/components/schemas/EndOfSourceMediaPayload'
