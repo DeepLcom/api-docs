@@ -173,7 +173,7 @@ sequenceDiagram
 
     Note over Client,Voice API: Step 2: Start Streaming (WebSocket)
 
-    Client->>Voice API: Establish WebSocket connection<br>using the streaming URL
+    Client->>Voice API: Establish WebSocket connection<br/>using the streaming URL
 
     Note over Client,Voice API: WebSocket
 
@@ -205,7 +205,7 @@ sequenceDiagram
 
     Voice API-->>Client: end_of_source_transcript
 
-    Voice API-->>Client: end_of_target_transcript<br>(once per target language)
+    Voice API-->>Client: end_of_target_transcript<br/>(once per target language)
 
     Voice API-->>Client: end_of_stream
 
@@ -213,6 +213,13 @@ sequenceDiagram
 ```
 `par` means parallel execution and `loop` means looped execution.
 </Accordion>
+
+## Usage Examples
+
+You can find a reference usage example for python at our
+[Github repository for the DeepL Python Library](https://github.com/DeepLcom/deepl-python/tree/main/examples/voice/cli).
+There's no integration of the Voice API in the official DeepL SDKs yet, but you can use any WebSocket client library
+to interact with the API.
 
 ## Limitations and Constraints
 
