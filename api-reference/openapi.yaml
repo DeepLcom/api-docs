@@ -1671,9 +1671,15 @@ paths:
                     character_limit: 1000000000000
                     products:
                       - product_type: write
+                        billing_unit: characters
+                        api_key_unit_count: 0
+                        account_unit_count: 5643
                         api_key_character_count: 0
                         character_count: 5643
                       - product_type: translate
+                        billing_unit: characters
+                        api_key_unit_count: 636
+                        account_unit_count: 5941580
                         api_key_character_count: 636
                         character_count: 5941580
                     api_key_character_count: 636
@@ -4104,13 +4110,29 @@ components:
                 type: string
                 description: The type of product (e.g., 'write', 'translate').
                 example: write
+              billing_unit:
+                type: string
+                enum:
+                  - characters
+                description: The billing unit for this product type.
+                example: characters
+              api_key_unit_count:
+                type: integer
+                description: Units used for this product by this API key in the current period.
+                example: 0
+              account_unit_count:
+                type: integer
+                description: Total units used for this product in the current period.
+                example: 5643
               api_key_character_count:
                 type: integer
-                description: Characters used for this product by this API key in the current period.
+                deprecated: true
+                description: Use api_key_unit_count instead. Characters used for this product by this API key in the current period."
                 example: 0
               character_count:
                 type: integer
-                description: Total characters used for this product in the current period.
+                deprecated: true
+                description: Use account_unit_count instead. Total characters used for this product in the current period."
                 example: 5643
         api_key_character_count:
           type: integer
