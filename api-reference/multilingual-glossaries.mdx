@@ -160,6 +160,7 @@ This example creates a modest glossary with two dictionaries. One maps "Hello" i
   </Tab>
 </Tabs>
 
+
 ## Using
 
 `POST /v2/translate`
@@ -240,6 +241,10 @@ To use a glossary in a translation request, include its `glossary_id` . You must
 `GET /v3/glossaries`
 
 Use this endpoint to list all your glossaries, basic information about each glossary's dictionaries, and each glossary's name and creation time. The response will not include any dictionary entries.
+
+<Info>
+Glossaries can also be created in the UI and retreived through API, but both [style rules](./style-rules) and glossaries are unique to each global data center and are not shared between them. Clients using the ```api-us.deepl.com``` endpoint will not be able to access glossaries or style rules created in the UI at this time. 
+</Info>
 
 <Tabs>
   <Tab title="cURL">
