@@ -4301,12 +4301,13 @@ components:
           - sk
           - sl
           - sv
+          - th
           - tr
           - uk
           - vi
           - zh
-          - zh-Hans
-          - zh-Hant
+          - zh-HANS
+          - zh-HANT
 
       maxItems: 5
       default: []
