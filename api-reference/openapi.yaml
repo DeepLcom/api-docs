@@ -1939,6 +1939,9 @@ paths:
       security:
       - auth_header: []
   /v3/voice/realtime:
+    servers:
+      - url: https://api.deepl.com
+        description: Override base path for all operations with the /v3/voice path
     post:
       tags:
         - VoiceAPI
