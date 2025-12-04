@@ -14,7 +14,6 @@ description: "Manage and use DeepL glossaries"
 </Info>
 
 
-
 ## Overview
 
 The `glossaries` endpoints let you work with [DeepL glossaries](https://support.deepl.com/hc/en-us/articles/360021634540-About-the-glossary), which let you specify specific translations for words or short phrases. Each glossary contains a mapping of source phrases to target phrases. During translation, DeepL intelligently flexes entries to account for case, gender, tense, and other grammar features (if the target language has flexion).
@@ -37,7 +36,8 @@ Note that this mapping occurs only in one direction, which is all you need durin
 | exquisito | delicieux |
 | mouse     | mouse     |
 
-Both glossaries and style rules are unique to each global data center and are not shared between them.
+Both glossaries and style rules are unique to each of DeepL's global data centers and are not shared between them. Clients using the `api-us.deepl.com` endpoint will not be able to access glossaries or style rules created in the UI at this time. 
+
 
 ## Creating glossaries
 
