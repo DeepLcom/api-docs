@@ -3,24 +3,20 @@ title: "New: XML/HTML handling v2"
 description: "Information on the improved version 2 of tag-handling translations"
 ---
 
-In 2025, we completely overhauled the tag-handling algorithm that backs translation of XML and HTML in the DeepL API.
+In 2025, we overhauled the tag-handling algorithm for XML and HTML translation in the DeepL API.
 
-The new **tag handling v2** represents a major step forward for customers who need best-in-class XML and HTML tag handling.
-To enable it and benefit from all the improvements, set the 'tag_handling_version' parameter to 'v2'.
-Our updates ensure the best possible translation quality across all use cases.
+**Tag handling v2** improves XML and HTML tag handling. To enable it, set the `tag_handling_version` parameter to `v2`.
 
-As a result of these major updates, tag handling is expected to give different results when v2 is used. 
-Before switching to `v2`, thoroughly test your system and verify any differences in output.
+Tag handling v2 produces different results than v1. Before switching to v2, test your system and verify the output differences.
 
-Additionally, v2 enforces strict parsing of XML. If invalid XML is submitted, the API will return an error.
+V2 enforces strict XML parsing. If you submit invalid XML, the API returns an error.
 
 <Info>
-  Please note that after 1 December 2025, new customers will default to v2. Existing customers will continue to default to v1 for the time being.
+  After 1 December 2025, new customers default to v2. Existing customers continue to default to v1.
 </Info>
 
 <Info>
-  As of now, tag handling v2 is only compatible with the <a href="/api-reference/translate#param-model-type">quality-optimized model type</a>.
-  When you set `tag_handling_version` to `v2`, the `model_type` is implicitly set to `quality_optimized`. 
+  Tag handling v2 is only compatible with the <a href="/api-reference/translate#param-model-type">quality-optimized model type</a>. When you set `tag_handling_version` to `v2`, the `model_type` is implicitly set to `quality_optimized`. 
 
-  Requests that specify both `model_type=latency_optimized` and `tag_handling_version=v2` will return an error.
+  Requests that specify both `model_type=latency_optimized` and `tag_handling_version=v2` return an error.
 </Info>
