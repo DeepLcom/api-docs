@@ -15,10 +15,35 @@ V2 enforces strict XML parsing and will return an error if invalid XML is submit
 
 ## Usage Examples
 
-### Basic XML Translation with v2
+### Translation with v2
 
 <Tabs>
-  <Tab title="Simple Markup">
+  <Tab title="HTML">
+    ```text Parameters
+    tag_handling=html, tag_handling_version=v2
+    ```
+
+    ```markup Request
+    <!DOCTYPE html>
+    <html>
+      <body>
+        <h1>Welcome to Our Service</h1>
+        <p>This is a <strong>premium</strong> feature.</p>
+      </body>
+    </html>
+    ```
+
+    ```markup Response
+    <!DOCTYPE html>
+    <html>
+      <body>
+        <h1>Willkommen bei unserem Service</h1>
+        <p>Dies ist eine <strong>Premium</strong>-Funktion.</p>
+      </body>
+    </html>
+    ```
+  </Tab>
+  <Tab title="XML: Simple Markup">
     ```text Parameters
     tag_handling=xml, tag_handling_version=v2
     ```
@@ -28,10 +53,10 @@ V2 enforces strict XML parsing and will return an error if invalid XML is submit
     ```
 
     ```markup Response
-    Drücken Sie <b>„Weiter“,</b> um fortzufahren.
+    Drücken Sie <b>„Weiter",</b> um fortzufahren.
     ```
   </Tab>
-  <Tab title="With Attributes">
+  <Tab title="XML: With Attributes">
     ```text Parameters
     tag_handling=xml, tag_handling_version=v2
     ```
@@ -44,7 +69,7 @@ V2 enforces strict XML parsing and will return an error if invalid XML is submit
     <x id="17">Bitte begrüßen Sie die Teilnehmer</x> an der heutigen Sitzung.
     ```
   </Tab>
-  <Tab title="Nested Tags">
+  <Tab title="XML: Nested Tags">
     ```text Parameters
     tag_handling=xml, tag_handling_version=v2
     ```
@@ -58,34 +83,6 @@ V2 enforces strict XML parsing and will return an error if invalid XML is submit
     ```
   </Tab>
 </Tabs>
-
-### HTML Translation with v2
-
-<Card title="HTML translation with tag handling v2">
-  ```text Parameters
-  tag_handling=html, tag_handling_version=v2
-  ```
-
-  ```markup Request
-  <!DOCTYPE html>
-  <html>
-    <body>
-      <h1>Welcome to Our Service</h1>
-      <p>This is a <strong>premium</strong> feature.</p>
-    </body>
-  </html>
-  ```
-
-  ```markup Response
-  <!DOCTYPE html>
-  <html>
-    <body>
-      <h1>Willkommen bei unserem Service</h1>
-      <p>Dies ist eine <strong>Premium</strong>-Funktion.</p>
-    </body>
-  </html>
-  ```
-</Card>
 
 ### Strict XML Parsing
 
@@ -124,9 +121,7 @@ When you set `tag_handling_version` to `v2`, the `model_type` is implicitly set 
 
 ## Migration Guide
 
-As a result of improvements, tag handling is expected to give different results between v1 and v2. 
-
-Thoroughly test your system and verify any differences in output before switching to `v2` in production.
+As a result of improvements, tag handling is expected to give different results between v1 and v2. Thoroughly test your system and verify any differences in output before switching to v2 in production.
 
 ### 1. Test Your Content Types
 
