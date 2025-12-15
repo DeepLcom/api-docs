@@ -104,6 +104,8 @@ Tag handling v2 enforces strict XML parsing. If invalid XML is submitted, the AP
   ```
 </Card>
 
+Only XML is strictly parsed. HTML is not strictly parsed.
+
 ## Compatibility
 
 Tag handling v2 is currently only compatible with the `quality_optimized` model type. Support for `latency_optimized` will be added in a future update.
@@ -176,3 +178,7 @@ A: Yes, simply set `tag_handling_version: v1` in your API requests.
 **Q: Does v2 work with all DeepL API features?**
 
 A: Tag handling v2 works with all standard API features including glossaries and formality settings. However, it currently only supports the `quality_optimized` model type.
+
+**Q: Is HTML also strictly parsed?**
+
+A: No, any HTML can be submitted for translation without throwing an error. Only XML is strictly parsed and requires valid XML.
