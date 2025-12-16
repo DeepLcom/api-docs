@@ -214,7 +214,8 @@
                 "pages": [
                   "api-reference/voice",
                   "api-reference/voice/request-stream",
-                  "api-reference/voice/websocket-streaming"
+                  "api-reference/voice/websocket-streaming",
+                  "api-reference/voice/reconnect-stream"
                 ]
               }
             ]

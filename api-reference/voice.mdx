@@ -132,7 +132,7 @@ The Voice API uses a two-step flow to initiate streaming.
     ```json
     {
       "streaming_url": "wss://api.deepl.com/v3/voice/realtime/connect",
-      "token": <secure access token>,
+      "token": <authentication token>,
     }
     ```
 
@@ -147,7 +147,7 @@ The Voice API uses a two-step flow to initiate streaming.
     See the [Request Stream](/api-reference/voice/request-stream) documentation for details.
   </Step>
   <Step title="Streaming Audio and Text (WebSocket)">
-    Use the received URL to establish a WebSocket connection to `wss://api.deepl.com/v3/voice/realtime/connect?token=<secure access token>`.
+    Use the received URL to establish a WebSocket connection to `wss://api.deepl.com/v3/voice/realtime/connect?token=<authentication token>`.
     This step handles exchanging JSON messages on the WebSocket connection:
     * Sending audio data
     * Receiving transcriptions and translations in real-time
@@ -215,6 +215,36 @@ sequenceDiagram
 `par` means parallel execution and `loop` means looped execution.
 </Accordion>
 
+## Reconnecting
+
+Network connections are inherently unreliable.
+Disconnections are unavoidable and must be planned for.
+In case your stream gets disconnected, request a new authentication token to pick up where you left off.
+Make a GET request `v3/voice/realtime?token=<your last authentication token>`.
+The response will look like this:
+
+```json
+{
+  "streaming_url": "wss://api.deepl.com/v3/voice/realtime/connect",
+  "token": <new authentication token>,
+}
+```
+
+Use the received URL and token to establish a new WebSocket connection.
+Should another reconnection become necessary, repeat the procedure.
+
+See the [Reconnect Stream](/api-reference/voice/reconnect-stream) documentation for details.
+
+<Note>
+Always use the latest authentication token to request a new authentication token.
+The use of outdated tokens will invalidate your session for security reasons.
+</Note>
+
+<Note>
+If you still have an active connection, requesting a reconnection token will disconnect you.
+</Note>
+
+
 ## Usage Examples
 
 You can find a reference usage example for python at our
@@ -230,3 +260,4 @@ to interact with the API.
 * Recommended chunk duration: 50-250 milliseconds for low latency
 * Audio stream speed: maximum 2x real-time
 * Timeout: If no data is received for 30 seconds, the session will be terminated
+* Using any given token more than once to establish a WebSocket connection will terminate associated the session immediately for security reasons.
