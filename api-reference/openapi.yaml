@@ -2034,6 +2034,46 @@ paths:
           $ref: '#/components/responses/ServiceUnavailable'
       security:
         - auth_header: []
+    get:
+      tags:
+        - VoiceAPI
+      summary: Request Reconnection
+      operationId: requestReconnection
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: The latest ephemeral token obtained for the stream.
+          schema:
+            type: string
+          example: 'VGhpcyBpcyBhIGZha2UgdG9rZW4K'
+      responses:
+        200:
+          description: Successfully obtained streaming URL and reconnection token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceStreamingResponse'
+              example:
+                streaming_url: 'wss://api.deepl.com/v3/voice/realtime/connect'
+                token: 'VGhpcyBpcyBhIGZha2UgdG9rZW4K'
+                session_id: '4f911080-cfe2-41d4-8269-0e6ec15a0354'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        456:
+          $ref: '#/components/responses/QuotaExceeded'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+        - auth_header: []
 components:
   parameters:
     DocumentID:
