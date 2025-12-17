@@ -95,8 +95,7 @@ components:
         The chunk size must not be more than 100 kilobyte or one second in duration. The recommended duration is
         50 - 250 milliseconds to achieve the best tradeoff between latency and quality.
         The interval between chunks must not be less than half of the duration of the preceding chunk and not
-        exceed 30 seconds. Otherwise you'll run into rate limits or the session will time out and the stream
-        closes forcibly.
+        exceed 30 seconds. Otherwise you will run into rate limits or the session will terminate due to timing out and the connection will be closed.
         \n\n
         For PCM data the chunk size must be a multiple of the frame size aka encoding unit."
       contentType: application/json
@@ -238,8 +237,9 @@ components:
       title: Error
       description: >
         This message reports errors encountered during audio processing or streaming.
-        It includes an error code, reason code, and a human-readable message. You should close
-        and reopen the stream after receiving an error message.
+        It includes an error code, reason code, and a human-readable message.
+        After an error, the session is terminated and reconnection is not possible.
+        You need to request a new session.
       contentType: application/json
       payload:
         $ref: '#/components/schemas/ErrorPayload'
