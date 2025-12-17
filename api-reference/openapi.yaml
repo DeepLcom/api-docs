@@ -44,7 +44,7 @@ tags:
     A dictionary is a mapping of source phrases to target phrases for a single language pair.
     If you encounter issues, please let us know at support@DeepL.com.
 
-    Currently you can create glossaries with any of the languages DeepL supports.
+    Currently you can create glossaries with any of the languages DeepL supports (with the exception of Thai).
 
     The maximum size limit for a glossary is 10 MiB = 10485760 bytes and each source/target text,
     as well as the name of the glossary, is limited to 1024 UTF-8 bytes.
@@ -68,7 +68,7 @@ tags:
     `glossary_id` parameter.
     If you encounter issues, please let us know at support@DeepL.com.
 
-    Currently you can create glossaries with any of the languages DeepL supports.
+    Currently you can create glossaries with any of the languages DeepL supports (with the exception of Thai).
 - name: MetaInformation
   description: Information about API usage and value ranges
 - name: VoiceAPI
