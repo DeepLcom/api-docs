@@ -213,9 +213,9 @@
                 "group": "Translate Speech in Realtime",
                 "pages": [
                   "api-reference/voice",
-                  "api-reference/voice/request-stream",
+                  "api-reference/voice/request-session",
                   "api-reference/voice/websocket-streaming",
-                  "api-reference/voice/reconnect-stream"
+                  "api-reference/voice/reconnect-session"
                 ]
               }
             ]
@@ -386,6 +386,14 @@
     {
       "source": "/docs/resources/release-notes/rss.xml",
       "destination": "/docs/resources/roadmap-and-release-notes/rss.xml"
+    },
+    {
+      "source": "/api-reference/voice/request-stream",
+      "destination": "/api-reference/voice/request-session"
+    },
+    {
+      "source": "/api-reference/voice/reconnect-stream",
+      "destination": "/api-reference/voice/reconnect-session"
     }
   ],
   "integrations": {
