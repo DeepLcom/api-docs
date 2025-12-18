@@ -12,6 +12,8 @@ The style rules feature allows you to select a set of rules to apply when transl
 
 You can create style rules in the UI at [https://deepl.com/custom-rules](https://deepl.com/custom-rules). 
 
+Both style rules and glossaries are unique to each of DeepL's global data centers and are not shared between them. Clients using the `api-us.deepl.com` endpoint will not be able to access glossaries or style rules created in the UI at this time.
+
 ### Get all style rule lists
 Get all style rules lists and their meta-information.
 
@@ -29,15 +31,15 @@ curl -X GET 'https://api.deepl.com/v3/style_rules' \
     {
       "style_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
       "name": "Technical Documentation Rules",
-      "created_at": "2024-10-01T12:34:56Z",
-      "updated_at": "2024-10-03T12:34:56Z",
+      "creation_time": "2024-10-01T12:34:56Z",
+      "updated_time": "2024-10-03T12:34:56Z",
       "language": "EN",
       "version": 8
     }
   ]
 }
 ```
-You can also optionally pass in a `detailed` query parameter, to retrieve all configured rules per rule list.
+You can also optionally pass in a `detailed` query parameter, to retrieve all configured rules and custom instructions per rule list.
 
 ```sh Example request: get all style rule lists and their configured rules
 curl -X GET 'https://api.deepl.com/v3/style_rules?detailed=true' \
@@ -50,8 +52,8 @@ curl -X GET 'https://api.deepl.com/v3/style_rules?detailed=true' \
     {
       "style_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
       "name": "Technical Documentation Rules",
-      "created_at": "2024-10-01T12:34:56Z",
-      "updated_at": "2024-10-03T12:34:56Z",
+      "creation_time": "2024-10-01T12:34:56Z",
+      "updated_time": "2024-10-03T12:34:56Z",
       "language": "EN",
       "version": 8,
       "configured_rules": {
@@ -62,6 +64,10 @@ curl -X GET 'https://api.deepl.com/v3/style_rules?detailed=true' \
             "instructions_style": "use-imperative",
             "redundant_introductory_words": "avoid-redundant-introductory-words-that-relate-to-current-text"
         }
+      },
+      "custom_instructions": {
+        "label": "My Custom instruction",
+        "prompt": "Use a friendly, diplomatic tone"
       }
     }
   ]
@@ -82,8 +88,8 @@ User-Agent: YourApp/1.2.3
     {
       "style_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
       "name": "Technical Documentation Rules",
-      "created_at": "2024-10-01T12:34:56Z",
-      "updated_at": "2024-10-03T12:34:56Z",
+      "creation_time": "2024-10-01T12:34:56Z",
+      "updated_time": "2024-10-03T12:34:56Z",
       "language": "EN",
       "version": 8
     }
@@ -91,7 +97,7 @@ User-Agent: YourApp/1.2.3
 }
 ```
 
-You can also optionally pass in a `detailed` query parameter, to retrieve all configured rules per rule list.
+You can also optionally pass in a `detailed` query parameter, to retrieve all configured rules and custom instructions per rule list.
 
 ```http Example request: get all style rule lists and their configured rules
 GET https://api.deepl.com/v3/style_rules?detailed=true HTTP/2
@@ -105,8 +111,8 @@ User-Agent: YourApp/1.2.3
     {
       "style_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
       "name": "Technical Documentation Rules",
-      "created_at": "2024-10-01T12:34:56Z",
-      "updated_at": "2024-10-03T12:34:56Z",
+      "creation_time": "2024-10-01T12:34:56Z",
+      "updated_time": "2024-10-03T12:34:56Z",
       "language": "EN",
       "version": 8,
       "configured_rules": {
@@ -117,6 +123,10 @@ User-Agent: YourApp/1.2.3
             "instructions_style": "use-imperative",
             "redundant_introductory_words": "avoid-redundant-introductory-words-that-relate-to-current-text"
         }
+      },
+      "custom_instructions": {
+        "label": "My Custom instruction",
+        "prompt": "Use a friendly, diplomatic tone"
       }
     }
   ]
@@ -127,7 +137,7 @@ User-Agent: YourApp/1.2.3
 
 ### Query parameters
 <ParamField query="detailed" type="boolean">
-Determines if the rule list's `configured_rules` should be included in the response body. If `detailed` parameter is not included, defaults to `false`.
+Determines if the rule list's `configured_rules` and `custom_instructions` should be included in the response body. If `detailed` parameter is not included, defaults to `false`.
 </ParamField>
 <ParamField query="page" type="int">
 The index of the first page to return. Default: 0 (the first page). Use with `page_size` to get the next page of rule lists.

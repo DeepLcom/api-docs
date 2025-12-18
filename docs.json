@@ -2,6 +2,10 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "DeepL Documentation",
+  "banner": {
+    "content": "[Join the Developer Community on DeepL Bridges](https://dee.pl/7iwrt)",
+    "dismissible": true
+  },
   "colors": {
     "primary": "#0f2b46",
     "light": "#ffffff",
@@ -36,6 +40,7 @@
               "docs/getting-started/intro",
               "docs/getting-started/about",
               "docs/getting-started/auth",
+              "docs/getting-started/client-libraries",
               "docs/getting-started/managing-api-keys",
               "docs/getting-started/your-first-api-request",
               "docs/getting-started/test-your-api-requests-with-postman",
@@ -45,14 +50,15 @@
           {
             "group": "Learning & How Tos",
             "pages": [
-              { 
+              {
                 "group": "Cookbook",
                 "pages": [
                   "docs/learning-how-tos/cookbook",
                   "docs/learning-how-tos/cookbook/google-sheets",
                   "docs/learning-how-tos/cookbook/context-parameter-examples",
                   "docs/learning-how-tos/cookbook/automating-indie-game-localization-with-the-deepl-api-and-godot",
-                  "docs/learning-how-tos/cookbook/java-document-translator"
+                  "docs/learning-how-tos/cookbook/java-document-translator",
+                  "docs/learning-how-tos/cookbook/usage-analytics-dashboard"
                 ]
               },
               {
@@ -62,7 +68,8 @@
                   "docs/learning-how-tos/examples-and-guides/placeholder-tags",
                   "docs/learning-how-tos/examples-and-guides/first-things-to-try-with-the-deepl-api",
                   "docs/learning-how-tos/examples-and-guides/glossaries-in-the-real-world",
-                  "docs/learning-how-tos/examples-and-guides/deepl-mcp-server-how-to-build-and-use-translation-in-llm-applications"
+                  "docs/learning-how-tos/examples-and-guides/deepl-mcp-server-how-to-build-and-use-translation-in-llm-applications",
+                  "docs/learning-how-tos/examples-and-guides/enable-beta-languages"
                 ]
               }
             ]
@@ -85,7 +92,8 @@
               "docs/xml-and-html-handling/xml",
               "docs/xml-and-html-handling/structured-content",
               "docs/xml-and-html-handling/customized-xml-outline-detection",
-              "docs/xml-and-html-handling/html"
+              "docs/xml-and-html-handling/html",
+              "docs/xml-and-html-handling/tag-handling-v2"
             ]
           },
           {
@@ -93,6 +101,7 @@
             "pages": [
               "docs/resources/roadmap-and-release-notes",
               "docs/resources/usage-limits",
+              "docs/resources/deepl-developer-community",
               {
                 "group": "Breaking changes (change notices)",
                 "pages": [
@@ -104,8 +113,7 @@
               },
               "docs/resources/language-release-process",
               "docs/resources/alpha-and-beta-features",
-              "docs/resources/open-api-spec",
-              "docs/resources/deepl-developer-community"
+              "docs/resources/open-api-spec"
             ]
           }
         ]
@@ -167,6 +175,13 @@
                 ]
               },
               {
+                "group": "Style rules",
+                "pages": [
+                  "api-reference/style-rules",
+                  "api-reference/style-rules/list-all-style-rules"
+                ]
+              },
+              {
                 "group": "Retrieve usage and quota",
                 "pages": [
                   "api-reference/usage-and-quota",
@@ -190,13 +205,18 @@
                   "api-reference/admin-api/managing-developer-keys/get-keys",
                   "api-reference/admin-api/managing-developer-keys/deactivate-key",
                   "api-reference/admin-api/managing-developer-keys/rename-key",
-                  "api-reference/admin-api/managing-developer-keys/set-usage-limits"
+                  "api-reference/admin-api/managing-developer-keys/set-usage-limits",
+                  "api-reference/admin-api/organization-usage-analytics",
+                  "api-reference/admin-api/get-usage-analytics"
                 ]
               },
               {
-                "group": "Client libraries",
+                "group": "Translate Speech in Realtime",
                 "pages": [
-                  "api-reference/client-libraries"
+                  "api-reference/voice",
+                  "api-reference/voice/request-session",
+                  "api-reference/voice/websocket-streaming",
+                  "api-reference/voice/reconnect-session"
                 ]
               }
             ]
@@ -361,13 +381,28 @@
       "destination": "/docs/resources/roadmap-and-release-notes"
     },
     {
+      "source": "/api-reference/client-libraries",
+      "destination": "/docs/getting-started/client-libraries"
+    },
+    {
       "source": "/docs/resources/release-notes/rss.xml",
       "destination": "/docs/resources/roadmap-and-release-notes/rss.xml"
+    },
+    {
+      "source": "/api-reference/voice/request-stream",
+      "destination": "/api-reference/voice/request-session"
+    },
+    {
+      "source": "/api-reference/voice/reconnect-stream",
+      "destination": "/api-reference/voice/reconnect-session"
     }
   ],
   "integrations": {
     "telemetry": {
       "enabled": false
     }
+  },
+  "contextual": {
+    "options": ["copy", "chatgpt", "claude", "cursor", "vscode"]
   }
 }

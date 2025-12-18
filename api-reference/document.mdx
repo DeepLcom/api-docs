@@ -14,6 +14,7 @@ The document translation API allows you to translate whole documents and support
 * `txt` - Plain Text Document
 * `xlf / xliff` - XLIFF Document, version 2.1
 * `srt` - SRT (SubRip Subtitle) Document
+* `jpeg` / `jpg` / `png` - Image
 
 Please note that with every submitted document of type .pptx, .docx, .doc, .xlsx, or .pdf, you are billed a minimum of 50,000 characters with the DeepL API plan, no matter how many characters are included in the document.
 
@@ -136,7 +137,9 @@ These examples are for demonstration purposes only. In production code, the auth
     <li>`pdf`: Portable Document Format</li>
     <li>`htm / .html`: HTML Document</li>
     <li>`txt`: Plain Text Document</li>
-    <li>`xlf / .xliff`: XLIFF Document, version 2.1</li>
+    <li>`xlf / xliff`: XLIFF Document, version 2.1</li>
+    <li>`srt` - SRT (SubRip Subtitle) Document</li>
+    <li>`jpeg` / `jpg` / `png` - Image</li>
   </ul>
 </ParamField>
 <ParamField body="filename" type="string">
@@ -158,6 +161,11 @@ These examples are for demonstration purposes only. In production code, the auth
 <ParamField body="output_format" type="string">
   File extension of desired format of translated file, for example: `pdf`. If unspecified, by default the translated file will be in the same format as the input file.
   Note: Not all combinations of input file and translation file extensions are permitted. See <a href="/api-reference/document#document-format-conversions">Document format conversions</a> for the permitted combinations.
+</ParamField>
+<ParamField body="enable_beta_languages" type="boolean">
+  Enables 81 additional beta languages. See the <a href="/docs/getting-started/supported-languages#beta-languages">full list</a>.
+
+  <p><strong>Note:</strong> Set to <code>true</code> (or <code>1</code> in url-encoded requests) to enable beta languages. Any request with the <code>enable_beta_languages</code> parameter enabled will use <code>quality_optimized</code> models. Requests combining <code>enable_beta_languages: true</code> and <code>model_type: latency_optimized</code> will be rejected. Beta languages do not support formality or glossaries.</p>
 </ParamField>
 
 ### Step 2: check the document status and wait for translation to complete
@@ -296,7 +304,7 @@ Content-Type: application/json
 
 The examples on this page show how to translate documents with DeepL using the API directly.
 
-DeepL's [client libraries](/api-reference/client-libraries) simplify API document translation by providing a convenience function to upload the document, check translation status and download the translated document with a single function call.
+DeepL's [client libraries](/docs/getting-started/client-libraries) simplify API document translation by providing a convenience function to upload the document, check translation status and download the translated document with a single function call.
 
 ### Document format conversions
 
