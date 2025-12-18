@@ -5,7 +5,7 @@ description: "API reference for real-time voice transcription and translation wi
 public: true
 ---
 
-The Voice API provides real-time voice transcription and translation services using WebSocket streaming.
+The Voice API provides real-time voice transcription and translation services using a WebSocket connection.
 
 <Info>
   DeepL API for speech to text is now **available on request** for customers with a DeepL API Pro subscription via the v3 API endpoint. The supported scope of DeepL API for the speech to text functionality is covered in this documentation page.
@@ -15,14 +15,14 @@ The Voice API provides real-time voice transcription and translation services us
 
 ## Overview
 
-The Voice API provides a way to open WebSocket streaming connections to transcribe and translate audio data. With each streaming connection, you can:
+The Voice API provides a way to open WebSocket connections to transcribe and translate audio data. With each connection, you can:
 
 * Send a single audio stream
 * Receive transcriptions in the source language
 * Receive translations in multiple target languages
 
 The API uses a two-step flow:
-1. [**Request a streaming URL**](/api-reference/voice/request-stream) via POST request
+1. [**Request a streaming URL**](/api-reference/voice/request-session) via POST request
 2. [**Stream audio**](/api-reference/voice/websocket-streaming) via WebSocket
 
 ## Getting Started
@@ -30,7 +30,7 @@ The API uses a two-step flow:
 To start using the Voice API:
 
 1. Ensure you have a DeepL API Pro account with Voice API access
-2. Review the [Request Stream](/api-reference/voice/request-stream) documentation
+2. Review the [Request Session](/api-reference/voice/request-session) documentation
 3. Review the [WebSocket Streaming](/api-reference/voice/websocket-streaming) documentation
 4. Choose your audio format and configuration
 5. Implement the two-step flow in your application
@@ -109,7 +109,7 @@ All source languages can be translated into any target language.
 
 The API supports various common combinations of streaming codecs and containers with a single channel (mono) audio stream.
 For a detailed list, please refer to
-[Source Media Content Type](/api-reference/voice/request-stream#body-source-media-content-type).
+[Source Media Content Type](/api-reference/voice/request-session#body-source-media-content-type).
 
 | Audio Codec                   | Audio Container           | Recommended Bitrate                                   |
 | :---                          | :---                      | :---                                                  |
@@ -123,10 +123,10 @@ For a detailed list, please refer to
 
 ## Two-Step API Flow
 
-The Voice API uses a two-step flow to initiate streaming.
+The Voice API uses a two-step flow to initiate a session.
 
 <Steps>
-  <Step title="Request Stream">
+  <Step title="Request Session">
     Make a POST request `v3/voice/realtime` to obtain an ephemeral streaming URL and authentication token. The response will look like this:
 
     ```json
@@ -144,7 +144,7 @@ The Voice API uses a two-step flow to initiate streaming.
       URL and token are valid for one-time use only.
     </Note>
 
-    See the [Request Stream](/api-reference/voice/request-stream) documentation for details.
+    See the [Request Session](/api-reference/voice/request-session) documentation for details.
   </Step>
   <Step title="Streaming Audio and Text (WebSocket)">
     Use the received URL to establish a WebSocket connection to `wss://api.deepl.com/v3/voice/realtime/connect?token=<authentication token>`.
@@ -210,7 +210,7 @@ sequenceDiagram
 
     Voice API-->>Client: end_of_stream
 
-    Note over Client,Voice API: Connection Closed
+    Note over Client,Voice API: Stream Closed
 ```
 `par` means parallel execution and `loop` means looped execution.
 </Accordion>
@@ -219,7 +219,7 @@ sequenceDiagram
 
 Network connections are inherently unreliable.
 Disconnections are unavoidable and must be planned for.
-In case your stream gets disconnected, request a new authentication token to pick up where you left off.
+In case your connection gets disconnected, request a new authentication token to pick up where you left off.
 Make a GET request `v3/voice/realtime?token=<your last authentication token>`.
 The response will look like this:
 
@@ -233,7 +233,7 @@ The response will look like this:
 Use the received URL and token to establish a new WebSocket connection.
 Should another reconnection become necessary, repeat the procedure.
 
-See the [Reconnect Stream](/api-reference/voice/reconnect-stream) documentation for details.
+See the [Reconnect Session](/api-reference/voice/reconnect-session) documentation for details.
 
 <Note>
 Always use the latest authentication token to request a new authentication token.
@@ -254,10 +254,10 @@ to interact with the API.
 
 ## Limitations and Constraints
 
-* Maximum 5 target languages per stream
-* Maximum streaming connection duration: 3 hours
+* Maximum 5 target languages per session
 * Audio chunk size: should not exceed 100 kilobyte or 1 second duration
 * Recommended chunk duration: 50-250 milliseconds for low latency
 * Audio stream speed: maximum 2x real-time
 * Timeout: If no data is received for 30 seconds, the session will be terminated
-* Using any given token more than once to establish a WebSocket connection will terminate associated the session immediately for security reasons.
+* Maximum connection duration: After 1 hour, the connection will be closed. You can establish a new connection by [reconnecting](/api-reference/voice/reconnect-session) to the session.
+* Using any given token more than once to establish a WebSocket connection will terminate the associated session immediately for security reasons.
