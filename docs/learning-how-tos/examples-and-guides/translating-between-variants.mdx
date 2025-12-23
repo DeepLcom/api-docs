@@ -1,0 +1,43 @@
+---
+title: "Translating Between Language Variants"
+description: "Learn how to translate between variants of the same language, such as en-US to en-GB"
+public: true
+---
+
+You can use the DeepL API to translate between variants of the same language (for example, `pt-PT` to `pt-BR` or `en-US` to `en-GB`) using several methods:
+
+- **[Write/Rephrase endpoint](/api-reference/improve-text)**: Rephrases text into the target language variant.
+
+- **[Style rules](/api-reference/style-rules)**: Create a custom style rule and apply it using the [style_id](https://developers.deepl.com/api-reference/translate/request-translation#body-style-id) parameter.
+
+<Info>Both glossaries and style rules are unique to each of DeepL's global data centers and are not shared between them. Clients using the api-us.deepl.com endpoint will not be able to access glossaries or style rules created in the UI at this time.</Info>
+
+- **[Custom instructions](/api-reference/translate/request-translation#body-custom-instructions)**: Add instructions like "translate to British English" to your `/translate` request. You can specify up to 10 custom instructions, each with a maximum of 300 characters.
+
+## Example: Converting American English to British English
+
+```bash Example request
+curl --location 'https://api.deepl.com/v2/translate' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
+--data-urlencode 'text=I went to the pharmacy to get some acetaminophen.' \
+--data-urlencode 'target_lang=en-GB' \
+--data-urlencode 'model_type=quality_optimized' \
+--data-urlencode 'custom_instructions=["translate to British English", "only replace words that would be different"]'
+```
+
+```json Example response
+{
+  "translations": [
+    {
+      "detected_source_language": "EN",
+      "text": "I went to the chemist to get some paracetamol.",
+      "model_type_used": "quality_optimized"
+    }
+  ]
+}
+```
+
+<Tip>The custom instructions convert American English terms ("pharmacy", "acetaminophen") to British English equivalents ("chemist", "paracetamol") while preserving sentence structure.</Tip>
+
