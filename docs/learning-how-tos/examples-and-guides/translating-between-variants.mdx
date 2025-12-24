@@ -16,15 +16,16 @@ You can use the DeepL API to translate between variants of the same language (fo
 
 ## Example: Converting American English to British English
 
-```bash Example request
-curl --location 'https://api.deepl.com/v2/translate' \
---header 'Content-Type: application/x-www-form-urlencoded' \
---header 'Accept: application/json' \
+``` Example request
+curl -X POST 'https://api.deepl.com/v2/translate' \
+--header 'Content-Type: application/json' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
---data-urlencode 'text=I went to the pharmacy to get some acetaminophen.' \
---data-urlencode 'target_lang=en-GB' \
---data-urlencode 'model_type=quality_optimized' \
---data-urlencode 'custom_instructions=["translate to British English", "only replace words that would be different"]'
+--data '{
+  "text": ["I went to the pharmacy to get some acetaminophen."],
+  "target_lang": "en-GB",
+  "model_type": "quality_optimized",
+  "custom_instructions": ["translate to British English", "only replace words that would be different"]
+}'
 ```
 
 ```json Example response
