@@ -206,23 +206,20 @@ Note that we do not include examples for our client libraries in every single se
 <ParamField body="model_type" type="enum">
   Specifies which DeepL model should be used for translation.
 
-  <p>Possible values are:</p>
-  <ul>
-    <li><code>latency_optimized</code> (uses lower latency "classic" translation models, which support all language pairs; default value)</li>
-    <li><code>quality_optimized</code> (uses higher latency, improved quality "next-gen" translation models, which support only a subset of language pairs; if a language pair that is not supported by next-gen models is included in the request, <strong>it will fail</strong>. Consider using <code>prefer_quality_optimized</code> instead.)</li>
-    <li><code>prefer_quality_optimized</code> (prioritizes use of higher latency, improved quality "next-gen" translation models, which support only a subset of DeepL languages; if a request includes a language pair not supported by next-gen models, the request will fall back to <code>latency_optimized</code> classic models)</li>
-  </ul>
+  Possible values:
+  - `latency_optimized`: Uses the lowest latency translation models available (usually classic models; default parameter value)
+  - `quality_optimized`: Uses the highest quality translation models available (currently next-gen models)
+  - `prefer_quality_optimized`: Same as `quality_optimized`, with fallback to classic models if no next-gen model is present (as of December 2025, all languages have next-gen models)
 
-  <p>Requests with the <code>model_type</code> parameter will include an additional response field <code>model_type_used</code> to specify whether DeepL's <code>latency_optimized</code> or <code>quality_optimized</code> model was used for translation.</p>
+  When the `model_type` parameter is set, the response includes a `model_type_used` field indicating which model was used.
 
-  <p>Note: In the future, if DeepL's quality optimized models achieve language pair and latency performance parity with classic models, it's possible that next-gen models will be used regardless of the value passed in the <code>model_type</code> parameter.</p>
+  <Info>
+    [Tag handling v2](/docs/xml-and-html-handling/tag-handling-v2) is compatible only with next-gen models and implicitly sets
+`model_type` to `quality_optimized`. Setting both `model_type=latency_optimized` and `tag_handling_version=v2` will return an
+error.
+  </Info>
 
-  <p>
-    Note: <a href="/docs/xml-and-html-handling/tag-handling-v2">tag handling v2</a> is compatible only with next-gen models, and the default `model_type` value is implicitly changed to `quality_optimized` for tag handling v2 requests.
-    Setting both <code>model_type=latency_optimized</code> and <code>tag_handling_version=v2</code> in a request will lead to an error.
-    </p>
-
-  <p>Language pairs supported by DeepL’s next-gen models are documented <a href="/api-reference/translate#about-the-model-type-parameter">below</a>.</p>
+  See [About the model_type parameter](#about-the-model-type-parameter) for more details.
 </ParamField>
 <ParamField body="split_sentences" type="string">
   Sets whether the translation engine should first split the input into sentences. For text translations where <code>tag_handling</code> is not set to <code>html</code>, the default value is <code>1</code>, meaning the engine splits on punctuation and on newlines.
@@ -263,7 +260,7 @@ Note that we do not include examples for our client libraries in every single se
   </Info>
 </ParamField>
 <ParamField body="formality" type="string">
-  Sets whether the translated text should lean towards formal or informal language. This feature currently only works for target languages <code>DE</code> (German), <code>FR</code> (French), <code>IT</code> (Italian), <code>ES</code> (Spanish), <code>ES-419</code> (Latin American Spanish), <code>NL</code> (Dutch), <code>PL</code> (Polish), <code>PT-BR</code> and <code>PT-PT</code> (Portuguese), <code>JA</code> (Japanese), and <code>RU</code> (Russian). Learn more about the plain/polite feature for Japanese <a href="#">here</a>.
+  Sets whether the translated text should lean towards formal or informal language. This feature currently only works for target languages <code>DE</code> (German), <code>FR</code> (French), <code>IT</code> (Italian), <code>ES</code> (Spanish), <code>ES-419</code> (Latin American Spanish), <code>NL</code> (Dutch), <code>PL</code> (Polish), <code>PT-BR</code> and <code>PT-PT</code> (Portuguese), <code>JA</code> (Japanese), and <code>RU</code> (Russian). Learn more about the <a href="https://support.deepl.com/hc/en-us/articles/6306700061852-About-formality-plain-and-polite-tones-in-Japanese">plain/polite feature for Japanese ↗️</a>.
 
   <p>Setting this parameter with a target language that does not support formality will fail, unless one of the <code>prefer_...</code> options are used. Possible options are:</p>
   <ul>
@@ -369,9 +366,11 @@ Note that we do not include examples for our client libraries in every single se
 
 ### About the model\_type parameter
 
-The behavior of the `model_type` parameter when the `quality_optimized` or `prefer_quality_optimized` values are sent in a request depends on language pairs that are supported by DeepL’s next-gen translation models.
+The `model_type` parameter lets a user specify if they would like to optimize for speed until a request is served (latency) or translation quality. This is done on a best-effort basis by DeepL, not every language pair and feature must behave differently depending on this parameter.
+Currently, the DeepL translation API defaults to the classic models if no `model_type` is included in the requests, except for certain languages (e.g. Thai, which is next-gen only) or certain features (e.g. tag handling v2, which only allows `quality_optimized`).
+Note that the API intentionally does not allow the user to specify a model, but rather their goal, so that the DeepL backend can choose the most suitable model for the user (this avoids users constantly having to update their code with new model versions and learning many different models name and their specifics).
 
-Currently, all source and target languages are supported by next-gen models. In the future, if we add language pairs that are not supported by next-gen models, a request will fail (if `model_type` is set to `quality_optimized`) or fall back to classic models (if `model_type` is set to `prefer_quality_optimized`) if the chosen language pair does not support next-gen models.
+As of December 2025, all source and target languages are supported by next-gen models. Please note that DeepL reserves the right to quietly change which model serves e.g. a `model_type=quality_optimized` request, as long as we think it is a net benefit to the user (e.g. no significant latency increase, but a quality increase, or a significant latency reduction with no or only very slight decrease in quality).
 
 The `/languages` endpoint has not yet been updated to include information about `model_type` support, but we expect to make such a change in the future.
 
