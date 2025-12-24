@@ -1,0 +1,302 @@
+---
+title: "How to Use the Context Parameter Effectively"
+description: "Learn when and how to use the context parameter to improve translation accuracy for ambiguous content, and when to use glossaries or style rules instead"
+public: true
+---
+
+**This guide shows you:**
+- When to use context (and when not to)
+- How to resolve ambiguous words
+- How to handle grammatical gender
+- How to ensure consistent name transliteration
+- How to choose between context, glossaries, and style rules
+
+---
+
+## What the context parameter is for
+
+The `context` parameter helps DeepL's API translate ambiguous words and short text snippets more accurately by providing the surrounding content. Think of it like showing a human translator the paragraphs before and after the sentence being translated.
+
+The `context` parameter can help with:
+
+- Picking the correct translation for ambiguous words
+- Providing grammatical clues for gender, number, or case that isn't clear from the text alone
+- Improving translations of short snippets such as headlines or product names
+
+## What the context parameter is NOT for
+
+<Warning>
+**Common Misconception:** Many users try to use `context` like ChatGPT system prompts. **This does not work reliably.**
+
+Example of what NOT to do:
+```json
+{
+  "text": ["Welcome back"],
+  "target_lang": "DE",
+  "context": "Translate with a friendly, casual tone" // ❌ Won't work as expected
+}
+```
+</Warning>
+
+The `context` parameter is **not** designed for:
+
+- LLM-style instructions: "Translate with a friendly, casual tone"
+- Translation rules: "Always translate 'Tor' as 'gate'"
+- Cultural context: "Adapt for German cultural norms"
+
+Using `context` like this will produce unpredictable results. The parameter is optimized for document content, not commands.
+
+Instead, try:
+- [Style rules and custom instructions](/api-reference/style-rules): For tone, style, formatting, and translation instructions
+- [Glossaries](/api-reference/multilingual-glossaries): For consistent terminology and brand names
+
+---
+
+## How to use context for ambiguous words
+
+When a word has multiple meanings, surrounding context helps the translation engine choose the correct interpretation.
+
+### Example
+
+"Tor" could mean "gate" or "goal" in German. Without context, DeepL may not know which meaning you intend:
+
+```sh
+curl -X POST 'https://api.deepl.com/v2/translate' \
+--header 'Authorization: DeepL-Auth-Key [your key]' \
+--header 'Content-Type: application/json' \
+--data '{
+  "text": [
+    "Die Person stand vor dem Tor."
+  ],
+  "target_lang": "EN-US"
+}'
+```
+
+**Output without context:**
+```text
+"The person was standing in front of the gate."
+```
+
+If you're writing about a football game, provide context to clarify:
+
+```sh
+curl -X POST 'https://api.deepl.com/v2/translate' \
+--header 'Authorization: DeepL-Auth-Key [your key]' \
+--header 'Content-Type: application/json' \
+--data '{
+  "text": [
+    "Die Person stand vor dem Tor."
+  ],
+  "target_lang": "EN-US",
+  "context": "Es war ein Fußballspiel."
+}'
+```
+
+**Output with context:**
+```text
+"The person was standing in front of the goal."
+```
+
+### When to use this approach
+
+- You're translating short snippets that lack built-in context
+- The text contains words with multiple meanings
+- The surrounding content makes the intended meaning clear
+
+---
+
+## How to use context for grammatical gender
+
+When grammatical gender isn't clear from the source text, context can provide the necessary clues.
+
+### Example
+
+Without context, DeepL may not use the desired gender when translating:
+
+```sh
+curl -X POST 'https://api.deepl.com/v2/translate' \
+--header 'Authorization: DeepL-Auth-Key [your key]' \
+--header 'Content-Type: application/json' \
+--data '{
+  "text": [
+    "The teacher asked the class to tidy up after they finished the lesson."
+  ],
+  "target_lang": "DE"
+}'
+```
+
+**Output without context:** (uses masculine form "Lehrer")
+```text
+"Der Lehrer bat die Klasse, nach der Stunde aufzuräumen."
+```
+
+You can provide context from the surrounding text that clarifies the teacher's gender:
+
+```sh
+curl -X POST 'https://api.deepl.com/v2/translate' \
+--header 'Authorization: DeepL-Auth-Key [your key]' \
+--header 'Content-Type: application/json' \
+--data '{
+  "text": [
+    "The teacher asked the class to tidy up after they finished the lesson."
+  ],
+  "target_lang": "DE",
+  "context": "She did not want to tidy up herself."
+}'
+```
+
+**Output with context:** (uses feminine form "Lehrerin")
+```text
+"Die Lehrerin bat die Klasse, nach der Stunde aufzuräumen."
+```
+
+### When to use this approach
+
+- Translating into languages with grammatical gender
+- The source text doesn't specify gender
+- You have surrounding sentences that contain gender clues
+
+---
+
+## How to use context for consistent name translation
+
+When translating names in headlines or short snippets, the same name might be transliterated differently unless additional context is provided.
+
+### Example
+
+Content is not shared between `text` parameters. This results in different transliterations for the name "Sergej".
+
+```sh
+curl -X POST 'https://api.deepl.com/v2/translate' \
+--header 'Authorization: DeepL-Auth-Key [your key]' \
+--header 'Content-Type: application/json' \
+--data '{
+  "text": [
+    "Sergej gibt Stellungnahme ab",
+    "Sergej Zhivkov erklärte gestern, dass neue Maßnahmen ergriffen werden."
+  ],
+  "source_lang": "DE",
+  "target_lang": "EN-US"
+}'
+```
+
+**Output without context:**
+```json
+{
+  "translations": [
+    {
+      "detected_source_language": "DE",
+      "text": "Sergej makes a statement"
+    },
+    {
+      "detected_source_language": "DE",
+      "text": "Sergei Zhivkov explained yesterday that new measures will be taken."
+    }
+  ]
+}
+```
+
+Providing a longer snippet of `context` containing the complete name results in consistent transliteration:
+
+```sh
+curl -X POST 'https://api.deepl.com/v2/translate' \
+--header 'Authorization: DeepL-Auth-Key [your key]' \
+--header 'Content-Type: application/json' \
+--data '{
+  "text": [
+    "Sergej gibt Stellungnahme ab",
+    "Sergej Zhivkov erklärte gestern, dass neue Maßnahmen ergriffen werden."
+  ],
+  "source_lang": "DE",
+  "target_lang": "EN-US",
+  "context": "Sergej Zhivkov erklärte gestern, dass neue Maßnahmen ergriffen werden."
+}'
+```
+
+**Output with context:**
+```json
+{
+    "translations": [
+        {
+            "detected_source_language": "DE",
+            "text": "Sergei issues statement"
+        },
+        {
+            "detected_source_language": "DE",
+            "text": "Sergei Zhivkov declared yesterday that new measures will be taken."
+        }
+    ]
+}
+```
+
+### When to use this approach
+
+- Translating news headlines separately from article bodies
+- Transliterating names with multiple possible spellings in your target language
+
+---
+
+## Choosing the right feature for your needs
+
+Different features solve different problems. Use this table to decide:
+
+| Use Case | Context Parameter | Glossaries | Style Rules |
+|----------|:----------------:|:----------:|:-----------:|
+| **Ambiguous words** | ✅ | ❌ | ❌ |
+| **Consistent gender or spelling** | ✅ | ❌ | ❌ |
+| **Consistent domain-specific terminology** | ❌ | ✅ | ❌ |
+| **Brand names** | ❌ | ✅ | ❌ |
+| **Tone and style** | ❌ | ❌ | ✅ |
+| **Formatting rules** | ❌ | ❌ | ✅ |
+| **Translation instructions** | ❌ | ❌ | ✅ |
+
+---
+
+## Technical details
+
+### Cost
+
+Characters in the `context` parameter do not count toward billing. Only characters sent in the `text` parameter are billed.
+
+### Size limit
+
+There is no size limit for the `context` parameter itself, but the request body size limit of 128 KiB applies to all text translation requests.
+
+### Multi-`text` requests
+
+Content is not shared between multiple `text` parameters sent in one request. Each text parameter is translated independently.
+
+In this example, "Tor" might be translated as "gate" instead of "goal" because the first `text` doesn't have access to the second one's content.
+
+```python
+{
+  "text": [
+    "Die Person stand vor dem Tor.",
+    "Es war ein Fußballspiel."
+  ],
+  "target_lang": "EN-US"
+}
+```
+
+To ensure "Tor" is translated as "goal", you can add additional sentences into the `context` parameter, or keep related content together in one `text` parameter.
+
+If you send a request with both `context` and multiple `text` parameters, the `context` parameter will be applied to each one.
+
+### Document translation
+
+When using the [document translation endpoint](/api-reference/document), the engine automatically uses the broader document context. You don't need to provide explicit context for full documents.
+
+### Tag handling
+
+When using `tag_handling=xml` or `tag_handling=html`, tags are *not* used as a context boundary. The translation engine automatically looks across all content provided in each `text` parameter. As with other types of texts, you may need to provide additional `context` when translating single tags without surrounding content.
+
+---
+
+## Next steps
+
+Now that you understand the context parameter:
+
+- **Try it yourself:** Review the [text translation API reference](/api-reference/translate) for complete context parameter specifications
+- **Enforce terminology:** Learn how to use [glossaries](/api-reference/multilingual-glossaries) for consistent translations across all content
+- **Control style and tone:** Explore [style rules](/api-reference/style-rules) for formatting and tone instructions
+- **Translate full documents:** Understand how [document translation](/api-reference/document) automatically handles context
