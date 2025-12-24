@@ -1,15 +1,13 @@
 ---
 title: "How to Use the Context Parameter Effectively"
-description: "Learn when and how to use the context parameter to improve translation accuracy for ambiguous content, and when to use glossaries or style rules instead"
+description: "Learn when and how to use the context parameter to improve translation accuracy for ambiguous content."
 public: true
 ---
 
 **This guide shows you:**
-- When to use context (and when not to)
-- How to resolve ambiguous words
-- How to handle grammatical gender
-- How to ensure consistent name transliteration
-- How to choose between context, glossaries, and style rules
+- When to use `context` (and when not to)
+- How to use `context` to resolve ambiguous words, genders, or transliterations
+- How to choose between `context`, Glossaries, and Style Rules
 
 ---
 
@@ -27,15 +25,6 @@ The `context` parameter can help with:
 
 <Warning>
 **Common Misconception:** Many users try to use `context` like ChatGPT system prompts. **This does not work reliably.**
-
-Example of what NOT to do:
-```json
-{
-  "text": ["Welcome back"],
-  "target_lang": "DE",
-  "context": "Translate with a friendly, casual tone" // ❌ Won't work as expected
-}
-```
 </Warning>
 
 The `context` parameter is **not** designed for:
@@ -238,7 +227,7 @@ curl -X POST 'https://api.deepl.com/v2/translate' \
 
 ## Choosing the right feature for your needs
 
-Different features solve different problems. Use this table to decide:
+Different DeepL features solve different problems. Use this table to decide which best suits your use case.
 
 | Use Case | Context Parameter | Glossaries | Style Rules |
 |----------|:----------------:|:----------:|:-----------:|
