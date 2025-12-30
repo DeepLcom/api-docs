@@ -9,7 +9,7 @@ info:
   contact:
     name: DeepL - Contact us
     url: https://www.deepl.com/contact-us
-  version: 3.5.0
+  version: 3.6.0
 externalDocs:
   description: DeepL Pro - Plans and pricing
   url: https://www.deepl.com/pro#developer
@@ -121,6 +121,9 @@ paths:
       responses:
         200:
           description: The usage statistics for the specified date range.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -163,6 +166,9 @@ paths:
                       end_date: "2025-10-01T00:00:00"
         400:
           description: Bad request. Please check error message and your parameters.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -206,6 +212,9 @@ paths:
       responses:
         200:
           description: The create function returns a JSON representation of the created API key.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -228,6 +237,9 @@ paths:
       responses:
         200:
           description: The get function returns a JSON representation of all developer API keys in the organization.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -264,6 +276,9 @@ paths:
       responses:
         200:
           description: The deactivate function returns a JSON representation of the deactivated API key.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -303,6 +318,9 @@ paths:
       responses:
         200:
           description: The set label function returns a JSON representation of the renamed API key.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -339,6 +357,9 @@ paths:
       responses:
         200:
           description: The set usage limits function returns a JSON representation of the modified API key.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -523,6 +544,9 @@ paths:
         200:
           description: The translate function returns a JSON representation of the
             translations in the order the text parameters have been specified.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -649,6 +673,9 @@ paths:
             generated encryption key. This key is not persistently stored on the server.
             Therefore, it must be stored by the client and sent back to the server
             with every subsequent request that refers to this particular document.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -719,6 +746,9 @@ paths:
             the current status of the translation process. While the translation is
             running, the estimated number of seconds remaining until the process is
             done is also included in the response.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -836,6 +866,9 @@ paths:
           description: The document is provided as a download. There is no other data
             included in the response besides the document data. The content type used
             in the response corresponds to the document type.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/octet-stream:
               schema:
@@ -878,6 +911,9 @@ paths:
         200:
           description: A JSON object containing the language pairs in its `supported_languages`
             property.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -965,6 +1001,9 @@ paths:
           description: The function for creating a glossary returns a JSON object
             containing the ID of the newly created glossary and a boolean flag that
             indicates if the created glossary can already be used in translate requests.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1003,6 +1042,9 @@ paths:
       responses:
         200:
           description: JSON object containing a the glossaries.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1059,6 +1101,9 @@ paths:
       responses:
         200:
           description: JSON object containing the glossary meta-information.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1125,6 +1170,9 @@ paths:
       responses:
         200:
           description: JSON object containing the glossary meta-information.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1222,6 +1270,9 @@ paths:
       responses:
         200:
           description: The entries in tsv, wrapped in a JSON object.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1311,6 +1362,9 @@ paths:
       responses:
         200:
           description: JSON object containing the dictionary meta-information.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1371,6 +1425,9 @@ paths:
           description: The function for creating a glossary returns a JSON object
             containing the ID of the newly created glossary and a boolean flag that
             indicates if the created glossary can already be used in translate requests.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1409,6 +1466,9 @@ paths:
       responses:
         200:
           description: JSON object containing a the glossaries.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1464,6 +1524,9 @@ paths:
       responses:
         200:
           description: JSON object containing the glossary meta-information.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1563,6 +1626,9 @@ paths:
       responses:
         200:
           description: The entries in the requested format.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             text/tab-separated-values:
               example: "Hello!\tGuten Tag!"
@@ -1640,6 +1706,9 @@ paths:
       responses:
         200:
           description: Successful text improvement.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1670,6 +1739,9 @@ paths:
       responses:
         200:
           description: The account's usage and limits.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1755,6 +1827,9 @@ paths:
       responses:
         200:
           description: JSON array where each item represents a supported language.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1941,6 +2016,9 @@ paths:
       responses:
         200:
           description: JSON object containing the style rule lists.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -2012,6 +2090,9 @@ paths:
       responses:
         200:
           description: Successfully obtained streaming URL and token.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -2052,6 +2133,9 @@ paths:
       responses:
         200:
           description: Successfully obtained streaming URL and reconnection token.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -2077,6 +2161,12 @@ paths:
       security:
         - auth_header: []
 components:
+  headers:
+    X-Trace-ID:
+      description: A unique identifier for the request that can be included in bug reports to DeepL support.
+      schema:
+        type: string
+      example: 501c3d93cc0c4f11ae2f60a226c2f0f0
   parameters:
     DocumentID:
       name: document_id
