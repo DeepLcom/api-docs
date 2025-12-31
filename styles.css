@@ -3,9 +3,11 @@
  *
  * Mintlify provides an id for most of the areas we want to fix up.
  * For the rest, they use a `lg:hidden` class on the element to be shown at desktop
- * resolutions, and a just plan `hidden` class on the element to be shown at
+ * resolutions, and a just plain `hidden` class on the element to be shown at
  * mobile resolution.
- * Unfortunately in some cases we do need to specify more specific classes.
+ *
+ * Unfortunately in some cases we do need to select elements by using a few of classes.
+ * Ideally we'd have id's for these too.
  */
 
 @media (min-width: 880px) {
@@ -15,13 +17,12 @@
     width: 16rem;
   }
 
-/* Retain left padding in main section so it doesn't overlap with the sidebar */
+/* Retain left padding in main section so it doesn't overlap with the sidebar.
+ * Don't introduce new left margin in main section.
+ */
+
   #content-area {
     padding-left: 21.5rem;
-  }
-
-/* Don't introduce new left margin in main section */
-  #content-area {
     margin-left: -3rem;
   }
 
@@ -54,6 +55,9 @@
 /* Use Mintlify's default styles at this width */
   #content-area {
     padding-left: 23.7rem;
+  }
+
+  #sidebar {
     width: 18rem;
   }
 }
