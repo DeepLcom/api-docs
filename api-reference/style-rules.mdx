@@ -145,3 +145,22 @@ The index of the first page to return. Default: 0 (the first page). Use with `pa
 <ParamField query="page_size" type="int">
 The maximum number of style rule lists to return. Default: 10. Minimum: 1. Maximum: 25.
 </ParamField>
+
+### Real-world Use Case Examples
+
+To maximize the impact of Style Rules, consider the following specific applications:
+
+1. **Corporate Brand Alignment**: Ensure translations match your company's unique "voice." 
+   * *Example*: A lifestyle brand might use a rule to avoid "formal" terms and prefer "vibrant, youth-oriented" synonyms.
+   
+2. **Technical Support Automation**: Maintain consistency in documentation.
+   * *Example*: Set `instructions_style` to `use-imperative` to ensure all troubleshooting steps (e.g., "Press the button") are clear and direct.
+
+3. **Global E-commerce Compliance**: Handle regional nuances in numbers and formats.
+   * *Example*: Use `numbers.time_format` set to `always-use-24-hour-clock` for logistics apps operating in Europe.
+
+4. **Inclusive Communication**: Adapt content for diverse audiences.
+   * *Example*: Apply custom instructions to "ensure gender-neutral pronouns are used wherever possible" to align with modern HR policies.
+
+5. **Legal and Contractual Precision**: Preserve the exact meaning of sensitive terms.
+   * *Example*: Use custom prompts to "maintain the specific legal distinction between 'shall' and 'may' in contractual clauses."
