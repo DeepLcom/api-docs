@@ -21,7 +21,6 @@
 /* Retain left padding in main section so it doesn't overlap with the sidebar.
  * Don't introduce new left margin in main section.
  */
-
   #content-area {
     padding-left: 21.5rem;
     margin-left: -3rem;
@@ -32,12 +31,13 @@
     font-size: .875em;
   }
 
-  /* Retain full searchbar */
+/* Retain full searchbar */
   #navbar .h-full .hidden.flex-1.justify-center {
     display: block;
   }
 
-  #navbar .h-full .lg\:hidden {
+/* Hide little search control */
+  #search-bar-entry-mobile {
     display: none;
   }
 
