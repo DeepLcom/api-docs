@@ -163,9 +163,7 @@ These examples are for demonstration purposes only. In production code, the auth
   Note: Not all combinations of input file and translation file extensions are permitted. See <a href="/api-reference/document#document-format-conversions">Document format conversions</a> for the permitted combinations.
 </ParamField>
 <ParamField body="enable_beta_languages" type="boolean">
-  Enables 81 additional beta languages. See the <a href="/docs/getting-started/supported-languages#beta-languages">full list</a>.
-
-  <p><strong>Note:</strong> Set to <code>true</code> (or <code>1</code> in url-encoded requests) to enable beta languages. Any request with the <code>enable_beta_languages</code> parameter enabled will use <code>quality_optimized</code> models. Requests combining <code>enable_beta_languages: true</code> and <code>model_type: latency_optimized</code> will be rejected. Beta languages do not support formality or glossaries.</p>
+  No languages are currently in beta. This parameter has no effect on translations but is maintained for backward compatibility.
 </ParamField>
 
 ### Step 2: check the document status and wait for translation to complete

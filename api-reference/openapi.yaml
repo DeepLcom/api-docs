@@ -450,7 +450,7 @@ paths:
                   $ref: '#/components/schemas/OutlineDetectionOption'
                 enable_beta_languages:
                   description: |-
-                    Enables 81 additional beta languages. See the [full list](/docs/getting-started/supported-languages#beta-languages). **Note:** Any request with the `enable_beta_languages` parameter enabled will use `quality_optimized` models. Requests combining `enable_beta_languages: true` and `model_type: latency_optimized` will be rejected. Beta languages do not support formality or glossaries.
+                    No languages are currently in beta. This parameter is maintained for backward compatibility and has no effect.
                   type: boolean
                   default: false
                 non_splitting_tags:
@@ -515,7 +515,7 @@ paths:
                   $ref: '#/components/schemas/OutlineDetectionOptionStr'
                 enable_beta_languages:
                   description: |-
-                    Enables 81 additional beta languages. See the [full list](/docs/getting-started/supported-languages#beta-languages). **Note:** Any request with the `enable_beta_languages` parameter enabled will use `quality_optimized` models. Requests combining `enable_beta_languages: true` and `model_type: latency_optimized` will be rejected. Beta languages do not support formality or glossaries.
+                    No languages are currently in Beta. This parameter is maintained for backward compatibility and has no effect. Previously enabled 81 languages that are now part of the standard language list. See the [full list](/docs/getting-started/supported-languages).
                   type: boolean
                   default: false
                 non_splitting_tags:
@@ -662,7 +662,7 @@ paths:
                   $ref: '#/components/schemas/GlossaryId'
                 enable_beta_languages:
                   description: |-
-                    Enables 81 additional beta languages. See the [full list](/docs/getting-started/supported-languages#beta-languages). **Note:** Any request with the `enable_beta_languages` parameter enabled will use `quality_optimized` models. Requests combining `enable_beta_languages: true` and `model_type: latency_optimized` will be rejected. Beta languages do not support formality or glossaries.
+                    No languages are currently in Beta. This parameter is maintained for backward compatibility and has no effect. Previously enabled 81 languages that are now part of the standard language list. See the [full list](/docs/getting-started/supported-languages).
                   type: boolean
                   default: false
       responses:
