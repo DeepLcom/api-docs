@@ -1,6 +1,6 @@
 /* These rules allow us to retain most elements of the desktop view between 880px and 1024px.
  * We could extend these all the way to the traditional 768px breakpoint,
- * but the widh of our current left sidebar makes that undesirable.
+ * but the width of our current left sidebar makes that undesirable.
  *
  * Mintlify provides an id for most of the areas we want to fix up.
  * For the rest, they use a `lg:hidden` class on the element to be shown at desktop
@@ -32,8 +32,16 @@
   }
 
 /* Retain full searchbar */
-  #navbar .h-full .hidden.flex-1.justify-center {
-    display: block;
+  @supports selector(:has()) {
+    div:has(> #search-bar-entry) {
+      display: block;
+    }
+  }
+
+  @supports not selector(:has()) {
+    #navbar .h-full .hidden.flex-1.justify-center {
+      display: block;
+    }
   }
 
 /* Hide little search control */
@@ -42,8 +50,16 @@
   }
 
 /* Retain tabs */
-  #navbar .hidden.px-12.h-12 {
-    display: block;
+  @supports selector(:has()) {
+    div:has(> .nav-tabs) {
+      display: block;
+    }
+  }
+
+  @supports not selector(:has()) {
+    #navbar .hidden.px-12.h-12 {
+      display: block;
+    }
   }
 
 /* Hide mobile menu */
