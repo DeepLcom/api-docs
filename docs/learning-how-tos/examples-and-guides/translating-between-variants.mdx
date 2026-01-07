@@ -4,15 +4,19 @@ description: "Learn how to translate between variants of the same language, such
 public: true
 ---
 
-You can use the DeepL API to translate between variants of the same language (for example, `pt-PT` to `pt-BR` or `en-US` to `en-GB`) using several methods:
+The DeepL API can translate between variants of the same language (for example, from pt-PT to pt-BR or from en-US to en-GB) using a few methods:
 
-- **[Write/Rephrase endpoint](/api-reference/improve-text)**: Rephrases text into the target language variant.
+- **[Write/Rephrase endpoint](/api-reference/improve-text)**: Rephrases text into the target language variant. This method is fully supported.
 
-- **[Style rules](/api-reference/style-rules)**: Create a custom style rule and apply it using the [style_id](/api-reference/translate/request-translation#body-style-id) parameter.
+<Info> 
+While preliminary testing has yielded positive results for the methods outlined below, please note that they are not fully supported and may not always perform as intended. We encourage you to conduct your own evaluations tailored to your specific use case.
 
-<Info>Both glossaries and style rules are unique to each of DeepL's global data centers and are not shared between them. Clients using the api-us.deepl.com endpoint will not be able to access glossaries or style rules created in the UI at this time.</Info>
+Both glossaries and style rules are unique to each of DeepL's global data centers and are not shared between them. Clients using the api-us.deepl.com endpoint will not be able to access glossaries or style rules created in the UI at this time. 
+</Info>
 
-- **[Custom instructions](/api-reference/translate/request-translation#body-custom-instructions)**: Add instructions like "translate to British English" to your `/translate` request. You can specify up to 10 custom instructions, each with a maximum of 300 characters.
+- **[Style rules](/api-reference/style-rules)**: Create a custom style rule in the UI such as “translate to British English” and apply it using the [style_id](/api-reference/translate/request-translation#body-style-id) parameter.
+
+- **[Custom instructions](/api-reference/translate/request-translation#body-custom-instructions)**: Add instructions like "translate to British English" to your `/translate` request. You can specify up to 10 custom instructions in conjunction, each with a maximum of 300 characters.
 
 ## Example: Converting American English to British English
 
