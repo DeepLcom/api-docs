@@ -55,7 +55,6 @@
                 "pages": [
                   "docs/learning-how-tos/cookbook",
                   "docs/learning-how-tos/cookbook/google-sheets",
-                  "docs/learning-how-tos/cookbook/context-parameter-examples",
                   "docs/learning-how-tos/cookbook/automating-indie-game-localization-with-the-deepl-api-and-godot",
                   "docs/learning-how-tos/cookbook/java-document-translator",
                   "docs/learning-how-tos/cookbook/usage-analytics-dashboard"
@@ -65,6 +64,7 @@
                 "group": "Guides",
                 "pages": [
                   "docs/learning-how-tos/examples-and-guides/",
+                  "docs/learning-how-tos/examples-and-guides/how-to-use-context-parameter",
                   "docs/learning-how-tos/examples-and-guides/placeholder-tags",
                   "docs/learning-how-tos/examples-and-guides/first-things-to-try-with-the-deepl-api",
                   "docs/learning-how-tos/examples-and-guides/glossaries-in-the-real-world",
@@ -79,7 +79,6 @@
               "docs/best-practices/error-handling",
               "docs/best-practices/cors-requests",
               "docs/best-practices/document-translations",
-              "docs/best-practices/working-with-context",
               "docs/best-practices/language-detection",
               "docs/best-practices/cost-control",
               "docs/best-practices/pre-production-checklist"
@@ -394,6 +393,14 @@
     {
       "source": "/api-reference/voice/reconnect-stream",
       "destination": "/api-reference/voice/reconnect-session"
+    },
+    {
+      "source": "/docs/best-practices/working-with-context",
+      "destination": "/docs/learning-how-tos/how-to-use-context-parameter"
+    },
+    {
+      "source": "/docs/learning-how-tos/cookbook/context-parameter-examples",
+      "destination": "/docs/learning-how-tos/how-to-use-context-parameter"
     }
   ],
   "integrations": {
