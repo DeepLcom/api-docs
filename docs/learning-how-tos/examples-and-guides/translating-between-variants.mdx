@@ -9,7 +9,7 @@ The DeepL API can translate between variants of the same language (for example, 
 - **[Write/Rephrase endpoint](/api-reference/improve-text)**: Rephrases text into the target language variant. This method is fully supported.
 
 <Info> 
-While preliminary testing has yielded positive results for the methods outlined below, please note that they are not fully supported and may not always perform as intended. We encourage you to conduct your own evaluations tailored to your specific use case.
+Please note that currently, the methods outlined below are not fully supported for this use case and may not always perform as intended. We encourage you to conduct your own evaluations.
 
 Both glossaries and style rules are unique to each of DeepL's global data centers and are not shared between them. Clients using the api-us.deepl.com endpoint will not be able to access glossaries or style rules created in the UI at this time. 
 </Info>
@@ -18,9 +18,10 @@ Both glossaries and style rules are unique to each of DeepL's global data center
 
 - **[Custom instructions](/api-reference/translate/request-translation#body-custom-instructions)**: Add instructions like "translate to British English" to your `/translate` request. You can specify up to 10 custom instructions in conjunction, each with a maximum of 300 characters.
 
-## Example: Converting American English to British English
+## Example: Converting American English to British English using the custom_instructions parameter:
 
-``` Example request
+Example request
+```bash
 curl -X POST 'https://api.deepl.com/v2/translate' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
@@ -32,7 +33,8 @@ curl -X POST 'https://api.deepl.com/v2/translate' \
 }'
 ```
 
-```json Example response
+Example response
+```json 
 {
   "translations": [
     {
