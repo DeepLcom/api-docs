@@ -9,7 +9,7 @@ The text-translation API currently consists of a single endpoint, `translate`, w
 
 For highest translation quality, we recommend using our next-gen models. For details, please see [here](/docs/api-reference/translate#about-the-model-type-parameter).
 
-To learn more about context in DeepL API translations, we recommend [this article](/docs/best-practices/working-with-context).
+To learn more about context in DeepL API translations, see our [context parameter guide](/docs/learning-how-tos/how-to-use-context-parameter).
 
 For more detail about request body parameters, see the [Request Body Descriptions](/api-reference/translate#request-body-descriptions) section further down on the page.
 
@@ -184,9 +184,7 @@ Note that we do not include examples for our client libraries in every single se
   The language into which the text should be translated. You can find supported target languages <a href="/docs/getting-started/supported-languages#translation-target-languages">here</a>.
 </ParamField>
 <ParamField body="enable_beta_languages" type="boolean">
-  Enables 81 additional beta languages. See the <a href="/docs/getting-started/supported-languages#beta-languages">full list</a>.
-
-  <p><strong>Note:</strong> Set to <code>true</code> (or <code>1</code> in url-encoded requests) to enable beta languages. Any request with the <code>enable_beta_languages</code> parameter enabled will use <code>quality_optimized</code> models. Requests combining <code>enable_beta_languages: true</code> and <code>model_type: latency_optimized</code> will be rejected. Beta languages do not support formality or glossaries.</p>
+  No languages are currently in beta. This parameter is maintained for backward compatibility and has no effect.
 </ParamField>
 <ParamField body="context" type="string">
   The <code>context</code> parameter makes it possible to include additional context that can influence a translation but is not translated itself. This additional context can potentially improve translation quality when translating short, low-context source texts such as product names on an e-commerce website, article headlines on a news website, or UI elements.
@@ -212,6 +210,10 @@ Note that we do not include examples for our client libraries in every single se
   - `prefer_quality_optimized`: Same as `quality_optimized`, with fallback to classic models if no next-gen model is present (as of December 2025, all languages have next-gen models)
 
   When the `model_type` parameter is set, the response includes a `model_type_used` field indicating which model was used.
+
+  <Warning>
+    To ensure accurate automatic language detection, the API uses next-gen models for all requests that omit `source_lang`, regardless of `model_type`. If your source language is known, you can specify `source_lang` to allow classic models to be used where available for your language pair. See [supported languages](/docs/getting-started/supported-languages) for language-specific model availability.
+  </Warning>
 
   <Info>
     [Tag handling v2](/docs/xml-and-html-handling/tag-handling-v2) is compatible only with next-gen models and implicitly sets
