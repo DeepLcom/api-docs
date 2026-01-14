@@ -9,9 +9,21 @@ public: true
 </Card>
 
 
-This lightweight proxy server lets you call the DeepL API directly from browser-based applications during prototyping and frontend testing. Since the DeepL API doesn't allow direct browser requests (see [CORS requests documentation](/docs/best-practices/cors-requests)), this proxy handles CORS headers and keeps your API key secure.
+## Overview
 
-Perfect for hackathons, demos, and quick prototypes where you need to get up and running fast. Built with Node.js and Express with minimal dependencies. Supports all DeepL API endpoints including text translation, document translation, and glossaries. Includes an interactive web demo for testing translations right in your browser.
+This lightweight proxy server lets you call the DeepL API directly from browser-based applications. In simpler terms, it lets you make DeepL API calls from your client-side JavaScript without running into browser security restrictions.
+
+Since the DeepL API doesn't allow direct browser requests (see [CORS requests documentation](/docs/best-practices/cors-requests)), this proxy handles CORS headers and keeps your API key secure. Perfect for hackathons, demos, and quick prototypes where you need to get up and running fast.
+
+Built with Node.js and Express with minimal dependencies. Supports all DeepL API endpoints including text translation, document translation, and glossaries. Includes an interactive web demo for testing translations right in your browser.
+
+<Note>
+This proxy is intended for prototyping and frontend testing. For production environments, consider implementing your own backend service with additional security measures and rate limiting.
+</Note>
+
+## Quick Start
+
+The proxy includes an interactive setup wizard to get you started quickly. Clone the repo, run the setup, and start sending requests from your browser. Check out the [GitHub repository](https://github.com/DeepLcom/deepl-api-nodejs-proxy) for full setup instructions and Docker support.
 
 ## Screenshots
 
@@ -22,7 +34,3 @@ Perfect for hackathons, demos, and quick prototypes where you need to get up and
 <Frame>
   <img src="https://raw.githubusercontent.com/DeepLcom/deepl-api-nodejs-proxy/main/assets/dashboard-demo.png" alt="Interactive web demo interface for testing translations" />
 </Frame>
-
-## Quick Start
-
-The proxy includes an interactive setup wizard to get you started quickly. Clone the repo, run the setup, and start translating from your browser. Check out the [GitHub repository](https://github.com/DeepLcom/deepl-api-nodejs-proxy) for full setup instructions and Docker support.
