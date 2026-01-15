@@ -68,7 +68,8 @@
                   "docs/learning-how-tos/examples-and-guides/placeholder-tags",
                   "docs/learning-how-tos/examples-and-guides/first-things-to-try-with-the-deepl-api",
                   "docs/learning-how-tos/examples-and-guides/glossaries-in-the-real-world",
-                  "docs/learning-how-tos/examples-and-guides/deepl-mcp-server-how-to-build-and-use-translation-in-llm-applications"
+                  "docs/learning-how-tos/examples-and-guides/deepl-mcp-server-how-to-build-and-use-translation-in-llm-applications",
+                  "docs/learning-how-tos/examples-and-guides/translating-between-variants"
                 ]
               }
             ]
