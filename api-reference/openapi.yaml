@@ -2020,6 +2020,8 @@ paths:
                   $ref: '#/components/schemas/VoiceSourceLanguageMode'
                 target_languages:
                   $ref: '#/components/schemas/VoiceTargetLanguages'
+                message_format:
+                  $ref: '#/components/schemas/VoiceMessageFormat'
                 glossary_id:
                   $ref: '#/components/schemas/GlossaryId'
                 formality:
@@ -2032,6 +2034,7 @@ paths:
                   source_language: 'en'
                   source_language_mode: 'auto'
                   target_languages: ['de', 'fr', 'es']
+                  message_format: 'json'
               with_glossary:
                 summary: With glossary and formality
                 value:
@@ -2039,6 +2042,7 @@ paths:
                   source_language: 'en'
                   source_language_mode: 'fixed'
                   target_languages: ['de', 'fr']
+                  message_format: 'msgpack'
                   glossary_id: 'def3a26b-3e84-45b3-84ae-0c0aaf3525f7'
                   formality: 'formal'
       responses:
@@ -4415,6 +4419,17 @@ components:
       - less
       default: default
       example: formal
+    VoiceMessageFormat:
+      description: |-
+        Message encoding format for WebSocket communication. Determines how messages are serialized and transmitted.
+        Using `json`,  messages are JSON-encoded and sent as TEXT WebSocket frames. All binary fields (such as audio data) are base64-encoded strings.
+        Using `msgpack`, messages are MessagePack-encoded and sent as BINARY WebSocket frames. All binary fields (such as audio data) contain raw binary data.
+      type: string
+      enum:
+        - json
+        - msgpack
+      default: json
+      example: json
     VoiceSourceMediaContentType:
       type: string
       description: "
