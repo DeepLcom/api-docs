@@ -8,11 +8,17 @@ rss: true
 - Add more events to audit logs for Pro API customers (API key management, cost control and usage limit changes)
 </Update>
 
-<Update label="Q1 2026">
-- Promoted all 81 beta languages to standard language support. These languages are now part of the main source and target language lists. Note that these languages only work with `quality_optimized` model or when no model is specified, and are not compatible with `latency_optimized` requests. The `enable_beta_languages` parameter is maintained for backward compatibility but has no effect. See [here](../getting-started/supported-languages) for the complete language list.
+<Update label="January 2026">
+## January 8 - 81 New Languages in GA
+- Promoted all 81 beta languages to standard language support. These languages are now part of the main source and target language lists.
+- Note that these languages only work with `quality_optimized` model or when no model is specified, and are not compatible with `latency_optimized` requests.
+- The `enable_beta_languages` parameter is maintained for backward compatibility but has no effect. 
+
+See [here](../getting-started/supported-languages) for the complete language list.
 </Update>
 
-<Update label="Q4 2025">
+<Update label="2025">
+## Q4 2025
 - Added API reference for the Voice API
 - Add contextual menu in the to make it easier to copy any API documentation page as context for AI tools
 - Add support for style rules in the API to programmatically get your created style rules and translate with them.
@@ -24,89 +30,81 @@ rss: true
 - Added 6 additional beta languages, for text and document translation. See the previous note about 75 new languages.
 - Added a new parameter to the text translation API to allow custom instructions, making it possible to customize the translation behavior (e.g. ["Use a friendly, diplomatic tone"])
 - Added support for JPEG and PNG images in [document translation](/api-reference/document), currently in Beta.
-</Update>
 
-<Update label="Q3 2025">
+## Q3 2025
 - Creation of an admin API, making it possible to manage API keys programmatically. See [here](/api-reference/admin-api) for more information
 - Added support for new language: ES-419 (Latin American Spanish). For this release, this language will be available for the API in next-gen models only. See [here](../getting-started/supported-languages) for more information.
 - Refreshed our API documentation and added new try-it explorers to support interacting with our APIs. See [here](/api-reference) to try it out!
-</Update>
 
-<Update label="Q2 2025">
+## Q2 2025
 - Added support for new language: TH (Thai). For this release, this language will only support text translation. See [here](../getting-started/supported-languages) for more information.
 - Added support for new languages: HE (Hebrew) and VI (Vietnamese). For this release, these languages will be available for Pro v2 API in next-gen models only. See [here](../getting-started/supported-languages) for more information.
 - Added improvements to API glossaries, including the ability to edit glossaries and create multilingual glossaries. Learn more [here](/api-reference/multilingual-glossaries/).
 - Improvements to the `/usage` endpoint for Pro API customers ([API reference](/api-reference/usage-and-quota/))
 - Improvements to key-level usage reporting, making it possible to pull reports with a custom date range and to group data by calendar day. Learn more [here](../getting-started/managing-api-keys#get-api-key-level-usage).
-</Update>
 
-<Update label="Q1 2025">
+## Q1 2025
 - Added support for API key-level usage limits, making it possible to set a character limit at the API key-level. Learn more [here](../getting-started/managing-api-keys#set-api-key-level-usage-limits).
 - DeepL API for Write is generally available to Pro API customers, making it possible to improve texts in (at the time of release) 6 different languages. Learn more and get started [here](/api-reference/improve-text/).
 </Update>
 
-<Update label="Q4 2024">
+<Update label="2024">
+## Q4 2024
 - Added the `model_type` parameter, allowing users to translate text with DeepL's "next-gen" translation models. More information can be found [here](/api-reference/translate#about-the-model_type-parameter).
-</Update>
 
-<Update label="Q3 2024">
+## Q3 2024
 - Added the `show_billed_characters` parameter for text translation, allowing users to optionally include the number of billed characters in the API response. [Learn more here](/api-reference/translate#request-body-descriptions).
 - Added support for a new language for text translation: ZH-HANT (Traditional Chinese). As of this initial release, document translation is not supported for Traditional Chinese. More information is available [here](/docs/getting-started/supported-languages).
 - An official Ruby client library, evolved from a community-written library by Daniel Herzog. You can download it [here](https://rubygems.org/gems/deepl-rb) or find the source code on our [GitHub page](https://github.com/DeepLcom/deepl-rb).
-</Update>
 
-<Update label="Q2 2024">
+## Q2 2024
 - Added support for DOCX and PPTX document minification to the PHP client library, making it possible for users to translate documents that exceed DeepL's file size limit due to embedded media. [Learn more here](https://github.com/DeepLcom/deepl-php?tab=readme-ov-file#document-minification).
 - Added support for API key-level usage reporting. More information is available in the [multiple API keys guide](https://developers.deepl.com/multiple-api-keys#download-a-report-with-key-level-usage).
 - Launched DeepL Pro in [165 new markets](https://www.deepl.com/en/blog/deepl-pro-expands-165-new-markets), bringing the total number of markets where DeepL Pro is available to 228. This means users with billing addresses in these markets can create DeepL Pro API and Free API subscriptions.
 - Added support for new glossary languages: DA (Danish), NB (Norwegian Bokmål), and Swedish (SV).
 - Moved the `context` parameter from [alpha](/docs/getting-started/alpha-and-beta-features) status to general availability. More information about the context parameter is available in the "Request body descriptions" table [here](/api-reference/translate).
 - Added support for SRT (`srt`) files in [document translation](/api-reference/document).
-</Update>
 
-<Update label="Q1 2024">
+## Q1 2024
 - Added support for multiple API keys in a single account for Pro API and Free API users. More information is available in the [multiple API keys guide](https://developers.deepl.com/multiple-api-keys).
 - Added support for a new language for text translation: AR (Arabic). As of this initial release, document translation is not supported for Arabic. More information is available [here](/docs/getting-started/supported-languages).
 - Added support for Korean (KO) as a [glossary](/api-reference/multilingual-glossaries) language, increasing the number of supported glossary language pairs from 55 to 66.
 </Update>
 
-<Update label="Q4 2023">
+<Update label="2023">
+## Q4 2023
 - Added support for Microsoft Excel (`xlsx`) files in [document translation](/api-reference/document).
 - Released the `context` parameter as an [alpha feature](/docs/getting-started/alpha-and-beta-features) for text translation (see [Request Body Descriptions table](/api-reference/translate#request-body-descriptions) for more information).
-</Update>
 
-<Update label="Q3 2023">
+## Q3 2023
 - Launched DeepL Pro in South Korea ([blog post here](https://www.deepl.com/en/blog/deepl-pro-available-in-south-korea)). This means users with billing addresses in South Korea can [create DeepL Pro API and Free API subscriptions](https://www.deepl.com/ko/pro#developer).
 - Added support for Portuguese (PT), Russian (RU), and Chinese (ZH) as [glossary](/api-reference/multilingual-glossaries) languages, increasing the number of supported glossary language pairs from 28 to 55.
 - Added support for JSON-encoded requests for all remaining endpoints (*note that document upload for document translation still requires*`multipart/form-data`).
-</Update>
 
-<Update label="Q2 2023">
+## Q2 2023
 - Added support for user-provided http clients in [PHP client library](https://github.com/DeepLcom/deepl-php).
 - Released an official [DeepL API Postman collection](https://www.postman.com/deepl-api/workspace/deepl-api-developers/overview).
 - Added formality support for Japanese (JA) in [text](/api-reference/translate) and [document](/api-reference/document) translation.
 - Released in-house PDF translation; removed requirement to send data to the US when translating PDF documents ([blog post](https://www.deepl.com/en/blog/deepl-launches-in-house-pdf-translation-for-improved-security-and-efficiency)).
-</Update>
 
-<Update label="Q1 2023">
+## Q1 2023
 - Released an official [DeepL Custom Connector](https://support.deepl.com/hc/en-us/articles/8644041855516-DeepL-API-custom-connector-for-Microsoft-Power-Automate) for Microsoft Power Automate.
 - Added support for glossaries in any combination of two languages from the following list: EN (English), DE (German), FR (French), IT (Italian), PL (Polish), NL (Dutch), ES (Spanish, JA (Japanese). This represents an increase from 8 to 28 supported glossary language pairs.
 - Added XLIFF as a [document translation](/api-reference/document) format (*note that only documents from version 2.0 are supported, and there is no support for the legacy 1.2 format*).
 - Added support for new languages for text and document translation: KO (Korean) and NB (Norwegian Bokmål). [Blog post here](https://www.deepl.com/en/blog/welcome-korean-and-norwegian).
 </Update>
 
-<Update label="Q4 2022">
+<Update label="2022">
+## Q4 2022
 - Moved [HTML handling](/docs/xml-and-html-handling/html) out of beta after fixing the most commonly reported user issues.
 - Released an official [Java client library](https://github.com/DeepLcom/deepl-java).
 - Added support for JSON-encoded requests for [text translation](/api-reference/translate), [usage](/api-reference/usage-and-quota), and [languages](/api-reference/languages) endpoints.
-</Update>
 
-<Update label="Q3 2022">
+## Q3 2022
 - Released an official [PHP client library](https://github.com/DeepLcom/deepl-php).
 - Added support for a new language for [text](/api-reference/translate) and [document](/api-reference/document) translation: UK (Ukrainian). [Blog post here](https://www.deepl.com/en/blog/deepl-learns-ukrainian).
-</Update>
 
-<Update label="Before Q3 2022">
+## Before Q3 2022
 - Released an official DeepL API [OpenAPI spec](https://github.com/DeepLcom/openapi).
 - Released an official [NodeJS client library](https://github.com/DeepLcom/deepl-node).
 - Released an official [.NET client library](https://github.com/DeepLcom/deepl-dotnet).
