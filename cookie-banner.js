@@ -5,34 +5,57 @@ function getCookie(name) {
 }
 
 const showCookieBanner = () => {
-    // TODO check if this needs to use the same cookie field as deepl.com
-    if (getCookie('cookie_consent') === 'true') return;
+    // Check both localStorage and cookie for consent
+    const localStorageConsent = localStorage.getItem('deepl_cookie_consent');
+    const cookieConsent = getCookie('cookie_consent');
+
+    if (localStorageConsent === 'accepted' || cookieConsent === 'true') return;
 
     const banner = document.createElement('div');
     banner.id = 'cookie-banner';
-    banner.style.position = 'fixed';
-    banner.style.bottom = '0';
-    banner.style.left = '0';
-    banner.style.width = '100%';
-    banner.style.background = '#222';
-    banner.style.color = '#fff';
-    banner.style.padding = '16px';
-    banner.style.display = 'flex';
-    banner.style.justifyContent = 'space-between';
-    banner.style.alignItems = 'center';
-    banner.style.zIndex = '10000';
+
     banner.innerHTML = `
-        <span>DeepL uses cookies to deliver its service. Please find more information in our <a href="https://www.deepl.com/privacy" style="color:#4FC3F7;text-decoration:underline;">privacy policy</a>.</span>
-        <button id="cookie-accept" style="background:transparent;color:#fff;padding:8px 16px;border:1px solid #fff;border-radius:4px;cursor:pointer;">Close</button>
+        <div id="cookie-banner-content">
+            <p id="cookie-banner-text">
+                We use cookies and similar technologies to improve your experience and analyze site usage.
+                By clicking "Accept", you consent to telemetry and analytics.
+                Learn more in our <a href="https://www.deepl.com/privacy" target="_blank">privacy policy</a>.
+            </p>
+        </div>
+        <div id="cookie-banner-buttons">
+            <button id="cookie-reject">Reject</button>
+            <button id="cookie-accept">Accept</button>
+        </div>
     `;
 
     document.body.appendChild(banner);
 
+    const acceptBtn = document.getElementById('cookie-accept');
+    const rejectBtn = document.getElementById('cookie-reject');
     const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
 
-    document.getElementById('cookie-accept').onclick = function () {
+    acceptBtn.onclick = function () {
+        // Set localStorage for Mintlify telemetry integration
+        localStorage.setItem('deepl_cookie_consent', 'accepted');
+        // Also set cookie for backward compatibility
         document.cookie = 'cookie_consent=true; path=/; max-age=' + ONE_YEAR_SECONDS;
+        banner.remove();
+        // Reload to enable telemetry
+        window.location.reload();
+    };
+
+    rejectBtn.onclick = function () {
+        // Set localStorage to rejected state
+        localStorage.setItem('deepl_cookie_consent', 'rejected');
+        // Also set cookie for backward compatibility
+        document.cookie = 'cookie_consent=false; path=/; max-age=' + ONE_YEAR_SECONDS;
         banner.remove();
     };
 }
-showCookieBanner()
+
+// Show banner when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', showCookieBanner);
+} else {
+    showCookieBanner();
+}

@@ -378,9 +378,36 @@ class AnalyticsTracker {
   };
 
   // ========================
+  //   Consent Checker
+  // ========================
+  static hasConsent() {
+    // Check localStorage for consent
+    const localStorageConsent = localStorage.getItem('deepl_cookie_consent');
+    if (localStorageConsent === 'accepted') {
+      return true;
+    }
+
+    // Also check cookie for backward compatibility
+    const cookies = document.cookie.split('; ');
+    const consentCookie = cookies.find(c => c.startsWith('cookie_consent='));
+    if (consentCookie && consentCookie.split('=')[1] === 'true') {
+      return true;
+    }
+
+    return false;
+  }
+
+  // ========================
   //   Initialization
   // ========================
   static init() {
+    // Only initialize analytics if user has consented
+    if (!this.hasConsent()) {
+      console.log('[Analytics] User has not consented to tracking. Analytics disabled.');
+      return;
+    }
+
+    console.log('[Analytics] User consent verified. Initializing analytics...');
     this.PageNavigationTracker.setupNavigationTrackers();
     this.NetworkRequestTracker.setupNetworkRequestTracking();
     // this.SearchInputTracker.setupSearchInputTracking(); // Disable this for now
