@@ -9,6 +9,14 @@ rss: true
 </Update>
 
 <Update label="January 2026">
+## January 20 - Legacy Auth Deprecation
+
+Query parameter and request body authentication methods are now [deprecated](/docs/resources/breaking-changes-change-notices/november-2025-deprecation-of-legacy-auth-methods).
+- **API Free users**: All requests using legacy auth now return `403 Forbidden`.
+- **API Pro users**: Brownout period active with intermittent `403` responses. Full deprecation in early February 2026.
+
+Use the `DeepL-Auth-Key` header instead.
+
 ## January 8 - 81 New Languages in GA
 - Promoted all 81 beta languages to standard language support. These languages are now part of the main source and target language lists.
 - Note that these languages only work with `quality_optimized` model or when no model is specified, and are not compatible with `latency_optimized` requests.
