@@ -149,7 +149,13 @@ class AnalyticsTracker {
         // console.log('Fetched data: ', data);
         return data;
       } catch (error) {
-        console.error('Fetch error: ', error);
+        // Suppress CORS errors in local development
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        if (isLocalhost) {
+          console.log('[Analytics] Skipping analytics in local development (CORS restriction)');
+        } else {
+          console.error('[Analytics] Fetch error: ', error);
+        }
       }
     }
 
@@ -401,6 +407,13 @@ class AnalyticsTracker {
   //   Initialization
   // ========================
   static init() {
+    // Skip analytics in local development to avoid CORS errors
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    if (isLocalhost) {
+      console.log('[Analytics] Skipping analytics in local development environment.');
+      return;
+    }
+
     // Only initialize analytics if user has consented
     if (!this.hasConsent()) {
       console.log('[Analytics] User has not consented to tracking. Analytics disabled.');
