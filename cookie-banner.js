@@ -1,9 +1,14 @@
+// Constants
+const CONSENT_KEY = 'deepl_cookie_consent';
+const CONSENT_ACCEPTED = 'accepted';
+const CONSENT_REJECTED = 'rejected';
+
 const showCookieBanner = () => {
     // Check localStorage for consent
-    const consent = localStorage.getItem('deepl_cookie_consent');
+    const consent = localStorage.getItem(CONSENT_KEY);
 
     // Only hide banner if user has explicitly accepted or rejected
-    if (consent === 'accepted' || consent === 'rejected') return;
+    if (consent === CONSENT_ACCEPTED || consent === CONSENT_REJECTED) return;
 
     const banner = document.createElement('div');
     banner.id = 'cookie-banner';
@@ -28,14 +33,14 @@ const showCookieBanner = () => {
     const rejectBtn = document.getElementById('cookie-reject');
 
     acceptBtn.onclick = function () {
-        localStorage.setItem('deepl_cookie_consent', 'accepted');
+        localStorage.setItem(CONSENT_KEY, CONSENT_ACCEPTED);
         banner.remove();
         // Reload to enable telemetry
         window.location.reload();
     };
 
     rejectBtn.onclick = function () {
-        localStorage.setItem('deepl_cookie_consent', 'rejected');
+        localStorage.setItem(CONSENT_KEY, CONSENT_REJECTED);
         banner.remove();
     };
 }
