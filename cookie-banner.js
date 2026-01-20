@@ -1,15 +1,9 @@
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-}
-
 const showCookieBanner = () => {
-    // Check both localStorage and cookie for consent
-    const localStorageConsent = localStorage.getItem('deepl_cookie_consent');
-    const cookieConsent = getCookie('cookie_consent');
+    // Check localStorage for consent
+    const consent = localStorage.getItem('deepl_cookie_consent');
 
-    if (localStorageConsent === 'accepted' || cookieConsent === 'true') return;
+    // Only hide banner if user has explicitly accepted or rejected
+    if (consent === 'accepted' || consent === 'rejected') return;
 
     const banner = document.createElement('div');
     banner.id = 'cookie-banner';
@@ -32,23 +26,16 @@ const showCookieBanner = () => {
 
     const acceptBtn = document.getElementById('cookie-accept');
     const rejectBtn = document.getElementById('cookie-reject');
-    const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
 
     acceptBtn.onclick = function () {
-        // Set localStorage for Mintlify telemetry integration
         localStorage.setItem('deepl_cookie_consent', 'accepted');
-        // Also set cookie for backward compatibility
-        document.cookie = 'cookie_consent=true; path=/; max-age=' + ONE_YEAR_SECONDS;
         banner.remove();
         // Reload to enable telemetry
         window.location.reload();
     };
 
     rejectBtn.onclick = function () {
-        // Set localStorage to rejected state
         localStorage.setItem('deepl_cookie_consent', 'rejected');
-        // Also set cookie for backward compatibility
-        document.cookie = 'cookie_consent=false; path=/; max-age=' + ONE_YEAR_SECONDS;
         banner.remove();
     };
 }
