@@ -407,7 +407,11 @@
   ],
   "integrations": {
     "telemetry": {
-      "enabled": false
+      "enabled": true
+    },
+    "cookies": {
+      "key": "deepl_cookie_consent",
+      "value": "accepted"
     }
   },
   "contextual": {
