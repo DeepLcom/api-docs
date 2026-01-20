@@ -18,6 +18,9 @@ class AnalyticsTracker {
   static EVENT_ID_NETWORK_REQUEST = 5000;
   static EVENT_ID_SEARCH_INPUT = 5001; // TODO change this after DAP update
 
+  static CONSENT_KEY = 'deepl_cookie_consent';
+  static CONSENT_ACCEPTED = 'accepted';
+
   static isProdStage = window.location.hostname === "developers.deepl.com";
   static statisticsUrl = this.isProdStage ? 
     "https://s.deepl.com/web/statistics"
@@ -388,7 +391,7 @@ class AnalyticsTracker {
   // ========================
   static hasConsent() {
     // Check localStorage for consent
-    return localStorage.getItem('deepl_cookie_consent') === 'accepted';
+    return localStorage.getItem(this.CONSENT_KEY) === this.CONSENT_ACCEPTED;
   }
 
   // ========================
