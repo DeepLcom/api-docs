@@ -388,19 +388,7 @@ class AnalyticsTracker {
   // ========================
   static hasConsent() {
     // Check localStorage for consent
-    const localStorageConsent = localStorage.getItem('deepl_cookie_consent');
-    if (localStorageConsent === 'accepted') {
-      return true;
-    }
-
-    // Also check cookie for backward compatibility
-    const cookies = document.cookie.split('; ');
-    const consentCookie = cookies.find(c => c.startsWith('cookie_consent='));
-    if (consentCookie && consentCookie.split('=')[1] === 'true') {
-      return true;
-    }
-
-    return false;
+    return localStorage.getItem('deepl_cookie_consent') === 'accepted';
   }
 
   // ========================
