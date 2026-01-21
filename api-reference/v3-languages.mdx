@@ -1,0 +1,385 @@
+---
+title: "Retrieve languages (v3)"
+sidebarTitle: "Overview"
+description: "API reference for retrieving supported languages with the DeepL API across all products."
+---
+
+Get comprehensive information about all currently supported source and target languages across all DeepL API products, including text translation, document translation, DeepL API for Write, DeepL Voice, and glossaries.
+
+<Info>
+  The `/v3/languages` endpoint provides a single source of truth for language and feature support across all DeepL API products. It replaces the `/v2/languages` and `/v2/glossary-language-pairs` endpoints with a unified, extensible design.
+</Info>
+
+<Info>
+  Unlike the v2 endpoint which required a `type` parameter to retrieve source or target languages separately, v3 returns all language information in a single response.
+</Info>
+
+We also provide a spec that is auto-generated from DeepL's OpenAPI file. [You can find it here](/api-reference/languages/retrieve-supported-languages-v3).
+
+To understand how we'll update the `/v3/languages` endpoint when we add translation support for a new language or language variant, please see [this article](/docs/resources/language-release-process).
+
+<Tabs>
+  <Tab title="cURL">
+    The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
+
+    <Note>
+      The example responses below have been shortened for clarity. The actual API response includes all supported languages.
+    </Note>
+    ```sh Example request
+    curl -X GET 'https://api.deepl.com/v3/languages' \
+    --header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+    ```
+
+    ```json Example response
+    {
+      "source_languages": [
+        {
+          "code": "DE",
+          "name": "German",
+          "products": {
+            "text": true,
+            "documents": true,
+            "glossary": true,
+            "voice": true,
+            "write": true
+          }
+        },
+        {
+          "code": "EN",
+          "name": "English",
+          "products": {
+            "text": true,
+            "documents": true,
+            "glossary": true,
+            "voice": true,
+            "write": true
+          }
+        }
+      ],
+      "target_languages": [
+        {
+          "code": "EN-US",
+          "name": "English (American)",
+          "products": {
+            "text": true,
+            "documents": true,
+            "glossary": true,
+            "voice": true,
+            "write": true
+          }
+        },
+        {
+          "code": "FR",
+          "name": "French",
+          "products": {
+            "text": true,
+            "documents": true,
+            "glossary": true,
+            "voice": true,
+            "write": true
+          }
+        }
+      ],
+      "combinations": []
+    }
+    ```
+  </Tab>
+  <Tab title="HTTP Request">
+    <Note>
+      The example responses below have been shortened for clarity. The actual API response includes all supported languages.
+    </Note>
+    ```http Example request
+    GET /v3/languages HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey]
+    User-Agent: YourApp/1.2.3
+    ```
+
+    ```json Example response
+    {
+      "source_languages": [
+        {
+          "code": "DE",
+          "name": "German",
+          "products": {
+            "text": true,
+            "documents": true,
+            "glossary": true,
+            "voice": true,
+            "write": true
+          }
+        },
+        {
+          "code": "FR",
+          "name": "French",
+          "products": {
+            "text": true,
+            "documents": true,
+            "glossary": true,
+            "voice": true,
+            "write": true
+          }
+        }
+      ],
+      "target_languages": [
+        {
+          "code": "EN-GB",
+          "name": "English (British)",
+          "products": {
+            "text": true,
+            "documents": true,
+            "glossary": true,
+            "voice": true,
+            "write": true
+          }
+        },
+        {
+          "code": "ES",
+          "name": "Spanish",
+          "products": {
+            "text": true,
+            "documents": true,
+            "glossary": true,
+            "voice": true,
+            "write": true
+          }
+        }
+      ],
+      "combinations": []
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Response Structure
+
+The v3 languages endpoint returns a JSON object with three main arrays:
+
+### source_languages
+
+An array of source language objects, each containing:
+
+- **code**: The language code used in API requests (e.g., "DE", "EN", "FR")
+- **name**: The English name of the language (e.g., "German", "English", "French")
+- **products**: An object indicating which DeepL products support this language as a source language
+
+### target_languages
+
+An array of target language objects with the same structure as source languages. Target languages may include language variants (e.g., "EN-US", "EN-GB") that are grouped under a single base language for source languages (e.g., "EN").
+
+### combinations
+
+An array of specific source-target language combinations that have different support characteristics than would be indicated by the source and target language entries alone. This array may be empty if all combinations follow the rules implied by the individual language entries.
+
+Each combination object contains:
+
+- **source_lang**: The source language code
+- **target_lang**: The target language code
+- **products**: Product support specific to this combination (overrides the individual language entries)
+- **supports**: Additional features supported for this specific combination
+
+## Products Object
+
+The `products` object indicates which DeepL API products support a particular language. Fields are only included if the product is supported:
+
+<ParamField path="products.text" type="boolean">
+  Indicates support for text translation via the `/v2/translate` endpoint.
+</ParamField>
+
+<ParamField path="products.documents" type="boolean">
+  Indicates support for document translation via the `/v2/document` endpoints.
+</ParamField>
+
+<ParamField path="products.voice" type="boolean">
+  Indicates support for DeepL Voice (speech-to-speech translation).
+</ParamField>
+
+<ParamField path="products.write" type="boolean">
+  Indicates support for DeepL API for Write (text improvement).
+</ParamField>
+
+<ParamField path="products.glossary" type="boolean">
+  Indicates support for glossaries when used with translation.
+</ParamField>
+
+<ParamField path="products.style_rules" type="boolean">
+  Indicates support for style rules (currently in development).
+</ParamField>
+
+<Note>
+  Only supported products are included in the response. If a field is absent, the product is not supported for that language.
+</Note>
+
+## Understanding Language Support
+
+### Basic Language Support
+
+For most use cases, you can determine if a language pair is supported by:
+
+1. Checking if the source language exists in `source_languages`
+2. Checking if the target language exists in `target_languages`
+3. Checking if both languages have the relevant product field set to `true`
+
+For example, to check if German to English text translation is supported:
+
+- Find "DE" in `source_languages` and verify `products.text` is `true`
+- Find "EN-US" or "EN-GB" in `target_languages` and verify `products.text` is `true`
+
+### Combination-Specific Support
+
+Some language pairs may have specific support characteristics that differ from what the individual language entries indicate. Check the `combinations` array for entries matching your source-target pair. If a combination exists:
+
+- The combination's `products` object overrides the individual language entries for that specific pair
+- The combination's `supports` object indicates additional features available for that pair
+
+### Source vs Target Language Variants
+
+Note that source languages typically use base language codes (e.g., "EN"), while target languages may use variant codes (e.g., "EN-US", "EN-GB"). When translating:
+
+- For source languages, use the base code (e.g., "EN" for all English variants)
+- For target languages, specify the variant if desired (e.g., "EN-US" vs "EN-GB")
+
+## Use Cases
+
+### Dynamically Building Translation UI
+
+Use this endpoint to build user interfaces that automatically stay up-to-date with DeepL's language support:
+
+```javascript
+// Fetch supported languages
+const response = await fetch('https://api.deepl.com/v3/languages', {
+  headers: {
+    'Authorization': 'DeepL-Auth-Key [yourAuthKey]'
+  }
+});
+
+const data = await response.json();
+
+// Filter languages that support text translation
+const textSourceLangs = data.source_languages
+  .filter(lang => lang.products.text)
+  .map(lang => ({ code: lang.code, name: lang.name }));
+
+const textTargetLangs = data.target_languages
+  .filter(lang => lang.products.text)
+  .map(lang => ({ code: lang.code, name: lang.name }));
+
+// Build your dropdown menus with textSourceLangs and textTargetLangs
+```
+
+### Checking Glossary Support
+
+Determine which language pairs support glossaries:
+
+```javascript
+const glossarySourceLangs = data.source_languages
+  .filter(lang => lang.products.glossary);
+
+const glossaryTargetLangs = data.target_languages
+  .filter(lang => lang.products.glossary);
+
+// Check if a specific pair supports glossaries
+function supportsGlossary(sourceLang, targetLang) {
+  const sourceSupports = glossarySourceLangs
+    .some(lang => lang.code === sourceLang);
+  const targetSupports = glossaryTargetLangs
+    .some(lang => lang.code === targetLang);
+
+  return sourceSupports && targetSupports;
+}
+```
+
+### Checking DeepL Voice Support
+
+Filter languages that support speech-to-speech translation:
+
+```javascript
+const voiceSourceLangs = data.source_languages
+  .filter(lang => lang.products.voice);
+
+const voiceTargetLangs = data.target_languages
+  .filter(lang => lang.products.voice);
+```
+
+### Checking DeepL Write Support
+
+Determine which languages support text improvement (Write):
+
+```javascript
+const writeSourceLangs = data.source_languages
+  .filter(lang => lang.products.write);
+
+const writeTargetLangs = data.target_languages
+  .filter(lang => lang.products.write);
+```
+
+## Migration from v2
+
+If you're currently using the v2 `/languages` endpoint, here are the key differences:
+
+### Key Changes
+
+1. **No type parameter**: v3 returns both source and target languages in a single response
+2. **Product support**: Instead of just `supports_formality`, v3 provides comprehensive product support via the `products` object
+3. **Unified endpoint**: Replaces both `/v2/languages` and `/v2/glossary-language-pairs`
+4. **Combinations**: New `combinations` array for pair-specific support information
+5. **Extensible design**: New products and features can be added without breaking existing integrations
+
+### Migration Example
+
+**v2 code:**
+
+```javascript
+// v2: Separate calls for source and target
+const sourceResponse = await fetch('/v2/languages?type=source');
+const targetResponse = await fetch('/v2/languages?type=target');
+const glossaryResponse = await fetch('/v2/glossary-language-pairs');
+
+const sources = await sourceResponse.json();
+const targets = await targetResponse.json();
+const glossaryPairs = await glossaryResponse.json();
+```
+
+**v3 code:**
+
+```javascript
+// v3: Single call with all information
+const response = await fetch('/v3/languages');
+const data = await response.json();
+
+const sources = data.source_languages;
+const targets = data.target_languages;
+
+// Glossary support is now indicated in products.glossary
+const glossarySources = sources.filter(lang => lang.products.glossary);
+const glossaryTargets = targets.filter(lang => lang.products.glossary);
+```
+
+## API Stability
+
+The v3 languages endpoint is designed to be forward-compatible:
+
+- New fields may be added to language objects in the future (e.g., additional product types, feature flags)
+- Existing fields will not be removed or changed in backwards-incompatible ways
+- New languages will be added to the arrays as DeepL support expands
+- Client applications should ignore unknown fields to maintain forward compatibility
+
+<Info>
+  As new DeepL products and features are released, they will be reflected in this endpoint automatically. Build your integration to gracefully handle new product fields in the `products` object.
+</Info>
+
+## Best Practices
+
+1. **Cache responses**: Language support changes infrequently. Consider caching responses for 24 hours and refreshing periodically.
+2. **Handle partial support**: Not all languages support all products. Always check the `products` object before assuming a feature is available.
+3. **Check combinations**: For advanced use cases, check the `combinations` array for pair-specific support that may differ from individual language entries.
+4. **Ignore unknown fields**: To maintain forward compatibility, ignore any fields your application doesn't recognize.
+5. **Use specific variants**: For target languages, prefer specific variants (e.g., "EN-US", "EN-GB") over base codes when the distinction matters to your users.
+
+## Query Parameters
+
+The v3 endpoint currently accepts no query parameters. All language information is returned in a single response.
+
+<Note>
+  Future versions may add optional filtering parameters to reduce response size if needed, but the current design returns all information to minimize API round-trips.
+</Note>
