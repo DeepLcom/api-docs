@@ -1,0 +1,89 @@
+/* DeepL Cookie Consent Banner */
+#cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #0f2b46;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    z-index: 10000;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    font-family: Roboto, sans-serif;
+}
+
+#cookie-banner-content {
+    flex: 1;
+}
+
+#cookie-banner-text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+#cookie-banner-text a {
+    color: #4FC3F7;
+    text-decoration: underline;
+}
+
+#cookie-banner-buttons {
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+#cookie-reject,
+#cookie-accept {
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    font-family: Roboto, sans-serif;
+}
+
+#cookie-reject {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+#cookie-reject:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#cookie-accept {
+    background: #fff;
+    color: #0f2b46;
+    border: none;
+}
+
+#cookie-accept:hover {
+    background: #e6e6e6;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+    #cookie-banner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        padding: 16px;
+    }
+
+    #cookie-banner-buttons {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    #cookie-reject,
+    #cookie-accept {
+        flex: 1;
+    }
+}
