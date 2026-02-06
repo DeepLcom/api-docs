@@ -6,9 +6,9 @@ public: false
 
 DeepL offers regional API endpoints that process and store data within specific geographic regions. Regional endpoints provide the same API functionality as the standard endpoint, with data processing occurring in data centers located in specific regions. These endpoints help organizations meet data residency and compliance requirements, and can also reduce latency for users in specific geographic regions.
 
-<Info>
+<Warning>
 Regional endpoints are only available to customers who have signed a regional deployment addendum. Without a signed addendum, requests to regional endpoints will return a 403 authentication error. Contact your account manager or [reach out to our sales team](https://www.deepl.com/contact-us) to discuss access.
-</Info>
+</Warning>
 
 ## Endpoint URLs
 
@@ -167,6 +167,10 @@ echo $result->text;
 ---
 
 ## Technical specifications
+
+### Access requirements
+
+Regional endpoints require activation through a regional deployment addendum. Requests to regional endpoints without activation will return a 403 authentication error. Contact your account manager or [reach out to our sales team](https://www.deepl.com/contact-us) to activate regional endpoints for your account.
 
 ### API compatibility
 
