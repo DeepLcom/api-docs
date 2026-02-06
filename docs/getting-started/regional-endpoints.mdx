@@ -172,14 +172,16 @@ echo $result->text;
 
 Regional endpoints require activation through a regional deployment addendum. Requests to regional endpoints without activation will return a 403 authentication error. Contact your account manager or [reach out to our sales team](https://www.deepl.com/contact-us) to activate regional endpoints for your account.
 
+If your account has regional endpoint access, any API key can be used with any regional endpoint.
+
 ### API compatibility
 
-Regional endpoints maintain full API compatibility with the standard endpoint:
+Regional endpoints support all DeepL API functionality except:
 
-- All API endpoints and parameters are identical
-- Request and response formats are unchanged
-- All features and functionality are available (text translation, document translation, glossaries, style rules, etc.)
-- All API keys can be used with any regional endpoint
+- Voice API
+- Admin Analytics API
+
+These endpoints are only available on the standard `api.deepl.com` endpoint. 
 
 ### Glossaries and style rules
 
