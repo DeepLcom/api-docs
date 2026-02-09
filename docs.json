@@ -40,6 +40,7 @@
               "docs/getting-started/intro",
               "docs/getting-started/about",
               "docs/getting-started/auth",
+              "docs/getting-started/regional-endpoints",
               "docs/getting-started/client-libraries",
               "docs/getting-started/managing-api-keys",
               "docs/getting-started/your-first-api-request",
