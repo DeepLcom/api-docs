@@ -14,13 +14,13 @@ The document translation API allows you to translate whole documents and support
 * `txt` - Plain Text Document
 * `xlf / xliff` - XLIFF Document, version 2.1
 * `srt` - SRT (SubRip Subtitle) Document
-* `jpeg` / `jpg` / `png` - Image
+* `jpeg` / `jpg` / `png` - Image (currently in beta)
 
 Please note that with every submitted document of type .pptx, .docx, .doc, .xlsx, or .pdf, you are billed a minimum of 50,000 characters with the DeepL API plan, no matter how many characters are included in the document.
 
 The maximum upload limit for documents is [available here](/docs/resources/usage-limits#maximum-upload-limits-per-document-format) and may vary based on API plan and document type.
 
-We also provide specs that is auto-generated from DeepL's OpenAPI file. [You can find it here](/api-reference/document/upload-and-translate-a-document).
+We also provide specs that are auto-generated from DeepL's OpenAPI file. [You can find it here](/api-reference/document/upload-and-translate-a-document).
 
 <Info>
 When translating a `doc` file, you will receive a `docx` file as the output format.
@@ -139,7 +139,7 @@ These examples are for demonstration purposes only. In production code, the auth
     <li>`txt`: Plain Text Document</li>
     <li>`xlf / xliff`: XLIFF Document, version 2.1</li>
     <li>`srt` - SRT (SubRip Subtitle) Document</li>
-    <li>`jpeg` / `jpg` / `png` - Image</li>
+    <li>`jpeg` / `jpg` / `png` - Image (currently in beta)</li>
   </ul>
 </ParamField>
 <ParamField body="filename" type="string">
