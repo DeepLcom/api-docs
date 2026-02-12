@@ -14,7 +14,3 @@ Errors are indicated by [standard HTTP status codes](https://developer.mozilla.o
 The service dynamically adjusts to the load on the system. Please wait to stop receiving errors to send more requests again. As the service adapts, you will be able to send increasingly more requests within a given amount of time without encountering errors.
 
 Additional information may be provided by a JSON response that contains more details about the error. In this case, this additional information will be contained in the message key.
-
-### SSL Handshake Error 525
-
-We have received reports of an [issue](https://community.cloudflare.com/t/error-origin-ssl-handshake-error-525/294302) when querying the API from Cloudflare workers, and this issue has been brought to the attention of Cloudflare for their consideration. In the meantime, some members of the DeepL API community have had success with workarounds, such as setting up a simple authenticated proxy.
