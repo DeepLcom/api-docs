@@ -1994,6 +1994,378 @@ paths:
           $ref: '#/components/responses/ServiceUnavailable'
       security:
       - auth_header: []
+    post:
+      summary: Create a style rule list
+      operationId: createStyleRuleList
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - language
+              properties:
+                name:
+                  $ref: '#/components/schemas/StyleRuleName'
+                language:
+                  $ref: '#/components/schemas/StyleRuleLanguage'
+                configured_rules:
+                  $ref: '#/components/schemas/ConfiguredRules'
+                custom_instructions:
+                  type: array
+                  description: Array of custom instruction objects
+                  items:
+                    type: object
+                    required:
+                      - label
+                      - prompt
+                    properties:
+                      label:
+                        type: string
+                        description: Label for the custom instruction
+                      prompt:
+                        type: string
+                        description: Instruction text
+                        maxLength: 300
+                      source_language:
+                        type: string
+                        description: Optional source language code
+      responses:
+        200:
+          description: Style rule list created successfully
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StyleRuleList'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
+  /v3/style_rules/{style_id}:
+    get:
+      summary: Get a style rule list
+      operationId: getStyleRuleList
+      parameters:
+        - name: style_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the style rule list
+      responses:
+        200:
+          description: Style rule list details
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StyleRuleList'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
+    patch:
+      summary: Update configured rules
+      operationId: updateStyleRuleList
+      parameters:
+        - name: style_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the style rule list
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  $ref: '#/components/schemas/StyleRuleName'
+                configured_rules:
+                  $ref: '#/components/schemas/ConfiguredRules'
+      responses:
+        200:
+          description: Style rule list updated successfully
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StyleRuleList'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
+    delete:
+      summary: Delete a style rule list
+      operationId: deleteStyleRuleList
+      parameters:
+        - name: style_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the style rule list
+      responses:
+        204:
+          description: Style rule list deleted successfully
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
+  /v3/style_rules/{style_id}/custom_instructions:
+    post:
+      summary: Create a custom instruction
+      operationId: createCustomInstruction
+      parameters:
+        - name: style_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the style rule list
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - label
+                - prompt
+              properties:
+                label:
+                  type: string
+                  description: Label for the custom instruction
+                  maxLength: 100
+                prompt:
+                  type: string
+                  description: Instruction text
+                  maxLength: 300
+                source_language:
+                  type: string
+                  description: Optional source language code
+      responses:
+        200:
+          description: Custom instruction created successfully
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StyleRuleList'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
+  /v3/style_rules/{style_id}/custom_instructions/{instruction_id}:
+    get:
+      summary: Get a custom instruction
+      operationId: getCustomInstruction
+      parameters:
+        - name: style_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the style rule list
+        - name: instruction_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the custom instruction
+      responses:
+        200:
+          description: Custom instruction details
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomInstruction'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
+    put:
+      summary: Update a custom instruction
+      operationId: updateCustomInstruction
+      parameters:
+        - name: style_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the style rule list
+        - name: instruction_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the custom instruction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - label
+                - prompt
+              properties:
+                label:
+                  type: string
+                  description: Updated label for the custom instruction
+                  maxLength: 100
+                prompt:
+                  type: string
+                  description: Updated instruction text
+                  maxLength: 300
+                source_language:
+                  type: string
+                  description: Optional source language code
+      responses:
+        200:
+          description: Custom instruction updated successfully
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomInstruction'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
+    delete:
+      summary: Delete a custom instruction
+      operationId: deleteCustomInstruction
+      parameters:
+        - name: style_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the style rule list
+        - name: instruction_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the custom instruction
+      responses:
+        204:
+          description: Custom instruction deleted successfully
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
   /v3/voice/realtime:
     servers:
       - url: https://api.deepl.com

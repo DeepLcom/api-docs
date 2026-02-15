@@ -180,7 +180,15 @@
                 "group": "Style rules",
                 "pages": [
                   "api-reference/style-rules",
-                  "api-reference/style-rules/list-all-style-rules"
+                  "api-reference/style-rules/list-all-style-rules",
+                  "api-reference/style-rules/create-style-rule",
+                  "api-reference/style-rules/get-style-rule",
+                  "api-reference/style-rules/update-style-rule",
+                  "api-reference/style-rules/delete-style-rule",
+                  "api-reference/style-rules/create-custom-instruction",
+                  "api-reference/style-rules/get-custom-instruction",
+                  "api-reference/style-rules/update-custom-instruction",
+                  "api-reference/style-rules/delete-custom-instruction"
                 ]
               },
               {
