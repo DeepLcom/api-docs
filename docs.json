@@ -213,6 +213,14 @@
                 ]
               },
               {
+                "group": "Agent API",
+                "pages": [
+                  "api-reference/agent-api",
+                  "api-reference/agent-api/trigger-workflow",
+                  "api-reference/agent-api/get-task-result"
+                ]
+              },
+              {
                 "group": "Translate Speech in Realtime",
                 "pages": [
                   "api-reference/voice",
