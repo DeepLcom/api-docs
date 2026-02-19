@@ -1,0 +1,138 @@
+---
+title: "DeepL Agent API"
+public: true
+sidebarTitle: "Overview"
+description: "Explore the DeepL Agent API for workflows"
+---
+
+### Get started
+
+<Info>
+    The DeepL Agent API is only available to a limited set of DeepL Agent subscribers. Contact your DeepL customer success manager or our support team to enable access for your account.
+</Info>
+
+Once enabled, follow the instructions in [Managing API keys](/docs/getting-started/managing-api-keys#basic-api-key-management)
+to create an API key. 
+With the API key, you can trigger a DeepL Agent workflow and retrieve the results.
+For more information on the DeepL Agent, visit the [HelpCenter](https://support.deepl.com/hc/en-us/categories/22974438575516-DeepL-Agent). 
+
+### Trigger a workflow
+Workflows are triggered with the help of the workflow ID. For more information on how to obtain a workflow ID, see the [HelpCenter](https://support.deepl.com/hc/en-us/articles/25472835912348). If your workflow contains a variable, you need to add an input to your request. 
+Once triggered the workflow runs in a task. 
+
+<Tabs>
+    <Tab title="cURL">
+        ```sh Example request: Trigger a workflow
+        curl -X POST 'https://api.deepl.com/v1/unstable/agent/workflows/e1d78ccb-22e0-4a42-90e4-61884cf10af2/trigger' \
+        --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
+        --form 'workflow_request={"input":{"Airline Link": "https://lufthansa.com","Departure Airport": "FRA","Destination Airport": "HND","Outbound Date": "2026-01-09 15:30:00","Inbound Date": "2026-01-17 17:30:00","Cabin Class": "economy","Number of passengers": "1"}}'
+        ```
+        ```json Example response
+        {
+            "task_id":"edb5e896-bf21-424e-9ae0-2429ebd53a1e",
+            "ui_url":"https://agent.deepl.dev/static/chat/edb5e896-bf21-424e-9ae0-2429ebd53a1e",
+            "polling_url":null,
+            "last_modified_date":"2025-12-05T12:32:02.191089+00:00"
+        }
+        ```
+    </Tab>
+    <Tab title="HTTP Request">
+        ```http Example request: Trigger a workflow
+        POST /v1/unstable/agent/workflows/e1d78ccb-22e0-4a42-90e4-61884cf10af2/trigger HTTP/2
+        Host: api.deepl.com
+        Authorization: DeepL-Auth-Key [yourAuthKey]
+        User-Agent: YourApp/1.2.3
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+        ------WebKitFormBoundary
+        Content-Disposition: form-data; name="workflow_request"
+
+        {"input":{"Airline Link": "https://lufthansa.com","Departure Airport": "FRA","Destination Airport": "HND","Outbound Date": "2026-01-09 15:30:00","Inbound Date": "2026-01-17 17:30:00","Cabin Class": "economy","Number of passengers": "1"}}
+        ------WebKitFormBoundary--
+        ```
+        ```json Example response
+        {
+            "task_id":"edb5e896-bf21-424e-9ae0-2429ebd53a1e",
+            "ui_url":"https://agent.deepl.dev/static/chat/edb5e896-bf21-424e-9ae0-2429ebd53a1e",
+            "polling_url":null,
+            "last_modified_date":"2025-12-05T12:32:02.191089+00:00"
+        }
+        ```
+    </Tab>
+</Tabs>
+
+These examples are for demonstration purposes only. In production code, the authentication key should not be hard-coded but instead fetched from a configuration file or environment variable.
+
+### Get the task status and result
+Check the status of the task in which the workflow is running, as well as the results once the workflow is completed. If the task isn’t finished, the result will be null.
+The agent’s response to the completed workflow is available via a presigned URL, which is valid for five minutes. 
+The maximum number of requests allowed per minute is 12.  
+
+<Tabs>
+    <Tab title="cURL">
+        ```sh Example request: Get task status and results
+        curl -X GET 'https://api.deepl.com/v1/unstable/agent/tasks/[yourTaskId]' \
+        --header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+        ```
+        ```json Example response
+        {
+            "status":"completed",
+            "last_modified_date":"2025-12-05T12:54:05.711296+00:00",
+            "ui_url":null,
+            "result": {
+                "response": "https://agent.deepl.com/api/experimental/content/eyJhcnRpZmFjdF9pZCI6Ijc4MzBiNTMxLTM4YzYtNGQxNC04ZWJjLWMwYzUyOTExODE3OSIsInZlcnNpb24iOjEsIm93bmVyX2lkIjoiMDBmNGM5OTUtMDhkMy00NWRmLTg3NTQtNTg2OWI3MmIwYTQxIiwiZXhwaXJlcyI6MTc2NDkzOTU0OH0=.b901bca227e766ca303f09d15fbff465aae4aec69c31422eb0ee7a3217a1d023"
+            }
+        }
+        ```
+    </Tab>
+    <Tab title="HTTP Request">
+        ```http Example request: Get task status and results
+        GET /v1/unstable/agent/tasks/[yourTaskId] HTTP/2
+        Host: api.deepl.com
+        Authorization: DeepL-Auth-Key [yourAuthKey]
+        User-Agent: YourApp/1.2.3
+        ```
+        ```json Example response
+        {
+            "status":"completed",
+            "last_modified_date":"2025-12-05T12:54:05.711296+00:00",
+            "ui_url":null,
+            "result": {
+                "response": "https://agent.deepl.com/api/experimental/content/eyJhcnRpZmFjdF9pZCI6Ijc4MzBiNTMxLTM4YzYtNGQxNC04ZWJjLWMwYzUyOTExODE3OSIsInZlcnNpb24iOjEsIm93bmVyX2lkIjoiMDBmNGM5OTUtMDhkMy00NWRmLTg3NTQtNTg2OWI3MmIwYTQxIiwiZXhwaXJlcyI6MTc2NDkzOTU0OH0=.b901bca227e766ca303f09d15fbff465aae4aec69c31422eb0ee7a3217a1d023"
+            }
+        }
+        ```
+    </Tab>
+</Tabs>
+
+<Tabs>
+    <Tab title="cURL">
+        ```sh Example request: Get content from the presigned URL
+        # Replace with your presigned URL
+        curl 'https://agent.deepl.com/api/experimental/content/eyJhcnRpZmFjdF9pZCI6Ijc4MzBiNTMxLTM4YzYtNGQxNC04ZWJjLWMwYzUyOTExODE3OSIsInZlcnNpb24iOjEsIm93bmVyX2lkIjoiMDBmNGM5OTUtMDhkMy00NWRmLTg3NTQtNTg2OWI3MmIwYTQxIiwiZXhwaXJlcyI6MTc2NDkzOTU0OH0=.b901bca227e766ca303f09d15fbff465aae4aec69c31422eb0ee7a3217a1d023'
+        ```
+        ```json Example response
+        {
+            "message": "I've successfully completed the flight price research for your Frankfurt (FRA) to Tokyo Haneda (HND) trip.\n\n**Flight Details:**\n- Route: Frankfurt (FRA) \u2192 Tokyo Haneda (HND)\n- Dates: January 9-17, 2026\n- Passengers: 1\n- Class: Economy\n\n**Best Price Found:**\n- **EUR 514.43** for Economy class\n- Flight: 11:35 FRA \u2192 08:45+1 HND (next day arrival)\n- Direct flight (0 stops)\n- Operated by All Nippon Airways\n- Duration: 13h 10m\n\n**Other Options:**\n- Premium Economy: from EUR 1,464.43\n- Business Class: from EUR 2,189.43\n\n**Results Document:** [results.json](artifact://4c31b6a4-d9f0-43e7-9f0c-dd851334d5b8)\n\n**Screenshot:** [Flight Search Results](artifact://24a01ad9-c64e-4a27-9d2c-6246fb341be2)\n\nThe pricing is displayed in Euros and includes all available cabin classes for your selected dates.", 
+            "content_type": "text", 
+            "language": "en"
+        }
+        ```
+    </Tab>
+    <Tab title="HTTP Request">
+        ```http Example request: Get content from the presigned URL
+        # Replace with your presigned URL
+        GET /api/experimental/content/eyJhcnRpZmFjdF9pZCI6Ijc4MzBiNTMxLTM4YzYtNGQxNC04ZWJjLWMwYzUyOTExODE3OSIsInZlcnNpb24iOjEsIm93bmVyX2lkIjoiMDBmNGM5OTUtMDhkMy00NWRmLTg3NTQtNTg2OWI3MmIwYTQxIiwiZXhwaXJlcyI6MTc2NDkzOTU0OH0=.b901bca227e766ca303f09d15fbff465aae4aec69c31422eb0ee7a3217a1d023 HTTP/2
+        Host: agent.deepl.com
+        ```
+        ```json Example response
+        {
+            "message": "I've successfully completed the flight price research for your Frankfurt (FRA) to Tokyo Haneda (HND) trip.\n\n**Flight Details:**\n- Route: Frankfurt (FRA) \u2192 Tokyo Haneda (HND)\n- Dates: January 9-17, 2026\n- Passengers: 1\n- Class: Economy\n\n**Best Price Found:**\n- **EUR 514.43** for Economy class\n- Flight: 11:35 FRA \u2192 08:45+1 HND (next day arrival)\n- Direct flight (0 stops)\n- Operated by All Nippon Airways\n- Duration: 13h 10m\n\n**Other Options:**\n- Premium Economy: from EUR 1,464.43\n- Business Class: from EUR 2,189.43\n\n**Results Document:** [results.json](artifact://4c31b6a4-d9f0-43e7-9f0c-dd851334d5b8)\n\n**Screenshot:** [Flight Search Results](artifact://24a01ad9-c64e-4a27-9d2c-6246fb341be2)\n\nThe pricing is displayed in Euros and includes all available cabin classes for your selected dates.", 
+            "content_type": "text", 
+            "language": "en"
+        }
+        ```
+    </Tab>
+</Tabs>
+
+These examples are for demonstration purposes only. In production code, the authentication key should not be hard-coded but instead fetched from a configuration file or environment variable.
