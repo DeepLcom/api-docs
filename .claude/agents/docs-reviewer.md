@@ -36,6 +36,65 @@ Each part should follow this standard structure where applicable:
 5. **Common pitfalls**: Warnings and cautions (if applicable)
 6. **Cross-references**: Links to related parts or sections
 
+#### 1.3 How-To Guide Structure
+For how-to guides and method comparison documents, verify the presence of these standard sections:
+
+**Opening Summary ("This guide shows you:")**
+- Must appear at the top of the document after frontmatter
+- 2-4 bullet points outlining what the user will learn
+- Sets clear expectations about the guide's scope
+- Example:
+  ```markdown
+  **This guide shows you:**
+  - How to translate between language variants (e.g., `en-US` to `en-GB`)
+  - Which method to choose: Write API, style rules, or custom instructions
+  - Example workflow for converting American English to British English
+  ```
+
+**Method Sections with "When to use" Guidance**
+- Each method/approach should have its own subsection
+- Include a "**When to use this:**" section with clear decision-making bullets
+- Focus on use cases, not just features
+- Example:
+  ```markdown
+  ### 1. Method Name
+
+  Brief description of the method.
+
+  **When to use this:**
+  - Use case scenario 1
+  - Use case scenario 2
+  - Use case scenario 3
+  ```
+
+**Method Comparison Table**
+- When document presents multiple approaches, include a comparison table
+- Rows should be use cases, columns should be methods
+- Use ✅, ❌, or ⚠️ for at-a-glance comparison
+- Include practical use cases like "Short texts", "Longer texts", "Reusable rules"
+
+**Technical Details Section**
+- Should include subsections for:
+  - **Cost**: Billing information for parameters
+  - **Limits**: Size limits, rate limits, parameter limits
+  - **Recommendations**: Best practices for the feature (e.g., model type recommendations)
+- Place before "Next steps" section
+
+**Next Steps Section**
+- Must be titled "Next steps" (not "Related Documentation")
+- Opening sentence: "Now that you understand [topic]:"
+- Use bold lead-ins for each bullet point
+- Lead-ins should be action-oriented: "Try it yourself:", "Learn about:", "Explore:"
+- Example:
+  ```markdown
+  ## Next steps
+
+  Now that you understand how to translate between language variants:
+
+  - **Try it yourself:** Review the [API reference](/link) for specifications
+  - **Learn about X:** Explore the [feature](/link) for advanced usage
+  ```
+
 ### 2. Document Style
 
 #### 2.1 Writing Voice and Tone
@@ -132,7 +191,51 @@ Each code example should include:
 3. **Explanation**: Key points explained after the code
 4. **Variations** (if applicable): Alternative approaches with pros/cons
 
-#### 3.3 Code Consistency
+#### 3.3 Inline Method Examples
+For how-to guides that present multiple methods/approaches, each method section should include a short, focused code example:
+
+**Requirements:**
+- **Placement**: Code example should appear immediately after the "When to use this:" bullets
+- **Labels**: Use proper labels like "Example cURL request" or "Example request"
+- **Request AND Response**: Always show both the request and the response
+- **Brevity**: Keep examples short and focused on the key differentiator of the method
+- **Consistency**: Use the same example text/scenario across all methods for easy comparison
+
+**Example structure:**
+```markdown
+### 1. Method Name
+
+Brief description of the method.
+
+**When to use this:**
+- Use case 1
+- Use case 2
+
+```bash Example cURL request
+curl -X POST 'https://api.example.com/endpoint' \
+--header 'Authorization: API-Key [yourKey]' \
+--data '{
+  "parameter": "value"
+}'
+```
+
+```json Example response
+{
+  "result": "output"
+}
+```
+
+<Warning>
+Any warnings or caveats specific to this method.
+</Warning>
+```
+
+**When NOT to include inline examples:**
+- If the guide has a comprehensive example section later (but this should be rare)
+- If the method requires setup steps that can't be shown inline
+- In these cases, add a note directing users to the detailed example section
+
+#### 3.4 Code Consistency
 - **Import statements**: Show imports when first introducing a concept
 - **Variable naming**:
   - Use descriptive names: `live_request_queue` not `lrq`
@@ -140,7 +243,7 @@ Each code example should include:
 - **Type hints**: Include type hints in function signatures when helpful for understanding
 - **Error handling**: Show error handling in production-like examples, omit in minimal examples
 
-#### 3.4 Code Example Types
+#### 3.5 Code Example Types
 Distinguish between:
 - **Minimal examples**: Simplest possible demonstration of a concept
 - **Production-like examples**: Include error handling, logging, edge cases
