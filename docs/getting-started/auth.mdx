@@ -39,4 +39,6 @@ The authentication key is provided by setting the *Authorization* HTTP header to
 
 The current API version is v2, meaning that all request paths start with `/v2/`.
 
-It is the only supported version, with the exception of CAT tool integrations, which need to use the version 1 API that is not documented here. If you intend to integrate DeepL Pro into a CAT tool or another tool assisting translation, please contact [cat-tool.support@DeepL.com](mailto:cat-tool.support@DeepL.com).
+The version 1 API (`/v1/`) is also available for both API and CAT tool authentication keys. It supports the `/v1/translate`, `/v1/languages`, `/v1/usage`, and `/v1/glossaries` endpoints. The v1 and v2 endpoints share the same underlying implementation. Usage is reported and billed normally for API keys accessing v1 endpoints.
+
+If you intend to integrate DeepL Pro into a CAT tool or another tool assisting translation, please contact [cat-tool.support@DeepL.com](mailto:cat-tool.support@DeepL.com).
