@@ -1,36 +1,94 @@
 ---
-title: "Node.js Proxy Server"
-description: "A lightweight local proxy for the DeepL API that enables browser-based applications to bypass CORS restrictions."
+title: "Making API calls from client-side JavaScript"
+description: "Two lightweight local proxies that let you try the DeepL API directly from a website"
 public: true
 ---
+
+<Note>
+These proxies are intended for prototyping and frontend testing. For production environments, consider implementing your own backend service with additional security measures and rate limiting.
+</Note>
+
+## Rationale
+
+The DeepL API does not permit calls from client-side JavaScript - that is, from JavaScript running in a browser. This policy exists to keep your API key safe. When you place a call from your website directly to the DeepL API, that call needs to include your API key. Anyone using your website could look at the network calls or your code itself, find your API key, and use it themselves.
+
+For this and other security considerations, DeepL [does not enable the CORS headers](/docs/best-practices/cors-requests) you would need to call the API from a webpage hosted on your origin. The industry-standard approach is to call APIs like DeepL’s from a back-end service. DeepL enforces this best practice to keep your credentials secure.
+
+## When to use a quick proxy
+
+But what do you do if you want to use the API quickly, in a prototype, a demo, or a hackathon, where you need to get up and running fast? What if you don’t have easy access to a server?
+
+For such situations, here are two solutions.
+
+## Node.js Proxy Server
 
 <Card title="GitHub - DeepLcom/deepl-api-nodejs-proxy" icon="github" horizontal href="https://github.com/DeepLcom/deepl-api-nodejs-proxy">
   DeepL API Node.js Proxy on GitHub
 </Card>
 
+This full-featured proxy server supports all DeepL API endpoints, including text translation, document translation, and glossaries. Built with Node.js and Express with minimal dependencies, it handles CORS headers for you and keeps your API key secure. It even includes an interactive web demo for testing translations right in your browser.
 
-## Overview
+This proxy includes an interactive setup wizard to get you started quickly. Clone the repo, run the setup, and start sending requests from your browser. Check out the [GitHub repository](https://github.com/DeepLcom/deepl-api-nodejs-proxy) for full setup instructions and Docker support.
 
-This lightweight proxy server lets you call the DeepL API directly from browser-based applications. In simpler terms, it lets you make DeepL API calls from your client-side JavaScript without running into browser security restrictions.
+## Quick & dirty PHP proxy
 
-Since the DeepL API doesn't allow direct browser requests (see [CORS requests documentation](/docs/best-practices/cors-requests)), this proxy handles CORS headers and keeps your API key secure. Perfect for hackathons, demos, and quick prototypes where you need to get up and running fast.
+If you’re just using our `/translate` endpoint and want an even quicker solution, or if you don’t use node.js, you could use the PHP code below to create an instant proxy server. If PHP is not already installed on your machine, you can download and install it at [php.net](https://www.php.net/downloads.php).
 
-Built with Node.js and Express with minimal dependencies. Supports all DeepL API endpoints including text translation, document translation, and glossaries. Includes an interactive web demo for testing translations right in your browser.
+The PHP script takes the parameters in the query string and passes them into a `POST` request to `/translate`. It does not check that the parameters are valid and does not support any other endpoints, although you could modify it to do so.
 
-<Note>
-This proxy is intended for prototyping and frontend testing. For production environments, consider implementing your own backend service with additional security measures and rate limiting.
-</Note>
+To use this while developing on your local machine:
 
-## Quick Start
+* replace `{your API key here}` with your actual API key   
+* create a file in your favorite directory with the PHP code below  
+* go to your terminal and visit that directory  
+* type `php -S localhost:8000`
 
-The proxy includes an interactive setup wizard to get you started quickly. Clone the repo, run the setup, and start sending requests from your browser. Check out the [GitHub repository](https://github.com/DeepLcom/deepl-api-nodejs-proxy) for full setup instructions and Docker support.
+Your JavaScript can then access the DeepL API at `http://localhost:8000/php-proxy.php`. For example, to send a translation request with `text` and `target_lang`:
+
+```javascript
+const url = `http://localhost:8000/deepl-proxy.php?text=${encodeURIComponent(text)}&target_lang=${encodeURIComponent(targetLang)}`;
+const response = await fetch(url);
+const result = await response.text();
+```
+
+Here is the PHP script:
+
+```php
+<?php
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+
+$apiKey = '{your API key here}';
+$apiUrl = 'https://api.deepl.com/v2/translate';
+
+$data = http_build_query($_GET);
+
+$context = stream_context_create([
+  'http' => [
+      'method' => 'POST',
+      'header' => "Authorization: DeepL-Auth-Key " . $apiKey . "\r\n" .
+                  "Content-Type: application/x-www-form-urlencoded\r\n",
+      'content' => $data
+  ]
+]);
+
+echo file_get_contents($apiUrl, false, $context);
+?>
+```
+
 
 ## Screenshots
 
-<Frame>
+### Node.js proxy
+<Frame caption="Node.js proxy server running in a terminal">
   <img src="https://raw.githubusercontent.com/DeepLcom/deepl-api-nodejs-proxy/main/assets/proxy-running.png" alt="Node.js proxy server running and ready to accept requests" />
 </Frame>
 
-<Frame>
+<Frame caption="Interactive web demo interface for testing translations">
   <img src="https://raw.githubusercontent.com/DeepLcom/deepl-api-nodejs-proxy/main/assets/dashboard-demo.png" alt="Interactive web demo interface for testing translations" />
+</Frame>
+
+### PHP proxy
+<Frame caption='PHP proxy running in a terminal'>
+    ![](/_assets/images/php-proxy-screenshot.png)
 </Frame>
