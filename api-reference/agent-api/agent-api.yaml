@@ -1,0 +1,224 @@
+openapi: 3.0.3
+info:
+  title: DeepL Agent API
+  description: >
+    API for triggering and monitoring agentic workflows. These endpoints allow users to trigger
+    workflows with custom inputs and poll for task completion status.
+  version: 1.0.0
+servers:
+  - url: https://api.deepl.com
+    description: Production server
+tags:
+  - name: agent
+    description: DeepL Agent workflow operations
+
+paths:
+  /v1/unstable/agent/workflows/{workflowId}/trigger:
+    post:
+      summary: Trigger a workflow
+      description: >
+        Triggers an agentic workflow with the specified ID. The workflow will be executed
+        asynchronously, and a task ID will be returned to poll for status updates.
+      operationId: trigger_workflow
+      tags:
+        - agent
+      security:
+        - auth_header: []
+      parameters:
+        - name: workflowId
+          in: path
+          description: Unique identifier of the workflow to trigger
+          required: true
+          schema:
+            type: string
+          example: "workflow-123"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - workflow_request
+              properties:
+                workflow_request:
+                  type: string
+                  description: JSON string containing the workflow input parameters
+                  example: '{"input": {"language": "American English"}}'
+      responses:
+        200:
+          description: Successfully triggered the workflow
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TriggerWorkflowResponse'
+              example:
+                task_id: "task-456"
+                ui_url: "https://agent.deepl.com/static/chat/e333fb65-77eb-4669-ba55-201a5e3cff32"
+                polling_url: "/v1/unstable/agent/tasks/task-456"
+                last_modified_date: "2025-12-04T10:30:00Z"
+        400:
+          description: Bad request - invalid workflow_request JSON or missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                message: "Invalid JSON in workflow_request field"
+        401:
+          description: Unauthorized - invalid or missing API key, or account is not configured for agentic API use
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Workflow not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                message: "Workflow with ID 'workflow-123' not found"
+
+  /v1/unstable/agent/tasks/{taskId}:
+    get:
+      summary: Get task status
+      description: >
+        Retrieves the current status and result of a previously triggered workflow task.
+        Use this endpoint to poll for task completion after triggering a workflow.
+      operationId: get_task_status
+      tags:
+        - agent
+      security:
+        - auth_header: []
+      parameters:
+        - name: taskId
+          in: path
+          description: Unique identifier of the task to retrieve
+          required: true
+          schema:
+            type: string
+          example: "task-456"
+      responses:
+        200:
+          description: Successfully retrieved task status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTaskResponse'
+              examples:
+                in_progress:
+                  summary: Task in progress
+                  value:
+                    status: "InProgress"
+                    last_modified_date: "2025-12-04T10:30:00Z"
+                    ui_url: "https://agent.deepl.com/static/chat/e333fb65-77eb-4669-ba55-201a5e3cff32"
+                    result: {}
+                completed:
+                  summary: Task completed
+                  value:
+                    status: "Completed"
+                    last_modified_date: "2025-12-04T10:35:00Z"
+                    ui_url: "https://agent.deepl.com/static/chat/e333fb65-77eb-4669-ba55-201a5e3cff32"
+                    result:
+                      output: "Translated text result"
+        401:
+          description: Unauthorized - invalid or missing API key, or account is not configured for agentic API use
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                message: "Task with ID 'task-456' not found"
+
+components:
+  schemas:
+    TriggerWorkflowResponse:
+      type: object
+      required:
+        - task_id
+        - last_modified_date
+      properties:
+        task_id:
+          type: string
+          description: Unique identifier for the triggered workflow task
+          example: "task-456"
+        ui_url:
+          type: string
+          nullable: true
+          description: URL to view the task in the agentic system user interface
+          example: "https://agent.deepl.com/static/chat/e333fb65-77eb-4669-ba55-201a5e3cff32"
+        polling_url:
+          type: string
+          nullable: true
+          description: Relative URL endpoint to poll for task status updates
+          example: "/v1/unstable/agent/tasks/task-456"
+        last_modified_date:
+          type: string
+          format: date-time
+          description: Timestamp of when the task was last modified (ISO 8601 format)
+          example: "2025-12-04T10:30:00Z"
+
+    GetTaskResponse:
+      type: object
+      required:
+        - status
+        - last_modified_date
+        - result
+      properties:
+        status:
+          $ref: '#/components/schemas/TaskStatus'
+        last_modified_date:
+          type: string
+          format: date-time
+          description: Timestamp of when the task was last modified (ISO 8601 format)
+          example: "2025-12-04T10:35:00Z"
+        ui_url:
+          type: string
+          nullable: true
+          description: URL to view the task in the agentic UI
+          example: "https://agent.deepl.com/static/chat/e333fb65-77eb-4669-ba55-201a5e3cff32"
+        result:
+          type: object
+          description: Workflow-specific result data (structure varies by workflow type)
+          additionalProperties: true
+          example:
+            output: "Translated text result"
+
+    TaskStatus:
+      type: string
+      description: Current status of the task
+      enum:
+        - Archived
+        - InProgress
+        - Completed
+        - Canceled
+        - Error
+        - FeedbackNeeded
+      example: "Completed"
+
+    ErrorResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: "Workflow with ID 'workflow-123' not found"
+
+  securitySchemes:
+    auth_header:
+      type: apiKey
+      description: >
+        Authentication with `Authorization` header and 
+        `DeepL-Auth-Key` authentication scheme. Example: 
+        `DeepL-Auth-Key <api-key>`
+      name: Authorization
+      in: header
