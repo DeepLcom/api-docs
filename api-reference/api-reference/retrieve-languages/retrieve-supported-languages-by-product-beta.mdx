@@ -27,9 +27,9 @@ To understand how we'll update these endpoints when we add translation support f
 You can call the `/v3/languages/source` and endpoint to retrieve a list of all supported source languages, and the
 `/v3/languages/target` endpoint to retrieve a list of all supported target languages.
 
-<Tabs>
 The examples below use our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
 
+<Tabs>
 <Tab title="cURL">
 
 ```sh Example request: supported source languages
@@ -46,20 +46,40 @@ Authorization: DeepL-Auth-Key [yourAuthKey]
 User-Agent: YourApp/1.2.3
 ```
 </Tab>
+</Tabs>
 
 ```json Example response
 [
-  { "code": "de", "name": "German", "products": ["translate_text", "translate_document", "glossary", "voice", "write"] },
-  { "code": "en", "name": "English", "products": ["translate_text", "translate_document", "glossary", "voice", "write"] }
+  {
+    "code": "de",
+    "name": "German",
+    "products": [
+      "translate_text",
+      "translate_document",
+      "glossary",
+      "voice",
+      "write"
+    ]
+  },
+  {
+    "code": "en",
+    "name": "English",
+    "products": [
+      "translate_text",
+      "translate_document",
+      "glossary",
+      "voice",
+      "write"
+    ]
+  }
 ]
 ```
-</Tabs>
-
 
 ## Filtering by product
 
-When the `product` query parameter is specified, only languages supporting that product are returned.
-Additionally, the `products` array is replaced by a `features` array indicating which product-specific capabilities that
+You may also specify the `product` query parameter as a filter, so only languages supporting that product are returned.
+In this case the `products` array is omitted from each language.
+Additionally, languages may include a `features` array indicating which product-specific capabilities the
 language supports:
 
 <Tabs>
@@ -81,14 +101,29 @@ User-Agent: YourApp/1.2.3
 ```
 
 </Tab>
+</Tabs>
 
 ```json Example response
 [
-  { "code": "de", "name": "German", "features": ["formality", "tag_handling", "glossary_id"] },
-  { "code": "en-US", "name": "English (American)", "features": ["tag_handling", "glossary_id"] }
+  {
+    "code": "de",
+    "name": "German",
+    "features": [
+      "formality",
+      "tag_handling",
+      "glossary_id"
+    ]
+  },
+  {
+    "code": "en-US",
+    "name": "English (American)",
+    "features": [
+      "tag_handling",
+      "glossary_id"
+    ]
+  }
 ]
 ```
-</Tabs>
 
 ## Products list
 
@@ -98,17 +133,22 @@ The `product` query parameter identifies which DeepL API product you are queryin
 |---|---|
 | `translate_text` | Text translation via the `/v2/translate` endpoint |
 | `translate_document` | Document translation via the `/v2/document` endpoint |
-| `voice` | Speech-to-speech/text via the `/v3/voice` endpoints |
+| `voice` | Speech-to-text and speech-to-speech via the `/v3/voice` endpoints |
 | `write` | Text improvement via the `/v2/write` endpoints |
 | `glossary` | Glossary management via the `/v2/` and `/v3/glossaries` endpoints |
 
 <Note>
-  `glossary` appears both as a standalone product name and as a feature value on individual languages for other products (e.g. `voice`). As a feature, it indicates that the language supports use with a glossary for that product.
+    `glossary` is a product value indicating glossary management support.
+    Support for glossaries within specific products (for example text translation) is indicated by the `glossary_id`
+    feature value, explained in the following section.
 </Note>
+
+As we add new products to the DeepL API, the `products` list for each language will be extended.
 
 ## Product features
 
-When a `product` query parameter is specified, language objects may include a `features` array. The features that can appear depend on both the product and whether the language is a source or target language.
+When the `product` query parameter is specified, language objects may include a `features` array.
+The features indicate which optional endpoint parameters are supported for that language.
 
 ### Source language features
 
@@ -139,137 +179,21 @@ Feature values are defined as follows:
 - **`writing_style`**: The language supports writing style selection
 - **`tone`**: The language supports tone selection
 
-## Response structure
-
-Both endpoints return a flat JSON array of language objects. Each object contains:
-
-- **`code`**: The language code used in API requests (e.g., `"de"`, `"en"`, `"fr"`)
-- **`name`**: The English name of the language (e.g., `"German"`, `"English"`, `"French"`)
-- **`products`** *(optional)*: An array of product identifiers indicating which products support this language. Only present when no `product` query parameter is specified.
-- **`features`** *(optional)*: An array of feature strings indicating additional capabilities for this language with the specified product. Only present when a `product` query parameter is specified and the language supports one or more features for that product.
-
-### Source vs target language codes
-
-Source languages use base codes (e.g., `"en"`), while target languages may use regional variant codes (e.g., `"en-US"`, `"en-GB"`):
-
-```javascript
-// Source language
-{ "code": "en", "name": "English" }
-
-// Target languages
-{ "code": "en-US", "name": "English (American)" }
-{ "code": "en-GB", "name": "English (British)" }
-```
-
-## Query parameters
-
-### GET /v3/languages/source
-
-<ParamField query="product" type="enum">
-  Filter languages by product. Supported values: `translate_text`, `translate_document`, `glossary`, `voice`, `write`.
-
-  When specified:
-  - Only languages supporting that product are returned
-  - The `products` field is omitted from the response
-  - Source languages may include a `features` array for product-specific capabilities
-</ParamField>
-
-<ParamField query="target_lang" type="string">
-  Filter source languages to those compatible with a specific target language. Must be used together with `product`. Cannot be used together with `source_lang`.
-
-  - Language code must be valid (e.g., `"en"`, `"en-US"`, `"fr"`)
-  - Only returns source languages that form a supported language pair with the given target
-</ParamField>
-
-### GET /v3/languages/target
-
-<ParamField query="product" type="enum">
-  Filter languages by product. Supported values: `translate_text`, `translate_document`, `glossary`, `voice`, `write`.
-
-  When specified:
-  - Only languages supporting that product are returned
-  - The `products` field is omitted from the response
-  - Target languages may include a `features` array for product-specific capabilities
-</ParamField>
-
-<ParamField query="source_lang" type="string">
-  Filter target languages to those compatible with a specific source language. Must be used together with `product`. Cannot be used together with `target_lang`.
-
-  - Language code must be valid (e.g., `"de"`, `"en"`, `"fr"`)
-  - Only returns target languages that form a supported language pair with the given source
-</ParamField>
 
 ## Language pair exceptions
 
-Some products may support individual languages but not every combination. For example, a voice product might support `de→en` and `fr→en`, but not `de→fr`. When querying with a language filter, unsupported pairs are automatically excluded:
+In rare cases, feature support for a language pair may differ from that predicted by the feature support for the source
+and target languages individually. This sometimes occurs due to language-specifics of DeepL's AI models.
 
-```javascript
-GET /v3/languages/target?product=voice&source_lang=de
-// Returns valid target languages for de, excluding any that de cannot be paired with
-```
+A hypothetical example: text translation formality is supported for source language Ukrainian, and it is also supported
+for target language Russian. However, translating specifically from Ukrainian to Russian does not support formality.
 
-## Use cases
+It is complex to handle these cases, so we design our API endpoints to perform the best possible function in such cases,
+for example, by ignoring formality support in the Ukrainian to Russian case above. However, we recognize some of our
+users are interested in these specifics, so this section explains how to retrieve this information.
 
-### Building a translation UI
+TODO
 
-```javascript
-// Fetch source and target languages for text translation
-const [sourceRes, targetRes] = await Promise.all([
-  fetch('https://api.deepl.com/v3/languages/source?product=translate_text', {
-    headers: { 'Authorization': 'DeepL-Auth-Key [yourAuthKey]' }
-  }),
-  fetch('https://api.deepl.com/v3/languages/target?product=translate_text', {
-    headers: { 'Authorization': 'DeepL-Auth-Key [yourAuthKey]' }
-  })
-]);
-const sources = await sourceRes.json();
-const targets = await targetRes.json();
-```
-
-### Checking feature support
-
-```javascript
-// Find target languages that support formality for text translation
-const response = await fetch(
-  'https://api.deepl.com/v3/languages/target?product=translate_text',
-  { headers: { 'Authorization': 'DeepL-Auth-Key [yourAuthKey]' } }
-);
-const targets = await response.json();
-
-const formalityTargets = targets
-  .filter(lang => lang.features?.includes('formality'))
-  .map(lang => lang.code);
-// Example result: ["de", "es", "fr", "it", "ja", "nl", "pl", "pt-BR", "pt-PT", "ru"]
-```
-
-### Validating a language pair
-
-```javascript
-// Check which targets are valid when source is de for voice
-const response = await fetch(
-  'https://api.deepl.com/v3/languages/target?product=voice&source_lang=de',
-  { headers: { 'Authorization': 'DeepL-Auth-Key [yourAuthKey]' } }
-);
-const targets = await response.json();
-const isFrenchSupported = targets.some(lang => lang.code === 'fr');
-```
-
-## Error responses
-
-<ResponseField name="400 Bad Request" type="error">
-  Invalid query parameters:
-  - Unknown `product` value
-  - `source_lang` or `target_lang` used without `product`
-  - Invalid language code
-</ResponseField>
-
-<ResponseField name="401 Unauthorized" type="error">
-  Missing or invalid authentication.
-</ResponseField>
-
-<ResponseField name="403 Forbidden" type="error">
-  API key doesn't have access to this endpoint.
-</ResponseField>
 
 ## API stability
 
