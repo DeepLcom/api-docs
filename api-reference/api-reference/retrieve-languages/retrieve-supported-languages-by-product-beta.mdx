@@ -45,7 +45,7 @@ When a `product` query parameter is specified, language objects may include a `f
 | `translate_text` | `tag_handling`, `glossary_id` |
 | `translate_document` | `glossary_id` |
 | `glossary` | *(none)* |
-| `voice` | `glossary` |
+| `voice` | `glossary_id` |
 | `write` | *(none)* |
 
 ### Target language features
@@ -55,7 +55,7 @@ When a `product` query parameter is specified, language objects may include a `f
 | `translate_text` | `formality`, `tag_handling`, `glossary_id`, `custom_instructions` |
 | `translate_document` | `formality`, `glossary_id` |
 | `glossary` | *(none)* |
-| `voice` | `formality`, `glossary` |
+| `voice` | `formality`, `glossary_id` |
 | `write` | `writing_style`, `tone` |
 
 Feature values are defined as follows:
@@ -64,7 +64,6 @@ Feature values are defined as follows:
 - **`tag_handling`**: The language supports XML/HTML tag handling in translation requests
 - **`glossary_id`**: The language supports use with a glossary (via `glossary_id` parameter)
 - **`custom_instructions`**: The language supports custom translation instructions
-- **`glossary`**: The language supports use with a glossary for voice translation
 - **`writing_style`**: The language supports writing style selection
 - **`tone`**: The language supports tone selection
 
