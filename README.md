@@ -81,6 +81,10 @@ For the highest quality documentation, use both the diataxis plugin and docs-rev
 
 This two-pass approach ensures both structural correctness (via diataxis) and editorial quality (via docs-reviewer).
 
+3. **Check for broken links:**
+
+Finally, you can run `mint broken-links` and `mint broken-links --check-anchors` to ensure all links are correct.
+
 ### Future Plans
 
 - Add a subagent to search our codebase and backstage

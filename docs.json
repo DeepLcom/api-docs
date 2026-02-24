@@ -399,11 +399,11 @@
     },
     {
       "source": "/docs/best-practices/working-with-context",
-      "destination": "/docs/learning-how-tos/how-to-use-context-parameter"
+      "destination": "/docs/learning-how-tos/examples-and-guides/how-to-use-context-parameter"
     },
     {
       "source": "/docs/learning-how-tos/cookbook/context-parameter-examples",
-      "destination": "/docs/learning-how-tos/how-to-use-context-parameter"
+      "destination": "/docs/learning-how-tos/examples-and-guides/how-to-use-context-parameter"
     }
   ],
   "integrations": {
