@@ -1942,6 +1942,302 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       security:
         - auth_header: [ ]
+  /v3/languages/source:
+    get:
+      tags:
+        - MetaInformation
+      summary: Retrieve Source Languages
+      operationId: getSourceLanguages
+      description: |-
+        Returns source languages supported by one or more DeepL API products.
+
+        When no `product` parameter is specified, each language includes a `products` array
+        indicating which products support it. When `product` is specified, only languages
+        for that product are returned, the `products` field is omitted, and source languages
+        may include a `features` array listing product-specific capabilities.
+      parameters:
+        - name: product
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - translate_text
+              - translate_document
+              - glossary
+              - voice
+              - write
+          description: |-
+            Filter languages by product. Supported values: `translate_text`, `translate_document`,
+            `glossary`, `voice`, `write`.
+        - name: target_lang
+          in: query
+          required: false
+          schema:
+            type: string
+            example: en-US
+          description: |-
+            Filter source languages to those compatible with a specific target language.
+            Must be used together with `product`. Language code must be valid (e.g. `en`, `en-US`, `fr`).
+      responses:
+        200:
+          description: JSON array where each item represents a supported source language.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - code
+                    - name
+                  properties:
+                    code:
+                      description: The language code of the given language.
+                      type: string
+                      example: de
+                    name:
+                      description: Name of the language in English.
+                      type: string
+                      example: German
+                    products:
+                      description: |-
+                        Array of product identifiers indicating which products support this language.
+                        Only present when no `product` query parameter is specified.
+                      type: array
+                      items:
+                        type: string
+                        enum:
+                          - translate_text
+                          - translate_document
+                          - glossary
+                          - voice
+                          - write
+                      example:
+                        - translate_text
+                        - translate_document
+                        - glossary
+                        - voice
+                        - write
+                    features:
+                      description: |-
+                        Array of feature strings indicating capabilities for this language with the
+                        specified product. Only present when a `product` query parameter is specified
+                        and the language supports one or more features for that product.
+                      type: array
+                      items:
+                        type: string
+                        enum:
+                          - tag_handling
+                          - glossary_id
+                          - glossary
+                      example:
+                        - tag_handling
+                        - glossary_id
+              examples:
+                allSourceLanguages:
+                  summary: All source languages (no product filter)
+                  value:
+                    - code: de
+                      name: German
+                      products:
+                        - translate_text
+                        - translate_document
+                        - glossary
+                        - voice
+                        - write
+                    - code: en
+                      name: English
+                      products:
+                        - translate_text
+                        - translate_document
+                        - glossary
+                        - voice
+                        - write
+                translateTextSources:
+                  summary: Source languages for text translation
+                  value:
+                    - code: de
+                      name: German
+                      features:
+                        - tag_handling
+                        - glossary_id
+                    - code: en
+                      name: English
+                      features:
+                        - tag_handling
+                        - glossary_id
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+        - auth_header: []
+  /v3/languages/target:
+    get:
+      tags:
+        - MetaInformation
+      summary: Retrieve Target Languages
+      operationId: getTargetLanguages
+      description: |-
+        Returns target languages supported by one or more DeepL API products.
+
+        When no `product` parameter is specified, each language includes a `products` array
+        indicating which products support it. When `product` is specified, only languages
+        for that product are returned, the `products` field is omitted, and target languages
+        may include a `features` array listing product-specific capabilities.
+      parameters:
+        - name: product
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - translate_text
+              - translate_document
+              - glossary
+              - voice
+              - write
+          description: |-
+            Filter languages by product. Supported values: `translate_text`, `translate_document`,
+            `glossary`, `voice`, `write`.
+        - name: source_lang
+          in: query
+          required: false
+          schema:
+            type: string
+            example: de
+          description: |-
+            Filter target languages to those compatible with a specific source language.
+            Must be used together with `product`. Language code must be valid (e.g. `de`, `en`, `fr`).
+      responses:
+        200:
+          description: JSON array where each item represents a supported target language.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - code
+                    - name
+                  properties:
+                    code:
+                      description: The language code of the given language.
+                      type: string
+                      example: en-US
+                    name:
+                      description: Name of the language in English.
+                      type: string
+                      example: English (American)
+                    products:
+                      description: |-
+                        Array of product identifiers indicating which products support this language.
+                        Only present when no `product` query parameter is specified.
+                      type: array
+                      items:
+                        type: string
+                        enum:
+                          - translate_text
+                          - translate_document
+                          - glossary
+                          - voice
+                          - write
+                      example:
+                        - translate_text
+                        - translate_document
+                        - glossary
+                        - voice
+                        - write
+                    features:
+                      description: |-
+                        Array of feature strings indicating capabilities for this language with the
+                        specified product. Only present when a `product` query parameter is specified
+                        and the language supports one or more features for that product.
+                      type: array
+                      items:
+                        type: string
+                        enum:
+                          - formality
+                          - tag_handling
+                          - glossary_id
+                          - custom_instructions
+                          - glossary
+                          - writing_style
+                          - tone
+                      example:
+                        - formality
+                        - tag_handling
+                        - glossary_id
+              examples:
+                allTargetLanguages:
+                  summary: All target languages (no product filter)
+                  value:
+                    - code: en-US
+                      name: English (American)
+                      products:
+                        - translate_text
+                        - translate_document
+                        - glossary
+                        - voice
+                        - write
+                    - code: fr
+                      name: French
+                      products:
+                        - translate_text
+                        - translate_document
+                        - glossary
+                        - voice
+                        - write
+                translateTextTargets:
+                  summary: Target languages for text translation
+                  value:
+                    - code: de
+                      name: German
+                      features:
+                        - formality
+                        - tag_handling
+                        - glossary_id
+                    - code: en-US
+                      name: English (American)
+                      features:
+                        - tag_handling
+                        - glossary_id
+                    - code: fr
+                      name: French
+                      features:
+                        - formality
+                        - tag_handling
+                        - glossary_id
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+        - auth_header: []
   /v3/style_rules:
     get:
       summary: Retrieve style rule lists

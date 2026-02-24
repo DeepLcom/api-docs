@@ -1,0 +1,68 @@
+---
+title: 'Migrating from v2/languages'
+description: "How to migrate from the v2/languages endpoint to the v3/languages endpoints."
+---
+
+This page covers the differences between the `/v2/languages` endpoint and the v3 endpoints, and how to update your integration.
+
+<Warning>
+  Only `GET` requests are supported on the v3 endpoints. Unlike `/v2/languages`, POST is not supported.
+</Warning>
+
+## What changed
+
+### Separate endpoints for source and target
+
+v2 uses a single endpoint with a `type` query parameter:
+
+```
+GET /v2/languages?type=source
+GET /v2/languages?type=target
+```
+
+v3 uses two dedicated endpoints:
+
+```
+GET /v3/languages/source
+GET /v3/languages/target
+```
+
+### New product identifiers
+
+v2 languages are implicitly tied to text and document translation. v3 introduces an explicit `product` parameter that applies across all DeepL API products:
+
+| v2 | v3 `product` value |
+|---|---|
+| *(implicit — text/document translation only)* | `translate_text` |
+| *(implicit — text/document translation only)* | `translate_document` |
+| *(not supported — separate `/v2/glossary-language-pairs` endpoint)* | `glossary` |
+| *(not supported)* | `voice` |
+| *(not supported)* | `write` |
+
+The v3 endpoints replace both `/v2/languages` and `/v2/glossary-language-pairs`.
+
+### Features instead of `supports_formality`
+
+v2 target languages include a boolean `supports_formality` field. v3 replaces this with a `features` array that covers additional capabilities per product:
+
+| v2 field | v3 equivalent |
+|---|---|
+| `"supports_formality": true` | `"features": ["formality"]` on target language (when `product` is specified) |
+
+The `features` array only appears on a language object when a `product` parameter is specified and the language supports at least one feature for that product. See the [overview](/api-reference/api-reference/retrieve-languages/retrieve-supported-languages-by-product-beta) for the full list of features per product.
+
+### Flat array response
+
+v2 returns a flat JSON array. v3 also returns a flat array — but each endpoint returns only its own list (sources or targets), so there is no wrapper object.
+
+### Response field names
+
+| v2 field | v3 field |
+|---|---|
+| `language` | `code` |
+| `name` | `name` *(unchanged)* |
+| `supports_formality` | `features` *(array, product-specific)* |
+
+## Migrating glossary language pair queries
+
+If you currently use `/v2/glossary-language-pairs` to discover which language pairs are supported for glossaries, use `/v3/languages/source` and `/v3/languages/target` with `product=glossary` instead.
