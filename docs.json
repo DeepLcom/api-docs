@@ -192,12 +192,17 @@
               {
                 "group": "Retrieve languages",
                 "pages": [
-                  "api-reference/languages",
-                  "api-reference/languages/retrieve-supported-languages",
                   "api-reference/api-reference/retrieve-languages/retrieve-supported-languages-by-product-beta",
                   "api-reference/api-reference/retrieve-languages/retrieve-source-languages-beta",
                   "api-reference/api-reference/retrieve-languages/retrieve-target-languages-beta",
-                  "api-reference/api-reference/retrieve-languages/migrate-from-v2-languages"
+                  "api-reference/api-reference/retrieve-languages/migrate-from-v2-languages",
+                  {
+                    "group": "v2 (Legacy)",
+                    "pages": [
+                      "api-reference/languages",
+                      "api-reference/languages/retrieve-supported-languages"
+                    ]
+                  }
                 ]
               },
               {
