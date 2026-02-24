@@ -4,10 +4,16 @@ sidebarTitle: 'Overview'
 description: "API reference for retrieving supported languages with the DeepL API across all products."
 ---
 
-Get comprehensive information about all currently supported source and target languages across all DeepL API products, including text translation, document translation, glossaries, DeepL Voice, and DeepL Write.
+Get information about all currently supported source and target languages across all DeepL API products, including
+text translation, document translation, glossaries, DeepL Voice, and DeepL Write.
 
 <Info>
-  The `/v3/languages` endpoints provide a single source of truth for language and feature support across all DeepL API products. They replace the `/v2/languages` and `/v2/glossary-language-pairs` endpoints with a unified, extensible design.
+    The `/v3/languages` endpoints provide a single source of truth for language and feature support across all DeepL
+    API products. They replace the `/v2/languages` and `/v2/glossary-language-pairs` endpoints.
+
+    If you're currently using `/v2/languages` or `/v2/glossary-language-pairs`, see the
+    [migration guide](/api-reference/api-reference/retrieve-languages/migrate-from-v2-languages)
+    for a full list of differences and code examples.
 </Info>
 
 We also provide specs that are auto-generated from DeepL's OpenAPI file. You can find them here:
@@ -16,9 +22,75 @@ We also provide specs that are auto-generated from DeepL's OpenAPI file. You can
 
 To understand how we'll update these endpoints when we add translation support for a new language or language variant, please see [this article](/docs/resources/language-release-process).
 
-If you're currently using `/v2/languages` or `/v2/glossary-language-pairs`, see the [migration guide](/api-reference/api-reference/retrieve-languages/migrate-from-v2-languages) for a full list of differences and code examples.
+## Basic example
 
-## Products
+You can call the `/v3/languages/source` and endpoint to retrieve a list of all supported source languages, and the
+`/v3/languages/target` endpoint to retrieve a list of all supported target languages.
+
+<Tabs>
+The examples below use our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
+
+<Tab title="cURL">
+
+```sh Example request: supported source languages
+curl -X GET 'https://api.deepl.com/v3/languages/source' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+```
+</Tab>
+<Tab title="HTTP Request">
+
+```http Example request: supported source languages
+GET /v3/languages/source HTTP/2
+Host: api.deepl.com
+Authorization: DeepL-Auth-Key [yourAuthKey]
+User-Agent: YourApp/1.2.3
+```
+</Tab>
+
+```json Example response
+[
+  { "code": "de", "name": "German", "products": ["translate_text", "translate_document", "glossary", "voice", "write"] },
+  { "code": "en", "name": "English", "products": ["translate_text", "translate_document", "glossary", "voice", "write"] }
+]
+```
+</Tabs>
+
+
+## Filtering by product
+
+When the `product` query parameter is specified, only languages supporting that product are returned.
+Additionally, the `products` array is replaced by a `features` array indicating which product-specific capabilities that
+language supports:
+
+<Tabs>
+<Tab title="cURL">
+
+```sh Example request: target languages for text translation
+curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+```
+
+</Tab>
+<Tab title="HTTP Request">
+
+```http Example request: target languages for text translation
+GET /v3/languages/target?product=translate_text HTTP/2
+Host: api.deepl.com
+Authorization: DeepL-Auth-Key [yourAuthKey]
+User-Agent: YourApp/1.2.3
+```
+
+</Tab>
+
+```json Example response
+[
+  { "code": "de", "name": "German", "features": ["formality", "tag_handling", "glossary_id"] },
+  { "code": "en-US", "name": "English (American)", "features": ["tag_handling", "glossary_id"] }
+]
+```
+</Tabs>
+
+## Products list
 
 The `product` query parameter identifies which DeepL API product you are querying language support for:
 
@@ -26,9 +98,9 @@ The `product` query parameter identifies which DeepL API product you are queryin
 |---|---|
 | `translate_text` | Text translation via the `/v2/translate` endpoint |
 | `translate_document` | Document translation via the `/v2/document` endpoint |
-| `glossary` | Glossary management via the `/v2/` and `/v3/glossaries` endpoints |
 | `voice` | Speech-to-speech/text via the `/v3/voice` endpoints |
 | `write` | Text improvement via the `/v2/write` endpoints |
+| `glossary` | Glossary management via the `/v2/` and `/v3/glossaries` endpoints |
 
 <Note>
   `glossary` appears both as a standalone product name and as a feature value on individual languages for other products (e.g. `voice`). As a feature, it indicates that the language supports use with a glossary for that product.
@@ -66,172 +138,6 @@ Feature values are defined as follows:
 - **`custom_instructions`**: The language supports custom translation instructions
 - **`writing_style`**: The language supports writing style selection
 - **`tone`**: The language supports tone selection
-
-<Tabs>
-<Tab title="cURL">
-
-The example below uses our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
-
-<Note>
-  The example responses below have been shortened for clarity. The actual API response includes all supported languages.
-</Note>
-
-```sh Example request: All source languages
-curl -X GET 'https://api.deepl.com/v3/languages/source' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
-```
-
-```json Example response
-[
-  {
-    "code": "de",
-    "name": "German",
-    "products": ["translate_text", "translate_document", "glossary", "voice", "write"]
-  },
-  {
-    "code": "en",
-    "name": "English",
-    "products": ["translate_text", "translate_document", "glossary", "voice", "write"]
-  }
-]
-```
-
-```sh Example request: Source languages for text translation (with features)
-curl -X GET 'https://api.deepl.com/v3/languages/source?product=translate_text' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
-```
-
-```json Example response
-[
-  {
-    "code": "de",
-    "name": "German",
-    "features": ["tag_handling", "glossary_id"]
-  },
-  {
-    "code": "en",
-    "name": "English",
-    "features": ["tag_handling", "glossary_id"]
-  }
-]
-```
-
-```sh Example request: All target languages
-curl -X GET 'https://api.deepl.com/v3/languages/target' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
-```
-
-```json Example response
-[
-  {
-    "code": "en-US",
-    "name": "English (American)",
-    "products": ["translate_text", "translate_document", "glossary", "voice", "write"]
-  },
-  {
-    "code": "fr",
-    "name": "French",
-    "products": ["translate_text", "translate_document", "glossary", "voice", "write"]
-  }
-]
-```
-
-```sh Example request: Target languages for text translation (with features)
-curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
-```
-
-```json Example response
-[
-  {
-    "code": "de",
-    "name": "German",
-    "features": ["formality", "tag_handling", "glossary_id"]
-  },
-  {
-    "code": "en-US",
-    "name": "English (American)",
-    "features": ["tag_handling", "glossary_id"]
-  },
-  {
-    "code": "fr",
-    "name": "French",
-    "features": ["formality", "tag_handling", "glossary_id"]
-  }
-]
-```
-
-```sh Example request: Filter target languages by source
-curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text&source_lang=de' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
-```
-
-```json Example response
-[
-  {
-    "code": "en-US",
-    "name": "English (American)",
-    "features": ["tag_handling", "glossary_id"]
-  },
-  {
-    "code": "fr",
-    "name": "French",
-    "features": ["formality", "tag_handling", "glossary_id"]
-  }
-]
-```
-</Tab>
-<Tab title="HTTP Request">
-
-<Note>
-  The example responses below have been shortened for clarity. The actual API response includes all supported languages.
-</Note>
-
-```http Example request: All source languages
-GET /v3/languages/source HTTP/2
-Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey]
-User-Agent: YourApp/1.2.3
-```
-
-```json Example response
-[
-  {
-    "code": "de",
-    "name": "German",
-    "products": ["translate_text", "translate_document", "glossary", "voice", "write"]
-  },
-  {
-    "code": "fr",
-    "name": "French",
-    "products": ["translate_text", "translate_document", "glossary", "voice", "write"]
-  }
-]
-```
-
-```http Example request: Target languages for document translation
-GET /v3/languages/target?product=translate_document HTTP/2
-Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey]
-User-Agent: YourApp/1.2.3
-```
-
-```json Example response
-[
-  {
-    "code": "en-GB",
-    "name": "English (British)",
-    "features": ["glossary_id"]
-  },
-  {
-    "code": "es",
-    "name": "Spanish",
-    "features": ["formality", "glossary_id"]
-  }
-]
-```
-</Tab>
-</Tabs>
 
 ## Response structure
 
