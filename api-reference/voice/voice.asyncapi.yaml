@@ -39,7 +39,7 @@ channels:
     description: >
         WebSocket channel for streaming audio and receiving transcriptions and translations.
         Messages are exchanged in JSON or MessagePack format.
-        The WebSocket only accepts TEXT frames when using JSON format, and only BINARY frames when using MessagePack format.
+        WebSocket messages are exchanged in TEXT frames when using JSON format and in BINARY frames when using MessagePack format.
         Sending the wrong frame type will result in connection errors.
     parameters:
       token:
@@ -284,7 +284,7 @@ components:
               format: binary
               description: >
                 Audio data in the audio format specified during session initialization.
-                Further encoded as base64 string, when using JSON. Raw binary data when using MessagePack
+                Encoded as base64 string when using JSON. Raw binary data when using MessagePack.
 
     EndOfSourceMediaPayload:
       type: object
