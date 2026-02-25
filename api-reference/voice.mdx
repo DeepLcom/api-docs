@@ -254,7 +254,7 @@ For best developer experience, we recommend starting with the default JSON forma
 and later switch to MessagePack if you need better performance.
 
 <Warning>
-  The WebSocket only accepts TEXT frames when using JSON format, and only BINARY frames when using MessagePack format. Sending the wrong frame type will result in connection errors.
+  WebSocket message must be sent as TEXT frames when using JSON format, and as BINARY frames when using MessagePack format. Sending the wrong frame type will result in connection errors.
 </Warning>
 
 **JSON (Default)**
@@ -324,7 +324,7 @@ Transcriptions and translations are delivered incrementally as the audio is proc
 * **Concluded segments** - Finalized text that will not change. These segments are sent once and remain fixed.
 * **Tentative segments** - Preliminary text that may be refined as more audio context becomes available. These segments may be updated in subsequent messages.
 
-Your application should merge concluded segments into the final transcript while displaying tentative
+Your application should merge concluded segments into the final transcript and could display tentative
 segments as provisional content that will be updated.
 
 ## Usage Examples
