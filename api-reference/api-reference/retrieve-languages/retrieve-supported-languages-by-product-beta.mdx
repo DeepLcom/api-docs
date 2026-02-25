@@ -80,11 +80,12 @@ The following example response is truncated; the full API response includes over
 
 ## Filtering by product
 
-You may also specify the `product` query parameter as a filter, to return only languages supporting that product.
+For the `/v3/languages/source` and `/v3/languages/target` endpoints you may also specify the `product` query parameter
+as a filter, to return only source or target languages supporting that product.
 In this case the `products` array is no longer included in the response.
 
-Instead, each language includes a `features` array indicating which product-specific capabilities are supported for
-the language:
+Instead, each source or target language includes a `features` array indicating which product-specific capabilities are
+supported for the language:
 
 <Tabs>
 <Tab title="cURL">
@@ -154,12 +155,12 @@ As we add new products to the DeepL API, the `products` list for each supported 
 ## Product features
 
 As described earlier, when the `product` query parameter is specified, language objects may include a `features` array.
-The included features indicate which optional endpoint parameters are supported for that language.
+The included features indicate which optional parameters are supported for that language.
 
 For example, `["formality", "tag_handling", "glossary_id"]` for German above indicates that when this language is used
 as the target language for text translation, the `formality`, `tag_handling` and `glossary_id` parameters are supported.
 
-Features must be included in both the source and target language's `features` array to be supported. For example, if
+Features must be included in *both* the source and target language's `features` array to be supported. For example, if
 the source language French (`fr`) includes `"formality"` for text translation, but the target language Greek (`el`) does
 not, then text translations from French to Greek are possible but will not support formality.
 
