@@ -2033,7 +2033,6 @@ paths:
                         enum:
                           - tag_handling
                           - glossary_id
-                          - glossary
                       example:
                         - tag_handling
                         - glossary_id
@@ -2177,7 +2176,6 @@ paths:
                           - tag_handling
                           - glossary_id
                           - custom_instructions
-                          - glossary
                           - writing_style
                           - tone
                       example:
