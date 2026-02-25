@@ -142,7 +142,8 @@ The `product` query parameter identifies which DeepL API product you are queryin
 | `glossary` | Glossary management via the `/v2/` and `/v3/glossaries` endpoints |
 
 <Note>
-    `glossary` is a product value indicating glossaries can be created for that language.
+    `glossary` is a product value indicating glossaries can be created for that language, and managed via the glossary
+    management endpoints.
 
     Support for glossaries within specific products (for example text translation) is indicated by the `glossary_id`
     feature value, explained in the following section.
@@ -173,9 +174,9 @@ and target languages individually. This occurs due to intricacies and language-s
 A hypothetical example: text translation formality is supported for source language Ukrainian, and it is also supported
 for target language Russian. However, translating specifically from Ukrainian to Russian does *not* support formality.
 
-It is complex to handle these cases, so we design our API endpoints to perform the best possible function in such cases,
-for example, by continuing with the request and ignoring formality support in the case above. However, in some cases
-information about these exceptions may be useful, so this section explains how to retrieve it.
+It is complex to handle these cases, so we design our API endpoints to perform the "best effort" in such cases. For
+example, by ignoring formality support and continuing with the translation rather than failing the request.
+However, in some cases information about these exceptions may be useful, so this section explains how to retrieve it.
 
 ### `source_lang` and `target_lang` query parameters
 
@@ -285,7 +286,7 @@ curl -X GET 'https://api.deepl.com/v3/languages/exceptions?product=translate_tex
 ```
 
 You can apply these exceptions in client logic, overriding the responses from the `/v3/languages/source` and
-`/v3/languages/target` endpoints.
+`/v3/languages/target` endpoints for those specific language pairs.
 
 ## API stability
 
