@@ -47,7 +47,29 @@ v2 target languages include a boolean `supports_formality` field. v3 replaces th
 
 | v2 field | v3 equivalent |
 |---|---|
-| `"supports_formality": true` | `"features": ["formality"]` on target language (when `product` is specified) |
+| `"supports_formality": true` | `"features": ["formality"]` on both source and target language (when `product` is specified) |
+
+For example, querying target languages for text translation:
+
+```sh
+curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+```
+
+```json Example response (truncated)
+[
+  {
+    "code": "de",
+    "name": "German",
+    "features": ["formality", "tag_handling", "glossary_id"]
+  },
+  {
+    "code": "en-US",
+    "name": "English (American)",
+    "features": ["tag_handling", "glossary_id"]
+  }
+]
+```
 
 The `features` array only appears on a language object when a `product` parameter is specified and the language supports at least one feature for that product. See the [overview](/api-reference/api-reference/retrieve-languages/retrieve-supported-languages-by-product-beta) for the full list of features per product.
 

@@ -80,9 +80,9 @@ The following example response is truncated; the full API response includes over
 ## Filtering by product
 
 You may also specify the `product` query parameter as a filter, to return only languages supporting that product.
-The `products` array is also omitted from each language.
+In this case the `products` array is no longer included in the response.
 
-Instead, each language may include a `features` array indicating which product-specific capabilities are supported for
+Instead, each language includes a `features` array indicating which product-specific capabilities are supported for
 the language:
 
 <Tabs>
@@ -185,6 +185,42 @@ language support
 language support
 These parameters will modify the feature support information returned for each language, applying any of these
 exceptional cases as described above.
+
+Continuing the hypothetical Ukrainian to Russian example: querying target languages for text translation without a
+source filter shows Russian with `formality` support, since Russian generally supports formality as a target language:
+
+```sh
+curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+```
+
+```json Example response (truncated)
+[
+  {
+    "code": "ru",
+    "name": "Russian",
+    "features": ["formality", "tag_handling", "glossary_id"]
+  }
+]
+```
+
+Specifying `source_lang=uk` applies the language-pair exception, and Russian is returned without `formality` indicating
+the exception:
+
+```sh
+curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text&source_lang=uk' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+```
+
+```json Example response (truncated)
+[
+  {
+    "code": "ru",
+    "name": "Russian",
+    "features": ["tag_handling", "glossary_id"]
+  }
+]
+```
 
 ## API stability
 
