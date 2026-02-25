@@ -54,7 +54,7 @@ The following example response is truncated; the full API response includes over
 ```json Example response
 [
   {
-    "code": "de",
+    "lang": "de",
     "name": "German",
     "products": [
       "translate_text",
@@ -65,7 +65,7 @@ The following example response is truncated; the full API response includes over
     ]
   },
   {
-    "code": "en",
+    "lang": "en",
     "name": "English",
     "products": [
       "translate_text",
@@ -111,7 +111,7 @@ User-Agent: YourApp/1.2.3
 ```json Example response
 [
   {
-    "code": "de",
+    "lang": "de",
     "name": "German",
     "features": [
       "formality",
@@ -120,7 +120,7 @@ User-Agent: YourApp/1.2.3
     ]
   },
   {
-    "code": "en-US",
+    "lang": "en-US",
     "name": "English (American)",
     "features": [
       "tag_handling",
@@ -200,7 +200,7 @@ curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text' \
 ```json Example target languages response (truncated)
 [
   {
-    "code": "ru",
+    "lang": "ru",
     "name": "Russian",
     "features": ["formality", "tag_handling", "glossary_id"]
   }
@@ -218,7 +218,7 @@ curl -X GET 'https://api.deepl.com/v3/languages/source?product=translate_text' \
 ```json Example source languages response (truncated)
 [
   {
-    "code": "uk",
+    "lang": "uk",
     "name": "Ukrainian",
     "features": ["formality", "tag_handling", "glossary_id"]
   }
@@ -236,7 +236,7 @@ curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text&so
 ```json Example target languages response, filtering for source_lang=uk (truncated)
 [
   {
-    "code": "ru",
+    "lang": "ru",
     "name": "Russian",
     "features": ["tag_handling", "glossary_id"]
   }
@@ -254,7 +254,7 @@ curl -X GET 'https://api.deepl.com/v3/languages/source?product=translate_text&ta
 ```json Example source languages response, filtering for target_lang=ru (truncated)
 [
   {
-    "code": "uk",
+    "lang": "uk",
     "name": "Ukrainian",
     "features": ["tag_handling", "glossary_id"]
   }

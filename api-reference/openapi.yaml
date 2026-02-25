@@ -1992,10 +1992,10 @@ paths:
                 items:
                   type: object
                   required:
-                    - code
+                    - lang
                     - name
                   properties:
-                    code:
+                    lang:
                       description: The language code of the given language.
                       type: string
                       example: de
@@ -2040,7 +2040,7 @@ paths:
                 allSourceLanguages:
                   summary: All source languages (no product filter)
                   value:
-                    - code: de
+                    - lang: de
                       name: German
                       products:
                         - translate_text
@@ -2048,7 +2048,7 @@ paths:
                         - glossary
                         - voice
                         - write
-                    - code: en
+                    - lang: en
                       name: English
                       products:
                         - translate_text
@@ -2059,12 +2059,12 @@ paths:
                 translateTextSources:
                   summary: Source languages for text translation
                   value:
-                    - code: de
+                    - lang: de
                       name: German
                       features:
                         - tag_handling
                         - glossary_id
-                    - code: en
+                    - lang: en
                       name: English
                       features:
                         - tag_handling
@@ -2133,10 +2133,10 @@ paths:
                 items:
                   type: object
                   required:
-                    - code
+                    - lang
                     - name
                   properties:
-                    code:
+                    lang:
                       description: The language code of the given language.
                       type: string
                       example: en-US
@@ -2186,7 +2186,7 @@ paths:
                 allTargetLanguages:
                   summary: All target languages (no product filter)
                   value:
-                    - code: en-US
+                    - lang: en-US
                       name: English (American)
                       products:
                         - translate_text
@@ -2194,7 +2194,7 @@ paths:
                         - glossary
                         - voice
                         - write
-                    - code: fr
+                    - lang: fr
                       name: French
                       products:
                         - translate_text
@@ -2205,18 +2205,18 @@ paths:
                 translateTextTargets:
                   summary: Target languages for text translation
                   value:
-                    - code: de
+                    - lang: de
                       name: German
                       features:
                         - formality
                         - tag_handling
                         - glossary_id
-                    - code: en-US
+                    - lang: en-US
                       name: English (American)
                       features:
                         - tag_handling
                         - glossary_id
-                    - code: fr
+                    - lang: fr
                       name: French
                       features:
                         - formality
