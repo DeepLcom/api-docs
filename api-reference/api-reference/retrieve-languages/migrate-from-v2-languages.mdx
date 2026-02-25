@@ -71,7 +71,9 @@ curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text' \
 ]
 ```
 
-The `features` array only appears on a language object when a `product` parameter is specified and the language supports at least one feature for that product. See the [overview](/api-reference/api-reference/retrieve-languages/retrieve-supported-languages-by-product-beta) for the full list of features per product.
+The response indicates German supports `formality`, but English (American) does not.
+
+The `features` array only appears on a language object when a `product` parameter is specified. See the [overview](/api-reference/api-reference/retrieve-languages/retrieve-supported-languages-by-product-beta) for the full list of features per product.
 
 ### Flat array response
 
