@@ -166,15 +166,15 @@ feature values to check for in the `features` array.
 
 ## Language pair exceptions
 
-In rare cases, feature support for a language pair may differ from that predicted by the feature support for the source
-and target languages individually. This sometimes occurs due to language-specifics of DeepL's AI models.
+In rare cases, feature support for a specific language pair may differ from the feature support returned for the source
+and target languages individually. This occurs due to intricacies and language-specifics of DeepL's AI models.
 
 A hypothetical example: text translation formality is supported for source language Ukrainian, and it is also supported
-for target language Russian. However, translating specifically from Ukrainian to Russian does not support formality.
+for target language Russian. However, translating specifically from Ukrainian to Russian does *not* support formality.
 
 It is complex to handle these cases, so we design our API endpoints to perform the best possible function in such cases,
-for example, by ignoring formality support in the Ukrainian to Russian case above. However, in some cases this
-information may be, so this section explains how to retrieve it.
+for example, by continuing with the request and ignoring formality support in the case above. However, in some cases
+information about these exceptions may be useful, so this section explains how to retrieve it.
 
 ### `source_lang` and `target_lang` query parameters
 
@@ -194,7 +194,7 @@ curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
 ```
 
-```json Example response (truncated)
+```json Example target languages response (truncated)
 [
   {
     "code": "ru",
@@ -204,7 +204,25 @@ curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text' \
 ]
 ```
 
-Specifying `source_lang=uk` applies the language-pair exception, and Russian is returned without `formality` indicating
+Similarly, querying source languages for text translation without a target filter shows Ukrainian with `formality`
+support, since Ukrainian generally supports formality as a source language:
+
+```sh
+curl -X GET 'https://api.deepl.com/v3/languages/source?product=translate_text' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+```
+
+```json Example source languages response (truncated)
+[
+  {
+    "code": "uk",
+    "name": "Ukrainian",
+    "features": ["formality", "tag_handling", "glossary_id"]
+  }
+]
+```
+
+However, specifying `source_lang=uk` applies the language-pair exception, and Russian is returned without `formality` indicating
 the exception:
 
 ```sh
@@ -212,7 +230,7 @@ curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text&so
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
 ```
 
-```json Example response (truncated)
+```json Example target languages response, filtering for source_lang=uk (truncated)
 [
   {
     "code": "ru",
@@ -221,6 +239,52 @@ curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text&so
   }
 ]
 ```
+
+Similarly, querying source languages while specifying `target_lang=ru` applies the language-pair exception, and
+Ukrainian is returned without `formality` indicating the exception:
+
+```sh
+curl -X GET 'https://api.deepl.com/v3/languages/source?product=translate_text&target_lang=ru' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+```
+
+```json Example source languages response, filtering for target_lang=ru (truncated)
+[
+  {
+    "code": "uk",
+    "name": "Ukrainian",
+    "features": ["tag_handling", "glossary_id"]
+  }
+]
+```
+
+### Retrieving language pair exceptions directly
+
+Language pair exceptions are also available directly via the `/v3/languages/exceptions` endpoint. The `product` query
+parameter is required to specify the product for which you want to retrieve exceptions.
+
+The response includes a list of language pairs for which exceptions exist, with their actual feature support.
+
+Continuing the hypothetical example, querying exceptions for text translation shows that Ukrainian-Russian does not
+support formality:
+
+```sh
+curl -X GET 'https://api.deepl.com/v3/languages/exceptions?product=translate_text' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+```
+
+```json Example exceptions response (truncated)
+[
+  {
+    "source_lang": "uk",
+    "target_lang": "ru",
+    "features": ["tag_handling", "glossary_id"]
+  }
+]
+```
+
+You can apply these exceptions in client logic, overriding the responses from the `/v3/languages/source` and
+`/v3/languages/target` endpoints.
 
 ## API stability
 
