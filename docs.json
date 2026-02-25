@@ -197,7 +197,7 @@
                 ]
               },
               {
-                "group": "Retrieve languages [BETA]",
+                "group": "Retrieve languages by product [BETA]",
                 "pages": [
                   "api-reference/api-reference/retrieve-languages/retrieve-supported-languages-by-product-beta",
                   "api-reference/api-reference/retrieve-languages/retrieve-source-languages-beta",
