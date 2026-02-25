@@ -4,8 +4,7 @@ sidebarTitle: 'Overview'
 description: "API reference for retrieving supported languages with the DeepL API across all products."
 ---
 
-Get information about all currently supported source and target languages across all DeepL API products, including
-text translation, document translation, glossaries, DeepL Voice, and DeepL Write.
+Get information about all currently supported source and target languages across all DeepL API products.
 
 <Info>
     The `/v3/languages` endpoints provide a single source of truth for language and feature support across all DeepL
@@ -24,10 +23,11 @@ To understand how we'll update these endpoints when we add translation support f
 
 ## Basic example
 
-You can call the `/v3/languages/source` and endpoint to retrieve a list of all supported source languages, and the
-`/v3/languages/target` endpoint to retrieve a list of all supported target languages.
+You can call the `/v3/languages/source` and `/v3/languages/target` endpoints to retrieve a list of all supported
+source and target languages.
 
-The examples below use our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
+The examples below use our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update
+your requests to use `https://api-free.deepl.com` instead.
 
 <Tabs>
 <Tab title="cURL">
@@ -47,6 +47,8 @@ User-Agent: YourApp/1.2.3
 ```
 </Tab>
 </Tabs>
+
+The example responses are truncated; the full API response includes over 100 languages.
 
 ```json Example response
 [
@@ -79,7 +81,8 @@ User-Agent: YourApp/1.2.3
 
 You may also specify the `product` query parameter as a filter, so only languages supporting that product are returned.
 In this case the `products` array is omitted from each language.
-Additionally, languages may include a `features` array indicating which product-specific capabilities the
+
+Additionally, each language may include a `features` array indicating which product-specific capabilities the
 language supports:
 
 <Tabs>
@@ -139,46 +142,25 @@ The `product` query parameter identifies which DeepL API product you are queryin
 
 <Note>
     `glossary` is a product value indicating glossary management support.
+
     Support for glossaries within specific products (for example text translation) is indicated by the `glossary_id`
     feature value, explained in the following section.
 </Note>
 
-As we add new products to the DeepL API, the `products` list for each language will be extended.
+As we add new products to the DeepL API, the `products` list for each supported language will be extended.
 
 ## Product features
 
-When the `product` query parameter is specified, language objects may include a `features` array.
-The features indicate which optional endpoint parameters are supported for that language.
+As described earlier, when the `product` query parameter is specified, language objects may include a `features` array.
+The included features indicate which optional endpoint parameters are supported for that language.
 
-### Source language features
+For example, `["tag_handling", "glossary_id"]` for English (American) above indicates that when this language is used
+as the target language for text translation, the `tag_handling` and `glossary_id` parameters are supported.
 
-| Product | Feature |
-|---|---|
-| `translate_text` | `tag_handling`, `glossary_id` |
-| `translate_document` | `glossary_id` |
-| `glossary` | *(none)* |
-| `voice` | `glossary_id` |
-| `write` | *(none)* |
+Features need to be included in both the source and target language's `features` array to be supported.
 
-### Target language features
-
-| Product | Feature |
-|---|---|
-| `translate_text` | `formality`, `tag_handling`, `glossary_id`, `custom_instructions` |
-| `translate_document` | `formality`, `glossary_id` |
-| `glossary` | *(none)* |
-| `voice` | `formality`, `glossary_id` |
-| `write` | `writing_style`, `tone` |
-
-Feature values are defined as follows:
-
-- **`formality`**: The language supports formality control (formal/informal)
-- **`tag_handling`**: The language supports XML/HTML tag handling in translation requests
-- **`glossary_id`**: The language supports use with a glossary (via `glossary_id` parameter)
-- **`custom_instructions`**: The language supports custom translation instructions
-- **`writing_style`**: The language supports writing style selection
-- **`tone`**: The language supports tone selection
-
+API endpoints describe in their documentation which request parameters are language-dependent, and indicate the
+feature values to check for in the `features` array.
 
 ## Language pair exceptions
 
