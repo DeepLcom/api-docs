@@ -2238,6 +2238,86 @@ paths:
           $ref: '#/components/responses/ServiceUnavailable'
       security:
         - auth_header: []
+  /v3/languages/exceptions:
+    get:
+      tags:
+        - MetaInformation
+      summary: Retrieve Language Pair Exceptions
+      operationId: getLanguagePairExceptions
+      description: |-
+        Returns language pairs for which feature support differs from what would be predicted by the
+        feature support of the source and target languages individually.
+
+        The `product` parameter is required. Results are specific to the product, as exceptions may
+        vary across products.
+      parameters:
+        - name: product
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - translate_text
+              - translate_document
+              - glossary
+              - voice
+              - write
+          description: The product for which to retrieve language pair exceptions. Required.
+      responses:
+        200:
+          description: JSON array where each item represents a language pair with exceptional feature support.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - source_lang
+                    - target_lang
+                    - features
+                  properties:
+                    source_lang:
+                      description: The source language code of the language pair.
+                      type: string
+                      example: uk
+                    target_lang:
+                      description: The target language code of the language pair.
+                      type: string
+                      example: ru
+                    features:
+                      description: |-
+                        The actual features supported for this specific language pair, which differs
+                        from the features reported for the source or target language individually.
+                      type: array
+                      items:
+                        type: string
+                      example:
+                        - tag_handling
+                        - glossary_id
+              example:
+                - source_lang: uk
+                  target_lang: ru
+                  features:
+                    - tag_handling
+                    - glossary_id
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+        - auth_header: []
   /v3/style_rules:
     get:
       summary: Retrieve style rule lists
