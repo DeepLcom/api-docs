@@ -6,6 +6,17 @@ info:
     WebSocket streaming API for real-time voice transcription and translation.
     After obtaining a streaming URL and token via the REST API, establish a WebSocket connection
     to stream audio data and receive real-time transcriptions and translations.
+
+    The API supports two message encoding formats: JSON (default) and MessagePack.
+    The encoding format is configured via the message_format parameter when requesting a session.
+    JSON format uses TEXT WebSocket frames. Fields with binary data (such as audio chunks) are base64-encoded strings,
+    while MessagePack format uses BINARY WebSocket frames where fields with binary data contain raw binary data.
+    Compared to JSON, MessagePack typically reduces bandwidth usage by 25-30% and improves message
+    encoding/decoding speed by 2x-4x.
+
+    When using MessagePack encoding, messages must be encoded as maps with string keys, not as arrays.
+    The message structure must match the JSON schema exactly, with all field names preserved as string keys.
+    Array-based or integer-keyed encoding is not supported.
   contact:
     name: DeepL - Contact us
     url: https://www.deepl.com/contact-us
@@ -27,12 +38,14 @@ channels:
     address: /v3/voice/realtime/connect?token={token}
     description: >
         WebSocket channel for streaming audio and receiving transcriptions and translations.
-        Messages are exchanged in JSON format and WebSocket frames must be of type TEXT.
+        Messages are exchanged in JSON or MessagePack format.
+        WebSocket messages are exchanged in TEXT frames when using JSON format and in BINARY frames when using MessagePack format.
+        Sending the wrong frame type will result in connection errors.
     parameters:
       token:
         description: >
           This is the ephemeral authentication token obtained from the
-          [Get Streaming URL](/api-reference/voice/get-streaming-url) endpoint.
+          [Request Session](/api-reference/voice/request-session) endpoint.
           The token is valid for one-time use only and must be passed as a query parameter when establishing
           the WebSocket connection.
         examples:
@@ -89,8 +102,10 @@ components:
       name: SourceMediaChunk
       title: Source Media Chunk
       description: "
-        The message contains a base64-encoded binary chunk of audio data.
-        The audio encoding must be the same that was specified in the [Get Streaming URL](/api-reference/voice/get-streaming-url) request.
+        The message contains a chunk of audio data.
+        The audio encoding must be the same that was specified in the [Request Session](/api-reference/voice/request-session) request.
+        \n\n
+        When using JSON format, the audio data is base64-encoded. When using MessagePack format, the audio data is raw binary data.
         \n\n
         The chunk size must not be more than 100 kilobyte or one second in duration. The recommended duration is
         50 - 250 milliseconds to achieve the best tradeoff between latency and quality.
@@ -266,8 +281,10 @@ components:
           properties:
             data:
               type: string
-              format: byte
-              description: Base64-encoded media data in the format specified during session initialization
+              format: binary
+              description: >
+                Audio data in the audio format specified during session initialization.
+                Encoded as base64 string when using JSON. Raw binary data when using MessagePack.
 
     EndOfSourceMediaPayload:
       type: object
