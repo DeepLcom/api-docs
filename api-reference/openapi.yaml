@@ -4438,25 +4438,27 @@ components:
         will auto-detect the container and codec for all supported combinations, except PCM. That requires
         explicit encoding parameters. All formats need to be single channel audio.\n
         \n
-        | Content Type | Container | Codec |\n
-        | :--- | :--- | :--- |\n
-        | `audio/auto` | Auto-detect: FLAC / Matroska / MPEG / Ogg/WebM | Auto-detect AAC / FLAC / MP3/ OPUS\n
-        | `audio/flac` | FLAC (flac) | FLAC, interleaved |\n
-        | `audio/mpeg` | MPEG (mp3/m4a) | MP3 |\n
-        | `audio/ogg`  | Ogg (ogg/oga) | Auto-detect FLAC / OPUS |\n
-        | `audio/webm` | WebM (webm) | OPUS |\n
-        | `audio/x-matroska` | Matroska (mkv/mka) | Auto-detect: AAC / FLAC / MP3 / OPUS |\n
-        | `audio/ogg;codecs=flac` | Ogg (ogg/oga) | FLAC, interleaved |\n
-        | `audio/ogg;codecs=opus` | Ogg (ogg/oga) | OPUS |\n
-        | `audio/pcm;encoding=s16le;rate=8000` | - | PCM signed 16-bit little-endian, 8000 Hz, interleaved |\n
-        | `audio/pcm;encoding=s16le;rate=16000` | - | PCM signed 16-bit little-endian, 16000 Hz, interleaved |\n
-        | `audio/pcm;encoding=s16le;rate=44100` | - | PCM signed 16-bit little-endian, 44100 Hz, interleaved |\n
-        | `audio/pcm;encoding=s16le;rate=48000` | - | PCM signed 16-bit little-endian, 48000 Hz, interleaved |\n
-        | `audio/webm;codecs=opus` | WebM (webm) | OPUS |\n
-        | `audio/x-matroska;codecs=aac` | Matroska (mkv/mka) | AAC |\n
-        | `audio/x-matroska;codecs=flac` | Matroska (mkv/mka) | FLAC, interleaved |\n
-        | `audio/x-matroska;codecs=mp3` | Matroska (mkv/mka) | MP3 |\n
-        | `audio/x-matroska;codecs=opus` | Matroska (mkv/mka) | OPUS |\n
+        | Content Type                          | Container                                         | Codec                                     |\n
+        | :------------------------------------ | :------------------------------------------------ | :---------------------------------------- |\n
+        | `audio/auto`                          | Auto-detect: FLAC / Matroska / MPEG / Ogg / WebM  | Auto-detect AAC / FLAC / MP3 / OPUS       |\n
+        | `audio/flac`                          | FLAC (flac)                                       | FLAC                                      |\n
+        | `audio/mpeg`                          | MPEG (mp3/m4a)                                    | MP3                                       |\n
+        | `audio/ogg`                           | Ogg (ogg/oga)                                     | Auto-detect FLAC / OPUS                   |\n
+        | `audio/webm`                          | WebM (webm)                                       | OPUS                                      |\n
+        | `audio/x-matroska`                    | Matroska (mkv/mka)                                | Auto-detect: AAC / FLAC / MP3 / OPUS      |\n
+        | `audio/ogg;codecs=flac`               | Ogg (ogg/oga)                                     | FLAC                                      |\n
+        | `audio/ogg;codecs=opus`               | Ogg (ogg/oga)                                     | OPUS                                      |\n
+        | `audio/pcm;encoding=alaw;rate=8000`   | -                                                 | PCM A-Law 8000 Hz (G.711)                 |\n
+        | `audio/pcm;encoding=ulaw;rate=8000`   | -                                                 | PCM µ-Law 8000 Hz (G.711)                 |\n
+        | `audio/pcm;encoding=s16le;rate=8000`  | -                                                 | PCM signed 16-bit little-endian, 8000 Hz  |\n
+        | `audio/pcm;encoding=s16le;rate=16000` | -                                                 | PCM signed 16-bit little-endian, 16000 Hz |\n
+        | `audio/pcm;encoding=s16le;rate=44100` | -                                                 | PCM signed 16-bit little-endian, 44100 Hz |\n
+        | `audio/pcm;encoding=s16le;rate=48000` | -                                                 | PCM signed 16-bit little-endian, 48000 Hz |\n
+        | `audio/webm;codecs=opus`              | WebM (webm)                                       | OPUS                                      |\n
+        | `audio/x-matroska;codecs=aac`         | Matroska (mkv/mka)                                | AAC                                       |\n
+        | `audio/x-matroska;codecs=flac`        | Matroska (mkv/mka)                                | FLAC                                      |\n
+        | `audio/x-matroska;codecs=mp3`         | Matroska (mkv/mka)                                | MP3                                       |\n
+        | `audio/x-matroska;codecs=opus`        | Matroska (mkv/mka)                                | OPUS                                      |\n
         \n
 
         We recommend the following bitrates as good tradeoff between quality and bandwidth:\n
@@ -4476,6 +4478,8 @@ components:
         - audio/x-matroska
         - audio/ogg;codecs=flac
         - audio/ogg;codecs=opus
+        - audio/pcm;encoding=alaw;rate=8000
+        - audio/pcm;encoding=ulaw;rate=8000
         - audio/pcm;encoding=s16le;rate=8000
         - audio/pcm;encoding=s16le;rate=16000
         - audio/pcm;encoding=s16le;rate=44100
