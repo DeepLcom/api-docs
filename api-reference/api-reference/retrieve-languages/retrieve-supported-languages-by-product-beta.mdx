@@ -53,28 +53,22 @@ User-Agent: YourApp/1.2.3
 </Tabs>
 
 
-```json Example response
+```json Example source languages response
 [
   {
     "lang": "de",
     "name": "German",
-    "products": [
-      "translate_text",
-      "translate_document",
-      "glossary",
-      "voice",
-      "write"
+    "features": [
+      "tag_handling",
+      "glossary"
     ]
   },
   {
     "lang": "en",
     "name": "English",
-    "products": [
-      "translate_text",
-      "translate_document",
-      "glossary",
-      "voice",
-      "write"
+    "features": [
+      "tag_handling",
+      "glossary"
     ]
   }
 ]
@@ -101,7 +95,7 @@ User-Agent: YourApp/1.2.3
 </Tab>
 </Tabs>
 
-```json Example response
+```json Example target languages response
 [
   {
     "lang": "de",
@@ -142,6 +136,43 @@ The `product` query parameter identifies which DeepL API product you are queryin
     Support for glossaries within specific products (for example text translation) is indicated by the `glossary`
     feature value, explained in the following section.
 </Note>
+
+### Retrieving products programmatically
+
+Use the `/v3/languages/products` endpoint to retrieve the list of products and their features programmatically,
+without relying on documentation. For each feature, the response indicates whether support depends on the source
+language, the target language, or both — allowing clients to determine feature availability for a language pair
+by intersecting the appropriate `features` arrays.
+
+```sh
+curl -X GET 'https://api.deepl.com/v3/languages/products' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+```
+
+```json Example response (truncated)
+[
+  {
+    "name": "translate_text",
+    "endpoints": ["v2/translate"],
+    "features": [
+      {
+        "name": "formality",
+        "depends_on_target_lang": true
+      },
+      {
+        "name": "tag_handling",
+        "depends_on_source_lang": true,
+        "depends_on_target_lang": true
+      },
+      {
+        "name": "glossary",
+        "depends_on_source_lang": true,
+        "depends_on_target_lang": true
+      }
+    ]
+  }
+]
+```
 
 ## Product features
 
