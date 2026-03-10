@@ -203,8 +203,8 @@ export const LanguageTable = () => {
         const features = [
             { key: 'translation', label: 'Translation', variant: lang.isVariant },
             { key: 'glossaries', label: 'Glossaries' },
-            { key: 'tagHandling', label: 'Tags' },
-            { key: 'textImprovement', label: 'Improve' },
+            { key: 'tagHandling', label: 'Tag Handling' },
+            { key: 'textImprovement', label: 'Text Improvement' },
         ]
         return (
             <div className="flex flex-wrap gap-1.5">
@@ -212,7 +212,7 @@ export const LanguageTable = () => {
                     if (f.variant) {
                         return (
                             <span key={f.key} className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-200">
-                                Target Only
+                                Translate: Target Only
                             </span>
                         )
                     }
@@ -302,19 +302,11 @@ export const LanguageTable = () => {
 
             {/* Desktop table view */}
             <div className="hidden sm:block">
-                <table className="w-full divide-y divide-zinc-200 dark:divide-zinc-700" style={{ tableLayout: 'fixed' }}>
-                    <colgroup>
-                        <col style={{ width: '10%' }} />
-                        <col />
-                        <col style={{ width: '12%' }} />
-                        <col style={{ width: '12%' }} />
-                        <col style={{ width: '10%' }} />
-                        <col style={{ width: '12%' }} />
-                    </colgroup>
+                <table className="w-full divide-y divide-zinc-200 dark:divide-zinc-700">
                     <thead className="bg-zinc-50 dark:bg-zinc-800 sticky top-0 z-10">
                         <tr>
                             <th
-                                className="px-2 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                                className="w-px whitespace-nowrap px-3 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700"
                                 onClick={() => handleSort('code')}
                             >
                                 <div className="flex items-center space-x-1">
@@ -323,7 +315,7 @@ export const LanguageTable = () => {
                                 </div>
                             </th>
                             <th
-                                className="px-2 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                                className="w-px whitespace-nowrap px-3 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700"
                                 onClick={() => handleSort('name')}
                             >
                                 <div className="flex items-center space-x-1">
@@ -331,48 +323,24 @@ export const LanguageTable = () => {
                                     <SortIcon column="name" />
                                 </div>
                             </th>
-                            <th className="px-1 py-3 text-center text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase">
-                                Translate
-                            </th>
-                            <th className="px-1 py-3 text-center text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase">
-                                Glossary
-                            </th>
-                            <th className="px-1 py-3 text-center text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase">
-                                Tags
-                            </th>
-                            <th className="px-1 py-3 text-center text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase">
-                                Improve
+                            <th className="px-3 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase">
+                                Features
                             </th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-zinc-200 dark:bg-zinc-900 dark:divide-zinc-700">
                         {filteredData.map((lang) => (
                             <tr key={lang.code} className="hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
-                                <td className="px-2 py-3 text-sm font-mono text-zinc-900 dark:text-zinc-100">
+                                <td className="w-px whitespace-nowrap px-3 py-3 text-sm font-mono text-zinc-900 dark:text-zinc-100">
                                     <code className="bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded text-xs">
                                         {lang.code}
                                     </code>
                                 </td>
-                                <td className="px-2 py-3 text-sm text-zinc-900 dark:text-zinc-100 truncate">
+                                <td className="w-px whitespace-nowrap px-3 py-3 text-sm text-zinc-900 dark:text-zinc-100">
                                     {lang.name}
                                 </td>
-                                <td className="px-1 py-3 text-center">
-                                    {lang.isVariant ? (
-                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-200">
-                                            Target Only
-                                        </span>
-                                    ) : (
-                                        <CheckIcon enabled={lang.translation} />
-                                    )}
-                                </td>
-                                <td className="px-1 py-3 text-center">
-                                    <CheckIcon enabled={lang.glossaries} />
-                                </td>
-                                <td className="px-1 py-3 text-center">
-                                    <CheckIcon enabled={lang.tagHandling} />
-                                </td>
-                                <td className="px-1 py-3 text-center">
-                                    <CheckIcon enabled={lang.textImprovement} />
+                                <td className="px-3 py-3">
+                                    <FeatureBadges lang={lang} />
                                 </td>
                             </tr>
                         ))}
