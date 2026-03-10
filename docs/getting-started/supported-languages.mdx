@@ -11,21 +11,21 @@ mode: "wide"
 </Info>
 
 <Info>
-  Some languages support only text translation and do not yet support glossaries, tag handling, or text improvement. These are marked accordingly in the table below.
+  Each language in the table below shows which features it supports as tags. The possible features are:
 
-  Languages marked **Target Only** in the Translate column can only be used as target languages (not source languages) — these are typically regional variants like `EN-GB` or `PT-BR`.
+  - **Translation** — Text and document translation via the [`/translate`](/api-reference/translate/request-translation) endpoint. Languages tagged **Translate: Target Only** can only be used as target languages (not source) — these are typically regional variants like `EN-GB` or `PT-BR`.
+  - **Glossaries** — Custom [glossaries](/api-reference/multilingual-glossaries) to control how specific terms are translated.
+  - **Tag Handling** — XML/HTML [tag handling](/docs/xml-and-html-handling/xml) to preserve markup during translation.
+  - **Text Improvement** — Text improvement via the [`/write`](/api-reference/improve-text) endpoint (DeepL API for Write).
 
-  Only fully-featured languages are returned by the [`/languages` endpoint](/api-reference/languages/retrieve-supported-languages). To retrieve language support programmatically in your integration, use this endpoint.
-
-  Supported languages for [text improvement](/api-reference/improve-text) (DeepL API for Write) have not yet been added to the `/languages` endpoint; we'll be extending the `/languages` endpoint in the near future to include this information. For the `/write/rephase` endpoint, `writing_style` and `tone` currently work in `DE`, `EN-GB`, and `EN-US`.
+  Languages without a specific tag do not support that feature. You can use the feature filters to find languages that support a particular capability.
 </Info>
 
-The table columns indicate support for the following features:
+<Info>
+  Only fully-featured languages are returned by the [`/languages` endpoint](/api-reference/languages/retrieve-supported-languages). To retrieve language support programmatically, use this endpoint.
 
-- **Translate** — Text and document translation via the [`/translate`](/api-reference/translate/request-translation) endpoint.
-- **Glossary** — Custom glossaries to control how specific terms are translated.
-- **Tags** — XML/HTML [tag handling](/docs/xml-and-html-handling/xml) to preserve markup during translation.
-- **Improve** — Text improvement via the [`/write`](/api-reference/improve-text) endpoint (DeepL API for Write).
+  [Text improvement](/api-reference/improve-text) languages have not yet been added to the `/languages` endpoint. For the `/write/rephrase` endpoint, `writing_style` and `tone` currently work in `DE`, `EN-GB`, and `EN-US`.
+</Info>
 
 ## API Supported Languages
 
