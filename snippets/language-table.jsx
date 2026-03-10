@@ -211,8 +211,13 @@ export const LanguageTable = () => {
                 {features.map(f => {
                     if (f.variant) {
                         return (
-                            <span key={f.key} className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-200">
+                            <span
+                                key={f.key}
+                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-200 cursor-help"
+                                title="This language variant can only be used as a target language, not as a source. For example, use EN as the source and EN-GB as the target."
+                            >
                                 Translate: Target Only
+                                <span className="opacity-60 text-[10px]">?</span>
                             </span>
                         )
                     }
@@ -266,9 +271,9 @@ export const LanguageTable = () => {
                         {[
                             { key: 'translation', label: 'Translation' },
                             { key: 'glossaries', label: 'Glossaries' },
-                            { key: 'tagHandling', label: 'Tag Handling' },
-                            { key: 'textImprovement', label: 'Text Improvement' }
-                        ].map(({ key, label }) => (
+                            { key: 'tagHandling', label: 'Tag Handling', link: '/docs/xml-and-html-handling/xml' },
+                            { key: 'textImprovement', label: 'Text Improvement', link: '/api-reference/improve-text' }
+                        ].map(({ key, label, link }) => (
                             <label
                                 key={key}
                                 className={`flex items-center space-x-2 cursor-pointer rounded-md px-3 py-2 transition-colors ${
@@ -290,6 +295,13 @@ export const LanguageTable = () => {
                                 }`}>
                                     {label}
                                 </span>
+                                {link && (
+                                    <a
+                                        href={link}
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="ml-1 text-[10px] font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200 underline decoration-blue-300 dark:decoration-blue-600"
+                                    >info</a>
+                                )}
                             </label>
                         ))}
                     </div>
