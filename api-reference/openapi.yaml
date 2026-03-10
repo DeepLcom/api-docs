@@ -2032,10 +2032,10 @@ paths:
                         type: string
                         enum:
                           - tag_handling
-                          - glossary_id
+                          - glossary
                       example:
                         - tag_handling
-                        - glossary_id
+                        - glossary
               examples:
                 allSourceLanguages:
                   summary: All source languages (no product filter)
@@ -2063,12 +2063,12 @@ paths:
                       name: German
                       features:
                         - tag_handling
-                        - glossary_id
+                        - glossary
                     - lang: en
                       name: English
                       features:
                         - tag_handling
-                        - glossary_id
+                        - glossary
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -2174,14 +2174,14 @@ paths:
                         enum:
                           - formality
                           - tag_handling
-                          - glossary_id
+                          - glossary
                           - custom_instructions
                           - writing_style
                           - tone
                       example:
                         - formality
                         - tag_handling
-                        - glossary_id
+                        - glossary
               examples:
                 allTargetLanguages:
                   summary: All target languages (no product filter)
@@ -2210,18 +2210,18 @@ paths:
                       features:
                         - formality
                         - tag_handling
-                        - glossary_id
+                        - glossary
                     - lang: en-US
                       name: English (American)
                       features:
                         - tag_handling
-                        - glossary_id
+                        - glossary
                     - lang: fr
                       name: French
                       features:
                         - formality
                         - tag_handling
-                        - glossary_id
+                        - glossary
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -2295,13 +2295,13 @@ paths:
                         type: string
                       example:
                         - tag_handling
-                        - glossary_id
+                        - glossary
               example:
                 - source_lang: uk
                   target_lang: ru
                   features:
                     - tag_handling
-                    - glossary_id
+                    - glossary
         400:
           $ref: '#/components/responses/BadRequest'
         401:

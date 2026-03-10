@@ -116,7 +116,7 @@ User-Agent: YourApp/1.2.3
     "features": [
       "formality",
       "tag_handling",
-      "glossary_id"
+      "glossary"
     ]
   },
   {
@@ -124,7 +124,7 @@ User-Agent: YourApp/1.2.3
     "name": "English (American)",
     "features": [
       "tag_handling",
-      "glossary_id"
+      "glossary"
     ]
   }
 ]
@@ -146,7 +146,7 @@ The `product` query parameter identifies which DeepL API product you are queryin
     `glossary` is a product value indicating glossaries can be created for that language, and managed via the glossary
     management endpoints.
 
-    Support for glossaries within specific products (for example text translation) is indicated by the `glossary_id`
+    Support for glossaries within specific products (for example text translation) is indicated by the `glossary`
     feature value, explained in the following section.
 </Note>
 
@@ -157,8 +157,8 @@ As we add new products to the DeepL API, the `products` list for each supported 
 As described earlier, when the `product` query parameter is specified, language objects may include a `features` array.
 The included features indicate which optional parameters are supported for that language.
 
-For example, `["formality", "tag_handling", "glossary_id"]` for German above indicates that when this language is used
-as the target language for text translation, the `formality`, `tag_handling` and `glossary_id` parameters are supported.
+For example, `["formality", "tag_handling", "glossary"]` for German above indicates that when this language is used
+as the target language for text translation, `formality`, `tag_handling` and `glossary` are supported.
 
 Features must be included in *both* the source and target language's `features` array to be supported. For example, if
 the source language French (`fr`) includes `"formality"` for text translation, but the target language Greek (`el`) does
@@ -202,7 +202,7 @@ curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text' \
   {
     "lang": "ru",
     "name": "Russian",
-    "features": ["formality", "tag_handling", "glossary_id"]
+    "features": ["formality", "tag_handling", "glossary"]
   }
 ]
 ```
@@ -220,7 +220,7 @@ curl -X GET 'https://api.deepl.com/v3/languages/source?product=translate_text' \
   {
     "lang": "uk",
     "name": "Ukrainian",
-    "features": ["formality", "tag_handling", "glossary_id"]
+    "features": ["formality", "tag_handling", "glossary"]
   }
 ]
 ```
@@ -238,7 +238,7 @@ curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text&so
   {
     "lang": "ru",
     "name": "Russian",
-    "features": ["tag_handling", "glossary_id"]
+    "features": ["tag_handling", "glossary"]
   }
 ]
 ```
@@ -256,7 +256,7 @@ curl -X GET 'https://api.deepl.com/v3/languages/source?product=translate_text&ta
   {
     "lang": "uk",
     "name": "Ukrainian",
-    "features": ["tag_handling", "glossary_id"]
+    "features": ["tag_handling", "glossary"]
   }
 ]
 ```
@@ -281,7 +281,7 @@ curl -X GET 'https://api.deepl.com/v3/languages/exceptions?product=translate_tex
   {
     "source_lang": "uk",
     "target_lang": "ru",
-    "features": ["tag_handling", "glossary_id"]
+    "features": ["tag_handling", "glossary"]
   }
 ]
 ```
