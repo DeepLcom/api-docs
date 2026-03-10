@@ -14,12 +14,13 @@ The document translation API allows you to translate whole documents and support
 * `txt` - Plain Text Document
 * `xlf / xliff` - XLIFF Document, version 2.1
 * `srt` - SRT (SubRip Subtitle) Document
+* `jpeg` / `jpg` / `png` - Image (currently in beta)
 
 Please note that with every submitted document of type .pptx, .docx, .doc, .xlsx, or .pdf, you are billed a minimum of 50,000 characters with the DeepL API plan, no matter how many characters are included in the document.
 
 The maximum upload limit for documents is [available here](/docs/resources/usage-limits#maximum-upload-limits-per-document-format) and may vary based on API plan and document type.
 
-We also provide specs that is auto-generated from DeepL's OpenAPI file. [You can find it here](/api-reference/document/upload-and-translate-a-document).
+We also provide specs that are auto-generated from DeepL's OpenAPI file. [You can find it here](/api-reference/document/upload-and-translate-a-document).
 
 <Info>
 When translating a `doc` file, you will receive a `docx` file as the output format.
@@ -136,7 +137,9 @@ These examples are for demonstration purposes only. In production code, the auth
     <li>`pdf`: Portable Document Format</li>
     <li>`htm / .html`: HTML Document</li>
     <li>`txt`: Plain Text Document</li>
-    <li>`xlf / .xliff`: XLIFF Document, version 2.1</li>
+    <li>`xlf / xliff`: XLIFF Document, version 2.1</li>
+    <li>`srt` - SRT (SubRip Subtitle) Document</li>
+    <li>`jpeg` / `jpg` / `png` - Image (currently in beta)</li>
   </ul>
 </ParamField>
 <ParamField body="filename" type="string">
@@ -158,6 +161,9 @@ These examples are for demonstration purposes only. In production code, the auth
 <ParamField body="output_format" type="string">
   File extension of desired format of translated file, for example: `pdf`. If unspecified, by default the translated file will be in the same format as the input file.
   Note: Not all combinations of input file and translation file extensions are permitted. See <a href="/api-reference/document#document-format-conversions">Document format conversions</a> for the permitted combinations.
+</ParamField>
+<ParamField body="enable_beta_languages" type="boolean">
+  No languages are currently in beta. This parameter has no effect on translations but is maintained for backward compatibility.
 </ParamField>
 
 ### Step 2: check the document status and wait for translation to complete
@@ -296,7 +302,7 @@ Content-Type: application/json
 
 The examples on this page show how to translate documents with DeepL using the API directly.
 
-DeepL's [client libraries](/api-reference/client-libraries) simplify API document translation by providing a convenience function to upload the document, check translation status and download the translated document with a single function call.
+DeepL's [client libraries](/docs/getting-started/client-libraries) simplify API document translation by providing a convenience function to upload the document, check translation status and download the translated document with a single function call.
 
 ### Document format conversions
 

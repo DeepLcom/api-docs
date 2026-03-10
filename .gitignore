@@ -1,7 +1,5 @@
 .idea/*
-
+reviews/*
 .DS_Store
 .DS_Store?
-# Removed - not needed since we don't use external packages
-# node_modules/
-# package-lock.json
+.tool-versions

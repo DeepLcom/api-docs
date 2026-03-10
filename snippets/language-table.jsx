@@ -9,6 +9,13 @@ export const LanguageTable = () => {
         textImprovement: false
     })
 
+    const featureDescriptions = {
+        translation: 'Supports text and document translation via the /translate endpoint.',
+        glossaries: 'Supports custom glossaries to control how specific terms are translated.',
+        tagHandling: 'Supports XML/HTML tag handling to preserve markup during translation.',
+        textImprovement: 'Supports the /write endpoint for text improvement (DeepL API for Write).'
+    }
+
     // Language data with individual feature support
     const languageData = [
         // Fully supported languages (source + target + glossaries + tag handling)
@@ -130,16 +137,14 @@ export const LanguageTable = () => {
             const matchesSearch = lang.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 lang.code.toLowerCase().includes(searchTerm.toLowerCase())
 
-            // Apply feature filters
             const matchesFeatureFilters = Object.keys(featureFilters).every(feature => {
-                if (!featureFilters[feature]) return true // If filter is off, don't filter by this feature
-                return lang[feature] === true // Only show languages that have this feature
+                if (!featureFilters[feature]) return true
+                return lang[feature] === true
             })
 
             return matchesSearch && matchesFeatureFilters
         })
 
-        // Sort data
         filtered.sort((a, b) => {
             let aValue, bValue
 
@@ -178,6 +183,7 @@ export const LanguageTable = () => {
     }
 
     const clearAllFilters = () => {
+        setSearchTerm('')
         setFeatureFilters({
             translation: false,
             glossaries: false,
@@ -200,145 +206,218 @@ export const LanguageTable = () => {
         return <span className="text-zinc-300 dark:text-zinc-600 text-lg">-</span>
     }
 
+    const Tooltip = ({ text, children }) => (
+        <span className="group relative cursor-help">
+            {children}
+            <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 rounded bg-zinc-800 dark:bg-zinc-700 px-3 py-2 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 z-50 text-left font-normal normal-case tracking-normal">
+                {text}
+            </span>
+        </span>
+    )
+
+    const FeatureBadges = ({ lang }) => {
+        const features = [
+            { key: 'translation', label: 'Translation', variant: lang.isVariant },
+            { key: 'glossaries', label: 'Glossaries' },
+            { key: 'tagHandling', label: 'Tags' },
+            { key: 'textImprovement', label: 'Write' },
+        ]
+        return (
+            <div className="flex flex-wrap gap-1.5">
+                {features.map(f => {
+                    if (f.variant) {
+                        return (
+                            <span key={f.key} className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-200">
+                                Target Only
+                            </span>
+                        )
+                    }
+                    if (lang[f.key]) {
+                        return (
+                            <span key={f.key} className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200">
+                                {f.label}
+                            </span>
+                        )
+                    }
+                    return null
+                })}
+            </div>
+        )
+    }
+
     const activeFiltersCount = Object.values(featureFilters).filter(Boolean).length
+    const hasAnyFilter = activeFiltersCount > 0 || searchTerm.length > 0
 
     return (
         <div className="not-prose">
             <div className="mb-6 space-y-4">
-                <div className="flex flex-col sm:flex-row gap-4">
-                    <div className="flex-1">
-                        <input
-                            type="text"
-                            placeholder="Search languages or codes..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full px-4 py-2 border border-zinc-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:border-zinc-600 dark:bg-zinc-800 dark:text-white"
-                        />
-                    </div>
+                <div className="flex-1">
+                    <input
+                        type="text"
+                        placeholder="Search languages or codes..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full px-4 py-2 border border-zinc-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:border-zinc-600 dark:bg-zinc-800 dark:text-white"
+                    />
                 </div>
 
                 {/* Feature Filters */}
-                <div className="bg-zinc-50 dark:bg-zinc-800 p-4 rounded-lg">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3">
-                        <h3 className="text-sm font-medium text-zinc-900 dark:text-zinc-100 mb-2 sm:mb-0">
-                            Filter by Features {activeFiltersCount > 0 && `(${activeFiltersCount} active)`}
-                        </h3>
-                        {activeFiltersCount > 0 && (
+                <div className="bg-zinc-50 dark:bg-zinc-800/50 p-4 rounded-lg border border-zinc-200 dark:border-zinc-700">
+                    <div className="flex flex-row items-center justify-between mb-3">
+                        <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                            Filter by feature
+                        </span>
+                        {hasAnyFilter && (
                             <button
                                 onClick={clearAllFilters}
-                                className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200"
+                                className="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200 underline"
                             >
-                                Clear all filters
+                                Clear all
                             </button>
                         )}
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         {[
                             { key: 'translation', label: 'Translation' },
                             { key: 'glossaries', label: 'Glossaries' },
                             { key: 'tagHandling', label: 'Tag Handling' },
                             { key: 'textImprovement', label: 'Text Improvement' }
                         ].map(({ key, label }) => (
-                            <label key={key} className="flex items-center space-x-2 cursor-pointer">
+                            <label
+                                key={key}
+                                className={`flex items-center space-x-2 cursor-pointer rounded-md px-3 py-2 transition-colors ${
+                                    featureFilters[key]
+                                        ? 'bg-blue-50 dark:bg-blue-900/30 ring-1 ring-blue-300 dark:ring-blue-700'
+                                        : 'hover:bg-zinc-100 dark:hover:bg-zinc-700/50'
+                                }`}
+                            >
                                 <input
                                     type="checkbox"
                                     checked={featureFilters[key]}
                                     onChange={() => handleFeatureFilterChange(key)}
                                     className="rounded border-zinc-300 text-blue-600 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-700"
                                 />
-                                <div className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                                <span className={`text-sm ${
+                                    featureFilters[key]
+                                        ? 'font-semibold text-blue-700 dark:text-blue-300'
+                                        : 'text-zinc-700 dark:text-zinc-300'
+                                }`}>
                                     {label}
-                                </div>
+                                </span>
                             </label>
                         ))}
                     </div>
                 </div>
 
-                <div className="text-sm text-zinc-600 dark:text-zinc-400">
+                <div className="text-sm text-zinc-500 dark:text-zinc-400">
                     Showing {filteredData.length} of {languageData.length} languages
+                    {activeFiltersCount > 0 && ` (${activeFiltersCount} filter${activeFiltersCount > 1 ? 's' : ''} active)`}
                 </div>
             </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-zinc-200 dark:divide-zinc-700">
-          <thead className="bg-zinc-50 dark:bg-zinc-800 sticky top-16 z-50">
-                        <tr>
-                            <th
-                                className="px-4 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700"
-                                onClick={() => handleSort('code')}
-                            >
-                                <div className="flex items-center space-x-1">
-                                    <span>Code</span>
-                                    <SortIcon column="code" />
-                                </div>
-                            </th>
-                            <th
-                                className="px-4 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700"
-                                onClick={() => handleSort('name')}
-                            >
-                                <div className="flex items-center space-x-1">
-                                    <span>Language</span>
-                                    <SortIcon column="name" />
-                                </div>
-                            </th>
-                            <th className="px-3 py-3 text-center text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">
-                                <div className="text-center">
-                                    <div>Translation</div>
-                                </div>
-                            </th>
-                            <th className="px-3 py-3 text-center text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">
-                                <div className="text-center">
-                                    <div>Glossaries</div>
-                                </div>
-                            </th>
-                            <th className="px-3 py-3 text-center text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">
-                                <div className="text-center">
-                                    <div>Tag</div>
-                                    <div>Handling</div>
-                                </div>
-                            </th>
-                            <th className="px-3 py-3 text-center text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">
-                                <div className="text-center">
-                                    <div>Text</div>
-                                    <div>Improvement</div>
-                                </div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-zinc-200 dark:bg-zinc-900 dark:divide-zinc-700">
-                        {filteredData.map((lang) => (
-                            <tr key={lang.code} className="hover:bg-zinc-50 dark:hover:bg-zinc-800">
-                                <td className="px-4 py-3 whitespace-nowrap text-sm font-mono text-zinc-900 dark:text-zinc-100">
-                                    <code className="bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded text-xs">
-                                        {lang.code}
-                                    </code>
-                                </td>
-                                <td className="px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100 min-w-[200px]">
-                                    {lang.name}
-                                </td>
-                                <td className="px-3 py-3 text-center">
-                                    {lang.isVariant ? (
-                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-800 dark:text-orange-100">
-                                            Target Only
-                                        </span>
-                                    ) : (
-                                        <CheckIcon enabled={lang.translation} />
-                                    )}
-                                </td>
-                                <td className="px-3 py-3 text-center">
-                                    <CheckIcon enabled={lang.glossaries} />
-                                </td>
-                                <td className="px-3 py-3 text-center">
-                                    <CheckIcon enabled={lang.tagHandling} />
-                                </td>
-                                <td className="px-3 py-3 text-center">
-                                    <CheckIcon enabled={lang.textImprovement} />
-                                </td>
+            {/* Desktop table view */}
+            <div className="hidden sm:block relative">
+                <div className="overflow-x-auto -mx-4 px-4 scrollbar-thin" style={{ WebkitOverflowScrolling: 'touch' }}>
+                    <table className="w-full divide-y divide-zinc-200 dark:divide-zinc-700">
+                        <thead className="bg-zinc-50 dark:bg-zinc-800 sticky top-0 z-10">
+                            <tr>
+                                <th
+                                    className="px-4 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                                    onClick={() => handleSort('code')}
+                                >
+                                    <div className="flex items-center space-x-1">
+                                        <span>Code</span>
+                                        <SortIcon column="code" />
+                                    </div>
+                                </th>
+                                <th
+                                    className="px-4 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                                    onClick={() => handleSort('name')}
+                                >
+                                    <div className="flex items-center space-x-1">
+                                        <span>Language</span>
+                                        <SortIcon column="name" />
+                                    </div>
+                                </th>
+                                <th className="px-3 py-3 text-center text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">
+                                    <Tooltip text={featureDescriptions.translation}>
+                                        Translation
+                                    </Tooltip>
+                                </th>
+                                <th className="px-3 py-3 text-center text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">
+                                    <Tooltip text={featureDescriptions.glossaries}>
+                                        Glossaries
+                                    </Tooltip>
+                                </th>
+                                <th className="px-3 py-3 text-center text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">
+                                    <Tooltip text={featureDescriptions.tagHandling}>
+                                        Tag Handling
+                                    </Tooltip>
+                                </th>
+                                <th className="px-3 py-3 text-center text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">
+                                    <Tooltip text={featureDescriptions.textImprovement}>
+                                        Text Improvement
+                                    </Tooltip>
+                                </th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-zinc-200 dark:bg-zinc-900 dark:divide-zinc-700">
+                            {filteredData.map((lang) => (
+                                <tr key={lang.code} className="hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
+                                    <td className="px-4 py-3 whitespace-nowrap text-sm font-mono text-zinc-900 dark:text-zinc-100">
+                                        <code className="bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded text-xs">
+                                            {lang.code}
+                                        </code>
+                                    </td>
+                                    <td className="px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100 min-w-[200px]">
+                                        {lang.name}
+                                    </td>
+                                    <td className="px-3 py-3 text-center">
+                                        {lang.isVariant ? (
+                                            <Tooltip text="This language variant can only be used as a target language, not as a source language.">
+                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-200">
+                                                    Target Only
+                                                </span>
+                                            </Tooltip>
+                                        ) : (
+                                            <CheckIcon enabled={lang.translation} />
+                                        )}
+                                    </td>
+                                    <td className="px-3 py-3 text-center">
+                                        <CheckIcon enabled={lang.glossaries} />
+                                    </td>
+                                    <td className="px-3 py-3 text-center">
+                                        <CheckIcon enabled={lang.tagHandling} />
+                                    </td>
+                                    <td className="px-3 py-3 text-center">
+                                        <CheckIcon enabled={lang.textImprovement} />
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {/* Mobile card view */}
+            <div className="sm:hidden space-y-2">
+                {filteredData.map((lang) => (
+                    <div
+                        key={lang.code}
+                        className="border border-zinc-200 dark:border-zinc-700 rounded-lg p-3 bg-white dark:bg-zinc-900"
+                    >
+                        <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                                {lang.name}
+                            </span>
+                            <code className="bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded text-xs font-mono text-zinc-700 dark:text-zinc-300">
+                                {lang.code}
+                            </code>
+                        </div>
+                        <FeatureBadges lang={lang} />
+                    </div>
+                ))}
             </div>
 
             {filteredData.length === 0 && (

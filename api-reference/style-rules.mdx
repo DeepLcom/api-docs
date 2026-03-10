@@ -1,0 +1,147 @@
+---
+title: "Style rules"
+sidebarTitle: "Overview"
+description: "Manage a shared list of rules for style, formatting, and more"
+---
+
+<Info>
+    The Style Rules API is currently available only to Pro API subscribers.
+</Info>
+
+The style rules feature allows you to select a set of rules to apply when translating text. These rules make changes to your text according to the selected formatting and spelling conventions.
+
+You can create style rules in the UI at [https://deepl.com/custom-rules](https://deepl.com/custom-rules). 
+
+Both style rules and glossaries are unique to each of DeepL's global data centers and are not shared between them. Clients using the `api-us.deepl.com` endpoint will not be able to access glossaries or style rules created in the UI at this time.
+
+### Get all style rule lists
+Get all style rules lists and their meta-information.
+
+<Tabs>
+<Tab title="cURL">
+
+```sh Example request: get all style rule lists
+curl -X GET 'https://api.deepl.com/v3/style_rules' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]' 
+```
+
+```json Example response
+{
+  "style_rules": [
+    {
+      "style_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+      "name": "Technical Documentation Rules",
+      "creation_time": "2024-10-01T12:34:56Z",
+      "updated_time": "2024-10-03T12:34:56Z",
+      "language": "EN",
+      "version": 8
+    }
+  ]
+}
+```
+You can also optionally pass in a `detailed` query parameter, to retrieve all configured rules and custom instructions per rule list.
+
+```sh Example request: get all style rule lists and their configured rules
+curl -X GET 'https://api.deepl.com/v3/style_rules?detailed=true' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]' 
+```
+
+```json Example response
+{
+  "style_rules": [
+    {
+      "style_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+      "name": "Technical Documentation Rules",
+      "creation_time": "2024-10-01T12:34:56Z",
+      "updated_time": "2024-10-03T12:34:56Z",
+      "language": "EN",
+      "version": 8,
+      "configured_rules": {
+        "numbers": {
+            "time_format": "always-use-24-hour-clock"
+        },
+        "style_and_tone": {
+            "instructions_style": "use-imperative",
+            "redundant_introductory_words": "avoid-redundant-introductory-words-that-relate-to-current-text"
+        }
+      },
+      "custom_instructions": {
+        "label": "My Custom instruction",
+        "prompt": "Use a friendly, diplomatic tone"
+      }
+    }
+  ]
+}
+```
+</Tab>
+<Tab title ="HTTP Request">
+
+```http Example request: get all style rule lists
+GET https://api.deepl.com/v3/style_rules HTTP/2
+Host: api.deepl.com
+Authorization: DeepL-Auth-Key [yourAuthKey] 
+User-Agent: YourApp/1.2.3
+```
+```json Example response
+{
+  "style_rules": [
+    {
+      "style_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+      "name": "Technical Documentation Rules",
+      "creation_time": "2024-10-01T12:34:56Z",
+      "updated_time": "2024-10-03T12:34:56Z",
+      "language": "EN",
+      "version": 8
+    }
+  ]
+}
+```
+
+You can also optionally pass in a `detailed` query parameter, to retrieve all configured rules and custom instructions per rule list.
+
+```http Example request: get all style rule lists and their configured rules
+GET https://api.deepl.com/v3/style_rules?detailed=true HTTP/2
+Host: api.deepl.com
+Authorization: DeepL-Auth-Key [yourAuthKey] 
+User-Agent: YourApp/1.2.3
+```
+```json Example response
+{
+  "style_rules": [
+    {
+      "style_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+      "name": "Technical Documentation Rules",
+      "creation_time": "2024-10-01T12:34:56Z",
+      "updated_time": "2024-10-03T12:34:56Z",
+      "language": "EN",
+      "version": 8,
+      "configured_rules": {
+        "numbers": {
+            "time_format": "always-use-24-hour-clock"
+        },
+        "style_and_tone": {
+            "instructions_style": "use-imperative",
+            "redundant_introductory_words": "avoid-redundant-introductory-words-that-relate-to-current-text"
+        }
+      },
+      "custom_instructions": {
+        "label": "My Custom instruction",
+        "prompt": "Use a friendly, diplomatic tone"
+      }
+    }
+  ]
+}
+```
+</Tab>
+</Tabs>
+
+### Query parameters
+<ParamField query="detailed" type="boolean">
+Determines if the rule list's `configured_rules` and `custom_instructions` should be included in the response body. If `detailed` parameter is not included, defaults to `false`.
+</ParamField>
+<ParamField query="page" type="int">
+The index of the first page to return. Default: 0 (the first page). Use with `page_size` to get the next page of rule lists.
+</ParamField>
+<ParamField query="page_size" type="int">
+The maximum number of style rule lists to return. Default: 10. Minimum: 1. Maximum: 25.
+</ParamField>

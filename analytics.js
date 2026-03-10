@@ -18,6 +18,9 @@ class AnalyticsTracker {
   static EVENT_ID_NETWORK_REQUEST = 5000;
   static EVENT_ID_SEARCH_INPUT = 5001; // TODO change this after DAP update
 
+  static CONSENT_KEY = 'deepl_cookie_consent';
+  static CONSENT_ACCEPTED = 'accepted';
+
   static isProdStage = window.location.hostname === "developers.deepl.com";
   static statisticsUrl = this.isProdStage ? 
     "https://s.deepl.com/web/statistics"
@@ -149,7 +152,7 @@ class AnalyticsTracker {
         // console.log('Fetched data: ', data);
         return data;
       } catch (error) {
-        console.error('Fetch error: ', error);
+        console.error('[Analytics] Fetch error: ', error);
       }
     }
 
@@ -378,9 +381,24 @@ class AnalyticsTracker {
   };
 
   // ========================
+  //   Consent Checker
+  // ========================
+  static hasConsent() {
+    // Check localStorage for consent
+    return localStorage.getItem(this.CONSENT_KEY) === this.CONSENT_ACCEPTED;
+  }
+
+  // ========================
   //   Initialization
   // ========================
   static init() {
+    // Only initialize analytics if user has consented
+    if (!this.hasConsent()) {
+      console.log('[Analytics] User has not consented to tracking. Analytics disabled.');
+      return;
+    }
+
+    console.log('[Analytics] User consent verified. Initializing analytics...');
     this.PageNavigationTracker.setupNavigationTrackers();
     this.NetworkRequestTracker.setupNetworkRequestTracking();
     // this.SearchInputTracker.setupSearchInputTracking(); // Disable this for now
