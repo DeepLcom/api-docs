@@ -13,70 +13,22 @@ mode: "wide"
 <Info>
   Some languages support only text translation and do not yet support glossaries, tag handling, or text improvement. These are marked accordingly in the table below.
 
-  Languages marked **Target Only** in the Translation column can only be used as target languages (not source languages) — these are typically regional variants like `EN-GB` or `PT-BR`.
+  Languages marked **Target Only** in the Translate column can only be used as target languages (not source languages) — these are typically regional variants like `EN-GB` or `PT-BR`.
 
   Only fully-featured languages are returned by the [`/languages` endpoint](/api-reference/languages/retrieve-supported-languages). To retrieve language support programmatically in your integration, use this endpoint.
+
+  Supported languages for [text improvement](/api-reference/improve-text) (DeepL API for Write) have not yet been added to the `/languages` endpoint; we'll be extending the `/languages` endpoint in the near future to include this information. For the `/write/rephase` endpoint, `writing_style` and `tone` currently work in `DE`, `EN-GB`, and `EN-US`.
 </Info>
+
+The table columns indicate support for the following features:
+
+- **Translate** — Text and document translation via the [`/translate`](/api-reference/translate/request-translation) endpoint.
+- **Glossary** — Custom glossaries to control how specific terms are translated.
+- **Tags** — XML/HTML [tag handling](/docs/xml-and-html-handling/xml) to preserve markup during translation.
+- **Improve** — Text improvement via the [`/write`](/api-reference/improve-text) endpoint (DeepL API for Write).
 
 ## API Supported Languages
 
 import { LanguageTable } from "/snippets/language-table.jsx"
 
 <LanguageTable />
-
-### Glossary languages
-
-The following can be either source or target languages in a glossary.
-
-- `AR` - Arabic
-- `BG` - Bulgarian
-- `CS` - Czech
-- `DA` - Danish
-- `DE` - German
-- `EL` - Greek
-- `EN` - English
-- `ES` - Spanish
-- `ET` - Estonian
-- `FI` - Finnish
-- `FR` - French
-- `HE` - Hebrew
-- `HU` - Hungarian
-- `ID` - Indonesian
-- `IT` - Italian
-- `JA` - Japanese
-- `KO` - Korean
-- `LT` - Lithuanian
-- `LV` - Latvian
-- `NB` - Norwegian Bokm&aring;l
-- `NL` - Dutch
-- `PL` - Polish
-- `PT` - Portuguese
-- `RO` - Romanian
-- `RU` - Russian
-- `SK` - Slovak
-- `SL` - Slovenian
-- `SV` - Swedish
-- `TH` - Thai
-- `TR` - Turkish
-- `UK` - Ukrainian
-- `VI` - Vietnamese
-- `ZH` - Chinese
-
-### Text improvement languages (DeepL API for Write)
-
-<Info>
-  As of April 2025, supported languages for [text improvement](/api-reference/improve-text) (DeepL API for Write) have not yet been added to the `/languages` endpoint; we'll be extending the `/languages` endpoint in the near future to include this information.
-</Info>
-
-- `DE` (German)
-- `EN-GB` (British English)
-- `EN-US` (American English)
-- `ES` (Spanish)
-- `FR` (French)
-- `IT` (Italian)
-- `PT-BR` (Brazilian Portuguese)
-- `PT-PT` (Portuguese)
-
-<Info>
-  For the `/write/rephase` endpoint, `writing_style` and `tone` currently work in `DE`, `EN-GB`, and `EN-US`.
-</Info>
