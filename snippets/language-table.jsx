@@ -239,6 +239,7 @@ export const LanguageTable = () => {
                     <input
                         type="text"
                         placeholder="Search languages or codes..."
+                        aria-label="Search languages or codes"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="w-full px-4 py-2 border border-zinc-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:border-zinc-600 dark:bg-zinc-800 dark:text-white"
@@ -302,12 +303,16 @@ export const LanguageTable = () => {
 
             {/* Desktop table view */}
             <div className="hidden sm:block">
-                <table className="w-full divide-y divide-zinc-200 dark:divide-zinc-700">
+                <table className="w-full divide-y divide-zinc-200 dark:divide-zinc-700" aria-label="DeepL API supported languages and features">
                     <thead className="bg-zinc-50 dark:bg-zinc-800 sticky top-0 z-10">
                         <tr>
                             <th
                                 className="w-px whitespace-nowrap px-3 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700"
                                 onClick={() => handleSort('code')}
+                                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSort('code') } }}
+                                role="columnheader button"
+                                tabIndex={0}
+                                aria-sort={sortBy === 'code' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
                             >
                                 <div className="flex items-center space-x-1">
                                     <span>Code</span>
@@ -317,6 +322,10 @@ export const LanguageTable = () => {
                             <th
                                 className="w-px whitespace-nowrap px-3 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700"
                                 onClick={() => handleSort('name')}
+                                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSort('name') } }}
+                                role="columnheader button"
+                                tabIndex={0}
+                                aria-sort={sortBy === 'name' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
                             >
                                 <div className="flex items-center space-x-1">
                                     <span>Language</span>

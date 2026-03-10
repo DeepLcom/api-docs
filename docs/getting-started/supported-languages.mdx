@@ -7,24 +7,9 @@ mode: "wide"
 ---
 
 <Info>
-  If trying to convert between variants of the same language (e.g. `EN-US` to `EN-GB`), please refer to [this guide](/docs/learning-how-tos/examples-and-guides/translating-between-variants).
-</Info>
+  Each language shows which features it supports as tags: **Translation**, **Glossaries**, **[Tag Handling](/docs/xml-and-html-handling/xml)**, and **[Text Improvement](/api-reference/improve-text)**. Languages without a tag for a given feature do not support it. Languages tagged **Translate: Target Only** (typically regional variants like `EN-GB` or `PT-BR`) can only be used as target languages. Use the feature filters to find languages with specific capabilities.
 
-<Info>
-  Each language in the table below shows which features it supports as tags. The possible features are:
-
-  - **Translation** — Text and document translation via the [`/translate`](/api-reference/translate/request-translation) endpoint. Languages tagged **Translate: Target Only** can only be used as target languages (not source) — these are typically regional variants like `EN-GB` or `PT-BR`.
-  - **Glossaries** — Custom [glossaries](/api-reference/multilingual-glossaries) to control how specific terms are translated.
-  - **Tag Handling** — XML/HTML [tag handling](/docs/xml-and-html-handling/xml) to preserve markup during translation.
-  - **Text Improvement** — Text improvement via the [`/write`](/api-reference/improve-text) endpoint (DeepL API for Write).
-
-  Languages without a specific tag do not support that feature. You can use the feature filters to find languages that support a particular capability.
-</Info>
-
-<Info>
-  Only fully-featured languages are returned by the [`/languages` endpoint](/api-reference/languages/retrieve-supported-languages). To retrieve language support programmatically, use this endpoint.
-
-  [Text improvement](/api-reference/improve-text) languages have not yet been added to the `/languages` endpoint. For the `/write/rephrase` endpoint, `writing_style` and `tone` currently work in `DE`, `EN-GB`, and `EN-US`.
+  To convert between variants of the same language (e.g. `EN-US` to `EN-GB`), refer to [this guide](/docs/learning-how-tos/examples-and-guides/translating-between-variants). Only fully-featured languages are returned by the [`/languages` endpoint](/api-reference/languages/retrieve-supported-languages). [Text improvement](/api-reference/improve-text) languages have not yet been added to that endpoint. For `/write/rephrase`, `writing_style` and `tone` currently work in `DE`, `EN-GB`, and `EN-US`.
 </Info>
 
 ## API Supported Languages
