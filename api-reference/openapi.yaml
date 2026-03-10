@@ -2056,16 +2056,11 @@ paths:
       summary: Retrieve Source Languages
       operationId: getSourceLanguages
       description: |-
-        Returns source languages supported by one or more DeepL API products.
-
-        When no `product` parameter is specified, each language includes a `products` array
-        indicating which products support it. When `product` is specified, only languages
-        for that product are returned, the `products` field is omitted, and source languages
-        may include a `features` array listing product-specific capabilities.
+        Returns source languages supported by the specified DeepL API product.
       parameters:
         - name: product
           in: query
-          required: false
+          required: true
           schema:
             type: string
             enum:
@@ -2075,7 +2070,7 @@ paths:
               - voice
               - write
           description: |-
-            Filter languages by product. Supported values: `translate_text`, `translate_document`,
+            The product to retrieve source languages for. Supported values: `translate_text`, `translate_document`,
             `glossary`, `voice`, `write`.
         - name: target_lang
           in: query
@@ -2101,6 +2096,7 @@ paths:
                   required:
                     - lang
                     - name
+                    - features
                   properties:
                     lang:
                       description: The language code of the given language.
@@ -2110,30 +2106,10 @@ paths:
                       description: Name of the language in English.
                       type: string
                       example: German
-                    products:
-                      description: |-
-                        Array of product identifiers indicating which products support this language.
-                        Only present when no `product` query parameter is specified.
-                      type: array
-                      items:
-                        type: string
-                        enum:
-                          - translate_text
-                          - translate_document
-                          - glossary
-                          - voice
-                          - write
-                      example:
-                        - translate_text
-                        - translate_document
-                        - glossary
-                        - voice
-                        - write
                     features:
                       description: |-
-                        Array of feature strings indicating capabilities for this language with the
-                        specified product. Only present when a `product` query parameter is specified
-                        and the language supports one or more features for that product.
+                        Array of feature strings indicating capabilities supported for this language
+                        with the specified product.
                       type: array
                       items:
                         type: string
@@ -2144,25 +2120,6 @@ paths:
                         - tag_handling
                         - glossary
               examples:
-                allSourceLanguages:
-                  summary: All source languages (no product filter)
-                  value:
-                    - lang: de
-                      name: German
-                      products:
-                        - translate_text
-                        - translate_document
-                        - glossary
-                        - voice
-                        - write
-                    - lang: en
-                      name: English
-                      products:
-                        - translate_text
-                        - translate_document
-                        - glossary
-                        - voice
-                        - write
                 translateTextSources:
                   summary: Source languages for text translation
                   value:
@@ -2197,16 +2154,11 @@ paths:
       summary: Retrieve Target Languages
       operationId: getTargetLanguages
       description: |-
-        Returns target languages supported by one or more DeepL API products.
-
-        When no `product` parameter is specified, each language includes a `products` array
-        indicating which products support it. When `product` is specified, only languages
-        for that product are returned, the `products` field is omitted, and target languages
-        may include a `features` array listing product-specific capabilities.
+        Returns target languages supported by the specified DeepL API product.
       parameters:
         - name: product
           in: query
-          required: false
+          required: true
           schema:
             type: string
             enum:
@@ -2216,7 +2168,7 @@ paths:
               - voice
               - write
           description: |-
-            Filter languages by product. Supported values: `translate_text`, `translate_document`,
+            The product to retrieve target languages for. Supported values: `translate_text`, `translate_document`,
             `glossary`, `voice`, `write`.
         - name: source_lang
           in: query
@@ -2242,6 +2194,7 @@ paths:
                   required:
                     - lang
                     - name
+                    - features
                   properties:
                     lang:
                       description: The language code of the given language.
@@ -2251,30 +2204,10 @@ paths:
                       description: Name of the language in English.
                       type: string
                       example: English (American)
-                    products:
-                      description: |-
-                        Array of product identifiers indicating which products support this language.
-                        Only present when no `product` query parameter is specified.
-                      type: array
-                      items:
-                        type: string
-                        enum:
-                          - translate_text
-                          - translate_document
-                          - glossary
-                          - voice
-                          - write
-                      example:
-                        - translate_text
-                        - translate_document
-                        - glossary
-                        - voice
-                        - write
                     features:
                       description: |-
-                        Array of feature strings indicating capabilities for this language with the
-                        specified product. Only present when a `product` query parameter is specified
-                        and the language supports one or more features for that product.
+                        Array of feature strings indicating capabilities supported for this language
+                        with the specified product.
                       type: array
                       items:
                         type: string
@@ -2290,25 +2223,6 @@ paths:
                         - tag_handling
                         - glossary
               examples:
-                allTargetLanguages:
-                  summary: All target languages (no product filter)
-                  value:
-                    - lang: en-US
-                      name: English (American)
-                      products:
-                        - translate_text
-                        - translate_document
-                        - glossary
-                        - voice
-                        - write
-                    - lang: fr
-                      name: French
-                      products:
-                        - translate_text
-                        - translate_document
-                        - glossary
-                        - voice
-                        - write
                 translateTextTargets:
                   summary: Target languages for text translation
                   value:
