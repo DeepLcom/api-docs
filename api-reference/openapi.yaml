@@ -1942,6 +1942,113 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       security:
         - auth_header: [ ]
+  /v3/languages/products:
+    get:
+      tags:
+        - MetaInformation
+      summary: Retrieve Language Products
+      operationId: getLanguageProducts
+      description: |-
+        Returns all DeepL API products, including the API endpoints they expose, and the features they support.
+
+        For each feature, the response indicates whether support depends on the source language
+        (`depends_on_source_lang`), the target language (`depends_on_target_lang`), or both. This allows
+        clients to determine feature availability for a language pair by checking the appropriate language's
+        `features` array returned by `/v3/languages/source` or `/v3/languages/target`.
+      responses:
+        200:
+          description: JSON array where each item represents a DeepL API product.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - name
+                    - endpoints
+                    - features
+                  properties:
+                    name:
+                      description: The product identifier.
+                      type: string
+                      enum:
+                        - translate_text
+                        - translate_document
+                        - glossary
+                        - voice
+                        - write
+                      example: translate_text
+                    endpoints:
+                      description: API endpoints associated with this product.
+                      type: array
+                      items:
+                        type: string
+                      example:
+                        - v2/translate
+                    features:
+                      description: |-
+                        Features supported by this product. Each feature indicates whether availability
+                        depends on the source language, the target language, or both.
+                      type: array
+                      items:
+                        type: object
+                        required:
+                          - name
+                        properties:
+                          name:
+                            description: The feature identifier, corresponding to values in the `features` array returned by `/v3/languages/source` and `/v3/languages/target`.
+                            type: string
+                            enum:
+                              - formality
+                              - tag_handling
+                              - glossary
+                              - writing_style
+                              - tone
+                              - custom_instructions
+                          depends_on_source_lang:
+                            description: Whether availability of this feature depends on the source language. Defaults to `false` if absent.
+                            type: boolean
+                          depends_on_target_lang:
+                            description: Whether availability of this feature depends on the target language. Defaults to `false` if absent.
+                            type: boolean
+              example:
+                - name: translate_text
+                  endpoints:
+                    - v2/translate
+                  features:
+                    - name: formality
+                      depends_on_target_lang: true
+                    - name: tag_handling
+                      depends_on_source_lang: true
+                      depends_on_target_lang: true
+                    - name: glossary
+                      depends_on_source_lang: true
+                      depends_on_target_lang: true
+                - name: voice
+                  endpoints:
+                    - v3/voice/realtime
+                  features:
+                    - name: glossary
+                      depends_on_source_lang: true
+                      depends_on_target_lang: true
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+        - auth_header: []
   /v3/languages/source:
     get:
       tags:

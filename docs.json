@@ -202,6 +202,7 @@
                   "api-reference/api-reference/retrieve-languages/retrieve-supported-languages-by-product-beta",
                   "api-reference/api-reference/retrieve-languages/retrieve-source-languages-beta",
                   "api-reference/api-reference/retrieve-languages/retrieve-target-languages-beta",
+                  "api-reference/api-reference/retrieve-languages/retrieve-products-beta",
                   "api-reference/api-reference/retrieve-languages/retrieve-language-pair-exceptions-beta",
                   "api-reference/api-reference/retrieve-languages/migrate-from-v2-languages"
                 ]
