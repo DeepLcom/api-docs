@@ -87,6 +87,12 @@ v2 returns a flat JSON array. v3 also returns a flat array — but each endpoint
 | `name` | `name` *(unchanged)* |
 | `supports_formality` | `features` *(array, product-specific)* |
 
+### Language code casing
+
+v2 returned language codes in non-standard casing (e.g. `EN-US`, `ZH-HANT`). v3 returns codes compliant with BCP 47: lowercase base language (`en`, `de`), uppercase region subtag (`en-US`, `pt-BR`), and title-case script subtag (`zh-Hant`).
+
+DeepL accepts language codes case-insensitively as input across all endpoints. However, if your integration stores or compares codes returned by `/v2/languages`, update those comparisons to be case-insensitive or to expect the new casing.
+
 ## Migrating glossary language pair queries
 
 If you currently use `/v2/glossary-language-pairs` to discover which language pairs are supported for glossaries, use `/v3/languages/source` and `/v3/languages/target` with `product=glossary` instead.
