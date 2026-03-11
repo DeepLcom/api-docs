@@ -200,6 +200,7 @@
                 "group": "Retrieve languages by product [BETA]",
                 "pages": [
                   "api-reference/api-reference/retrieve-languages/retrieve-supported-languages-by-product-beta",
+                  "api-reference/api-reference/retrieve-languages/language-feature-use-cases-beta",
                   "api-reference/api-reference/retrieve-languages/retrieve-languages-beta",
                   "api-reference/api-reference/retrieve-languages/retrieve-products-beta",
                   "api-reference/api-reference/retrieve-languages/retrieve-language-pair-exceptions-beta",
