@@ -139,13 +139,14 @@ User-Agent: YourApp/1.2.3
 Each language object includes a `features` array indicating which optional capabilities are supported for that language
 with the requested product.
 
-A feature may depend on the source language, the target language, or both. For example, for text-translation:
+A feature may depend on the source language, the target language, or both. For example, for text translation:
 
-- **Target-only**: `formality` depends only on the target language used for translation. Check that `"formality"` is
-  present in the target language's `features` array.
-- **Source-and-target** `tag_handling` and `glossary` depend on both the source and target languages used in
-  translation. Check that `"tag_handling"` or `"glossary"` is present in *both* the source and target language's
-  `features` arrays to be supported for that pair.
+- **Target-only**: `formality` depends only on the target language. Check that `"formality"` is present in the target
+  language's `features` array.
+- **Source-and-target**: `tag_handling` and `glossary` depend on both the source and target languages. Check that the
+  feature is present in *both* the source and target language's `features` arrays.
+
+Source-only features are also supported by the schema, though none exist currently.
 
 In the documentation for API features that are supported for only a subset of languages, we specify
 which language feature value to check, and whether to check the source language, target language, or both.
@@ -170,6 +171,10 @@ curl -X GET 'https://api.deepl.com/v3/languages/products' \
     "features": [
       {
         "name": "formality",
+        "depends_on_target_lang": true
+      },
+      {
+        "name": "custom_instructions",
         "depends_on_target_lang": true
       },
       {

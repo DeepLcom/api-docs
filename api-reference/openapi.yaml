@@ -2004,11 +2004,11 @@ paths:
                             type: string
                             enum:
                               - formality
+                              - custom_instructions
                               - tag_handling
                               - glossary
                               - writing_style
                               - tone
-                              - custom_instructions
                           depends_on_source_lang:
                             description: Whether availability of this feature depends on the source language. Defaults to `false` if absent.
                             type: boolean
@@ -2021,6 +2021,8 @@ paths:
                     - v2/translate
                   features:
                     - name: formality
+                      depends_on_target_lang: true
+                    - name: custom_instructions
                       depends_on_target_lang: true
                     - name: tag_handling
                       depends_on_source_lang: true
@@ -2195,9 +2197,9 @@ paths:
                         type: string
                         enum:
                           - formality
+                          - custom_instructions
                           - tag_handling
                           - glossary
-                          - custom_instructions
                           - writing_style
                           - tone
                       example:
