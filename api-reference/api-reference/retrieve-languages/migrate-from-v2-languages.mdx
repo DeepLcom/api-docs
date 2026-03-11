@@ -33,9 +33,9 @@ v2 languages are implicitly tied to text and document translation. v3 introduces
 
 | v2 | v3 `product` value |
 |---|---|
-| *(implicit — text/document translation only)* | `translate_text` |
-| *(implicit — text/document translation only)* | `translate_document` |
-| *(not supported — separate `/v2/glossary-language-pairs` endpoint)* | `glossary` |
+| *(implicit, text/document translation only)* | `translate_text` |
+| *(implicit, text/document translation only)* | `translate_document` |
+| *(separate `/v2/glossary-language-pairs` endpoint)* | `glossary` |
 | *(not supported)* | `voice` |
 | *(not supported)* | `write` |
 
@@ -47,7 +47,7 @@ v2 target languages include a boolean `supports_formality` field. v3 replaces th
 
 | v2 field | v3 equivalent |
 |---|---|
-| `"supports_formality": true` | `"features": ["formality"]` on both source and target language (when `product` is specified) |
+| `"supports_formality": true` | `"features": ["formality"]` on the target language |
 
 For example, querying target languages for text translation:
 
@@ -73,11 +73,7 @@ curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text' \
 
 The response indicates German supports `formality`, but English (American) does not.
 
-The `features` array only appears on a language object when a `product` parameter is specified. See the [overview](/api-reference/api-reference/retrieve-languages/retrieve-supported-languages-by-product-beta) for the full list of features per product.
-
-### Flat array response
-
-v2 returns a flat JSON array. v3 also returns a flat array — but each endpoint returns only its own list (sources or targets), so there is no wrapper object.
+See the [overview](/api-reference/api-reference/retrieve-languages/retrieve-supported-languages-by-product-beta) for the full list of features per product.
 
 ### Response field names
 
@@ -95,4 +91,8 @@ DeepL accepts language codes case-insensitively as input across all endpoints. H
 
 ## Migrating glossary language pair queries
 
-If you currently use `/v2/glossary-language-pairs` to discover which language pairs are supported for glossaries, use `/v3/languages/source` and `/v3/languages/target` with `product=glossary` instead.
+If you currently use `/v2/glossary-language-pairs` to discover which language pairs are supported for glossaries, use one of the following:
+- `/v3/languages/source?product=glossary` and `/v3/languages/target?product=glossary` to check glossary management support.
+
+
+These endpoints list the source and target languages that are supported for glossaries, any combination of which can be used.

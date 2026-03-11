@@ -23,10 +23,28 @@ We also provide specs that are auto-generated from DeepL's OpenAPI file. You can
 
 To understand how we'll update these endpoints when we add translation support for a new language or language variant, please see [this article](/docs/resources/language-release-process).
 
-## Basic example
+## Products list
 
-The `product` parameter is required. Call `/v3/languages/source` and `/v3/languages/target` with the product you want
-to retrieve languages for.
+The `product` parameter is required on `/v3/languages/source` and `/v3/languages/target`. It identifies which
+DeepL API product you are querying language support for:
+
+| Value | Description |
+|---|---|
+| `translate_text` | Text translation via the `/v2/translate` endpoint |
+| `translate_document` | Document translation via the `/v2/document` endpoint |
+| `voice` | Speech-to-text and speech-to-speech via the `/v3/voice` endpoints |
+| `write` | Text improvement via the `/v2/write` endpoints |
+| `glossary` | Glossary management via the `/v2/` and `/v3/glossaries` endpoints |
+
+<Note>
+    `glossary` is a product value indicating glossaries can be created for that language, and managed via the glossary
+    management endpoints.
+
+    Support for glossaries within specific products (for example text translation) is indicated by the `glossary`
+    feature value, explained in a later section.
+</Note>
+
+## Basic example
 
 The examples below use our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update
 your requests to use `https://api-free.deepl.com` instead.
@@ -51,7 +69,6 @@ User-Agent: YourApp/1.2.3
 ```
 </Tab>
 </Tabs>
-
 
 ```json Example source languages response
 [
@@ -117,27 +134,22 @@ User-Agent: YourApp/1.2.3
 ]
 ```
 
-## Products list
+## Product features
 
-The `product` query parameter identifies which DeepL API product you are querying language support for:
+Each language object includes a `features` array indicating which optional capabilities are supported for that language
+with the requested product.
 
-| Value | Description |
-|---|---|
-| `translate_text` | Text translation via the `/v2/translate` endpoint |
-| `translate_document` | Document translation via the `/v2/document` endpoint |
-| `voice` | Speech-to-text and speech-to-speech via the `/v3/voice` endpoints |
-| `write` | Text improvement via the `/v2/write` endpoints |
-| `glossary` | Glossary management via the `/v2/` and `/v3/glossaries` endpoints |
+For example, `["formality", "tag_handling", "glossary"]` for German above indicates that when this language is used
+as the target language for text translation, `formality`, `tag_handling` and `glossary` are supported.
 
-<Note>
-    `glossary` is a product value indicating glossaries can be created for that language, and managed via the glossary
-    management endpoints.
+Features must be included in *both* the source and target language's `features` array to be supported. For example, if
+the source language French (`fr`) includes `"formality"` for text translation, but the target language Greek (`el`) does
+not, then text translations from French to Greek are possible but will not support formality.
 
-    Support for glossaries within specific products (for example text translation) is indicated by the `glossary`
-    feature value, explained in the following section.
-</Note>
+API endpoints describe in their documentation which request parameters are language-dependent, and indicate the
+feature values to check for in the `features` array.
 
-### Retrieving products programmatically
+## Retrieving products programmatically
 
 Use the `/v3/languages/products` endpoint to retrieve the list of products and their features programmatically,
 without relying on documentation. For each feature, the response indicates whether support depends on the source
@@ -173,21 +185,6 @@ curl -X GET 'https://api.deepl.com/v3/languages/products' \
   }
 ]
 ```
-
-## Product features
-
-Each language object includes a `features` array indicating which optional capabilities are supported for that language
-with the requested product.
-
-For example, `["formality", "tag_handling", "glossary"]` for German above indicates that when this language is used
-as the target language for text translation, `formality`, `tag_handling` and `glossary` are supported.
-
-Features must be included in *both* the source and target language's `features` array to be supported. For example, if
-the source language French (`fr`) includes `"formality"` for text translation, but the target language Greek (`el`) does
-not, then text translations from French to Greek are possible but will not support formality.
-
-API endpoints describe in their documentation which request parameters are language-dependent, and indicate the
-feature values to check for in the `features` array.
 
 ## Language pair exceptions
 
