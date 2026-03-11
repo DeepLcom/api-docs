@@ -92,7 +92,7 @@ DeepL accepts language codes case-insensitively as input across all endpoints. H
 ## Migrating glossary language pair queries
 
 If you currently use `/v2/glossary-language-pairs` to discover which language pairs are supported for glossaries, use one of the following:
-- `/v3/languages/source?product=glossary` and `/v3/languages/target?product=glossary` to check glossary management support.
 
-
-These endpoints list the source and target languages that are supported for glossaries, any combination of which can be used.
+- `/v3/languages/source?product=glossary` and `/v3/languages/target?product=glossary` to check which languages support glossary management (i.e. creating a glossary for that language). Any combination of the returned source and target languages is a valid glossary language pair.
+- `/v3/languages/source?product=translate_text` and `/v3/languages/target?product=translate_text` to check which languages support using a glossary during text translation. Languages that include `"glossary"` in their `features` array support the `glossary_id` parameter on the translate endpoint.
+- Similarly, use `product=translate_document` to check glossary support for document translation.
