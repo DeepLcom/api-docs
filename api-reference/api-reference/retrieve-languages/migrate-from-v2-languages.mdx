@@ -11,20 +11,20 @@ This page covers the differences between the `/v2/languages` endpoint and the v3
 
 ## What changed
 
-### Separate endpoints for source and target
+### Single endpoint for source and target
 
-v2 uses a single endpoint with a `type` query parameter:
+v2 uses a single endpoint with a `type` query parameter to distinguish source from target:
 
 ```
 GET /v2/languages?type=source
 GET /v2/languages?type=target
 ```
 
-v3 uses two dedicated endpoints:
+v3 uses a single endpoint that returns all languages for a product, with each language indicating whether it is
+usable as a source, a target, or both:
 
 ```
-GET /v3/languages/source
-GET /v3/languages/target
+GET /v3/languages?product=translate_text
 ```
 
 ### New product identifiers
@@ -47,12 +47,12 @@ v2 target languages include a boolean `supports_formality` field. v3 replaces th
 
 | v2 field | v3 equivalent |
 |---|---|
-| `"supports_formality": true` | `"features": ["formality"]` on the target language |
+| `"supports_formality": true` | `"features": ["formality"]` on the language object |
 
-For example, querying target languages for text translation:
+For example, querying languages for text translation:
 
 ```sh
-curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text' \
+curl -X GET 'https://api.deepl.com/v3/languages?product=translate_text' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
 ```
 
@@ -61,11 +61,15 @@ curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text' \
   {
     "lang": "de",
     "name": "German",
+    "usable_as_source": true,
+    "usable_as_target": true,
     "features": ["formality", "tag_handling", "glossary"]
   },
   {
     "lang": "en-US",
     "name": "English (American)",
+    "usable_as_source": false,
+    "usable_as_target": true,
     "features": ["tag_handling", "glossary"]
   }
 ]
@@ -77,11 +81,11 @@ See the [overview](/api-reference/api-reference/retrieve-languages/retrieve-supp
 
 ### Response field names
 
-| v2 field | v3 field |
-|---|---|
-| `language` | `lang` |
-| `name` | `name` *(unchanged)* |
-| `supports_formality` | `features` *(array, product-specific)* |
+| v2 field             | v3 field               |
+|----------------------|------------------------|
+| `language`           | `lang`                 |
+| `name`               | `name` *(unchanged)*   |
+| `supports_formality` | `features["formality]` |
 
 ### Language code casing
 
@@ -93,6 +97,6 @@ DeepL accepts language codes case-insensitively as input across all endpoints. H
 
 If you currently use `/v2/glossary-language-pairs` to discover which language pairs are supported for glossaries, use one of the following:
 
-- `/v3/languages/source?product=glossary` and `/v3/languages/target?product=glossary` to check which languages support glossary management (i.e. creating a glossary for that language). Any combination of the returned source and target languages is a valid glossary language pair.
-- `/v3/languages/source?product=translate_text` and `/v3/languages/target?product=translate_text` to check which languages support using a glossary during text translation. Languages that include `"glossary"` in their `features` array support the `glossary_id` parameter on the translate endpoint.
+- `GET /v3/languages?product=glossary` to check which languages support glossary management (i.e. creating a glossary for that language). Filter by `usable_as_source` and `usable_as_target` as needed. Any combination of a valid source and target language is a supported glossary language pair.
+- `GET /v3/languages?product=translate_text` to check which languages support using a glossary during text translation. Languages that include `"glossary"` in their `features` array support the `glossary_id` parameter on the translate endpoint.
 - Similarly, use `product=translate_document` to check glossary support for document translation.

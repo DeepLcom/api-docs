@@ -4,7 +4,7 @@ sidebarTitle: 'Overview'
 description: "API reference for retrieving supported languages with the DeepL API across all products."
 ---
 
-Get information about all currently supported source and target languages across all DeepL API products.
+Get information about all currently supported languages across all DeepL API products.
 
 <Info>
     The `/v3/languages` endpoints provide a single source of truth for language and feature support across all DeepL
@@ -16,8 +16,7 @@ Get information about all currently supported source and target languages across
 </Info>
 
 We also provide auto-generated API specs from DeepL's OpenAPI file, for use with API clients and code generation tools:
-- [Retrieve source languages](/api-reference/api-reference/retrieve-languages/retrieve-source-languages-beta)
-- [Retrieve target languages](/api-reference/api-reference/retrieve-languages/retrieve-target-languages-beta)
+- [Retrieve languages](/api-reference/api-reference/retrieve-languages/retrieve-languages-beta)
 - [Retrieve products](/api-reference/api-reference/retrieve-languages/retrieve-products-beta)
 - [Retrieve language pair exceptions](/api-reference/api-reference/retrieve-languages/retrieve-language-pair-exceptions-beta)
 
@@ -25,9 +24,9 @@ To understand how we'll update these endpoints when we add translation support f
 
 ## Products list
 
-To retrieve language support, decide which DeepL product you're building for, then call `/v3/languages/source` and
-`/v3/languages/target` with the appropriate `product` value. The `product` parameter is required and identifies which
-DeepL API product you are querying language support for:
+To retrieve language support, decide which DeepL product you're building for, then call `GET /v3/languages` with
+the appropriate `product` value. The `product` parameter is required and identifies which DeepL API product you
+are querying language support for:
 
 | Value | Description |
 |---|---|
@@ -58,15 +57,15 @@ The following example responses are truncated; the full API responses can includ
 <Tabs>
 <Tab title="cURL">
 
-```sh Example request: supported source languages for text translation
-curl -X GET 'https://api.deepl.com/v3/languages/source?product=translate_text' \
+```sh Example request: languages for text translation
+curl -X GET 'https://api.deepl.com/v3/languages?product=translate_text' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
 ```
 </Tab>
 <Tab title="HTTP Request">
 
-```http Example request: supported source languages for text translation
-GET /v3/languages/source?product=translate_text HTTP/2
+```http Example request: languages for text translation
+GET /v3/languages?product=translate_text HTTP/2
 Host: api.deepl.com
 Authorization: DeepL-Auth-Key [yourAuthKey]
 User-Agent: YourApp/1.2.3
@@ -74,53 +73,13 @@ User-Agent: YourApp/1.2.3
 </Tab>
 </Tabs>
 
-```json Example source languages response
+```json Example response
 [
   {
     "lang": "de",
     "name": "German",
-    "features": [
-      "tag_handling",
-      "glossary"
-    ]
-  },
-  {
-    "lang": "en",
-    "name": "English",
-    "features": [
-      "tag_handling",
-      "glossary"
-    ]
-  }
-]
-```
-
-<Tabs>
-<Tab title="cURL">
-
-```sh Example request: target languages for text translation
-curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
-```
-
-</Tab>
-<Tab title="HTTP Request">
-
-```http Example request: target languages for text translation
-GET /v3/languages/target?product=translate_text HTTP/2
-Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey]
-User-Agent: YourApp/1.2.3
-```
-
-</Tab>
-</Tabs>
-
-```json Example target languages response
-[
-  {
-    "lang": "de",
-    "name": "German",
+    "usable_as_source": true,
+    "usable_as_target": true,
     "features": [
       "formality",
       "tag_handling",
@@ -128,8 +87,20 @@ User-Agent: YourApp/1.2.3
     ]
   },
   {
+    "lang": "en",
+    "name": "English",
+    "usable_as_source": true,
+    "usable_as_target": false,
+    "features": [
+      "tag_handling",
+      "glossary"
+    ]
+  },
+  {
     "lang": "en-US",
     "name": "English (American)",
+    "usable_as_source": false,
+    "usable_as_target": true,
     "features": [
       "tag_handling",
       "glossary"
@@ -143,12 +114,12 @@ User-Agent: YourApp/1.2.3
 Each language object includes a `features` array indicating which optional capabilities are supported for that language
 with the requested product.
 
-A feature may depend on the source language, the target language, or both. For example, for text translation:
+A feature may be required on the source language, the target language, or both. For example, for text translation:
 
-- **Target-only**: `formality` depends only on the target language. Check that `"formality"` is present in the target
-  language's `features` array.
-- **Source-and-target**: `tag_handling` and `glossary` depend on both the source and target languages. Check that the
-  feature is present in *both* the source and target language's `features` arrays.
+- **Target-only**: `formality` is required only on the target language. Check that `"formality"` is present in the
+  target language's `features` array.
+- **Source-and-target**: `tag_handling` and `glossary` are required on both languages. Check that the feature is
+  present in *both* the source and target language's `features` arrays.
 
 Source-only features are also supported by the schema, though none exist currently.
 
@@ -158,9 +129,9 @@ which language feature value to check, and whether to check the source language,
 ## Retrieving products programmatically
 
 Use the `/v3/languages/products` endpoint to retrieve the list of products and their features programmatically.
-For each feature, the response indicates whether support depends on the source
-language, the target language, or both — allowing clients to determine feature availability for a language pair
-by intersecting the appropriate `features` arrays.
+For each feature, the response indicates whether support is required on the source language, the target language,
+or both — allowing clients to determine feature availability for a language pair by checking the appropriate
+`features` arrays.
 
 ```sh
 curl -X GET 'https://api.deepl.com/v3/languages/products' \
@@ -175,21 +146,21 @@ curl -X GET 'https://api.deepl.com/v3/languages/products' \
     "features": [
       {
         "name": "formality",
-        "depends_on_target_lang": true
+        "required_on_target": true
       },
       {
         "name": "custom_instructions",
-        "depends_on_target_lang": true
+        "required_on_target": true
       },
       {
         "name": "tag_handling",
-        "depends_on_source_lang": true,
-        "depends_on_target_lang": true
+        "required_on_source": true,
+        "required_on_target": true
       },
       {
         "name": "glossary",
-        "depends_on_source_lang": true,
-        "depends_on_target_lang": true
+        "required_on_source": true,
+        "required_on_target": true
       }
     ]
   }
@@ -204,7 +175,6 @@ and target languages individually. This occurs due to intricacies and language-s
 A hypothetical example: text translation formality is supported for source language Ukrainian, and it is also supported
 for target language Russian. However, translating specifically from Ukrainian to Russian does *not* support formality.
 
-It is complex to handle these cases, so we design our API endpoints to perform the "best effort" in such cases.
 When a request uses a feature that is unsupported for the specific language pair, the API attempts to complete the
 request by disabling the unsupported feature rather than failing. However, in some cases information about these
 exceptions may be useful, so this section explains how to retrieve it.
@@ -234,10 +204,10 @@ curl -X GET 'https://api.deepl.com/v3/languages/exceptions?product=translate_tex
 ]
 ```
 
-You can apply these exceptions in client logic, overriding the responses from the `/v3/languages/source` and
-`/v3/languages/target` endpoints for those specific language pairs. The exception's `features` array is the complete
-and authoritative feature list for that pair — it replaces the individual source and target language `features` arrays
-entirely, regardless of whether a feature is target-only or source-and-target.
+You can apply these exceptions in client logic. The exception's `features` array is the authoritative feature list
+for that pair — it replaces the individual language `features` arrays entirely for that combination, regardless of
+whether a feature is target-only or source-and-target. Skip the normal intersection logic and use the exception
+`features` directly.
 
 ## API stability
 

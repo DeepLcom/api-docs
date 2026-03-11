@@ -1951,10 +1951,10 @@ paths:
       description: |-
         Returns all DeepL API products, including the API endpoints they expose, and the features they support.
 
-        For each feature, the response indicates whether support depends on the source language
-        (`depends_on_source_lang`), the target language (`depends_on_target_lang`), or both. This allows
+        For each feature, the response indicates whether support is required on the source language
+        (`required_on_source`), the target language (`required_on_target`), or both. This allows
         clients to determine feature availability for a language pair by checking the appropriate language's
-        `features` array returned by `/v3/languages/source` or `/v3/languages/target`.
+        `features` array returned by `GET /v3/languages`.
       responses:
         200:
           description: JSON array where each item represents a DeepL API product.
@@ -1991,8 +1991,8 @@ paths:
                         - v2/translate
                     features:
                       description: |-
-                        Features supported by this product. Each feature indicates whether availability
-                        depends on the source language, the target language, or both.
+                        Features supported by this product. Each feature indicates whether support is
+                        required on the source language, the target language, or both.
                       type: array
                       items:
                         type: object
@@ -2000,7 +2000,7 @@ paths:
                           - name
                         properties:
                           name:
-                            description: The feature identifier, corresponding to values in the `features` array returned by `/v3/languages/source` and `/v3/languages/target`.
+                            description: The feature identifier, corresponding to values in the `features` array returned by `GET /v3/languages`.
                             type: string
                             enum:
                               - formality
@@ -2009,11 +2009,11 @@ paths:
                               - glossary
                               - writing_style
                               - tone
-                          depends_on_source_lang:
-                            description: Whether availability of this feature depends on the source language. Defaults to `false` if absent.
+                          required_on_source:
+                            description: Whether support for this feature is required on the source language. Defaults to `false` if absent.
                             type: boolean
-                          depends_on_target_lang:
-                            description: Whether availability of this feature depends on the target language. Defaults to `false` if absent.
+                          required_on_target:
+                            description: Whether support for this feature is required on the target language. Defaults to `false` if absent.
                             type: boolean
               example:
                 - name: translate_text
@@ -2021,22 +2021,22 @@ paths:
                     - v2/translate
                   features:
                     - name: formality
-                      depends_on_target_lang: true
+                      required_on_target: true
                     - name: custom_instructions
-                      depends_on_target_lang: true
+                      required_on_target: true
                     - name: tag_handling
-                      depends_on_source_lang: true
-                      depends_on_target_lang: true
+                      required_on_source: true
+                      required_on_target: true
                     - name: glossary
-                      depends_on_source_lang: true
-                      depends_on_target_lang: true
+                      required_on_source: true
+                      required_on_target: true
                 - name: voice
                   endpoints:
                     - v3/voice/realtime
                   features:
                     - name: glossary
-                      depends_on_source_lang: true
-                      depends_on_target_lang: true
+                      required_on_source: true
+                      required_on_target: true
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -2051,14 +2051,16 @@ paths:
           $ref: '#/components/responses/ServiceUnavailable'
       security:
         - auth_header: []
-  /v3/languages/source:
+  /v3/languages:
     get:
       tags:
         - MetaInformation
-      summary: Retrieve Source Languages
-      operationId: getSourceLanguages
+      summary: Retrieve Languages
+      operationId: getLanguages
       description: |-
-        Returns source languages supported by the specified DeepL API product.
+        Returns languages supported by the specified DeepL API product. Each language indicates whether it can
+        be used as a source language, a target language, or both, along with the features it supports for that
+        product.
       parameters:
         - name: product
           in: query
@@ -2072,11 +2074,11 @@ paths:
               - voice
               - write
           description: |-
-            The product to retrieve source languages for. Supported values: `translate_text`, `translate_document`,
+            The product to retrieve languages for. Supported values: `translate_text`, `translate_document`,
             `glossary`, `voice`, `write`.
       responses:
         200:
-          description: JSON array where each item represents a supported source language.
+          description: JSON array where each item represents a supported language.
           headers:
             X-Trace-ID:
               $ref: '#/components/headers/X-Trace-ID'
@@ -2089,109 +2091,30 @@ paths:
                   required:
                     - lang
                     - name
+                    - usable_as_source
+                    - usable_as_target
                     - features
                   properties:
                     lang:
-                      description: The language code of the given language.
+                      description: The language code (BCP 47).
                       type: string
                       example: de
                     name:
                       description: Name of the language in English.
                       type: string
                       example: German
+                    usable_as_source:
+                      description: Whether this language can be used as a source language with the specified product.
+                      type: boolean
+                    usable_as_target:
+                      description: Whether this language can be used as a target language with the specified product.
+                      type: boolean
                     features:
                       description: |-
-                        Array of feature strings indicating capabilities supported for this language
-                        with the specified product.
-                      type: array
-                      items:
-                        type: string
-                        enum:
-                          - tag_handling
-                          - glossary
-                      example:
-                        - tag_handling
-                        - glossary
-              examples:
-                translateTextSources:
-                  summary: Source languages for text translation
-                  value:
-                    - lang: de
-                      name: German
-                      features:
-                        - tag_handling
-                        - glossary
-                    - lang: en
-                      name: English
-                      features:
-                        - tag_handling
-                        - glossary
-        400:
-          $ref: '#/components/responses/BadRequest'
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        403:
-          $ref: '#/components/responses/Forbidden'
-        429:
-          $ref: '#/components/responses/TooManyRequests'
-        500:
-          $ref: '#/components/responses/InternalServerError'
-        503:
-          $ref: '#/components/responses/ServiceUnavailable'
-      security:
-        - auth_header: []
-  /v3/languages/target:
-    get:
-      tags:
-        - MetaInformation
-      summary: Retrieve Target Languages
-      operationId: getTargetLanguages
-      description: |-
-        Returns target languages supported by the specified DeepL API product.
-      parameters:
-        - name: product
-          in: query
-          required: true
-          schema:
-            type: string
-            enum:
-              - translate_text
-              - translate_document
-              - glossary
-              - voice
-              - write
-          description: |-
-            The product to retrieve target languages for. Supported values: `translate_text`, `translate_document`,
-            `glossary`, `voice`, `write`.
-      responses:
-        200:
-          description: JSON array where each item represents a supported target language.
-          headers:
-            X-Trace-ID:
-              $ref: '#/components/headers/X-Trace-ID'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  required:
-                    - lang
-                    - name
-                    - features
-                  properties:
-                    lang:
-                      description: The language code of the given language.
-                      type: string
-                      example: en-US
-                    name:
-                      description: Name of the language in English.
-                      type: string
-                      example: English (American)
-                    features:
-                      description: |-
-                        Array of feature strings indicating capabilities supported for this language
-                        with the specified product.
+                        Features supported for this language with the specified product. Always present;
+                        empty array if no optional features are supported. Consult `/v3/languages/products`
+                        to determine whether a feature must be present on the source language, target language,
+                        or both for a given product.
                       type: array
                       items:
                         type: string
@@ -2207,24 +2130,29 @@ paths:
                         - tag_handling
                         - glossary
               examples:
-                translateTextTargets:
-                  summary: Target languages for text translation
+                translateTextLanguages:
+                  summary: Languages for text translation
                   value:
                     - lang: de
                       name: German
+                      usable_as_source: true
+                      usable_as_target: true
                       features:
                         - formality
+                        - tag_handling
+                        - glossary
+                    - lang: en
+                      name: English
+                      usable_as_source: true
+                      usable_as_target: false
+                      features:
                         - tag_handling
                         - glossary
                     - lang: en-US
                       name: English (American)
+                      usable_as_source: false
+                      usable_as_target: true
                       features:
-                        - tag_handling
-                        - glossary
-                    - lang: fr
-                      name: French
-                      features:
-                        - formality
                         - tag_handling
                         - glossary
         400:
