@@ -2,26 +2,26 @@
 title: "DeepL Agent API"
 public: true
 sidebarTitle: "Overview"
-description: "API reference to trigger DeepL Agent workflows and retrieve task results."
+description: "API reference for interacting with the DeepL Agent"
 ---
 
 ## Get started
 
 <Info>
-    The DeepL Agent API is only available to a limited set of DeepL Agent subscribers. Contact your DeepL customer success manager or our support team to enable access for your account.
+    Currently the DeepL Agent API is only available to a limited set of subscribers. Contact your DeepL customer success manager or our support team to enable access for your account.
 </Info>
 
+This API lets you trigger [DeepL Agent](https://support.deepl.com/hc/en-us/articles/23243163271196-About-DeepL-Agent) workflows and retrieve the results.
+
+If you don't already have a key for the DeepL API, 
+
 Once enabled, follow the instructions in [Managing API keys](/docs/getting-started/managing-api-keys#basic-api-key-management)
-to create an API key. 
-With the API key, you can trigger a DeepL Agent workflow and retrieve the results.
-For more information on the DeepL Agent, visit the [HelpCenter](https://support.deepl.com/hc/en-us/categories/22974438575516-DeepL-Agent). 
+to create an API key.
 
-There's no integration of the Agent API in the official DeepL SDKs yet. Use the HTTP examples below to integrate directly.
-
-We also provide specs that are auto-generated from DeepL's Agent OpenAPI file: [Trigger workflow](/api-reference/agent-api/trigger-workflow) and [Get task results](/api-reference/agent-api/get-task-result).
+DeepL's client libraries presently do not support the Agent API. Use the HTTP examples below to integrate directly. See also the [Trigger workflow](/api-reference/agent-api/trigger-workflow) and [Get task results](/api-reference/agent-api/get-task-result) HTTP requests samples that are auto-generated from DeepL's Agent OpenAPI file.
 
 ## Trigger a workflow
-Workflows are triggered with the help of the workflow ID. For more information on how to obtain a workflow ID, see the [HelpCenter](https://support.deepl.com/hc/en-us/articles/25472835912348). The `input` object's fields are defined by the individual workflow's configuration. 
+To trigger a workflow, you will need its workflow ID. For more information on how to obtain a workflow ID, see the [HelpCenter](https://support.deepl.com/hc/en-us/articles/25472835912348). The `input` object's fields are defined by the individual workflow's configuration. 
 Refer to your workflow in the DeepL Agent interface to determine which input fields are required. 
 Once triggered the workflow runs in a task. 
 
@@ -68,7 +68,9 @@ Once triggered the workflow runs in a task.
     </Tab>
 </Tabs>
 
-These examples are for demonstration purposes only. In production code, the authentication key should not be hard-coded but instead fetched from a configuration file or environment variable.
+<Warning>
+These examples are for demonstration purposes only. In production code, the authentication key should not be hard-coded. Fetch it instead from a configuration file or environment variable.
+</Warning>
 
 ### Request body descriptions
 <ParamField body="workflow_request" type="string - JSON encoded object" required>
@@ -173,7 +175,6 @@ Poll at regular intervals (for example, every 5 seconds) with exponential backof
         ```
     </Tab>
 </Tabs>
-These examples are for demonstration purposes only. In production code, the authentication key should not be hard-coded but instead fetched from a configuration file or environment variable.
 
 ### Task status response body descriptions
 <ResponseField name="status" type="string" required>
