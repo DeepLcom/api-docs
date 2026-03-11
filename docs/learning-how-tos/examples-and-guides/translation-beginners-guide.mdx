@@ -1,0 +1,185 @@
+---
+title: "Translation: a beginner's guide"
+description: "Translation: a beginner's guide."
+sidebarTitle: "Translation: a beginner's guide"
+public: true
+---
+
+## (intro)
+
+This guide explains the fundamentals of translating text with the DeepL API. We’ll go through:
+
+* getting an API key  
+* using client libraries  
+* language codes and regional variants  
+* where to send your request  
+* choosing a `model_type`  
+* limits
+
+Let’s get started\!
+
+## Getting an API key
+
+If you haven’t already signed up for a DeepL API account, you’ll need to do so. Visit [our plans page](https://www.deepl.com/en/pro/change-plan#developer), choose a plan, and sign up.
+
+*(note: if you already have a DeepL account for the translator, you need to log out of your account, then create a new account for the DeepL API.)*
+
+When you send a request to our API, you use your API key to identify yourself. You can find that API key [here](https://www.deepl.com/en/your-account/keys).
+
+And now you’re ready to make your first API request\!
+
+*(note: for more information about API keys and authentication, see [Authentication](https://developers.deepl.com/docs/getting-started/auth#authentication))*
+
+## Finding your client library
+
+Like many APIs, the DeepL API uses HTTP requests and responses to receive and send data. While you can construct your own HTTP requests, most people find it easier to let their favorite programming language generate requests and handle the responses. To this end, DeepL provides [official client libraries](https://developers.deepl.com/docs/getting-started/client-libraries) for six popular languages:
+
+* [Python](https://www.github.com/deeplcom/deepl-python)  
+* [JavaScript](https://www.github.com/deeplcom/deepl-node)  
+* [PHP](https://www.github.com/deeplcom/deepl-php)  
+* [C\#](https://www.github.com/deeplcom/deepl-dotnet)  
+* [Java](https://www.github.com/deeplcom/deepl-java)  
+* [Ruby](https://www.github.com/deeplcom/deepl-rb)
+
+The DeepL community has [contributed client libraries](https://github.com/DeepLcom/awesome-deepl?tab=readme-ov-file#community-libraries--sdks) for other programming languages, including [Dart](https://github.com/komape/deepl_dart), [Go](https://github.com/candy12t/go-deepl), and [Rust](https://github.com/Avimitin/deepl-rs).
+
+The documentation on this site frequently includes code samples in these languages. For more about how to use the DeepL API in your favorite language, try the links above.
+
+*JavaScript/TypeScript users: for security reasons, you cannot call the DeepL API directly from client-side JavaScript. To do this during testing or prototyping, try one of [these quick proxies](https://developers.deepl.com/docs/learning-how-tos/cookbook/nodejs-proxy).*
+
+## Making a translation request / anatomy of a request
+
+### Source and target languages
+
+The **source language** is the language you’re translating from. The **target language** is the language you’re translating to.
+
+Any DeepL API translation request must include
+
+* some text to translate  
+* the target language
+
+That’s all you need\! Since DeepL is quite good at detecting the source language, normally you can omit it. If your text is very short, contains a mix of languages, or if you want to specify the source language for any other reason, you can do so.
+
+### A sample translation request
+
+For example, if you wanted to translate the phrase “Hello, bright universe\!” from German to Japanese:
+
+* “Hello, everybody” is the `text`  
+* German is the `source_lang`  
+* Japanese is the `target_lang`
+
+The first tab below shows the HTTP request you’d use here and a typical response from the API. Other tabs show how you’d make this request [using cURL](https://curl.se/docs/tooldocs.html) and using our official client libraries. To see how you’d handle the response in your favorite programming language, check the appropriate tab.
+
+```
+POST /v2/translate HTTP/2
+Host: api.deepl.com
+Authorization: DeepL-Auth-Key [yourAuthKey] 
+User-Agent: {YourApp/1.2.3}
+Content-Length: 72
+Content-Type: application/json
+
+{"text":["Hello, bright universe!"],"target_lang":"JP"}
+```
+
+*(include client library examples)*
+
+### Sending multiple text strings
+
+If you look at the HTTP request above, you’ll notice that the translation text is in square brackets \- in an array. In fact, a translation request can include multiple text strings:
+
+```
+POST /v2/translate HTTP/2
+Host: api.deepl.com
+Authorization: DeepL-Auth-Key [yourAuthKey] 
+User-Agent: {YourApp/1.2.3}
+Content-Length: 143
+Content-Type: application/json
+
+{
+  "text": [
+    "¿En qué lenguaje programan los programadores españoles?",
+    "Sí++"
+  ],
+  "target_lang": "HI",
+  "source_lang": "ES"
+}
+```
+
+(Warning: jokes are notoriously difficult to translate, especially jokes that rely on an indefensible pun)
+
+### Language codes and variants
+
+The DeepL API can translate in any of [these supported languages](https://developers.deepl.com/docs/getting-started/supported-languages). Normally, any supported source language can be used as a target language, and vice versa. But it’s best to check the list to make sure.
+
+To specify a language, use its [ISO-639 language code](https://www.loc.gov/standards/iso639-2/php/code_list.php), such as `FR` for French or `VI` for Vietnamese. While most language codes have two letters, a few have three. For example, the code for Cantonese is `YUE`.
+
+For certain target languages, DeepL supports a set of regional variants, which are listed among [the supported languages](https://developers.deepl.com/docs/getting-started/supported-languages). For example, `en-GB` indicates British English, and `en-US` indicates English spoken in the United States. To specify a variant, append to the language code a hyphen, then the [ISO-3166 country code](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes). So, for Brazilian, Portuguese, use `pt-BR`.
+
+In the DeepL API, language codes are case-insensitive. It accepts language codes in uppercase or lowercase, or a mix of the two. So, for Brazilian Portuguese you could use `pt-BR`, `pt-br`, `PT-BR`, or even `pT-Br`.
+
+Regional variants can only be used in target languages. If you try a source language with a variant like `ZH-HANS`, the API will return an error.
+
+If DeepL supports variants of a given language, you are encouraged to choose one. If you don’t include the variant in a raw HTTP request, DeepL will translate into the variant which has been designated as the default. If you’re using a client library, the API will throw an error.
+
+Although you can ask the API to translate from one language variant to another, the methods described in our [How To Translate Between Language Variants guide](https://developers.deepl.com/docs/learning-how-tos/examples-and-guides/translating-between-variants) yield better results.
+
+## Where to send your request
+
+The URL you send requests to depends on your API plan. If you are using a free plan, you’ll use `https://api-free.deepl.com`. For a paid plan, use  `https://api.deepl.com`. 
+
+If you’re using a client library, you don’t need to worry about this, as DeepL’s client libraries detect your account type and send requests to the correct URL.
+
+You may also wish to send requests to an API endpoint corresponding to a specific geographic region, for data residency or compliance needs, or to minimize latency. For more information, instructions on how to set this up, and code samples featuring the `server_url` parameter, see [Regional API Endpoints](https://developers.deepl.com/docs/getting-started/regional-endpoints).
+
+## Model type
+
+DeepL hosts many AI models for language translation. As AI is evolving rapidly, we are constantly working on our models and deploying new ones. It would be difficult for users to determine which model to choose for a particular language pair, text, and parameters. Rather than requiring users to select a specific model for a given translation, DeepL follows a simpler approach:
+
+* The [translator app](https://www.deepl.com/en/translator) offers a choice between “classic” and “next-gen” models. “Classic” models often maximize speed, and “next-gen” models generally maximize quality.   
+* The DeepL API offers the `model_type` parameter, which lets you choose whether you would prefer a model that maximizes translation quality or a model that runs as quickly as possible. The API will then make its best effort to execute your translation with such a model, and its response will tell you what sort of model we used.
+
+As our models evolve, the distinction between “classic” and “next-gen” is not always meaningful. For some language pairs or translation requests, only one DeepL model can be used. Under some circumstances, we might offer more than two options. The API will simply do the work of choosing for you. The response indicates which model type was used.
+
+The `model_type` parameter can have one of three values:
+
+* `latency_optimized`: aims to maximize speed  
+* `quality_optimized`: aims to maximize quality  
+* `prefer_quality_optimized`: a legacy value, whose behavior is currently identical to `quality_optimized`
+
+Naturally, the API tries to provide excellent translation quality and low latency for every request.
+
+If you omit the `model_type`, the API normally defaults to `latency_optimized`.
+
+### Special cases
+
+* if your request omits the \`source\_lang\`, the API uses next-gen models to ensure the best possible language detection  
+* [tag handling v2](https://developers.deepl.com/docs/xml-and-html-handling/tag-handling-v2#new-xml-html-handling-v2) requires next-gen models. Setting both `model_type=latency_optimized` and `tag_handling_version=v2` yields an error.  
+* for some languages, like Thai, the API uses the same model regardless of requested `model_type`. This behavior may change as our models evolve.
+
+## Limits
+
+The total request body size for text translation requests is limited to 128K. As a request consists of multiple elements along with your text, this means your text can’t hit 128K exactly, but has to be a little smaller.
+
+If you need to send larger strings, you can place them in documents, which have a limit of 10 MB. If that’s not high enough, get in touch with us.
+
+For more, see [Usage and Limits](https://developers.deepl.com/docs/resources/usage-limits).
+
+## Summary and next steps 
+
+Congratulations\! Now you know how to send the DeepL API a translation request including any of these parameters:
+
+| Item | parameter | required? |
+| :---- | :---- | :---- |
+| source language | `source_lang` | optional |
+| target language | `target_lang` | required |
+| text to translate | `text` | required |
+| optimize for speed or quality | model\_type | optional |
+
+Here are some possible next steps:
+
+* Play with translation requests using these parameters and other options in [our playground](https://developers.deepl.com/api-reference/translate/request-translation?playground=open) or [Postman](https://developers.deepl.com/docs/getting-started/test-your-api-requests-with-postman).  
+* For complete information on the `/translate` endpoint, see [the /translate reference](https://developers.deepl.com/api-reference/translate/request-translation)  
+* See this [introduction to DeepL glossaries](https://developers.deepl.com/docs/learning-how-tos/examples-and-guides/glossaries-in-the-real-world)  
+* To learn how to translate text in files \- PDFs, presentations, powerpoints, HTML, images, and more \- see [the /document reference](https://developers.deepl.com/api-reference/document)  
+* To translate audio, see [the /voice endpoint](https://developers.deepl.com/api-reference/voice)
+
