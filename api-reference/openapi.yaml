@@ -2072,15 +2072,6 @@ paths:
           description: |-
             The product to retrieve source languages for. Supported values: `translate_text`, `translate_document`,
             `glossary`, `voice`, `write`.
-        - name: target_lang
-          in: query
-          required: false
-          schema:
-            type: string
-            example: en-US
-          description: |-
-            Filter source languages to those compatible with a specific target language.
-            Must be used together with `product`. Language code must be valid (e.g. `en`, `en-US`, `fr`).
       responses:
         200:
           description: JSON array where each item represents a supported source language.
@@ -2170,15 +2161,6 @@ paths:
           description: |-
             The product to retrieve target languages for. Supported values: `translate_text`, `translate_document`,
             `glossary`, `voice`, `write`.
-        - name: source_lang
-          in: query
-          required: false
-          schema:
-            type: string
-            example: de
-          description: |-
-            Filter target languages to those compatible with a specific source language.
-            Must be used together with `product`. Language code must be valid (e.g. `de`, `en`, `fr`).
       responses:
         200:
           description: JSON array where each item represents a supported target language.

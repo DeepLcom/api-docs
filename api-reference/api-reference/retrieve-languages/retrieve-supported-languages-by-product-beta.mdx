@@ -201,91 +201,9 @@ It is complex to handle these cases, so we design our API endpoints to perform t
 example, by ignoring formality support and continuing with the translation rather than failing the request.
 However, in some cases information about these exceptions may be useful, so this section explains how to retrieve it.
 
-### `source_lang` and `target_lang` query parameters
-
-You may also specify a `source_lang` or `target_lang` query parameter in addition to the `product` query parameter:
-- for `/v3/languages/source`, the `target_lang` parameter indicates the target language for which you want to retrieve
-language support
-- for `/v3/languages/target`, the `source_lang` parameter indicates the source language for which you want to retrieve
-language support
-These parameters will modify the feature support information returned for each language, applying any of these
-exceptional cases as described above.
-
-Continuing the hypothetical Ukrainian to Russian example: querying target languages for text translation without a
-source filter shows Russian with `formality` support, since Russian generally supports formality as a target language:
-
-```sh
-curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
-```
-
-```json Example target languages response (truncated)
-[
-  {
-    "lang": "ru",
-    "name": "Russian",
-    "features": ["formality", "tag_handling", "glossary"]
-  }
-]
-```
-
-Similarly, querying source languages for text translation without a target filter shows Ukrainian with `formality`
-support, since Ukrainian generally supports formality as a source language:
-
-```sh
-curl -X GET 'https://api.deepl.com/v3/languages/source?product=translate_text' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
-```
-
-```json Example source languages response (truncated)
-[
-  {
-    "lang": "uk",
-    "name": "Ukrainian",
-    "features": ["formality", "tag_handling", "glossary"]
-  }
-]
-```
-
-However, specifying `source_lang=uk` applies the language-pair exception, and Russian is returned without `formality` indicating
-the exception:
-
-```sh
-curl -X GET 'https://api.deepl.com/v3/languages/target?product=translate_text&source_lang=uk' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
-```
-
-```json Example target languages response, filtering for source_lang=uk (truncated)
-[
-  {
-    "lang": "ru",
-    "name": "Russian",
-    "features": ["tag_handling", "glossary"]
-  }
-]
-```
-
-Similarly, querying source languages while specifying `target_lang=ru` applies the language-pair exception, and
-Ukrainian is returned without `formality` indicating the exception:
-
-```sh
-curl -X GET 'https://api.deepl.com/v3/languages/source?product=translate_text&target_lang=ru' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
-```
-
-```json Example source languages response, filtering for target_lang=ru (truncated)
-[
-  {
-    "lang": "uk",
-    "name": "Ukrainian",
-    "features": ["tag_handling", "glossary"]
-  }
-]
-```
-
 ### Retrieving language pair exceptions directly
 
-Language pair exceptions are also available directly via the `/v3/languages/exceptions` endpoint. The `product` query
+Language pair exceptions are available directly via the `/v3/languages/exceptions` endpoint. The `product` query
 parameter is required to specify the product for which you want to retrieve exceptions.
 
 The response includes a list of language pairs for which exceptions exist, with their actual feature support.
