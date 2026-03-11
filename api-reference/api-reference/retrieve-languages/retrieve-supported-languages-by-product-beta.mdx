@@ -15,7 +15,7 @@ Get information about all currently supported source and target languages across
     for a full list of differences and code examples.
 </Info>
 
-We also provide specs that are auto-generated from DeepL's OpenAPI file. You can find them here:
+We also provide auto-generated API specs from DeepL's OpenAPI file, for use with API clients and code generation tools:
 - [Retrieve source languages](/api-reference/api-reference/retrieve-languages/retrieve-source-languages-beta)
 - [Retrieve target languages](/api-reference/api-reference/retrieve-languages/retrieve-target-languages-beta)
 - [Retrieve products](/api-reference/api-reference/retrieve-languages/retrieve-products-beta)
@@ -25,7 +25,8 @@ To understand how we'll update these endpoints when we add translation support f
 
 ## Products list
 
-The `product` parameter is required on `/v3/languages/source` and `/v3/languages/target`. It identifies which
+To retrieve language support, decide which DeepL product you're building for, then call `/v3/languages/source` and
+`/v3/languages/target` with the appropriate `product` value. The `product` parameter is required and identifies which
 DeepL API product you are querying language support for:
 
 | Value | Description |
@@ -45,6 +46,9 @@ DeepL API product you are querying language support for:
 </Note>
 
 ## Basic example
+
+Each language in the response includes a `features` array indicating which optional capabilities are available for that
+language — see the [Product features](#product-features) section below for details.
 
 The examples below use our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update
 your requests to use `https://api-free.deepl.com` instead.
@@ -200,9 +204,10 @@ and target languages individually. This occurs due to intricacies and language-s
 A hypothetical example: text translation formality is supported for source language Ukrainian, and it is also supported
 for target language Russian. However, translating specifically from Ukrainian to Russian does *not* support formality.
 
-It is complex to handle these cases, so we design our API endpoints to perform the "best effort" in such cases. For
-example, by ignoring formality support and continuing with the translation rather than failing the request.
-However, in some cases information about these exceptions may be useful, so this section explains how to retrieve it.
+It is complex to handle these cases, so we design our API endpoints to perform the "best effort" in such cases.
+When a request uses a feature that is unsupported for the specific language pair, the API attempts to complete the
+request by disabling the unsupported feature rather than failing. However, in some cases information about these
+exceptions may be useful, so this section explains how to retrieve it.
 
 ### Retrieving language pair exceptions directly
 
@@ -230,7 +235,9 @@ curl -X GET 'https://api.deepl.com/v3/languages/exceptions?product=translate_tex
 ```
 
 You can apply these exceptions in client logic, overriding the responses from the `/v3/languages/source` and
-`/v3/languages/target` endpoints for those specific language pairs.
+`/v3/languages/target` endpoints for those specific language pairs. The exception's `features` array is the complete
+and authoritative feature list for that pair — it replaces the individual source and target language `features` arrays
+entirely, regardless of whether a feature is target-only or source-and-target.
 
 ## API stability
 
