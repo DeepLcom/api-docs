@@ -299,8 +299,15 @@ export const LanguageTable = () => {
                                     <a
                                         href={link}
                                         onClick={(e) => e.stopPropagation()}
-                                        className="ml-1 text-[10px] font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200 underline decoration-blue-300 dark:decoration-blue-600"
-                                    >info</a>
+                                        className="ml-0.5 text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400"
+                                        title={`${label} docs`}
+                                    >
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <line x1="12" y1="16" x2="12" y2="12" />
+                                            <line x1="12" y1="8" x2="12.01" y2="8" />
+                                        </svg>
+                                    </a>
                                 )}
                             </label>
                         ))}
