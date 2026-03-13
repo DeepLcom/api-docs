@@ -252,7 +252,7 @@
     "primary": {
       "type": "button",
       "label": "Create free API account",
-      "href": "https://www.deepl.com/en/pro/change-plan#developer"
+      "href": "https://www.deepl.com/en/checkout?is_api=true"
     }
   },
   "footer": {
