@@ -41,7 +41,13 @@
               "docs/getting-started/about",
               "docs/getting-started/auth",
               "docs/getting-started/regional-endpoints",
-              "docs/getting-started/client-libraries",
+              {
+                "group": "Developer Tools",
+                "pages": [
+                  "docs/getting-started/client-libraries",
+                  "docs/getting-started/deepl-cli"
+                ]
+              },
               "docs/getting-started/managing-api-keys",
               "docs/getting-started/your-first-api-request",
               "docs/getting-started/test-your-api-requests-with-postman",
@@ -392,6 +398,10 @@
     {
       "source": "/api-reference/client-libraries",
       "destination": "/docs/getting-started/client-libraries"
+    },
+    {
+      "source": "/docs/cli",
+      "destination": "/docs/getting-started/deepl-cli"
     },
     {
       "source": "/docs/resources/release-notes/rss.xml",

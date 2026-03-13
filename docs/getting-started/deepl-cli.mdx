@@ -1,0 +1,134 @@
+---
+title: "DeepL CLI"
+public: true
+---
+
+The [DeepL CLI](https://github.com/DeepLcom/deepl-cli) is an open-source (MIT license) command-line tool for interacting with the DeepL API. It covers text translation, document translation, writing enhancement, voice translation, glossary management, and admin operations — all from your terminal.
+
+<Info>
+The DeepL CLI is open-source under the [MIT License](https://github.com/DeepLcom/deepl-cli/blob/main/LICENSE). Contributions and feedback are welcome!
+</Info>
+
+## Installation
+
+### From npm (coming soon)
+
+```bash
+npm install -g deepl-cli
+```
+
+### From source
+
+```bash
+git clone https://github.com/DeepLcom/deepl-cli.git
+cd deepl-cli
+npm install
+npm run build
+npm link
+
+deepl --version
+```
+
+<Note>
+The CLI uses `better-sqlite3` for local caching, which requires native compilation. Ensure you have build tools installed:
+- **macOS**: Xcode Command Line Tools (`xcode-select --install`)
+- **Linux**: `python3`, `make`, `gcc` (`apt install python3 make gcc g++`)
+- **Windows**: Visual Studio Build Tools
+</Note>
+
+## Quick start
+
+### 1. Set up authentication
+
+Use the interactive setup wizard:
+
+```bash
+deepl init
+```
+
+Or set your API key directly:
+
+```bash
+deepl auth set-key YOUR_API_KEY
+```
+
+Or use an environment variable:
+
+```bash
+export DEEPL_API_KEY=YOUR_API_KEY
+```
+
+### 2. Translate text
+
+```bash
+deepl translate "Hello, world!" --to es
+# ¡Hola, mundo!
+```
+
+### 3. Enhance your writing
+
+```bash
+deepl write "Their going to the stor tommorow" --lang en-us
+# They're going to the store tomorrow.
+```
+
+## Key capabilities
+
+| Command | Description |
+|---------|-------------|
+| `deepl translate` | Translate text with support for formality, context, and custom instructions |
+| `deepl translate --file` | Translate text files (preserves code blocks and formatting) |
+| `deepl document` | Translate documents (PDF, DOCX, PPTX, XLSX) with format preservation |
+| `deepl write` | Grammar and style enhancement via DeepL Write |
+| `deepl voice` | Real-time speech translation via WebSocket streaming |
+| `deepl watch` | Monitor files and auto-translate on change |
+| `deepl glossary` | Create, list, and manage glossaries |
+| `deepl admin` | Manage API keys, usage limits, and team access |
+| `deepl usage` | Check API usage and character quotas |
+| `deepl config` | Configure defaults (target language, formality, model) |
+
+## Usage examples
+
+### Translate with context and formality
+
+```bash
+deepl translate "Thank you for your patience" --to de --formality more \
+  --context "Customer support email to a long-standing client"
+```
+
+### Translate a document
+
+```bash
+deepl document translate report.pdf --to fr --output report-fr.pdf
+```
+
+### Batch translate a directory
+
+```bash
+deepl translate --file src/locales/en/ --to de,fr,es --output src/locales/
+```
+
+### Watch mode for development
+
+```bash
+deepl watch ./content/en --to de,fr --output ./content/
+```
+
+### Git hooks integration
+
+```bash
+deepl hooks install --pre-commit --languages de,fr
+```
+
+## Developer workflow features
+
+- **Smart caching**: Local SQLite cache with LRU eviction avoids redundant API calls
+- **Cost tracking**: Monitor billed characters for budget planning (`deepl usage`)
+- **CI/CD ready**: `--quiet` and `--no-input` flags for non-interactive pipelines
+- **Shell completion**: Generate completions for bash, zsh, fish, and PowerShell
+
+## Further reading
+
+- [DeepL CLI on GitHub](https://github.com/DeepLcom/deepl-cli) — full documentation, changelog, and source code
+- [DeepL API authentication](/docs/getting-started/auth) — set up your API key
+- [Client libraries](/docs/getting-started/client-libraries) — official SDKs for six languages
