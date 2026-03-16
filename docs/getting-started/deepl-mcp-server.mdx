@@ -9,7 +9,7 @@ public: true
 - How to install and configure it for Claude Code and Claude Desktop
 - What tools are available to your AI agent
 
-The [DeepL MCP Server](https://github.com/DeepLcom/deepl-mcp-server) is an open-source (MIT license) [Model Context Protocol](https://modelcontextprotocol.io/) server that gives AI agents access to DeepL's translation, text improvement, and glossary capabilities.
+The [DeepL MCP Server](https://github.com/DeepLcom/deepl-mcp-server) is an open-source (MIT license) [Model Context Protocol](https://modelcontextprotocol.io/) server that gives AI agents access to DeepL's translation, text improvement, and glossary capabilities. MCP lets AI agents discover and call external tools through a standardized protocol — your agent sends a tool request to the MCP server, which calls the DeepL API and returns the result.
 
 <Note>
 If you want to build a custom MCP server from scratch using the DeepL API, see the [MCP Server Cookbook](/docs/learning-how-tos/examples-and-guides/deepl-mcp-server-how-to-build-and-use-translation-in-llm-applications).
@@ -86,8 +86,8 @@ Refer to your client's documentation for how to add MCP servers.
 
 Once configured, your AI agent can use the following tools:
 
-| Tool | Description |
-|------|-------------|
+| **Tool** | **Description** |
+|----------|-----------------|
 | `translate-text` | Translate text between languages with automatic source language detection |
 | `translate-document` | Translate documents (PDF, DOCX, PPTX, XLSX, HTML, TXT) with format preservation |
 | `rephrase-text` | Improve and rephrase text with customizable writing style and tone |
@@ -109,9 +109,11 @@ Once the MCP server is connected, you can ask your AI agent things like:
 
 The agent will automatically use the appropriate DeepL tool to fulfill the request.
 
-## Further reading
+## Next steps
 
-- [DeepL MCP Server on GitHub](https://github.com/DeepLcom/deepl-mcp-server) — full documentation, issues, and source code
-- [MCP Server Cookbook](/docs/learning-how-tos/examples-and-guides/deepl-mcp-server-how-to-build-and-use-translation-in-llm-applications) — build a custom MCP server from scratch
-- [DeepL API authentication](/docs/getting-started/auth) — set up your API key
-- [Client libraries](/docs/getting-started/client-libraries) — official SDKs for Python, Node.js, and more
+Now that you know how to use the DeepL MCP Server:
+
+- **Explore the source:** Review the [DeepL MCP Server on GitHub](https://github.com/DeepLcom/deepl-mcp-server) for full documentation and source code
+- **Build your own:** Follow the [MCP Server Cookbook](/docs/learning-how-tos/examples-and-guides/deepl-mcp-server-how-to-build-and-use-translation-in-llm-applications) to create a custom MCP server from scratch
+- **Set up authentication:** Learn about [DeepL API authentication](/docs/getting-started/auth) and key management
+- **Use client libraries:** Explore the [official SDKs](/docs/getting-started/client-libraries) for Python, Node.js, and more
