@@ -5,7 +5,7 @@
 ## Documentation
 
 - [Authentication](https://developers.deepl.com/docs/getting-started/auth): API key authentication using the `Authorization: DeepL-Auth-Key` header.
-- [Your First API Request](https://developers.deepl.com/docs/getting-started/your-first-api-request): Quickstart guide with examples in 7 languages and cURL.
+- [Your First API Request](https://developers.deepl.com/docs/getting-started/your-first-api-request): Quickstart guide with examples in cURL, Python, JavaScript, PHP, C#, Java, and Ruby.
 - [Supported Languages](https://developers.deepl.com/docs/getting-started/supported-languages): Full list of source and target languages with language codes.
 - [Client Libraries](https://developers.deepl.com/docs/getting-started/client-libraries): Official SDKs for Python, Node.js, .NET, Java, Ruby, and more.
 - [Error Handling](https://developers.deepl.com/docs/best-practices/error-handling): HTTP status codes, retry strategies, and exponential backoff guidance.
@@ -14,17 +14,20 @@
 ## API Reference
 
 - [Translate Text](https://developers.deepl.com/api-reference/translate): Translate text between languages with optional glossary, formality, and context parameters.
-- [Translate Documents](https://developers.deepl.com/api-reference/document): Async workflow to upload, monitor, and download translated documents (PDF, DOCX, PPTX, XLSX, HTML, TXT).
-- [Improve Text](https://developers.deepl.com/api-reference/improve-text): Rephrase and improve text with customizable style and tone.
+- [Translate Documents](https://developers.deepl.com/api-reference/document): Async workflow to upload, monitor, and download translated documents (DOCX, DOC, PPTX, XLSX, PDF, HTML, TXT, XLIFF, SRT, and images in beta).
+- [Improve Text (Write API)](https://developers.deepl.com/api-reference/improve-text): Rephrase and improve text with customizable style and tone (Pro API only).
 - [Glossaries](https://developers.deepl.com/api-reference/multilingual-glossaries): Create and manage multilingual glossaries for consistent terminology in translations.
+- [Style Rules](https://developers.deepl.com/api-reference/style-rules): List and manage style rule sets for customizing translation formatting and conventions.
 - [Check Usage](https://developers.deepl.com/api-reference/usage-and-quota/check-usage-and-limits): Check current character usage and quota limits.
 - [Retrieve Languages](https://developers.deepl.com/api-reference/languages/retrieve-supported-languages): List all supported source and target languages.
-- [Agent API](https://developers.deepl.com/api-reference/agent-api): Trigger and monitor agentic translation workflows asynchronously.
-- [Voice API](https://developers.deepl.com/api-reference/voice): Real-time speech translation via WebSocket streaming.
+- [Admin API](https://developers.deepl.com/api-reference/admin-api): Manage developer API keys and retrieve organization usage analytics (limited availability).
+- [Agent API](https://developers.deepl.com/api-reference/agent-api): Trigger and monitor agentic translation workflows asynchronously (limited availability; requires DeepL Agent subscription).
+- [Voice API](https://developers.deepl.com/api-reference/voice): Real-time speech translation via WebSocket streaming (available on request; requires Enterprise subscription).
 - [OpenAPI Spec](https://developers.deepl.com/docs/resources/open-api-spec): Machine-readable OpenAPI 3.0.3 specification.
 
 ## Developer Tools
 
+- [DeepL CLI](https://developers.deepl.com/docs/getting-started/deepl-cli): Command-line interface for translating text and documents from the terminal.
 - [DeepL MCP Server](https://github.com/DeepLcom/deepl-mcp-server): Model Context Protocol server for integrating DeepL translation into AI agents and LLM applications.
 - [MCP Server Cookbook](https://developers.deepl.com/docs/learning-how-tos/examples-and-guides/deepl-mcp-server-how-to-build-and-use-translation-in-llm-applications): Step-by-step guide to building a custom MCP server with DeepL.
 
@@ -32,9 +35,10 @@
 
 - Always use `POST` for the `/v2/translate` endpoint. `GET` requests to `/v2/translate` are deprecated.
 - Always pass the API key via the `Authorization: DeepL-Auth-Key [key]` header. The `auth_key` query parameter is deprecated.
-- Use the v3 glossary endpoints (`/v3/glossaries`) for new integrations. The v2 glossary endpoints are legacy.
+- Use the v3 glossary endpoints (`/v3/glossaries`) for new integrations. The v2 glossary endpoints are maintained for backward compatibility but lack editing and multilingual features.
 - When translating documents, use the async workflow: upload via `POST /v2/document`, poll status via `POST /v2/document/{id}`, download via `POST /v2/document/{id}/result`.
 - Free API keys end with `:fx` and use `api-free.deepl.com`. Pro API keys use `api.deepl.com`.
 - Implement exponential backoff for 429 (rate limit) and 5xx (server error) responses.
 - The `context` parameter on `/v2/translate` provides additional context to improve translation quality without being translated itself.
-- Maximum request body size is 128 KiB. Send up to 50 text segments per translation request.
+- Maximum request body size is 128 KiB.
+- Send up to 50 text segments per translation request.
