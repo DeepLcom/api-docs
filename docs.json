@@ -193,18 +193,18 @@
                 "group": "Retrieve languages",
                 "pages": [
                   "api-reference/languages",
-                  "api-reference/languages/retrieve-supported-languages"
-                ]
-              },
-              {
-                "group": "Retrieve languages by product [BETA]",
-                "pages": [
-                  "api-reference/api-reference/retrieve-languages/retrieve-supported-languages-by-product-beta",
-                  "api-reference/api-reference/retrieve-languages/language-feature-use-cases-beta",
-                  "api-reference/api-reference/retrieve-languages/retrieve-languages-beta",
-                  "api-reference/api-reference/retrieve-languages/retrieve-products-beta",
-                  "api-reference/api-reference/retrieve-languages/retrieve-language-pair-exceptions-beta",
-                  "api-reference/api-reference/retrieve-languages/migrate-from-v2-languages"
+                  "api-reference/languages/retrieve-supported-languages",
+                  {
+                    "group": "Retrieve supported languages by product (v3) [BETA]",
+                    "pages": [
+                      "api-reference/languages/retrieve-supported-languages-by-product",
+                      "api-reference/languages/language-feature-use-cases",
+                      "api-reference/languages/retrieve-languages-by-product",
+                      "api-reference/languages/retrieve-products",
+                      "api-reference/languages/retrieve-language-pair-exceptions",
+                      "api-reference/languages/migrate-from-v2-languages"
+                    ]
+                  }
                 ]
               },
               {
