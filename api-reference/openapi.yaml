@@ -2179,6 +2179,8 @@ paths:
     get:
       tags:
         - MetaInformation
+        - beta
+      x-beta: true
       summary: Retrieve Language Pair Exceptions
       operationId: getLanguagePairExceptions
       description: |-
