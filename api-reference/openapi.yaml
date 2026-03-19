@@ -2079,6 +2079,7 @@ paths:
               - glossary
               - voice
               - write
+          example: translate_text
           description: |-
             The product to retrieve languages for. Supported values: `translate_text`, `translate_document`,
             `glossary`, `voice`, `write`.
@@ -2201,6 +2202,7 @@ paths:
               - glossary
               - voice
               - write
+          example: translate_text
           description: The product for which to retrieve language pair exceptions. Required.
       responses:
         200:
