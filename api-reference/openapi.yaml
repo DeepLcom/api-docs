@@ -19,6 +19,8 @@ servers:
 - url: https://api-free.deepl.com
   description: DeepL API Free
 tags:
+- name: beta
+  description: Experimental features that are under testing and not yet intended for production use.
 - name: TranslateText
   description: |-
     The text-translation API currently consists of a single endpoint, `translate`, which is described below.
@@ -1946,6 +1948,8 @@ paths:
     get:
       tags:
         - MetaInformation
+        - beta
+      x-beta: true
       summary: Retrieve Language Products
       operationId: getLanguageProducts
       description: |-
@@ -2055,6 +2059,8 @@ paths:
     get:
       tags:
         - MetaInformation
+        - beta
+      x-beta: true
       summary: Retrieve Languages
       operationId: getLanguages
       description: |-
