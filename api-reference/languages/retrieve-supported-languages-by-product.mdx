@@ -1,0 +1,235 @@
+---
+title: 'Retrieve supported languages by product [BETA]'
+sidebarTitle: 'Overview'
+description: "API reference for retrieving supported languages with the DeepL API across all products."
+---
+
+Get information about all currently supported languages across all DeepL API products.
+
+<Info>
+    The `/v3/languages` endpoints provide a single source of truth for language and feature support across all DeepL
+    API products. They replace the `/v2/languages` and `/v2/glossary-language-pairs` endpoints.
+
+    If you're currently using `/v2/languages` or `/v2/glossary-language-pairs`, see the
+    [migration guide](/api-reference/languages/migrate-from-v2-languages)
+    for a full list of differences and code examples.
+
+    **These endpoints are available for testing in BETA.** Breaking changes may be pushed with little or no advance
+    notice, and we provide no guarantees of stability. Please do not use `/v3/languages` in production.
+</Info>
+
+We also provide auto-generated API specs from DeepL's OpenAPI file, for use with API clients and code generation tools:
+- [Retrieve languages](/api-reference/languages/retrieve-languages-by-product)
+- [Retrieve products](/api-reference/languages/retrieve-products)
+- [Retrieve language pair exceptions](/api-reference/languages/retrieve-language-pair-exceptions)
+
+To understand how we'll update these endpoints when we add translation support for a new language or language variant, please see [this article](/docs/resources/language-release-process).
+
+## Products list
+
+To retrieve language support, decide which DeepL product you're building for, then call `GET /v3/languages` with
+the appropriate `product` value. The `product` parameter is required and identifies which DeepL API product you
+are querying language support for:
+
+| Value | Description |
+|---|---|
+| `translate_text` | Text translation via the `/v2/translate` endpoint |
+| `translate_document` | Document translation via the `/v2/document` endpoint |
+| `voice` | Speech transcription and translation via the `/v3/voice` endpoints |
+| `write` | Text improvement via the `/v2/write` endpoints |
+| `glossary` | Glossary management via the `/v2/` and `/v3/glossaries` endpoints |
+
+<Note>
+    `glossary` is a product value indicating glossaries can be created for that language, and managed via the glossary
+    management endpoints.
+
+    Support for glossaries within specific products (for example text translation) is indicated by the `glossary`
+    feature value, explained in a later section.
+</Note>
+
+## Basic example
+
+Each language in the response includes a `features` array indicating which optional capabilities are available for that
+language — see the [Product features](#product-features) section below for details.
+
+The examples below use our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update
+your requests to use `https://api-free.deepl.com` instead.
+
+The following example responses are truncated; the full API responses can include over 100 languages.
+
+<Tabs>
+<Tab title="cURL">
+
+```sh Example request: languages for text translation
+curl -X GET 'https://api.deepl.com/v3/languages?product=translate_text' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+```
+</Tab>
+<Tab title="HTTP Request">
+
+```http Example request: languages for text translation
+GET /v3/languages?product=translate_text HTTP/2
+Host: api.deepl.com
+Authorization: DeepL-Auth-Key [yourAuthKey]
+User-Agent: YourApp/1.2.3
+```
+</Tab>
+</Tabs>
+
+```json Example response
+[
+  {
+    "lang": "de",
+    "name": "German",
+    "usable_as_source": true,
+    "usable_as_target": true,
+    "features": [
+      "formality",
+      "tag_handling",
+      "glossary"
+    ]
+  },
+  {
+    "lang": "en",
+    "name": "English",
+    "usable_as_source": true,
+    "usable_as_target": false,
+    "features": [
+      "tag_handling",
+      "glossary"
+    ]
+  },
+  {
+    "lang": "en-US",
+    "name": "English (American)",
+    "usable_as_source": false,
+    "usable_as_target": true,
+    "features": [
+      "tag_handling",
+      "glossary"
+    ]
+  }
+]
+```
+
+## Product features
+
+Each language object includes a `features` array indicating which optional capabilities are supported for that language
+with the requested product.
+
+A feature may be required on the source language, the target language, or both. For example, for text translation:
+
+- **Target-only**: `formality` is required only on the target language. Check that `"formality"` is present in the
+  target language's `features` array.
+- **Source-and-target**: `tag_handling` and `glossary` are required on both languages. Check that the feature is
+  present in *both* the source and target language's `features` arrays.
+
+Source-only features are also supported by the schema, though none exist currently.
+
+In the documentation for API features that are supported for only a subset of languages, we specify
+which language feature value to check, and whether to check the source language, target language, or both.
+
+## Retrieving products programmatically
+
+Use the `/v3/languages/products` endpoint to retrieve the list of products and their features programmatically.
+For each feature, the response indicates whether support is required on the source language, the target language,
+or both — allowing clients to determine feature availability for a language pair by checking the appropriate
+`features` arrays.
+
+```sh
+curl -X GET 'https://api.deepl.com/v3/languages/products' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+```
+
+```json Example response (truncated)
+[
+  {
+    "name": "translate_text",
+    "endpoints": ["v2/translate"],
+    "features": [
+      {
+        "name": "formality",
+        "required_on_target": true
+      },
+      {
+        "name": "custom_instructions",
+        "required_on_target": true
+      },
+      {
+        "name": "tag_handling",
+        "required_on_source": true,
+        "required_on_target": true
+      },
+      {
+        "name": "glossary",
+        "required_on_source": true,
+        "required_on_target": true
+      }
+    ]
+  }
+]
+```
+
+## Language pair exceptions
+
+In rare cases, feature support for a specific language pair may differ from the feature support returned for the source
+and target languages individually. This occurs due to intricacies and language-specifics of DeepL's AI models.
+
+A hypothetical example: text translation formality is supported for source language Ukrainian, and it is also supported
+for target language Russian. However, translating specifically from Ukrainian to Russian does *not* support formality.
+
+When a request uses a feature that is unsupported for the specific language pair, the API attempts to complete the
+request by disabling the unsupported feature rather than failing. However, in some cases information about these
+exceptions may be useful, so this section explains how to retrieve it.
+
+### Retrieving language pair exceptions directly
+
+Language pair exceptions are available directly via the `/v3/languages/exceptions` endpoint. The `product` query
+parameter is required to specify the product for which you want to retrieve exceptions.
+
+The response includes a list of language pairs for which exceptions exist, with their actual feature support.
+
+Continuing the hypothetical example, querying exceptions for text translation shows that Ukrainian-Russian does not
+support formality:
+
+```sh
+curl -X GET 'https://api.deepl.com/v3/languages/exceptions?product=translate_text' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+```
+
+```json Example exceptions response (truncated)
+[
+  {
+    "source_lang": "uk",
+    "target_lang": "ru",
+    "features": ["tag_handling", "glossary"]
+  }
+]
+```
+
+You can apply these exceptions in client logic. The exception's `features` array is the authoritative feature list
+for that pair — it replaces the individual language `features` arrays entirely for that combination, regardless of
+whether a feature is target-only or source-and-target. Skip the normal intersection logic and use the exception
+`features` directly.
+
+## API stability
+
+The v3 language endpoints are designed to be forward-compatible:
+
+- New features may be added to the `features` array
+- New languages will be added as DeepL support expands
+- Existing fields will not be removed or changed in backwards-incompatible ways
+
+<Info>
+  Build your integration to gracefully handle new values in the `features` array.
+</Info>
+
+## Best practices
+
+1. **Cache responses**: Language support changes infrequently. Consider caching responses for up to 1 hour.
+
+2. **Check features**: Always check the `features` array on language objects rather than assuming support (e.g. for formality, glossary use, or writing style).
+
+3. **Handle forward compatibility**: Ignore unknown values in the `features` array to remain compatible as new capabilities are added.
+
+4. **Use specific variants**: For target languages, prefer specific regional variants (e.g., `"en-US"`, `"en-GB"`) when the distinction matters to your users.

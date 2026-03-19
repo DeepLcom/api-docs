@@ -19,6 +19,8 @@ servers:
 - url: https://api-free.deepl.com
   description: DeepL API Free
 tags:
+- name: beta
+  description: Experimental features that are under testing and not yet intended for production use.
 - name: TranslateText
   description: |-
     The text-translation API currently consists of a single endpoint, `translate`, which is described below.
@@ -272,7 +274,7 @@ paths:
                 - key_id
               properties:
                 key_id:
-                  $ref: '#/components/schemas/ApiKeyId'          
+                  $ref: '#/components/schemas/ApiKeyId'
       responses:
         200:
           description: The deactivate function returns a JSON representation of the deactivated API key.
@@ -1942,6 +1944,321 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       security:
         - auth_header: [ ]
+  /v3/languages/products:
+    get:
+      tags:
+        - MetaInformation
+        - beta
+      x-beta: true
+      summary: Retrieve Language Products
+      operationId: getLanguageProducts
+      description: |-
+        Returns all DeepL API products, including the API endpoints they expose, and the features they support.
+
+        For each feature, the response indicates whether support is required on the source language
+        (`required_on_source`), the target language (`required_on_target`), or both. This allows
+        clients to determine feature availability for a language pair by checking the appropriate language's
+        `features` array returned by `GET /v3/languages`.
+      responses:
+        200:
+          description: JSON array where each item represents a DeepL API product.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - name
+                    - endpoints
+                    - features
+                  properties:
+                    name:
+                      description: The product identifier.
+                      type: string
+                      enum:
+                        - translate_text
+                        - translate_document
+                        - glossary
+                        - voice
+                        - write
+                      example: translate_text
+                    endpoints:
+                      description: API endpoints associated with this product.
+                      type: array
+                      items:
+                        type: string
+                      example:
+                        - v2/translate
+                    features:
+                      description: |-
+                        Features supported by this product. Each feature indicates whether support is
+                        required on the source language, the target language, or both.
+                      type: array
+                      items:
+                        type: object
+                        required:
+                          - name
+                        properties:
+                          name:
+                            description: The feature identifier, corresponding to values in the `features` array returned by `GET /v3/languages`.
+                            type: string
+                            enum:
+                              - formality
+                              - custom_instructions
+                              - tag_handling
+                              - glossary
+                              - writing_style
+                              - tone
+                          required_on_source:
+                            description: Whether support for this feature is required on the source language. Defaults to `false` if absent.
+                            type: boolean
+                          required_on_target:
+                            description: Whether support for this feature is required on the target language. Defaults to `false` if absent.
+                            type: boolean
+              example:
+                - name: translate_text
+                  endpoints:
+                    - v2/translate
+                  features:
+                    - name: formality
+                      required_on_target: true
+                    - name: custom_instructions
+                      required_on_target: true
+                    - name: tag_handling
+                      required_on_source: true
+                      required_on_target: true
+                    - name: glossary
+                      required_on_source: true
+                      required_on_target: true
+                - name: voice
+                  endpoints:
+                    - v3/voice/realtime
+                  features:
+                    - name: glossary
+                      required_on_source: true
+                      required_on_target: true
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+        - auth_header: []
+  /v3/languages:
+    get:
+      tags:
+        - MetaInformation
+        - beta
+      x-beta: true
+      summary: Retrieve Languages
+      operationId: getLanguages
+      description: |-
+        Returns languages supported by the specified DeepL API product. Each language indicates whether it can
+        be used as a source language, a target language, or both, along with the features it supports for that
+        product.
+      parameters:
+        - name: product
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - translate_text
+              - translate_document
+              - glossary
+              - voice
+              - write
+          example: translate_text
+          description: |-
+            The product to retrieve languages for. Supported values: `translate_text`, `translate_document`,
+            `glossary`, `voice`, `write`.
+      responses:
+        200:
+          description: JSON array where each item represents a supported language.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - lang
+                    - name
+                    - usable_as_source
+                    - usable_as_target
+                    - features
+                  properties:
+                    lang:
+                      description: The language code (BCP 47).
+                      type: string
+                      example: de
+                    name:
+                      description: Name of the language in English.
+                      type: string
+                      example: German
+                    usable_as_source:
+                      description: Whether this language can be used as a source language with the specified product.
+                      type: boolean
+                    usable_as_target:
+                      description: Whether this language can be used as a target language with the specified product.
+                      type: boolean
+                    features:
+                      description: |-
+                        Features supported for this language with the specified product. Always present;
+                        empty array if no optional features are supported. Consult `/v3/languages/products`
+                        to determine whether a feature must be present on the source language, target language,
+                        or both for a given product.
+                      type: array
+                      items:
+                        type: string
+                        enum:
+                          - formality
+                          - custom_instructions
+                          - tag_handling
+                          - glossary
+                          - writing_style
+                          - tone
+                      example:
+                        - formality
+                        - tag_handling
+                        - glossary
+              examples:
+                translateTextLanguages:
+                  summary: Languages for text translation
+                  value:
+                    - lang: de
+                      name: German
+                      usable_as_source: true
+                      usable_as_target: true
+                      features:
+                        - formality
+                        - tag_handling
+                        - glossary
+                    - lang: en
+                      name: English
+                      usable_as_source: true
+                      usable_as_target: false
+                      features:
+                        - tag_handling
+                        - glossary
+                    - lang: en-US
+                      name: English (American)
+                      usable_as_source: false
+                      usable_as_target: true
+                      features:
+                        - tag_handling
+                        - glossary
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+        - auth_header: []
+  /v3/languages/exceptions:
+    get:
+      tags:
+        - MetaInformation
+        - beta
+      x-beta: true
+      summary: Retrieve Language Pair Exceptions
+      operationId: getLanguagePairExceptions
+      description: |-
+        Returns language pairs for which feature support differs from what would be predicted by the
+        feature support of the source and target languages individually.
+
+        The `product` parameter is required. Results are specific to the product, as exceptions may
+        vary across products.
+      parameters:
+        - name: product
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - translate_text
+              - translate_document
+              - glossary
+              - voice
+              - write
+          example: translate_text
+          description: The product for which to retrieve language pair exceptions. Required.
+      responses:
+        200:
+          description: JSON array where each item represents a language pair with exceptional feature support.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - source_lang
+                    - target_lang
+                    - features
+                  properties:
+                    source_lang:
+                      description: The source language code of the language pair.
+                      type: string
+                      example: uk
+                    target_lang:
+                      description: The target language code of the language pair.
+                      type: string
+                      example: ru
+                    features:
+                      description: |-
+                        The actual features supported for this specific language pair, which differs
+                        from the features reported for the source or target language individually.
+                      type: array
+                      items:
+                        type: string
+                      example:
+                        - tag_handling
+                        - glossary
+              example:
+                - source_lang: uk
+                  target_lang: ru
+                  features:
+                    - tag_handling
+                    - glossary
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+        - auth_header: []
   /v3/style_rules:
     get:
       summary: Retrieve style rule lists
@@ -3665,7 +3982,7 @@ components:
       - ja
       - ko
       - zh
-    StyleRuleName:  
+    StyleRuleName:
       description: Name associated with the style rule.
       type: string
     DocumentTranslationError:
@@ -3961,7 +4278,7 @@ components:
       description: |-
         When true, the response will include the billed_characters parameter, giving the 
         number of characters from the request that will be counted by DeepL for billing purposes.
-      type: boolean  
+      type: boolean
     SplitSentencesOption:
       description: |-
         Sets whether the translation engine should first split the input into sentences. 
@@ -3969,7 +4286,7 @@ components:
         Possible values are:
           * 0 - no splitting at all, whole input is treated as one sentence
           * 1 (default when tag_handling is not set to html) - splits on punctuation and on newlines
-          * nonewlines (default when tag_handling=html) - splits on punctuation only, ignoring newlines 
+          * nonewlines (default when tag_handling=html) - splits on punctuation only, ignoring newlines
       type: string
       enum:
       - '0'
@@ -4115,7 +4432,7 @@ components:
         Sets which version of the tag handling algorithm should be used. Options currently available:
         * `v1`: Traditional algorithm (currently the default, will become deprecated in the future).
         * `v2`: Improved algorithm released in October 2025 (will become the default in the future).
-         
+
       type: string
       enum:
       - v2

@@ -199,7 +199,18 @@
                 "group": "Retrieve languages",
                 "pages": [
                   "api-reference/languages",
-                  "api-reference/languages/retrieve-supported-languages"
+                  "api-reference/languages/retrieve-supported-languages",
+                  {
+                    "group": "Retrieve supported languages by product (v3) [BETA]",
+                    "pages": [
+                      "api-reference/languages/retrieve-supported-languages-by-product",
+                      "api-reference/languages/language-feature-use-cases",
+                      "api-reference/languages/retrieve-languages-by-product",
+                      "api-reference/languages/retrieve-products",
+                      "api-reference/languages/retrieve-language-pair-exceptions",
+                      "api-reference/languages/migrate-from-v2-languages"
+                    ]
+                  }
                 ]
               },
               {
