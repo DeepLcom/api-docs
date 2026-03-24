@@ -39,8 +39,8 @@ render target_dropdown(target_options)
 
 ## Show formality options only when supported
 
-`formality` is a target-only feature. Check the selected target language's `features` array — no need to look
-at the source language.
+`formality` only needs to be supported by the target language. Check the selected target language's `features`
+array — no need to look at the source language.
 
 ```
 GET /v3/languages?product=translate_text
@@ -58,7 +58,7 @@ else:
 
 ## Check if a glossary can be used for a given language pair
 
-`glossary` is a source-and-target feature — both languages must support it.
+`glossary` must be supported by both languages.
 
 ```
 GET /v3/languages?product=translate_text
@@ -116,8 +116,8 @@ else:
 
 ## Determine feature support programmatically
 
-Use `/v3/languages/products` to drive feature checks at runtime — without hardcoding which features are
-target-only or source-and-target into your client.
+Use `/v3/languages/products` to drive feature checks at runtime — without hardcoding which features need
+target-only or both-language support into your client.
 
 ```
 GET /v3/languages/products

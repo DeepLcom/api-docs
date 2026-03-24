@@ -117,14 +117,14 @@ User-Agent: YourApp/1.2.3
 Each language object includes a `features` array indicating which optional capabilities are supported for that language
 with the requested product.
 
-A feature may be required on the source language, the target language, or both. For example, for text translation:
+To use a feature, one or both languages in the pair must support it. For example, for text translation:
 
-- **Target-only**: `formality` is required only on the target language. Check that `"formality"` is present in the
-  target language's `features` array.
-- **Source-and-target**: `tag_handling` and `glossary` are required on both languages. Check that the feature is
-  present in *both* the source and target language's `features` arrays.
+- **Target-only**: `formality` only needs to be supported by the target language. Check that `"formality"` is
+  present in the target language's `features` array.
+- **Source-and-target**: `tag_handling` and `glossary` must be supported by both languages. Check that the
+  feature is present in *both* the source and target language's `features` arrays.
 
-Source-only features are also supported by the schema, though none exist currently.
+Source-only features are also supported by the schema, and may be introduced in future products.
 
 In the documentation for API features that are supported for only a subset of languages, we specify
 which language feature value to check, and whether to check the source language, target language, or both.
@@ -132,9 +132,9 @@ which language feature value to check, and whether to check the source language,
 ## Retrieving products programmatically
 
 Use the `/v3/languages/products` endpoint to retrieve the list of products and their features programmatically.
-For each feature, the response indicates whether support is required on the source language, the target language,
-or both — allowing clients to determine feature availability for a language pair by checking the appropriate
-`features` arrays.
+For each feature, the response indicates which languages must support it for the feature to be available —
+source only, target only, or both — allowing clients to determine feature availability for a language pair
+by checking the appropriate `features` arrays.
 
 ```sh
 curl -X GET 'https://api.deepl.com/v3/languages/products' \
