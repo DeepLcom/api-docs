@@ -1955,10 +1955,10 @@ paths:
       description: |-
         Returns all DeepL API products, including the API endpoints they expose, and the features they support.
 
-        For each feature, the response indicates whether support is required on the source language
-        (`required_on_source`), the target language (`required_on_target`), or both. This allows
-        clients to determine feature availability for a language pair by checking the appropriate language's
-        `features` array returned by `GET /v3/languages`.
+        For each feature, the response indicates which languages must support it for the feature to be
+        available — source only (`required_on_source`), target only (`required_on_target`), or both.
+        This allows clients to determine feature availability for a language pair by checking the
+        appropriate language's `features` array returned by `GET /v3/languages`.
       responses:
         200:
           description: JSON array where each item represents a DeepL API product.
@@ -1995,8 +1995,8 @@ paths:
                         - v2/translate
                     features:
                       description: |-
-                        Features supported by this product. Each feature indicates whether support is
-                        required on the source language, the target language, or both.
+                        Features supported by this product. Each feature indicates which languages
+                        must support it for the feature to be available — source, target, or both.
                       type: array
                       items:
                         type: object
@@ -2014,10 +2014,10 @@ paths:
                               - writing_style
                               - tone
                           required_on_source:
-                            description: Whether support for this feature is required on the source language. Defaults to `false` if absent.
+                            description: If `true`, the source language must support this feature for it to be available. Defaults to `false` if absent.
                             type: boolean
                           required_on_target:
-                            description: Whether support for this feature is required on the target language. Defaults to `false` if absent.
+                            description: If `true`, the target language must support this feature for it to be available. Defaults to `false` if absent.
                             type: boolean
               example:
                 - name: translate_text
