@@ -1,4 +1,4 @@
-# DeepL Developer Docs
+# DeepL Developer Docss
 
 This repo is home to the [DeepL Developer Docs](https://developers.deepl.com/).
 
