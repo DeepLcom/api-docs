@@ -3027,6 +3027,7 @@ components:
         `DeepL-Auth-Key <api-key>`
       name: Authorization
       in: header
+      x-default: "DeepL-Auth-Key "
   schemas:
     ApiKeyId:
       description: API key ID. Consists of two valid GUIDs separated by a colon.
