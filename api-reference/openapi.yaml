@@ -2357,6 +2357,19 @@ paths:
                       source_language:
                         type: string
                         description: Optional source language code
+            example:
+              name: "My style rules"
+              language: "de"
+              configured_rules:
+                style_and_tone:
+                  abbreviations: "use_abbreviations_and_symbols"
+                  short_vs_long_words: "use_short_words"
+                punctuation:
+                  apostrophe: "use_curly_apostrophes"
+              custom_instructions:
+                - label: "Currency custom instruction"
+                  prompt: "Have currency symbols before the numerical value (e.g. $100, €100)"
+                  source_language: "en"
       responses:
         201:
           description: Style rule list created successfully
@@ -2575,6 +2588,9 @@ paths:
                 source_language:
                   type: string
                   description: Optional source language code
+            example:
+              label: "Currency custom instruction"
+              prompt: "Have currency symbols before the numerical value (e.g. $100, €100)"
       responses:
         201:
           description: Custom instruction created successfully
@@ -4273,6 +4289,12 @@ components:
               - rephrase_loanword_in_daily_use_chinese_or_japanese_words_if_possible
               - rephrase_loanword_with_another_expression_if_not_established
               - use_loanword_as_is_if_well_established
+      example:
+        style_and_tone:
+          abbreviations: "use_abbreviations_and_symbols"
+          short_vs_long_words: "use_short_words"
+        punctuation:
+          apostrophe: "use_curly_apostrophes"
     Context:
       description: |-
         Additional context that can influence a translation but is not translated itself.
