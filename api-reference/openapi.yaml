@@ -5068,9 +5068,13 @@ components:
       - es
       - fr
       - it
+      - ja
+      - ko
       - pt
       - pt-BR
       - pt-PT
+      - zh
+      - zh-Hans
       example: de
     UsageResponse:
       type: object
