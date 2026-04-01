@@ -1,13 +1,11 @@
 ---
 title: "Translation: a beginner's guide"
-description: "Translation: a beginner's guide."
+description: "An introduction to sending translation requests with the DeepL API"
 sidebarTitle: "Translation: a beginner's guide"
 public: true
 ---
 
-## (intro)
-
-This guide explains the fundamentals of translating text with the DeepL API. We’ll go through:
+This guide explains the fundamentals of translating text with the DeepL API. We’ll explore:
 
 * getting an API key  
 * using client libraries  
@@ -16,28 +14,32 @@ This guide explains the fundamentals of translating text with the DeepL API. We�
 * choosing a `model_type`  
 * limits
 
-Let’s get started\!
+Let’s get started!
 
 ## Getting an API key
 
 If you haven’t already signed up for a DeepL API account, you’ll need to do so. Visit [our plans page](https://www.deepl.com/en/pro/change-plan#developer), choose a plan, and sign up.
 
-*(note: if you already have a DeepL account for the translator, you need to log out of your account, then create a new account for the DeepL API.)*
+<Tip>
+If you already have a DeepL account for the translator, you need to log out of your account, then create a new account for the DeepL API.
+</Tip>
 
 When you send a request to our API, you use your API key to identify yourself. You can find that API key [here](https://www.deepl.com/en/your-account/keys).
 
-And now you’re ready to make your first API request\!
+And now you’re ready to make your first API request!
 
-*(note: for more information about API keys and authentication, see [Authentication](https://developers.deepl.com/docs/getting-started/auth#authentication))*
+<Tip>
+For more information about API keys and authentication, see [Authentication](/docs/getting-started/auth#authentication)
+</Tip>
 
 ## Finding your client library
 
-Like many APIs, the DeepL API uses HTTP requests and responses to receive and send data. While you can construct your own HTTP requests, most people find it easier to let their favorite programming language generate requests and handle the responses. To this end, DeepL provides [official client libraries](https://developers.deepl.com/docs/getting-started/client-libraries) for six popular languages:
+Like many APIs, the DeepL API uses HTTP requests and responses to receive and send data. While you can construct your own HTTP requests, most people find it easier to let their favorite programming language generate requests and handle the responses. To this end, DeepL provides [official client libraries](/docs/getting-started/client-libraries) for six popular languages:
 
 * [Python](https://www.github.com/deeplcom/deepl-python)  
 * [JavaScript](https://www.github.com/deeplcom/deepl-node)  
 * [PHP](https://www.github.com/deeplcom/deepl-php)  
-* [C\#](https://www.github.com/deeplcom/deepl-dotnet)  
+* [C#](https://www.github.com/deeplcom/deepl-dotnet)  
 * [Java](https://www.github.com/deeplcom/deepl-java)  
 * [Ruby](https://www.github.com/deeplcom/deepl-rb)
 
@@ -45,24 +47,26 @@ The DeepL community has [contributed client libraries](https://github.com/DeepLc
 
 The documentation on this site frequently includes code samples in these languages. For more about how to use the DeepL API in your favorite language, try the links above.
 
-*JavaScript/TypeScript users: for security reasons, you cannot call the DeepL API directly from client-side JavaScript. To do this during testing or prototyping, try one of [these quick proxies](https://developers.deepl.com/docs/learning-how-tos/cookbook/nodejs-proxy).*
+<Warning>
+JavaScript/TypeScript users: for security reasons, you cannot call the DeepL API directly from client-side JavaScript. To do this during testing or prototyping, try one of [these quick proxies](/docs/learning-how-tos/cookbook/nodejs-proxy).
+</Warning>
 
-## Making a translation request / anatomy of a request
+## Making a translation request
 
 ### Source and target languages
 
 The **source language** is the language you’re translating from. The **target language** is the language you’re translating to.
 
-Any DeepL API translation request must include
+Any DeepL API translation request must include these two parameters:
 
-* some text to translate  
-* the target language
+* `text`: some text to translate  
+* `target_lang`: the target language
 
-That’s all you need\! Since DeepL is quite good at detecting the source language, normally you can omit it. If your text is very short, contains a mix of languages, or if you want to specify the source language for any other reason, you can do so.
+That’s all you need! Since DeepL is quite good at detecting the source language, normally you can omit the `source_lang` parameter. If your text is very short, contains a mix of languages, or if you want to specify the source language for any other reason, you can include `source_lang`.
 
 ### A sample translation request
 
-For example, if you wanted to translate the phrase “Hello, bright universe\!” from German to Japanese:
+For example, if you wanted to translate the phrase “Hello, bright universe!” from German to Japanese:
 
 * “Hello, everybody” is the `text`  
 * German is the `source_lang`  
@@ -70,50 +74,710 @@ For example, if you wanted to translate the phrase “Hello, bright universe\!�
 
 The first tab below shows the HTTP request you’d use here and a typical response from the API. Other tabs show how you’d make this request [using cURL](https://curl.se/docs/tooldocs.html) and using our official client libraries. To see how you’d handle the response in your favorite programming language, check the appropriate tab.
 
-```
-POST /v2/translate HTTP/2
-Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
-User-Agent: {YourApp/1.2.3}
-Content-Length: 72
-Content-Type: application/json
+<Tabs>
+  <Tab title="HTTP Request">
+    <Tip>
+      If you chose a free API plan and you are writing cURL or HTTP requests, replace `https://api.deepl.com` with `https://api-free.deepl.com`.
+    </Tip>
+        
+    ```http Sample request
+    POST /v2/translate HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey] 
+    User-Agent: YourApp/1.2.3
+    Content-Length: 72
+    Content-Type: application/json
 
-{"text":["Hello, bright universe!"],"target_lang":"JP"}
-```
+    {"text":["Hello, bright universe!"],"target_lang":"JA"} 
+    ```
 
-*(include client library examples)*
+    ```json Sample response
+    {
+      "translations": [
+        {
+          "detected_source_language": "EN",
+          "text": "こんにちは、輝く宇宙"
+        }
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="cURL">
+    <Tip>
+      If you chose a free API plan and you are writing cURL or HTTP requests, replace `https://api.deepl.com` with `https://api-free.deepl.com`.
+    </Tip>
+
+    ```sh Set the API key
+    export API_KEY={YOUR_API_KEY}
+    ```
+
+    ```sh Sample request
+    curl -X POST https://api.deepl.com/v2/translate \
+      --header "Content-Type: application/json" \
+      --header "Authorization: DeepL-Auth-Key $API_KEY" \
+      --data '{
+        "text": ["Hello, bright universe!"], 
+        "target_lang": "JA"
+    }'
+    ```
+
+    ```json Sample response
+    {
+      "translations": [
+        {
+          "detected_source_language": "EN",
+          "text": "こんにちは、輝く宇宙"
+        }
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```py Sample request
+    import deepl
+    
+    auth_key = "{YOUR_API_KEY}" # replace with your key
+    deepl_client = deepl.DeepLClient(auth_key)
+    
+    result = deepl_client.translate_text("Hello, bright universe!", target_lang="JA")
+    print(result.text)
+    ```
+
+    ```text Sample output
+    こんにちは、輝く宇宙
+    ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="JavaScript">
+    ```javascript Sample request
+    import * as deepl from 'deepl-node';
+    
+    const authKey = "{YOUR_API_KEY}"; // replace with your key
+    const deeplClient = new deepl.DeepLClient(authKey);
+    
+    (async () => {
+        const result = await deeplClient.translateText('Hello, bright universe!', null, 'JA');
+        console.log(result.text);
+    })();
+    ```
+
+    ```text Sample output
+    こんにちは、輝く宇宙
+
+    ```
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="PHP">
+    ```php Sample request
+    use DeepL\Client;
+
+    $authKey = "{YOUR_API_KEY}"; // replace with your key
+    $deeplClient = new \DeepL\DeepLClient($authKey);
+    
+    $result = $deeplClient->translateText('Hello, bright universe!', null, 'JA');
+    echo $result->text;
+    ```
+
+    ```text Sample output
+    こんにちは、輝く宇宙
+    ```
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="C#">
+    ```csharp Sample request
+    using DeepL; // this imports the DeepL namespace. Use the code below in your main program.
+
+    var authKey = "{YOUR_API_KEY}"; // replace with your key
+    var client = new DeepLClient(authKey);
+    
+    var translatedText = await client.TranslateTextAsync(
+        "Hello, bright universe!",
+        null,
+        LanguageCode.Japanese);
+    Console.WriteLine(translatedText);
+    ```
+
+    ```text Sample output
+    こんにちは、輝く宇宙
+    ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="Java">
+    ```java Sample request
+    import com.deepl.api.*;
+    
+    public class Main {
+        public static void main(String[] args) throws DeepLException, InterruptedException {
+            String authKey = "{YOUR_API_KEY}"; // replace with your key
+            DeepLClient client = new DeepLClient(authKey);
+
+            TextResult result = client.translateText("Hello, bright universe!", null, "JA");
+            System.out.println(result.getText());
+        }
+    }
+    ```
+
+    ```text Sample output
+    こんにちは、輝く宇宙
+    ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="Ruby">
+    ```ruby Sample request
+    require 'deepl'
+    
+    DeepL.configure do |config|
+        config.auth_key = '{YOUR_API_KEY}' # replace with your key
+    end
+    
+    translation = DeepL.translate 'Hello, bright universe!', nil, 'JA'
+    puts translation.text
+    ```
+
+    ```text Sample output
+    こんにちは、輝く宇宙
+    ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>                      
+</Tabs>
 
 ### Sending multiple text strings
 
-If you look at the HTTP request above, you’ll notice that the translation text is in square brackets \- in an array. In fact, a translation request can include multiple text strings:
+If you look at the HTTP request above, you’ll notice that the translation text is in square brackets - in an array. In fact, a translation request can include multiple text strings:
 
-```
-POST /v2/translate HTTP/2
-Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
-User-Agent: {YourApp/1.2.3}
-Content-Length: 143
-Content-Type: application/json
+<Tabs>
+  <Tab title="HTTP Request">
+    <Tip>
+      If you chose a free API plan and you are writing cURL or HTTP requests, replace `https://api.deepl.com` with `https://api-free.deepl.com`.
+    </Tip>
+        
+    ```http Sample request
+    POST /v2/translate HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey] 
+    User-Agent: YourApp/1.2.3
+    Content-Length: 121
+    Content-Type: application/json
 
-{
-  "text": [
-    "¿En qué lenguaje programan los programadores españoles?",
-    "Sí++"
-  ],
-  "target_lang": "HI",
-  "source_lang": "ES"
-}
-```
+    {
+      "text": [
+        "¿En qué lenguaje programan los programadores españoles?",
+        "Sí++"
+      ],
+      "target_lang": "HI"
+    }
+    ```
 
-(Warning: jokes are notoriously difficult to translate, especially jokes that rely on an indefensible pun)
+    ```json Sample response
+    {
+      "translations": [
+        {
+          "text": "स्पेनिश प्रोग्रामर कौन-सी प्रोग्रामिंग भाषाएँ उपयोग करते हैं?",
+          "detected_source_language": "ES"
+        },
+        {
+          "text": "हाँ++",
+          "detected_source_language": "ES"
+        }
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="cURL">
+    <Tip>
+      If you chose a free API plan and you are writing cURL or HTTP requests, replace `https://api.deepl.com` with `https://api-free.deepl.com`.
+    </Tip>
+
+    ```sh Set the API key
+    export API_KEY={YOUR_API_KEY}
+    ```
+
+    ```sh Sample request
+    curl -X POST https://api.deepl.com/v2/translate \
+      --header "Content-Type: application/json" \
+      --header "Authorization: DeepL-Auth-Key $API_KEY" \
+      --data '{
+        "text": [
+          "¿En qué lenguaje programan los programadores españoles?",
+          "Sí++"
+        ],
+        "target_lang": "HI"
+      }'
+    ```
+
+    ```json Sample response
+    {
+      "translations": [
+        {
+          "text": "स्पेनिश प्रोग्रामर कौन-सी प्रोग्रामिंग भाषाएँ उपयोग करते हैं?",
+          "detected_source_language": "ES"
+        },
+        {
+          "text": "हाँ++",
+          "detected_source_language": "ES"
+        }
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```py Sample request
+    import deepl
+    
+    auth_key = "{YOUR_API_KEY}" # replace with your key
+    deepl_client = deepl.DeepLClient(auth_key)
+    
+    result = deepl_client.translate_text(
+        [
+            "¿En qué lenguaje programan los programadores españoles?",
+            "Sí++"
+        ],
+        target_lang="HI"
+    )
+
+    print (f"{result[0].text}\n{result[1].text}")
+    ```
+
+    ```text Sample output
+    स्पेनिश प्रोग्रामर कौन-सी प्रोग्रामिंग भाषाएँ उपयोग करते हैं?
+    हाँ++
+    ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="JavaScript">
+    ```javascript Sample request
+    import * as deepl from 'deepl-node';
+    
+    const authKey = "{YOUR_API_KEY}"; // replace with your key
+    const deeplClient = new deepl.DeepLClient(authKey);
+    
+    (async () => {
+      const result = await deeplClient.translateText(
+        [
+          "¿En qué lenguaje programan los programadores españoles?",
+          "Sí++"
+        ],
+        null,
+        'HI'
+      );
+
+      console.log(result[0].text + "\n" + result[1].text);
+    })();
+    ```
+
+    ```text Sample output
+    स्पेनिश प्रोग्रामर कौन-सी प्रोग्रामिंग भाषाएँ उपयोग करते हैं?
+    हाँ++
+
+    ```
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="PHP">
+    ```php Sample request
+    use DeepL\Client;
+
+    $authKey = "{YOUR_API_KEY}"; // replace with your key
+    $deeplClient = new \DeepL\DeepLClient($authKey);
+    
+    $result = $deeplClient->translateText([
+        "¿En qué lenguaje programan los programadores españoles?",
+        "Sí++"
+      ], 
+      null,
+      'HI'
+    );
+    
+    echo $result[0]->text . "\n" . $result[1]->text;
+    ```
+
+    ```text Sample output
+    स्पेनिश प्रोग्रामर कौन-सी प्रोग्रामिंग भाषाएँ उपयोग करते हैं?
+    हाँ++
+    ```
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="C#">
+    ```csharp Sample request
+    using DeepL; // this imports the DeepL namespace. Use the code below in your main program.
+
+    var authKey = "{YOUR_API_KEY}"; // replace with your key
+    var client = new DeepLClient(authKey);
+    
+    var translated = await client.TranslateTextAsync(
+        [
+          "¿En qué lenguaje programan los programadores españoles?",
+          "Sí++"
+        ],
+        null,
+        LanguageCode.Hindi
+    );
+    
+    Console.WriteLine(translated[0].Text + "\n" + translated[1].Text);
+    ```
+
+    ```text Sample output
+    स्पेनिश प्रोग्रामर कौन-सी प्रोग्रामिंग भाषाएँ उपयोग करते हैं?
+    हाँ++
+    ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="Java">
+    ```java Sample request
+    import com.deepl.api.*;
+    import java.util.List;
+    
+    public class Main {
+        public static void main(String[] args) throws DeepLException, InterruptedException {
+            String authKey = "{YOUR_API_KEY}"; // replace with your key
+            DeepLClient client = new DeepLClient(authKey);
+            
+            List<TextResult> results = client.translateText(
+                List.of(
+                    "¿En qué lenguaje programan los programadores españoles?",
+                    "Sí++"
+                ),
+                null,
+                "HI"
+            );
+            
+            System.out.println(results.get(0).getText() + "\n" + results.get(1).getText());
+        }
+    }
+    ```
+
+    ```text Sample output
+    स्पेनिश प्रोग्रामर कौन-सी प्रोग्रामिंग भाषाएँ उपयोग करते हैं?
+    हाँ++
+    ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="Ruby">
+    ```ruby Sample request
+    require 'deepl'
+    
+    DeepL.configure do |config|
+        config.auth_key = '{YOUR_API_KEY}' # replace with your key
+    end
+    
+    translations = DeepL.translate(
+        [
+            "¿En qué lenguaje programan los programadores españoles?",
+            "Sí++"
+        ],
+        nil,
+        'HI'
+    )
+    
+    puts translations[0].text
+    puts translations[1].text
+    ```
+
+    ```text Sample output
+    स्पेनिश प्रोग्रामर कौन-सी प्रोग्रामिंग भाषाएँ उपयोग करते हैं?
+    हाँ++
+    ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>                      
+</Tabs>
+
+<Warning>
+  Jokes are notoriously difficult to translate, especially jokes that rely on an indefensible pun
+</Warning>
+
+In fact, these text strings can be in different languages. If you don’t set the source language, DeepL will detect that separately for each string.
+
+<Tabs>
+  <Tab title="HTTP Request">
+    <Tip>
+      If you chose a free API plan and you are writing cURL or HTTP requests, replace `https://api.deepl.com` with `https://api-free.deepl.com`.
+    </Tip>
+        
+    ```http Sample request
+    POST /v2/translate HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey] 
+    User-Agent: YourApp/1.2.3
+    Content-Length: 110
+    Content-Type: application/json
+
+    {
+      "text": [
+        "What does the 'R' in 'Recursion' stand for?",
+        "Recursão"
+      ],
+      "target_lang": "HA"
+    }
+    ```
+
+    ```json Sample response
+    {
+      "translations": [
+        {
+          "text": "Menene R ke nufi a cikin 'Recursion'?",
+          "detected_source_language": "EN"
+        },
+        {
+          "text": "Maimaita",
+          "detected_source_language": "PT"
+        }
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="cURL">
+    <Tip>
+      If you chose a free API plan and you are writing cURL or HTTP requests, replace `https://api.deepl.com` with `https://api-free.deepl.com`.
+    </Tip>
+
+    ```sh Set the API key
+    export API_KEY={YOUR_API_KEY}
+    ```
+
+    ```sh Sample request
+    curl -X POST https://api.deepl.com/v2/translate \
+      --header "Content-Type: application/json" \
+      --header "Authorization: DeepL-Auth-Key $API_KEY" \
+      --data '{
+        "text": [
+          "What does the '\''R'\'' in '\''Recursion'\'' stand for?",
+          "Recursão"
+        ],
+        "target_lang": "HA"
+      }'
+    ```
+
+    ```json Sample response
+    {
+      "translations": [
+        {
+          "text": "Menene R ke nufi a cikin 'Recursion'?",
+          "detected_source_language": "EN"
+        },
+        {
+          "text": "Maimaita",
+          "detected_source_language": "PT"
+        }
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```py Sample request
+    import deepl
+    
+    auth_key = "{YOUR_API_KEY}" # replace with your key
+    deepl_client = deepl.DeepLClient(auth_key)
+    
+    result = deepl_client.translate_text(
+        [
+            "What does the 'R' in 'Recursion' stand for?",
+            "Recursão"
+        ],
+        target_lang="HA"
+    )
+
+    print (f"{result[0].text}\n{result[1].text}")
+    ```
+
+    ```text Sample output
+    Menene R ke nufi a cikin 'Recursion'?
+    Maimaita
+    ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="JavaScript">
+    ```javascript Sample request
+    import * as deepl from 'deepl-node';
+    
+    const authKey = "{YOUR_API_KEY}"; // replace with your key
+    const deeplClient = new deepl.DeepLClient(authKey);
+    
+    (async () => {
+      const result = await deeplClient.translateText(
+        [
+          "What does the 'R' in 'Recursion' stand for?",
+          "Recursão"
+        ],
+        null,
+        'HA'
+      );
+
+      console.log(result[0].text + "\n" + result[1].text);
+    })();
+    ```
+
+    ```text Sample output
+    Menene R ke nufi a cikin 'Recursion'?
+    Maimaita
+
+    ```
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="PHP">
+    ```php Sample request
+    use DeepL\Client;
+
+    $authKey = "{YOUR_API_KEY}"; // replace with your key
+    $deeplClient = new \DeepL\DeepLClient($authKey);
+    
+    $result = $deeplClient->translateText([
+        "What does the 'R' in 'Recursion' stand for?",
+        "Recursão"
+      ], 
+      null,
+      'HA'
+    );
+    
+    echo $result[0]->text . "\n" . $result[1]->text;
+    ```
+
+    ```text Sample output
+    Menene R ke nufi a cikin 'Recursion'?
+    Maimaita
+    ```
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="C#">
+    ```csharp Sample request
+    using DeepL; // this imports the DeepL namespace. Use the code below in your main program.
+
+    var authKey = "{YOUR_API_KEY}"; // replace with your key
+    var client = new DeepLClient(authKey);
+    
+    var translated = await client.TranslateTextAsync(
+        [
+          "What does the 'R' in 'Recursion' stand for?",
+          "Recursão"
+        ],
+        null,
+        LanguageCode.Hausa
+    );
+    
+    Console.WriteLine(translated[0].Text + "\n" + translated[1].Text);
+    ```
+
+    ```text Sample output
+    Menene R ke nufi a cikin 'Recursion'?
+    Maimaita
+    ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="Java">
+    ```java Sample request
+    import com.deepl.api.*;
+    import java.util.List;
+    
+    public class Main {
+        public static void main(String[] args) throws DeepLException, InterruptedException {
+            String authKey = "{YOUR_API_KEY}"; // replace with your key
+            DeepLClient client = new DeepLClient(authKey);
+            
+            List<TextResult> results = client.translateText(
+                List.of(
+                    "What does the 'R' in 'Recursion' stand for?",
+                    "Recursão"
+                ),
+                null,
+                "HA"
+            );
+            
+            System.out.println(results.get(0).getText() + "\n" + results.get(1).getText());
+        }
+    }
+    ```
+
+    ```text Sample output
+    Menene R ke nufi a cikin 'Recursion'?
+    Maimaita
+    ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="Ruby">
+    ```ruby Sample request
+    require 'deepl'
+    
+    DeepL.configure do |config|
+        config.auth_key = '{YOUR_API_KEY}' # replace with your key
+    end
+    
+    translations = DeepL.translate(
+        [
+            "What does the 'R' in 'Recursion' stand for?",
+            "Recursão"
+        ],
+        nil,
+        'HA'
+    )
+    
+    puts translations[0].text
+    puts translations[1].text
+    ```
+
+    ```text Sample output
+    Menene R ke nufi a cikin 'Recursion'?
+    Maimaita
+    ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>                      
+</Tabs>
+
+
 
 ### Language codes and variants
 
-The DeepL API can translate in any of [these supported languages](https://developers.deepl.com/docs/getting-started/supported-languages). Normally, any supported source language can be used as a target language, and vice versa. But it’s best to check the list to make sure.
+The DeepL API can translate in any of [these supported languages](/docs/getting-started/supported-languages). Normally, any supported source language can be used as a target language, and vice versa. But it’s best to check the list to make sure.
 
 To specify a language, use its [ISO-639 language code](https://www.loc.gov/standards/iso639-2/php/code_list.php), such as `FR` for French or `VI` for Vietnamese. While most language codes have two letters, a few have three. For example, the code for Cantonese is `YUE`.
 
-For certain target languages, DeepL supports a set of regional variants, which are listed among [the supported languages](https://developers.deepl.com/docs/getting-started/supported-languages). For example, `en-GB` indicates British English, and `en-US` indicates English spoken in the United States. To specify a variant, append to the language code a hyphen, then the [ISO-3166 country code](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes). So, for Brazilian, Portuguese, use `pt-BR`.
+For certain target languages, DeepL supports a set of regional variants, which are listed among [the supported languages](/docs/getting-started/supported-languages). For example, `en-GB` indicates British English, and `en-US` indicates English spoken in the United States. To specify a variant, append to the language code a hyphen, then the [ISO-3166 country code](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes). So, for Brazilian, Portuguese, use `pt-BR`.
 
 In the DeepL API, language codes are case-insensitive. It accepts language codes in uppercase or lowercase, or a mix of the two. So, for Brazilian Portuguese you could use `pt-BR`, `pt-br`, `PT-BR`, or even `pT-Br`.
 
@@ -121,7 +785,7 @@ Regional variants can only be used in target languages. If you try a source lang
 
 If DeepL supports variants of a given language, you are encouraged to choose one. If you don’t include the variant in a raw HTTP request, DeepL will translate into the variant which has been designated as the default. If you’re using a client library, the API will throw an error.
 
-Although you can ask the API to translate from one language variant to another, the methods described in our [How To Translate Between Language Variants guide](https://developers.deepl.com/docs/learning-how-tos/examples-and-guides/translating-between-variants) yield better results.
+Although you can ask the API to translate from one language variant to another, the methods described in our [How To Translate Between Language Variants guide](/docs/learning-how-tos/examples-and-guides/translating-between-variants) yield better results.
 
 ## Where to send your request
 
@@ -129,7 +793,7 @@ The URL you send requests to depends on your API plan. If you are using a free p
 
 If you’re using a client library, you don’t need to worry about this, as DeepL’s client libraries detect your account type and send requests to the correct URL.
 
-You may also wish to send requests to an API endpoint corresponding to a specific geographic region, for data residency or compliance needs, or to minimize latency. For more information, instructions on how to set this up, and code samples featuring the `server_url` parameter, see [Regional API Endpoints](https://developers.deepl.com/docs/getting-started/regional-endpoints).
+You may also wish to send requests to an API endpoint corresponding to a specific geographic region, for data residency or compliance needs, or to minimize latency. For more information, instructions on how to set this up, and code samples featuring the `server_url` parameter, see [Regional API Endpoints](/docs/getting-started/regional-endpoints).
 
 ## Model type
 
@@ -152,8 +816,8 @@ If you omit the `model_type`, the API normally defaults to `latency_optimized`.
 
 ### Special cases
 
-* if your request omits the \`source\_lang\`, the API uses next-gen models to ensure the best possible language detection  
-* [tag handling v2](https://developers.deepl.com/docs/xml-and-html-handling/tag-handling-v2#new-xml-html-handling-v2) requires next-gen models. Setting both `model_type=latency_optimized` and `tag_handling_version=v2` yields an error.  
+* if your request omits the `source_lang`, the API uses next-gen models to ensure the best possible language detection  
+* [tag handling v2](/docs/xml-and-html-handling/tag-handling-v2#new-xml-html-handling-v2) requires next-gen models. Setting both `model_type=latency_optimized` and `tag_handling_version=v2` yields an error.  
 * for some languages, like Thai, the API uses the same model regardless of requested `model_type`. This behavior may change as our models evolve.
 
 ## Limits
@@ -162,24 +826,24 @@ The total request body size for text translation requests is limited to 128K. As
 
 If you need to send larger strings, you can place them in documents, which have a limit of 10 MB. If that’s not high enough, get in touch with us.
 
-For more, see [Usage and Limits](https://developers.deepl.com/docs/resources/usage-limits).
+For more, see [Usage and Limits](/docs/resources/usage-limits).
 
 ## Summary and next steps 
 
-Congratulations\! Now you know how to send the DeepL API a translation request including any of these parameters:
+Congratulations! Now you know how to send the DeepL API a translation request including any of these parameters:
 
 | Item | parameter | required? |
 | :---- | :---- | :---- |
 | source language | `source_lang` | optional |
 | target language | `target_lang` | required |
 | text to translate | `text` | required |
-| optimize for speed or quality | model\_type | optional |
+| optimize for speed or quality | model_type | optional |
 
 Here are some possible next steps:
 
-* Play with translation requests using these parameters and other options in [our playground](https://developers.deepl.com/api-reference/translate/request-translation?playground=open) or [Postman](https://developers.deepl.com/docs/getting-started/test-your-api-requests-with-postman).  
+* Play with translation requests using these parameters and other options in [our playground](https://developers.deepl.com/api-reference/translate/request-translation?playground=open) or [Postman](/docs/getting-started/test-your-api-requests-with-postman).  
 * For complete information on the `/translate` endpoint, see [the /translate reference](https://developers.deepl.com/api-reference/translate/request-translation)  
-* See this [introduction to DeepL glossaries](https://developers.deepl.com/docs/learning-how-tos/examples-and-guides/glossaries-in-the-real-world)  
-* To learn how to translate text in files \- PDFs, presentations, powerpoints, HTML, images, and more \- see [the /document reference](https://developers.deepl.com/api-reference/document)  
+* See this [introduction to DeepL glossaries](/docs/learning-how-tos/examples-and-guides/glossaries-in-the-real-world)  
+* To learn how to translate text in files - PDFs, presentations, powerpoints, HTML, images, and more - see [the /document reference](https://developers.deepl.com/api-reference/document)  
 * To translate audio, see [the /voice endpoint](https://developers.deepl.com/api-reference/voice)
 
