@@ -113,6 +113,11 @@ User-Agent: YourApp/1.2.3
 ]
 ```
 
+## Language codes
+
+Language codes in the `lang` field follow [BCP 47](https://www.rfc-editor.org/rfc/rfc5646). The base language
+subtag is always present; script, region, and variant subtags are included where needed to distinguish variants.
+
 ## Product features
 
 Each language object includes a `features` array indicating which optional capabilities are supported for that language
@@ -222,7 +227,7 @@ The v3 language endpoints are designed to be forward-compatible:
 - Existing fields will not be removed or changed in backwards-incompatible ways
 
 <Info>
-  Build your integration to gracefully handle new values in the `features` array.
+  Build your integration to gracefully handle new BCP 47 `lang` codes and new values in the `features` array.
 </Info>
 
 ## Best practices
@@ -231,6 +236,6 @@ The v3 language endpoints are designed to be forward-compatible:
 
 2. **Check features**: Always check the `features` array on language objects rather than assuming support (e.g. for formality, glossary use, or writing style).
 
-3. **Handle forward compatibility**: Ignore unknown values in the `features` array to remain compatible as new capabilities are added.
+3. **Handle forward compatibility**: Ignore unknown values in the `features` array and unknown `lang` codes to remain compatible as new languages and capabilities are added.
 
 4. **Use specific variants**: For target languages, prefer specific regional variants (e.g., `"en-US"`, `"en-GB"`) when the distinction matters to your users.
