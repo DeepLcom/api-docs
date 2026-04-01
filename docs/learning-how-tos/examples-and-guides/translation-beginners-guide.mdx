@@ -178,7 +178,7 @@ The first tab below shows the HTTP request you’d use here and a typical respon
     use DeepL\Client;
 
     $authKey = "{YOUR_API_KEY}"; // replace with your key
-    $deeplClient = new \DeepL\DeepLClient($authKey);
+    $deeplClient = new DeepL\DeepLClient($authKey);
     
     $result = $deeplClient->translateText('Hello, bright universe!', null, 'JA');
     echo $result->text;
@@ -400,7 +400,7 @@ If you look at the HTTP request above, you’ll notice that the translation text
     use DeepL\Client;
 
     $authKey = "{YOUR_API_KEY}"; // replace with your key
-    $deeplClient = new \DeepL\DeepLClient($authKey);
+    $deeplClient = new DeepL\DeepLClient($authKey);
     
     $result = $deeplClient->translateText([
         "¿En qué lenguaje programan los programadores españoles?",
@@ -658,7 +658,7 @@ In fact, these text strings can be in different languages. If you don’t set th
     use DeepL\Client;
 
     $authKey = "{YOUR_API_KEY}"; // replace with your key
-    $deeplClient = new \DeepL\DeepLClient($authKey);
+    $deeplClient = new DeepL\DeepLClient($authKey);
     
     $result = $deeplClient->translateText([
         "What does the 'R' in 'Recursion' stand for?",
