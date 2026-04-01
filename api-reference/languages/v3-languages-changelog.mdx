@@ -1,0 +1,93 @@
+---
+title: 'v3/languages changelog [BETA]'
+sidebarTitle: 'Changelog'
+description: 'Changes and planned updates to the v3/languages endpoints during the beta period.'
+---
+
+<Info>
+  These endpoints are in **BETA**. We will try to announce breaking changes here before they land, but cannot guarantee
+    advance notice. Do not use these endpoints in production.
+</Info>
+
+## Changes since the initial beta release
+
+This section will list dated changes to the API since the initial beta release.
+
+### 19 March 2026
+
+Initial beta release.
+
+## Planned changes
+
+The following changes are planned before general availability. They are not yet live.
+
+---
+
+### Breaking: rename `required_on_source` / `required_on_target`
+
+The feature dependency flags on `/v3/languages/products` will be renamed:
+
+| Current name | New name |
+|---|---|
+| `required_on_source` | `needs_source_support` |
+| `required_on_target` | `needs_target_support` |
+
+The semantics are unchanged — only the field names differ. Update any code that reads these fields.
+
+*Reasoning*: "required" reads like a JSON schema constraint (mandatory field) rather than a language support check.
+
+---
+
+### Breaking: remove `endpoints` from `/v3/languages/products`
+
+The `endpoints` array will be removed from each product object in the `/v3/languages/products` response.
+
+*Reasoning*: endpoint information is not useful programmatically. The applicable endpoints will still be described in
+the documentation for each product.
+
+---
+
+### New: language `status` field
+
+Language objects returned by `GET /v3/languages` will include an optional `status` field for languages not yet in general availability:
+
+```json
+{
+  "lang": "xyz",
+  "name": "Example Language",
+  "usable_as_source": true,
+  "usable_as_target": true,
+  "features": [],
+  "status": "beta"
+}
+```
+
+Possible values: `"beta"`, `"early_access"`. Languages in GA omit this field entirely.
+
+---
+
+### New: `auto_detection` feature across multiple products
+
+An `auto_detection` feature will be added to indicate whether a language can be auto-detected as the source.
+This is a source-only feature (`needs_source_support: true`, `needs_target_support: false`).
+
+---
+
+### New: expanded Voice features
+
+The `voice` product will expose a richer set of features in `/v3/languages/products` and per-language `features` arrays,
+details are still being worked out.
+
+---
+
+## Possible additions
+
+These are under consideration and may or may not land before GA.
+
+- **`native_name` field** on language objects — the language's name in that language (e.g. `"Deutsch"` for German).
+
+---
+
+## Current beta state
+
+For the current API contract, see the [overview](/api-reference/languages/retrieve-supported-languages-by-product) and the auto-generated reference pages linked there.
