@@ -66,11 +66,11 @@ That’s all you need! Since DeepL is quite good at detecting the source languag
 
 ### A sample translation request
 
-For example, if you wanted to translate the phrase “Hello, bright universe!” from German to Japanese:
+For example, if you wanted to translate the phrase “Hello, bright universe!” to Japanese:
 
-* “Hello, everybody” is the `text`  
-* German is the `source_lang`  
+* “Hello, bright universe!” is the `text`  
 * Japanese is the `target_lang`
+* the source language is English, so you could include this as the `source_lang`, but you don't need to.
 
 The first tab below shows the HTTP request you’d use here and a typical response from the API. Other tabs show how you’d make this request [using cURL](https://curl.se/docs/tooldocs.html) and using our official client libraries. To see how you’d handle the response in your favorite programming language, check the appropriate tab.
 
@@ -174,6 +174,7 @@ The first tab below shows the HTTP request you’d use here and a typical respon
   </Tab>
   <Tab title="PHP">
     ```php Sample request
+    require_once 'vendor/autoload.php';
     use DeepL\Client;
 
     $authKey = "{YOUR_API_KEY}"; // replace with your key
@@ -395,6 +396,7 @@ If you look at the HTTP request above, you’ll notice that the translation text
   </Tab>
   <Tab title="PHP">
     ```php Sample request
+    require_once 'vendor/autoload.php';
     use DeepL\Client;
 
     $authKey = "{YOUR_API_KEY}"; // replace with your key
@@ -652,6 +654,7 @@ In fact, these text strings can be in different languages. If you don’t set th
   </Tab>
   <Tab title="PHP">
     ```php Sample request
+    require_once 'vendor/autoload.php';
     use DeepL\Client;
 
     $authKey = "{YOUR_API_KEY}"; // replace with your key
