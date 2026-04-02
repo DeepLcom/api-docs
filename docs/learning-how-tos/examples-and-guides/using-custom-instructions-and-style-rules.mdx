@@ -1,0 +1,139 @@
+---
+title: "How to Use Custom Instructions and Style Rules"
+description: "Control translation tone, formatting, and style with custom instructions and style rule lists."
+public: true
+---
+
+**This guide shows you:**
+- What style rule lists, style rules, and custom instructions are
+- How to apply a custom instruction in a translation request
+- How to create, update, and delete a style rule list
+
+---
+
+## Key concepts
+
+A **style rule list** is a named, reusable set of rules for a target language. It can contain two types of rules:
+
+- **Style rules** (also called *configured rules*): Predefined rules for formatting conventions such as date formats, punctuation style, or capitalization.
+- **Custom instructions**: Natural language directives that guide the translation engine, such as "Use a formal tone" or "Put currency symbols after the numeric amount."
+
+When a style rule list is attached to a translation request via `style_id`, both types of rules are applied automatically.
+
+You can also pass custom instructions **directly** in a translation request, without creating a style rule list first — which is what the next section demonstrates.
+
+<Info>
+  Style rule lists require a Pro API subscription. You can also create and manage them in the UI at [deepl.com/custom-rules](https://deepl.com/custom-rules).
+</Info>
+
+---
+
+## How to use a custom instruction in a translation request
+
+Pass one or more instructions in the `custom_instructions` array of your `/v2/translate` request:
+
+```sh
+curl -X POST 'https://api.deepl.com/v2/translate' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
+--header 'Content-Type: application/json' \
+--data '{
+  "text": ["The meeting is at 3pm."],
+  "target_lang": "DE",
+  "custom_instructions": ["Use formal language"]
+}'
+```
+
+```json
+{
+  "translations": [
+    {
+      "detected_source_language": "EN",
+      "text": "Das Meeting findet um 15:00 Uhr statt."
+    }
+  ]
+}
+```
+
+You can include up to 10 instructions per request, each up to 300 characters.
+
+<Warning>
+  Requests with `custom_instructions` always use the `quality_optimized` model. Combining `custom_instructions` with `model_type: latency_optimized` will result in an error.
+</Warning>
+
+For guidance on writing effective instructions, see [Custom instructions best practices](/docs/best-practices/custom-instructions).
+
+---
+
+## How to manage style rule lists
+
+### Create a style rule list
+
+```sh
+curl -X POST 'https://api.deepl.com/v3/style_rules' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
+--header 'Content-Type: application/json' \
+--data '{
+  "name": "My Rules",
+  "language": "en",
+  "configured_rules": {
+    "punctuation": { "periods_in_academic_degrees": "do_not_use" }
+  },
+  "custom_instructions": [
+    { "label": "Tone", "prompt": "Use a friendly tone" }
+  ]
+}'
+```
+
+The response includes a `style_id` you will use to reference this list:
+
+```json
+{
+  "style_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+  "name": "My Rules",
+  "language": "en",
+  ...
+}
+```
+
+### Apply the list to a translation
+
+Pass the `style_id` in your translation request:
+
+```sh
+curl -X POST 'https://api.deepl.com/v2/translate' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
+--header 'Content-Type: application/json' \
+--data '{
+  "text": ["The meeting is at 3pm."],
+  "target_lang": "EN",
+  "style_id": "a74d88fb-ed2a-4943-a664-a4512398b994"
+}'
+```
+
+The target language of your request must match the language set on the style rule list.
+
+### Rename a style rule list
+
+```sh
+curl -X PATCH 'https://api.deepl.com/v3/style_rules/{style_id}' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
+--header 'Content-Type: application/json' \
+--data '{ "name": "My Updated Rules" }'
+```
+
+### Delete a style rule list
+
+```sh
+curl -X DELETE 'https://api.deepl.com/v3/style_rules/{style_id}' \
+--header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+```
+
+Returns `204 No Content` on success.
+
+---
+
+## Next steps
+
+- **Full API reference**: See [Style rules](/api-reference/style-rules) for all endpoints, including managing individual custom instructions within a style rule list.
+- **Write better instructions**: Follow the [custom instructions best practices](/docs/best-practices/custom-instructions) guide.
+- **Enforce terminology**: Use [glossaries](/api-reference/multilingual-glossaries) alongside style rules for consistent brand names and terminology.
