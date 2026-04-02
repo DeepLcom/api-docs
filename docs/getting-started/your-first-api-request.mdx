@@ -107,7 +107,7 @@ We included text translation examples for our [client libraries](/docs/getting-s
     use DeepL\Client;
 
     $authKey = "f63c02c5-f056-..."; // Replace with your key
-    $deeplClient = new \DeepL\DeepLClient($authKey);
+    $deeplClient = new DeepL\DeepLClient($authKey);
     
     $result = $deeplClient->translateText('Hello, world!', null, 'fr');
     echo $result->text; // Bonjour, le monde!

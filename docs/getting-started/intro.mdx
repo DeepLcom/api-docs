@@ -145,7 +145,7 @@ New user? Follow these quick steps to get started with the DeepL API.
         use DeepL\Client;
 
         $authKey = "{YOUR_API_KEY}"; // replace with your key
-        $deeplClient = new \DeepL\DeepLClient($authKey);
+        $deeplClient = new DeepL\DeepLClient($authKey);
         
         $result = $deeplClient->translateText('Hello, world!', null, 'de');
         echo $result->text;
