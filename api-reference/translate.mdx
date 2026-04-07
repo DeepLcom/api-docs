@@ -112,7 +112,7 @@ print(result.text)  # "Bonjour, le monde !"
 <Tab title="PHP">
 ```php Example request: text translation (without glossary)
 $authKey = "f63c02c5-f056-..."; // Replace with your key
-$deeplClient = new \DeepL\DeepLClient($authKey);
+$deeplClient = new DeepL\DeepLClient($authKey);
 
 $result = $deeplClient->translateText('Hello, world!', null, 'fr');
 echo $result->text; // Bonjour, le monde!

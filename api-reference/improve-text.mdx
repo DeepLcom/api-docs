@@ -60,11 +60,9 @@ curl -X POST 'https://api.deepl.com/v2/write/rephrase' \
 
 <ParamField body="text" type="array[string]" required>
   Text to be improved. Only UTF-8-encoded plain text is supported. Improvements are returned in the same order as they are requested. Each of the parameter values may contain multiple sentences.
-
-  All texts **must** be in the same language.
 </ParamField>
 <ParamField body="target_lang" type="string">
-  The language of the improved text. A list of supported languages have not yet been added to the `/languages` endpoint. At the time of the beta, the following languages are supported:
+  The language of the improved text. A list of supported languages have not yet been added to the `/languages` endpoint. Currently, the following languages are supported:
 
   * `de` (German)
   * `en-GB` (British English)
@@ -72,8 +70,11 @@ curl -X POST 'https://api.deepl.com/v2/write/rephrase' \
   * `es` (Spanish)
   * `fr` (French)
   * `it` (Italian)
+  * `ja` (Japanese)
+  * `ko` (Korean)
   * `pt-BR` (Brazilian Portuguese)
   * `pt-PT` (Portuguese)
+  * `zh`/`zh-Hans` (simplified Chinese)
 
   The language of the source texts sent in the `text` parameter must match the target language (translating and improving text simultaneously is not yet supported).
 
@@ -97,9 +98,15 @@ curl -X POST 'https://api.deepl.com/v2/write/rephrase' \
   </Expandable>
   Currently supported for the following target languages:
 
-  * `de`
-  * `en-GB`
-  * `en-US`
+  * `de` (German)
+  * `en-GB` (British English)
+  * `en-US` (American English)
+  * `es` (Spanish)
+  * `fr` (French)
+  * `it` (Italian)
+  * `pt-BR` (Brazilian Portuguese)
+  * `pt-PT` (Portuguese)
+
 
   Styles prefixed with `prefer_` will fall back to the `default` style when used with a language that does not support styles (this is recommended for cases where no `target_lang` is set), the non-prefixed writing styles (except `default`) will return a HTTP 400 error in that case.
 
@@ -124,9 +131,14 @@ curl -X POST 'https://api.deepl.com/v2/write/rephrase' \
 
   Currently supported for the following target languages:
 
-  * `de`
-  * `en-GB`
-  * `en-US`
+  * `de` (German)
+  * `en-GB` (British English)
+  * `en-US` (American English)
+  * `es` (Spanish)
+  * `fr` (French)
+  * `it` (Italian)
+  * `pt-BR` (Brazilian Portuguese)
+  * `pt-PT` (Portuguese)
 
   Tones prefixed with `prefer_` will fall back to the `default` tone when used with a language that does not support tones (this is recommended for cases where no `target_lang` is set), the non-prefixed tones (except `default`) will return a HTTP 400 error in that case.
 

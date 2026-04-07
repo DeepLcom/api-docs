@@ -114,6 +114,26 @@ else:
 
 ---
 
+## Check if style rules are available for a target language
+
+Use `product=style_rules` to query which languages support style rules. Style rules are target-language only — check
+that the target language is listed in the response. The `style_rules` product has no additional features, so only
+the language availability needs to be checked.
+
+```
+GET /v3/languages?product=style_rules
+
+languages = response
+target = languages.find(l => l.lang == selected_target_lang)
+
+if target and target.usable_as_target:
+    show style_rules_selector
+else:
+    hide style_rules_selector
+```
+
+---
+
 ## Determine feature support programmatically
 
 Use `/v3/languages/products` to drive feature checks at runtime — without hardcoding which features need

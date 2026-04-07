@@ -3,13 +3,13 @@ info:
   title: DeepL API Documentation
   description: |-
     The DeepL API provides programmatic access to DeepL’s language AI technology.
-    
+
     Note: this OpenAPI spec is embedded into our API documentation and has shortened descriptions.
   termsOfService: https://www.deepl.com/pro-license
   contact:
     name: DeepL - Contact us
     url: https://www.deepl.com/contact-us
-  version: 3.6.0
+  version: 3.9.0
 externalDocs:
   description: DeepL Pro - Plans and pricing
   url: https://www.deepl.com/pro#developer
@@ -2000,6 +2000,7 @@ paths:
                         - glossary
                         - voice
                         - write
+                        - style_rules
                       example: translate_text
                     endpoints:
                       description: API endpoints associated with this product.
@@ -2056,6 +2057,10 @@ paths:
                     - name: glossary
                       required_on_source: true
                       required_on_target: true
+                - name: style_rules
+                  endpoints:
+                    - v3/style_rules
+                  features: []
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -2094,10 +2099,11 @@ paths:
               - glossary
               - voice
               - write
+              - style_rules
           example: translate_text
           description: |-
             The product to retrieve languages for. Supported values: `translate_text`, `translate_document`,
-            `glossary`, `voice`, `write`.
+            `glossary`, `voice`, `write`, `style_rules`.
       responses:
         200:
           description: JSON array where each item represents a supported language.
@@ -2217,6 +2223,7 @@ paths:
               - glossary
               - voice
               - write
+              - style_rules
           example: translate_text
           description: The product for which to retrieve language pair exceptions. Required.
       responses:
@@ -2400,6 +2407,447 @@ paths:
           $ref: '#/components/responses/ServiceUnavailable'
       security:
       - auth_header: []
+    post:
+      summary: Create a style rule list
+      operationId: createStyleRuleList
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - language
+              properties:
+                name:
+                  $ref: '#/components/schemas/StyleRuleName'
+                language:
+                  $ref: '#/components/schemas/StyleRuleLanguage'
+                configured_rules:
+                  $ref: '#/components/schemas/ConfiguredRules'
+                custom_instructions:
+                  type: array
+                  description: Array of custom instruction objects
+                  maxItems: 200
+                  items:
+                    type: object
+                    required:
+                      - label
+                      - prompt
+                    properties:
+                      label:
+                        type: string
+                        description: Label for the custom instruction
+                      prompt:
+                        type: string
+                        description: Instruction text
+                        maxLength: 300
+                      source_language:
+                        type: string
+                        description: Optional source language code
+            example:
+              name: "My style rules"
+              language: "de"
+              configured_rules:
+                style_and_tone:
+                  abbreviations: "use_abbreviations_and_symbols"
+                  short_vs_long_words: "use_short_words"
+                punctuation:
+                  apostrophe: "use_curly_apostrophes"
+              custom_instructions:
+                - label: "Currency custom instruction"
+                  prompt: "Have currency symbols before the numerical value (e.g. $100, €100)"
+                  source_language: "en"
+      responses:
+        201:
+          description: Style rule list created successfully
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StyleRuleList'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        456:
+          $ref: '#/components/responses/QuotaExceeded'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
+  /v3/style_rules/{style_id}:
+    get:
+      summary: Get a style rule list
+      operationId: getStyleRuleList
+      parameters:
+        - name: style_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the style rule list
+      responses:
+        200:
+          description: Style rule list details
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StyleRuleList'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
+    patch:
+      summary: Update a style rule list
+      operationId: updateStyleRuleList
+      parameters:
+        - name: style_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the style rule list
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  $ref: '#/components/schemas/StyleRuleName'
+      responses:
+        200:
+          description: Style rule list updated successfully
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StyleRuleList'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        456:
+          $ref: '#/components/responses/QuotaExceeded'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
+    delete:
+      summary: Delete a style rule list
+      operationId: deleteStyleRuleList
+      parameters:
+        - name: style_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the style rule list
+      responses:
+        204:
+          description: Style rule list deleted successfully
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
+  /v3/style_rules/{style_id}/configured_rules:
+    put:
+      summary: Replace configured rules for a style rule list
+      operationId: updateStyleRuleConfiguredRules
+      parameters:
+        - name: style_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the style rule list
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfiguredRules'
+            example:
+              dates_and_times:
+                calendar_era: "use_bc_and_ad"
+              punctuation:
+                periods_in_academic_degrees: "do_not_use"
+      responses:
+        200:
+          description: Configured rules updated successfully
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StyleRuleList'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
+  /v3/style_rules/{style_id}/custom_instructions:
+    post:
+      summary: Create a custom instruction
+      operationId: createCustomInstruction
+      parameters:
+        - name: style_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the style rule list
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - label
+                - prompt
+              properties:
+                label:
+                  type: string
+                  description: Label for the custom instruction
+                  maxLength: 100
+                prompt:
+                  type: string
+                  description: Instruction text
+                  maxLength: 300
+                source_language:
+                  type: string
+                  description: Optional source language code
+            example:
+              label: "Currency custom instruction"
+              prompt: "Have currency symbols before the numerical value (e.g. $100, €100)"
+      responses:
+        201:
+          description: Custom instruction created successfully
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomInstruction'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        456:
+          $ref: '#/components/responses/QuotaExceeded'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
+  /v3/style_rules/{style_id}/custom_instructions/{instruction_id}:
+    get:
+      summary: Get a custom instruction
+      operationId: getCustomInstruction
+      parameters:
+        - name: style_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the style rule list
+        - name: instruction_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the custom instruction
+      responses:
+        200:
+          description: Custom instruction details
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomInstruction'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
+    put:
+      summary: Replace a custom instruction
+      operationId: updateCustomInstruction
+      parameters:
+        - name: style_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the style rule list
+        - name: instruction_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the custom instruction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - label
+                - prompt
+              properties:
+                label:
+                  type: string
+                  description: Updated label for the custom instruction
+                  maxLength: 100
+                prompt:
+                  type: string
+                  description: Updated instruction text
+                  maxLength: 300
+                source_language:
+                  type: string
+                  description: Optional source language code
+      responses:
+        200:
+          description: Custom instruction updated successfully
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomInstruction'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
+    delete:
+      summary: Delete a custom instruction
+      operationId: deleteCustomInstruction
+      parameters:
+        - name: style_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the style rule list
+        - name: instruction_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the custom instruction
+      responses:
+        204:
+          description: Custom instruction deleted successfully
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+      - auth_header: []
   /v3/voice/realtime:
     servers:
       - url: https://api.deepl.com
@@ -2418,6 +2866,8 @@ paths:
               required:
                 - source_media_content_type
               properties:
+                message_format:
+                  $ref: '#/components/schemas/VoiceMessageFormat'
                 source_media_content_type:
                   $ref: '#/components/schemas/VoiceSourceMediaContentType'
                 source_language:
@@ -2426,8 +2876,12 @@ paths:
                   $ref: '#/components/schemas/VoiceSourceLanguageMode'
                 target_languages:
                   $ref: '#/components/schemas/VoiceTargetLanguages'
-                message_format:
-                  $ref: '#/components/schemas/VoiceMessageFormat'
+                target_media_languages:
+                  $ref: '#/components/schemas/VoiceTargetMediaLanguages'
+                target_media_content_type:
+                  $ref: '#/components/schemas/VoiceTargetMediaContentType'
+                target_media_voice:
+                  $ref: '#/components/schemas/VoiceTargetMediaVoice'
                 glossary_id:
                   $ref: '#/components/schemas/GlossaryId'
                 formality:
@@ -2451,6 +2905,39 @@ paths:
                   message_format: 'msgpack'
                   glossary_id: 'def3a26b-3e84-45b3-84ae-0c0aaf3525f7'
                   formality: 'formal'
+              with_tts:
+                summary: With translated audio (default format)
+                value:
+                  source_media_content_type: 'audio/ogg;codecs=opus'
+                  source_language: 'en'
+                  target_languages: ['de', 'fr', 'es']
+                  target_media_languages: ['de', 'fr']
+                  target_media_content_type: 'audio/webm;codecs=opus'
+                  target_media_voice: 'female'
+              with_tts_short_form:
+                summary: With translated audio using short-form MIME types
+                value:
+                  source_media_content_type: 'audio/webm'
+                  source_language: 'en'
+                  target_languages: ['de', 'es']
+                  target_media_languages: ['de', 'es']
+                  target_media_content_type: 'audio/ogg'
+              with_tts_high_quality:
+                summary: With translated audio using high-quality PCM
+                value:
+                  source_media_content_type: 'audio/pcm;encoding=s16le;rate=16000'
+                  source_language: 'en'
+                  target_languages: ['de']
+                  target_media_languages: ['de']
+                  target_media_content_type: 'audio/pcm;encoding=s16le;rate=24000'
+              with_tts_raw_opus:
+                summary: With translated audio using raw Opus
+                value:
+                  source_media_content_type: 'audio/pcm;encoding=s16le;rate=16000'
+                  source_language: 'en'
+                  target_languages: ['de']
+                  target_media_languages: ['de']
+                  target_media_content_type: 'audio/opus'
       responses:
         200:
           description: Successfully obtained streaming URL and token.
@@ -3567,11 +4054,6 @@ components:
               - do_not_use_contractions
               - use_contractions
               - use_contractions_but_avoid_negative_contractions
-            email_address_website_url:
-              type: string
-              description: Formatting options for Email Address Website Url
-              enum:
-              - use_lowercase_for_email_addresses_and_website_urls_except_when_url_includes_case_sensitive_elements
             established_loanwords:
               type: string
               description: Formatting options for Established Loanwords
@@ -3896,6 +4378,12 @@ components:
               - rephrase_loanword_in_daily_use_chinese_or_japanese_words_if_possible
               - rephrase_loanword_with_another_expression_if_not_established
               - use_loanword_as_is_if_well_established
+      example:
+        style_and_tone:
+          abbreviations: "use_abbreviations_and_symbols"
+          short_vs_long_words: "use_short_words"
+        punctuation:
+          apostrophe: "use_curly_apostrophes"
     Context:
       description: |-
         Additional context that can influence a translation but is not translated itself.
@@ -3931,7 +4419,7 @@ components:
             - `tsv` (default) - tab-separated values
             - `csv` - comma-separated values
 
-            See [Supported Glossary Formats](https://developers.deepl.com/api-reference/glossaries#formats) for details about each format.
+            See [Supported Glossary Formats](/api-reference/multilingual-glossaries#formats) for details about each format.
           type: string
           enum:
           - tsv
@@ -3956,7 +4444,15 @@ components:
     CustomInstruction:
       description: All enabled custom instructions for the style rule list
       type: object
+      required:
+        - id
+        - label
+        - prompt
       properties:
+        id:
+          type: string
+          description: Unique identifier for the custom instruction
+          example: "68fdb803-c013-4e67-b62e-1aad0ab519cd"
         label:
           type: string
           description: Name associated with the custom instruction
@@ -4000,11 +4496,7 @@ components:
           type: integer
           example: 13
         configured_rules:
-          type: array
-          description: |-
-            List of configured rules enabled for the style rule list.
-          items:
-            $ref: '#/components/schemas/ConfiguredRules'
+          $ref: '#/components/schemas/ConfiguredRules'
         custom_instructions:
           type: array
           description: |-
@@ -4090,7 +4582,7 @@ components:
         - `tsv` (default) - tab-separated values
         - `csv` - comma-separated values
 
-        See [Supported Glossary Formats](https://www.deepl.com/docs-api/glossaries/formats) for details about each format.
+        See [Supported Glossary Formats](/api-reference/multilingual-glossaries#formats) for details about each format.
       type: string
       enum:
       - tsv
@@ -4758,9 +5250,13 @@ components:
       - es
       - fr
       - it
+      - ja
+      - ko
       - pt
       - pt-BR
       - pt-PT
+      - zh
+      - zh-Hans
       example: de
     UsageResponse:
       type: object
@@ -4857,12 +5353,21 @@ components:
         Message encoding format for WebSocket communication. Determines how messages are serialized and transmitted.
         Using `json`,  messages are JSON-encoded and sent as TEXT WebSocket frames. All binary fields (such as audio data) are base64-encoded strings.
         Using `msgpack`, messages are MessagePack-encoded and sent as BINARY WebSocket frames. All binary fields (such as audio data) contain raw binary data.
+
+        For more details, see [Message Encoding](/api-reference/voice#message-encoding).
       type: string
       enum:
         - json
         - msgpack
       default: json
       example: json
+    VoiceTargetMediaVoice:
+      description: (EAP) Target audio voice selection for synthesized speech. The default voice is language dependent.
+      type: string
+      enum:
+      - male
+      - female
+      example: female
     VoiceSourceMediaContentType:
       type: string
       description: "
@@ -4883,10 +5388,10 @@ components:
         | `audio/ogg;codecs=opus`               | Ogg (ogg/oga)                                     | OPUS                                      |\n
         | `audio/pcm;encoding=alaw;rate=8000`   | -                                                 | PCM A-Law 8000 Hz (G.711)                 |\n
         | `audio/pcm;encoding=ulaw;rate=8000`   | -                                                 | PCM µ-Law 8000 Hz (G.711)                 |\n
-        | `audio/pcm;encoding=s16le;rate=8000`  | -                                                 | PCM signed 16-bit little-endian, 8000 Hz  |\n
-        | `audio/pcm;encoding=s16le;rate=16000` | -                                                 | PCM signed 16-bit little-endian, 16000 Hz |\n
-        | `audio/pcm;encoding=s16le;rate=44100` | -                                                 | PCM signed 16-bit little-endian, 44100 Hz |\n
-        | `audio/pcm;encoding=s16le;rate=48000` | -                                                 | PCM signed 16-bit little-endian, 48000 Hz |\n
+        | `audio/pcm;encoding=s16le;rate=8000`  | -                                                 | PCM signed 16-bit little-endian 8000 Hz   |\n
+        | `audio/pcm;encoding=s16le;rate=16000` | -                                                 | PCM signed 16-bit little-endian 16000 Hz  |\n
+        | `audio/pcm;encoding=s16le;rate=44100` | -                                                 | PCM signed 16-bit little-endian 44100 Hz  |\n
+        | `audio/pcm;encoding=s16le;rate=48000` | -                                                 | PCM signed 16-bit little-endian 48000 Hz  |\n
         | `audio/webm;codecs=opus`              | WebM (webm)                                       | OPUS                                      |\n
         | `audio/x-matroska;codecs=aac`         | Matroska (mkv/mka)                                | AAC                                       |\n
         | `audio/x-matroska;codecs=flac`        | Matroska (mkv/mka)                                | FLAC                                      |\n
@@ -4928,24 +5433,47 @@ components:
       description: >
         The source language of the audio stream. It can be left empty or must be one of the
         supported Voice API source languages and comply with IETF BCP 47 language tags.
+
+        Note: Some source transcription languages are provided through external service partners.
+        See the [supported languages table](/api-reference/voice#show-supported-languages) for details.
       enum:
-        - de
+        - ar
+        - bg
+        - bn
         - cs
+        - da
+        - de
+        - el
         - en
         - es
+        - et
+        - fi
         - fr
+        - ga
+        - he
+        - hr
+        - hu
         - id
         - it
         - ja
         - ko
+        - lt
+        - lv
+        - mt
+        - nb
         - nl
         - pl
         - pt
         - ro
         - ru
+        - sk
+        - sl
         - sv
+        - th
+        - tl
         - tr
         - uk
+        - vi
         - zh
       default:
       example: en
@@ -4965,6 +5493,70 @@ components:
       description: >
         List of target languages for translation. The stream will emit translations for each language.
         The maximum allowed target languages per stream is 5. Language identifiers must comply with IETF BCP 47.
+        See the [supported languages table](/api-reference/voice#show-supported-languages) for details.
+      items:
+        type: string
+        enum:
+          - ar
+          - bg
+          - bn
+          - cs
+          - da
+          - de
+          - el
+          - en
+          - en-GB
+          - en-US
+          - es
+          - et
+          - fi
+          - fr
+          - ga
+          - he
+          - hr
+          - hu
+          - id
+          - it
+          - ja
+          - ko
+          - lt
+          - lv
+          - mt
+          - nb
+          - nl
+          - pl
+          - pt
+          - pt-BR
+          - pt-PT
+          - ro
+          - ru
+          - sk
+          - sl
+          - sv
+          - th
+          - tl
+          - tr
+          - uk
+          - vi
+          - zh
+          - zh-HANS
+          - zh-HANT
+
+      maxItems: 5
+      default: []
+      example: ["de", "fr", "es"]
+    VoiceTargetMediaLanguages:
+      type: array
+      description: >
+        (EAP) List of target languages for which to generate synthesized audio.
+        Languages specified here will automatically be added to target_languages if not already present,
+        ensuring you receive both text translation and audio synthesis for these languages.
+        If omitted, only text transcription and translation will be provided (no audio synthesis).
+        The maximum allowed target media languages per stream is 5.
+        Language identifiers must comply with IETF BCP 47.
+
+        Note: Some translated audio languages are provided through external service partners.
+        See the [supported languages table](/api-reference/voice#show-supported-languages) for details.
       items:
         type: string
         enum:
@@ -4978,17 +5570,13 @@ components:
           - en-GB
           - en-US
           - es
-          - et
           - fi
           - fr
-          - he
           - hu
           - id
           - it
           - ja
           - ko
-          - lt
-          - lv
           - nb
           - nl
           - pl
@@ -4998,19 +5586,65 @@ components:
           - ro
           - ru
           - sk
-          - sl
           - sv
-          - th
           - tr
           - uk
           - vi
           - zh
           - zh-HANS
           - zh-HANT
-
       maxItems: 5
       default: []
-      example: ["de", "fr", "es"]
+      example: ["de", "en-GB"]
+    VoiceTargetMediaContentType:
+      type: string
+      description: "
+        (EAP) The audio format for synthesized target media streaming.\n
+        Specifies container, codec, and encoding parameters for the audio returned in target_media_chunk messages.\n
+        If not specified, defaults to audio/webm;codecs=opus.\n
+        Only applies when target_media_languages is specified.\n
+        \n
+        | Content Type | Container | Codec |\n
+        | :--- | :--- | :--- |\n
+        | `audio/flac` | FLAC (flac) | FLAC 24000 Hz |\n
+        | `video/mp2t;codecs=aac` | MPEG Transport Stream (Audio only) | AAC 70 kbit/s |\n
+        | `video/mp2t;codecs=opus` | MPEG Transport Stream (Audio only) | OPUS 32 kbit/s |\n
+        | `audio/ogg` | Ogg (ogg/oga) | OPUS 32 kbit/s |\n
+        | `audio/ogg;codecs=flac` | Ogg (ogg/oga) | FLAC 24000 Hz |\n
+        | `audio/ogg;codecs=opus` | Ogg (ogg/oga) | OPUS 32 kbit/s |\n
+        | `audio/opus` | - | OPUS 32 kbit/s |\n
+        | `audio/pcm;encoding=alaw;rate=8000` | - | PCM A-Law 8000 Hz (G.711) |\n
+        | `audio/pcm;encoding=ulaw;rate=8000` | - | PCM µ-Law 8000 Hz (G.711) |\n
+        | `audio/pcm;encoding=s16le;rate=16000` | - | PCM signed 16-bit little-endian 16000 Hz |\n
+        | `audio/pcm;encoding=s16le;rate=24000` | - | PCM signed 16-bit little-endian 24000 Hz |\n
+        | `audio/webm` | WebM (webm) | OPUS 32 kbit/s  |\n
+        | `audio/webm;codecs=opus` | WebM (webm) | OPUS 32 kbit/s |\n
+        | `audio/x-matroska;codecs=aac` | Matroska (mkv/mka) | AAC 70 kbit/s |\n
+        | `audio/x-matroska;codecs=flac` | Matroska (mkv/mka) | FLAC 24000 Hz |\n
+        | `audio/x-matroska;codecs=opus` | Matroska (mkv/mka) | OPUS 32 kbit/s |\n
+        \n
+        We recommend the following formats as good tradeoffs between quality and bandwidth:\n
+        - OPUS (WebM): 32 kbps, recommended for low bandwidth scenarios (default)\n
+        - PCM 24kHz: 384 kbps, high quality"
+      enum:
+        - audio/flac
+        - video/mp2t;codecs=aac
+        - video/mp2t;codecs=opus
+        - audio/ogg
+        - audio/ogg;codecs=flac
+        - audio/ogg;codecs=opus
+        - audio/opus
+        - audio/pcm;encoding=alaw;rate=8000
+        - audio/pcm;encoding=ulaw;rate=8000
+        - audio/pcm;encoding=s16le;rate=16000
+        - audio/pcm;encoding=s16le;rate=24000
+        - audio/webm
+        - audio/webm;codecs=opus
+        - audio/x-matroska;codecs=aac
+        - audio/x-matroska;codecs=flac
+        - audio/x-matroska;codecs=opus
+      default: audio/webm;codecs=opus
+      example: audio/webm;codecs=opus
     VoiceStreamingResponse:
       type: object
       required:

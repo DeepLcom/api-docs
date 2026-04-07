@@ -20,6 +20,17 @@ rss: true
 </Update>
 
 <Update label="March 2026">
+## March 31 - Write API Improvements
+- Improved overall quality of the models used in [DeepL API for Write](/api-reference/improve-text/)
+- Expanded Write `target_lang` support to Japanese (`JA`), Korean (`KO`) and simplified Chinese (`ZH` or `zh-Hans`)
+- Expanded Write support for `writing_style` and `tone` to Spanish (`ES`), Italian (`IT`), French (`FR`), Portuguese (`pt-PT`) and Brazilian Portuguese (`pt-BR`)
+- Allow sending Write texts in multiple source languages in the same request when no `target_lang` is set
+
+## March 26 - Expanded Style Rules API
+- Added 5 new endpoints for style rule list operations: `POST /v3/style_rules`, `GET /v3/style_rules/{style_id}`, `PATCH /v3/style_rules/{style_id}`, `DELETE /v3/style_rules/{style_id}`, and `PUT /v3/style_rules/{style_id}/configured_rules`.
+- Added 4 new endpoints for managing custom instructions within style rule lists: `POST /v3/style_rules/{style_id}/custom_instructions`, `GET /v3/style_rules/{style_id}/custom_instructions/{instruction_id}`, `PUT /v3/style_rules/{style_id}/custom_instructions/{instruction_id}`, and `DELETE /v3/style_rules/{style_id}/custom_instructions/{instruction_id}`.
+- See the full API reference [here](/api-reference/style-rules).
+
 ## March 24 - Write API Character Count Fix
 - Fixed an issue where some [DeepL API for Write](/api-reference/improve-text/) requests under-counted usage.
 - All characters in Write requests are now correctly counted for billing and reporting purposes.
