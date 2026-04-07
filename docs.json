@@ -447,5 +447,21 @@
   },
   "contextual": {
     "options": ["copy", "chatgpt", "claude", "cursor", "vscode"]
-  }
+  },
+  "head": [
+    {
+      "tag": "link",
+      "attrs": {
+        "rel": "stylesheet",
+        "href": "/user-study-popup.css"
+      }
+    },
+    {
+      "tag": "script",
+      "attrs": {
+        "src": "/user-study-popup.js",
+        "defer": true
+      }
+    }
+  ]
 }

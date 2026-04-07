@@ -1,0 +1,115 @@
+#user-study-popup {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 9999;
+  pointer-events: none;
+  font-family: Roboto, sans-serif;
+}
+
+#user-study-card {
+  position: relative;
+  width: 360px;
+  max-width: calc(100vw - 48px);
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 43, 70, 0.12);
+  border-radius: 16px;
+  box-shadow: 0 20px 45px rgba(15, 43, 70, 0.16), 0 6px 16px rgba(15, 43, 70, 0.1);
+  pointer-events: auto;
+  transform: translateX(calc(100% + 48px));
+  transition: transform 0.35s ease;
+}
+
+#user-study-card.slide-in {
+  transform: translateX(0);
+}
+
+#user-study-card.slide-out {
+  transform: translateX(calc(100% + 48px));
+  transition: transform 0.25s ease-in;
+}
+
+#user-study-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #6b7280;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+#user-study-close:hover {
+  background: rgba(15, 43, 70, 0.06);
+  color: #0f2b46;
+}
+
+#user-study-eyebrow {
+  margin: 0 0 8px;
+  color: #0f2b46;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#user-study-content h3 {
+  margin: 0 28px 12px 0;
+  color: #111827;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+#user-study-content p {
+  margin: 0 0 18px;
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+#user-study-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 44px;
+  border-radius: 999px;
+  background: #0f2b46;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+#user-study-cta:hover {
+  background: #133858;
+}
+
+@media (max-width: 480px) {
+  #user-study-popup {
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+  }
+
+  #user-study-card {
+    width: auto;
+    max-width: none;
+    padding: 20px;
+  }
+
+  #user-study-content h3 {
+    font-size: 20px;
+  }
+}
