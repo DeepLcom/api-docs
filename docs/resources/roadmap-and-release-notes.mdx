@@ -7,8 +7,16 @@ rss: true
 <Update label="In active development">
 - Add more events to audit logs for Pro API customers (API key management, cost control and usage limit changes)
 - Full CRUD functionality for managing [Style Rules](/api-reference/style-rules) and [Custom Instructions](/api-reference/translate/request-translation#body-custom-instructions)
-- Translation Memory via API
+- Full CRUD functionality for managing [Translation Memories](/api-reference/translation-memory) via API (list endpoint now available)
 - `v3/languages` endpoint with improved language code handling and additional functionality
+</Update>
+
+<Update label="April 2026">
+## April 9 - Translation Memory API
+- Added support for [translation memories](/api-reference/translation-memory) in the DeepL API, making it possible to list translation memories and use them in text translation requests.
+- New `translation_memory_id` and `translation_memory_threshold` parameters added to the [text translation endpoint](/api-reference/translate/request-translation).
+- New `GET /v3/translation_memories` endpoint to retrieve translation memories associated with your account.
+- Full CRUD endpoints for managing translation memories via the API will follow.
 </Update>
 
 <Update label="March 2026">

@@ -182,6 +182,13 @@
                 ]
               },
               {
+                "group": "Translation memory",
+                "pages": [
+                  "api-reference/translation-memory",
+                  "api-reference/translation-memory/list-translation-memories"
+                ]
+              },
+              {
                 "group": "Style rules",
                 "pages": [
                   "api-reference/style-rules",
