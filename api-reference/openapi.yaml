@@ -5020,7 +5020,7 @@ components:
       example: es
     TranslationMemoryThreshold:
       type: integer
-      description: The minimum matching percentage required for a translation memory segment to be applied. We recommend a minimum threshold of 75%.
+      description: The minimum matching percentage required for a translation memory segment to be applied (recommended to be 75% or higher).
       minimum: 0
       maximum: 100
       default: 75
