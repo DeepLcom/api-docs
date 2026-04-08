@@ -46,7 +46,7 @@
         <button id="user-study-close" type="button" aria-label="Dismiss user study invitation">&times;</button>
         <div id="user-study-content">
           <p id="user-study-eyebrow">Get paid to shape DeepL</p>
-          <h3>Join our user research panel</h3>
+          <h3>Join our customer research panel</h3>
           <p>
             Share your info to be considered for paid customer interviews and research studies about the DeepL API.
           </p>
