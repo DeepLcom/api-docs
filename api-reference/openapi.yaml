@@ -80,7 +80,7 @@ tags:
     and reuse previously created translations. Translation memories can be used in text translation requests by
     specifying the `translation_memory_id` parameter to denote a specific translation memory and the
     `translation_memory_threshold` which defines the minimum matching percentage required for a translation memory
-    segment to be applied. We recommend a minimum threshold of 75%.
+    segment to be applied (recommended to be 75% or higher).
 - name: VoiceAPI
   description: |-
     The Voice API provides real-time voice transcription and translation services.

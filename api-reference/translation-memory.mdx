@@ -27,7 +27,7 @@ However, if the `target_lang` in the translation request is a **different** vari
 
 ## Using translation memories in translation requests
 
-To use a translation memory when translating text, include the `translation_memory_id` parameter in your request to the [text translation endpoint](/api-reference/translate/request-translation). The `source_lang` parameter is not required — language auto-detection still works when using a translation memory. You can optionally set `translation_memory_threshold` (0-100) to control the minimum matching percentage required for a translation memory segment to be applied. The default threshold is **75%**, which we recommend as a minimum.
+To use a translation memory when translating text, include the `translation_memory_id` parameter in your request to the [text translation endpoint](/api-reference/translate/request-translation). The `source_lang` parameter is not required — language auto-detection still works when using a translation memory. You can optionally set `translation_memory_threshold` (0-100) to control the minimum matching percentage required for a translation memory segment to be applied (recommended to be 75% or higher). The default threshold is **75%**.
 
 <Info>
   Any request with the `translation_memory_id` parameter enabled will default to use the `quality_optimized` model type. Requests combining `translation_memory_id` and `model_type: latency_optimized` will be rejected.
