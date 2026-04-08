@@ -89,15 +89,6 @@
     window.setTimeout(maybeShowUserStudyPopup, INITIAL_DELAY_MS);
   }
 
-  window.showUserStudyPopupNow = function showUserStudyPopupNow() {
-    if (!hasResolvedCookieBanner()) {
-      localStorage.setItem(CONSENT_KEY, CONSENT_ACCEPTED);
-    }
-
-    localStorage.removeItem(USER_STUDY_KEY);
-    renderPopup();
-  };
-
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initUserStudyPopup);
   } else {
