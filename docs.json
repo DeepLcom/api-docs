@@ -51,7 +51,6 @@
               },
               "docs/getting-started/managing-api-keys",
               "docs/getting-started/your-first-api-request",
-              "docs/getting-started/test-your-api-requests-with-postman",
               "docs/getting-started/supported-languages"
             ]
           },
@@ -437,6 +436,10 @@
     {
       "source": "/docs/learning-how-tos/cookbook/context-parameter-examples",
       "destination": "/docs/learning-how-tos/examples-and-guides/how-to-use-context-parameter"
+    },
+    {
+      "source": "/docs/getting-started/test-your-api-requests-with-postman",
+      "destination": "/docs"
     }
   ],
   "integrations": {
