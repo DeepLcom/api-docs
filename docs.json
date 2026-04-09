@@ -448,10 +448,6 @@
       "source": "/docs/learning-how-tos/cookbook/context-parameter-examples",
       "destination": "/docs/learning-how-tos/examples-and-guides/how-to-use-context-parameter"
     },
-    {
-      "source": "/docs/getting-started/test-your-api-requests-with-postman",
-      "destination": "/docs"
-    }
   ],
   "integrations": {
     "cookies": {
