@@ -77,7 +77,8 @@
                   "docs/learning-how-tos/examples-and-guides/translating-between-variants",
                   "docs/learning-how-tos/examples-and-guides/glossaries-in-the-real-world",
                   "docs/learning-how-tos/examples-and-guides/placeholder-tags",
-                  "docs/learning-how-tos/examples-and-guides/deepl-mcp-server-how-to-build-and-use-translation-in-llm-applications"
+                  "docs/learning-how-tos/examples-and-guides/deepl-mcp-server-how-to-build-and-use-translation-in-llm-applications",
+                  "docs/learning-how-tos/examples-and-guides/how-to-use-translation-memories"
                 ]
               }
             ]
@@ -180,6 +181,12 @@
                       "api-reference/glossaries/delete-a-glossary"
                     ]
                   }
+                ]
+              },
+              {
+                "group": "Translation memory",
+                "pages": [
+                  "api-reference/translation-memory/list-translation-memories"
                 ]
               },
               {
@@ -430,6 +437,10 @@
       "destination": "/api-reference/voice/reconnect-session"
     },
     {
+      "source": "/api-reference/translation-memory",
+      "destination": "/docs/learning-how-tos/examples-and-guides/how-to-use-translation-memories"
+    },
+    {
       "source": "/docs/best-practices/working-with-context",
       "destination": "/docs/learning-how-tos/examples-and-guides/how-to-use-context-parameter"
     },
@@ -450,5 +461,21 @@
   },
   "contextual": {
     "options": ["copy", "chatgpt", "claude", "cursor", "vscode"]
-  }
+  },
+  "head": [
+    {
+      "tag": "link",
+      "attrs": {
+        "rel": "stylesheet",
+        "href": "/user-study-popup.css"
+      }
+    },
+    {
+      "tag": "script",
+      "attrs": {
+        "src": "/user-study-popup.js",
+        "defer": true
+      }
+    }
+  ]
 }
