@@ -299,7 +299,7 @@ error.
   </Info>
 </ParamField>
 <ParamField body="translation_memory_id" type="string">
-  Specify the translation memory to use for the translation. The value should be the UUID of a translation memory associated with your account. You can retrieve your translation memory IDs using the [list translation memories endpoint](/api-reference/translation-memory/list-translation-memories).
+  The [translation memory](/api-reference/translation-memory/list-translation-memories) to use for the translation. The value should be the UUID of a translation memory associated with your account.
   <Info>
     Requests with the `translation_memory_id` parameter must use the `quality_optimized` model type. Requests combining `translation_memory_id` and `model_type: latency_optimized` will be rejected.
   </Info>
