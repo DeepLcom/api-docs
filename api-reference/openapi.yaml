@@ -4986,7 +4986,10 @@ components:
     TranslationMemoryId:
       type: string
       format: uuid
-      description: A unique ID assigned to a translation memory.
+      description: |-
+        A unique ID assigned to a translation memory.
+
+        **Note:** Requests with the `translation_memory_id` parameter must use the `quality_optimized` model type. Requests combining `translation_memory_id` and `model_type: latency_optimized` will be rejected.
       example: a74d88fb-ed2a-4943-a664-a4512398b994
     TranslationMemorySourceLanguage:
       description: The source language of the translation memory.
@@ -5002,7 +5005,7 @@ components:
       - zh
       example: en
     TranslationMemoryTargetLanguage:
-      description: A target language supported by translation memories.
+      description: The list of target languages available in the translation memory. A translation memory's target language must be compatible with the `target_lang` specified in a translation request.
       type: string
       enum:
       - de
