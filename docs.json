@@ -39,8 +39,7 @@
             "pages": [
               "docs/getting-started/about",
               "docs/getting-started/quickstart",
-              "docs/getting-started/client-libraries",
-              "docs/getting-started/your-first-api-request"
+              "docs/getting-started/client-libraries"
             ]
           },
           {
@@ -413,6 +412,10 @@
     },
     {
       "source": "/docs/getting-started/intro",
+      "destination": "/docs/getting-started/quickstart"
+    },
+    {
+      "source": "/docs/getting-started/your-first-api-request",
       "destination": "/docs/getting-started/quickstart"
     },
     {
