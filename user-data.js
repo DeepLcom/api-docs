@@ -7,7 +7,7 @@ const apiUrl = `${API_BASE_URL}?${API_PARAMS}`;
  * TODO: Complete error handling, for cases when the user is not logged in, there is no user, etc.
  */
 
-async function getApiSubscription() {
+export async function getApiSubscription() {
   try {
     const response = await fetch(
       apiUrl,
