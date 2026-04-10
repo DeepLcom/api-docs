@@ -473,6 +473,13 @@
         "src": "/user-study-popup.js",
         "defer": true
       }
+    },
+    {
+      "tag": "script",
+      "attrs": {
+        "src": "/user-data.js",
+        "type": "module"
+      }
     }
   ]
 }
