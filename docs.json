@@ -473,6 +473,13 @@
         "src": "/user-study-popup.js",
         "defer": true
       }
+    },
+    {
+      "tag": "script",
+      "attrs": {
+        "src": "https://run.pstmn.io/button.js",
+        "defer": true
+      }
     }
   ]
 }
