@@ -569,12 +569,12 @@ This example makes two changes. It changes the glossary's name, and it adds a ne
     --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
     --header 'Content-Type: application/json' \
     --data '{
-      "name": "Gertrude the glossary"
+      "name": "Gertrude the glossary",
       "dictionaries": [{
         "source_lang": "en",
         "target_lang": "de",
         "entries": "Goodbye\tTschüß",
-        "entries_format": "tsv",
+        "entries_format": "tsv"
       }]
     }'
     ```
