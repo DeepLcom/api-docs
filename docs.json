@@ -214,7 +214,7 @@
                 ]
               },
               {
-                "group": "Detect language [BETA]",
+                "group": "Detect language",
                 "pages": [
                   "api-reference/detect-language/detect-language-beta"
                 ]
