@@ -49,7 +49,16 @@
                   "docs/getting-started/test-your-api-requests-with-postman"
                 ]
               },
-              "docs/getting-started/regional-endpoints"
+              "docs/getting-started/regional-endpoints",
+              {
+                "group": "Languages",
+                "pages": [
+                  "docs/translate-api/languages/supported-languages",
+                  "docs/translate-api/languages/enable-beta-languages",
+                  "docs/translate-api/languages/language-release-process"
+                ]
+              },
+              "docs/changelog"
             ]
           },
           {
@@ -102,14 +111,6 @@
                   "docs/translate-api/structured-content/customize-xml-outline-detection",
                   "docs/translate-api/structured-content/how-tag-handling-works"
                 ]
-              },
-              {
-                "group": "Languages",
-                "pages": [
-                  "docs/translate-api/languages/supported-languages",
-                  "docs/translate-api/languages/enable-beta-languages",
-                  "docs/translate-api/languages/language-release-process"
-                ]
               }
             ]
           },
@@ -139,12 +140,6 @@
               "docs/cookbooks/build-a-usage-dashboard",
               "docs/cookbooks/use-deepl-with-llm-agents-mcp",
               "docs/cookbooks/translate-google-sheets"
-            ]
-          },
-          {
-            "group": "Changelog",
-            "pages": [
-              "docs/changelog"
             ]
           }
         ]
@@ -185,7 +180,7 @@
                   "api-reference/multilingual-glossaries/deletes-the-dictionary-associated-with-the-given-language-pair-with-the-given-glossary-id",
                   "api-reference/multilingual-glossaries/replaces-or-creates-a-dictionary-in-the-glossary-with-the-specified-entries",
                   {
-                    "group": "Monolingual Glossaries v2",
+                    "group": "Glossaries v2",
                     "tag": "DEPRECATED",
                     "pages": [
                       "api-reference/glossaries",
@@ -220,6 +215,54 @@
                 "pages": [
                   "api-reference/translation-memory/list-translation-memories"
                 ]
+              }
+            ]
+          },
+          {
+            "group": "Write API",
+            "pages": [
+              "api-reference/improve-text",
+              "api-reference/improve-text/request-text-improvement"
+            ]
+          },
+          {
+            "group": "Voice API",
+            "pages": [
+              "api-reference/voice",
+              "api-reference/voice/request-session",
+              "api-reference/voice/websocket-streaming",
+              "api-reference/voice/reconnect-session"
+            ]
+          },
+          {
+            "group": "Admin API",
+            "pages": [
+              "api-reference/admin-api",
+              {
+                "group": "Usage & Quota",
+                "pages": [
+                  "api-reference/usage-and-quota",
+                  "api-reference/usage-and-quota/check-usage-and-limits"
+                ]
+              },
+              "api-reference/admin-api/managing-admin-keys",
+              {
+                "group": "Managing developer keys",
+                "pages": [
+                  "api-reference/admin-api/managing-developer-keys",
+                  "api-reference/admin-api/managing-developer-keys/create-key",
+                  "api-reference/admin-api/managing-developer-keys/get-keys",
+                  "api-reference/admin-api/managing-developer-keys/deactivate-key",
+                  "api-reference/admin-api/managing-developer-keys/rename-key",
+                  "api-reference/admin-api/managing-developer-keys/set-usage-limits"
+                ]
+              },
+              {
+                "group": "Organization usage analytics",
+                "pages": [
+                  "api-reference/admin-api/organization-usage-analytics",
+                  "api-reference/admin-api/get-usage-analytics"
+                ]
               },
               {
                 "group": "Languages",
@@ -241,51 +284,6 @@
                   }
                 ]
               }
-            ]
-          },
-          {
-            "group": "Write API",
-            "pages": [
-              "api-reference/improve-text",
-              "api-reference/improve-text/request-text-improvement",
-              "api-reference/improve-text/deepl-write-api-service-specification-updates"
-            ]
-          },
-          {
-            "group": "Voice API",
-            "pages": [
-              "api-reference/voice",
-              "api-reference/voice/request-session",
-              "api-reference/voice/websocket-streaming",
-              "api-reference/voice/reconnect-session",
-              "api-reference/voice/deepl-voice-api-service-specification-updates"
-            ]
-          },
-          {
-            "group": "Admin API",
-            "pages": [
-              {
-                "group": "Usage & Quota",
-                "pages": [
-                  "api-reference/usage-and-quota",
-                  "api-reference/usage-and-quota/check-usage-and-limits"
-                ]
-              },
-              "api-reference/admin-api",
-              "api-reference/admin-api/managing-admin-keys",
-              {
-                "group": "Managing developer keys",
-                "pages": [
-                  "api-reference/admin-api/managing-developer-keys",
-                  "api-reference/admin-api/managing-developer-keys/create-key",
-                  "api-reference/admin-api/managing-developer-keys/get-keys",
-                  "api-reference/admin-api/managing-developer-keys/deactivate-key",
-                  "api-reference/admin-api/managing-developer-keys/rename-key",
-                  "api-reference/admin-api/managing-developer-keys/set-usage-limits"
-                ]
-              },
-              "api-reference/admin-api/organization-usage-analytics",
-              "api-reference/admin-api/get-usage-analytics"
             ]
           }
         ]
