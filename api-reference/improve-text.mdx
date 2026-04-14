@@ -163,7 +163,7 @@ The `/write/rephrase` endpoint returns a JSON object with Improvements under the
 
 #### Does Cost Control factor in Write API usage?
 
-Yes. If you set a [Cost Control limit](/docs/best-practices/cost-control), it will be enforced against a *sum of Translate API + Write API characters*. At this time, it is not possible to set separate Translate API and Write API cost control limits.
+Yes. If you set a [Cost Control limit](/docs/admin-api/control-costs), it will be enforced against a *sum of Translate API + Write API characters*. At this time, it is not possible to set separate Translate API and Write API cost control limits.
 
 #### Does the /usage endpoint response include Write API characters?
 
@@ -175,4 +175,4 @@ Yes! The Write API is accessed using the same API keys in [the API Keys tab](htt
 
 #### Can I see DeepL Write API usage in my reporting?
 
-We've added a new column to the [API key-level usage report](/docs/getting-started/managing-api-keys#get-api-key-level-usage) that breaks out text improvement characters separately. The character counts in the [Usage tab](https://www.deepl.com/your-account/usage) of your API account are a sum of both Translate *and* Write characters; these are not yet broken out separately.
+We've added a new column to the [API key-level usage report](/docs/admin-api/manage-api-keys#get-api-key-level-usage) that breaks out text improvement characters separately. The character counts in the [Usage tab](https://www.deepl.com/your-account/usage) of your API account are a sum of both Translate *and* Write characters; these are not yet broken out separately.

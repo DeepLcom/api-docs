@@ -56,7 +56,7 @@ Use the `DeepL-Auth-Key` header instead.
 - Note that these languages only work with `quality_optimized` model or when no model is specified, and are not compatible with `latency_optimized` requests.
 - The `enable_beta_languages` parameter is maintained for backward compatibility but has no effect. 
 
-See [here](../getting-started/supported-languages) for the complete language list.
+See [here](/docs/translate-api/languages/supported-languages) for the complete language list.
 </Update>
 
 <Update label="2025">
@@ -64,10 +64,10 @@ See [here](../getting-started/supported-languages) for the complete language lis
 - Added API reference for the Voice API
 - Add contextual menu in the to make it easier to copy any API documentation page as context for AI tools
 - Add support for style rules in the API to programmatically get your created style rules and translate with them.
-- Overhauled the tag-handling algorithm that backs translation of XML and HTML in the DeepL API. To enable it and benefit from all the improvements, set the `tag_handling_version` parameter to `v2` in the text translation API. See [here](../xml-and-html-handling/tag-handling-v2) for more information.
+- Overhauled the tag-handling algorithm that backs translation of XML and HTML in the DeepL API. To enable it and benefit from all the improvements, set the `tag_handling_version` parameter to `v2` in the text translation API. See [here](/docs/translate-api/structured-content/how-tag-handling-works) for more information.
 - Added new usage analytics endpoint in the Admin API, including key-level reporting. See [here](/api-reference/admin-api/get-usage-analytics) for more details
 - Enabled support for multiple admins in an API subscription
-- Added support for 75 new languages, initially through the `enable_beta_languages` parameter, for text and document translation. Beta languages are not billed during the beta phase and do not yet support glossaries or formality. See [here](../getting-started/supported-languages#beta-languages) for more information
+- Added support for 75 new languages, initially through the `enable_beta_languages` parameter, for text and document translation. Beta languages are not billed during the beta phase and do not yet support glossaries or formality. See [here](/docs/translate-api/languages/supported-languages#beta-languages) for more information
 - Added HE, TH and VI to the languages endpoint, since they are now also available in document translation
 - Added 6 additional beta languages, for text and document translation. See the previous note about 75 new languages.
 - Added a new parameter to the text translation API to allow custom instructions, making it possible to customize the translation behavior (e.g. ["Use a friendly, diplomatic tone"])
@@ -75,18 +75,18 @@ See [here](../getting-started/supported-languages) for the complete language lis
 
 ## Q3 2025
 - Creation of an admin API, making it possible to manage API keys programmatically. See [here](/api-reference/admin-api) for more information
-- Added support for new language: ES-419 (Latin American Spanish). For this release, this language will be available for the API in next-gen models only. See [here](../getting-started/supported-languages) for more information.
+- Added support for new language: ES-419 (Latin American Spanish). For this release, this language will be available for the API in next-gen models only. See [here](/docs/translate-api/languages/supported-languages) for more information.
 - Refreshed our API documentation and added new try-it explorers to support interacting with our APIs. See [here](/api-reference) to try it out!
 
 ## Q2 2025
-- Added support for new language: TH (Thai). For this release, this language will only support text translation. See [here](../getting-started/supported-languages) for more information.
-- Added support for new languages: HE (Hebrew) and VI (Vietnamese). For this release, these languages will be available for Pro v2 API in next-gen models only. See [here](../getting-started/supported-languages) for more information.
+- Added support for new language: TH (Thai). For this release, this language will only support text translation. See [here](/docs/translate-api/languages/supported-languages) for more information.
+- Added support for new languages: HE (Hebrew) and VI (Vietnamese). For this release, these languages will be available for Pro v2 API in next-gen models only. See [here](/docs/translate-api/languages/supported-languages) for more information.
 - Added improvements to API glossaries, including the ability to edit glossaries and create multilingual glossaries. Learn more [here](/api-reference/multilingual-glossaries/).
 - Improvements to the `/usage` endpoint for Pro API customers ([API reference](/api-reference/usage-and-quota/))
-- Improvements to key-level usage reporting, making it possible to pull reports with a custom date range and to group data by calendar day. Learn more [here](../getting-started/managing-api-keys#get-api-key-level-usage).
+- Improvements to key-level usage reporting, making it possible to pull reports with a custom date range and to group data by calendar day. Learn more [here](/docs/admin-api/manage-api-keys#get-api-key-level-usage).
 
 ## Q1 2025
-- Added support for API key-level usage limits, making it possible to set a character limit at the API key-level. Learn more [here](../getting-started/managing-api-keys#set-api-key-level-usage-limits).
+- Added support for API key-level usage limits, making it possible to set a character limit at the API key-level. Learn more [here](/docs/admin-api/manage-api-keys#set-api-key-level-usage-limits).
 - DeepL API for Write is generally available to Pro API customers, making it possible to improve texts in (at the time of release) 6 different languages. Learn more and get started [here](/api-reference/improve-text/).
 </Update>
 

@@ -12,7 +12,7 @@ These proxies are intended for prototyping and frontend testing. For production 
 
 The DeepL API does not permit calls from client-side JavaScript - that is, from JavaScript running in a browser. This policy exists to keep your API key safe. When you place a call from your website directly to the DeepL API, that call needs to include your API key. Anyone using your website could look at the network calls or your code itself, find your API key, and use it themselves.
 
-For this and other security considerations, DeepL [does not enable the CORS headers](/docs/best-practices/cors-requests) you would need to call the API from a webpage hosted on your origin. The industry-standard approach is to call APIs like DeepL’s from a back-end service. DeepL enforces this best practice to keep your credentials secure.
+For this and other security considerations, DeepL [does not enable the CORS headers](/docs/going-to-production/solve-cors-errors) you would need to call the API from a webpage hosted on your origin. The industry-standard approach is to call APIs like DeepL’s from a back-end service. DeepL enforces this best practice to keep your credentials secure.
 
 ## When to use a quick proxy
 
