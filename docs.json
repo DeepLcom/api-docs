@@ -51,31 +51,15 @@
                   "docs/getting-started/open-api-spec"
                 ]
               },
-              "docs/getting-started/regional-endpoints",
-              {
-                "group": "Languages",
-                "pages": [
-                  "docs/translate-api/languages/supported-languages",
-                  "docs/translate-api/languages/enable-beta-languages",
-                  "docs/translate-api/languages/language-release-process"
-                ]
-              },
-              {
-                "group": "Updates",
-                "pages": [
-                  "docs/changelog",
-                  "docs/getting-started/alpha-and-beta-features",
-                  {
-                    "group": "Breaking changes",
-                    "pages": [
-                      "docs/getting-started/breaking-changes",
-                      "docs/getting-started/breaking-changes/july-2024-deprecation-of-insecure-cipher-suites",
-                      "docs/getting-started/breaking-changes/march-2025-deprecating-get-requests-to-translate-and-authenticating-with-auth_key",
-                      "docs/getting-started/breaking-changes/november-2025-deprecation-of-legacy-auth-methods"
-                    ]
-                  }
-                ]
-              }
+              "docs/getting-started/regional-endpoints"
+            ]
+          },
+          {
+            "group": "Languages",
+            "pages": [
+              "docs/translate-api/languages/supported-languages",
+              "docs/translate-api/languages/enable-beta-languages",
+              "docs/translate-api/languages/language-release-process"
             ]
           },
           {
@@ -158,6 +142,22 @@
               "docs/cookbooks/build-a-usage-dashboard",
               "docs/cookbooks/use-deepl-with-llm-agents-mcp",
               "docs/cookbooks/translate-google-sheets"
+            ]
+          },
+          {
+            "group": "API Updates",
+            "pages": [
+              "docs/changelog",
+              "docs/getting-started/alpha-and-beta-features",
+              {
+                "group": "Breaking changes",
+                "pages": [
+                  "docs/getting-started/breaking-changes",
+                  "docs/getting-started/breaking-changes/july-2024-deprecation-of-insecure-cipher-suites",
+                  "docs/getting-started/breaking-changes/march-2025-deprecating-get-requests-to-translate-and-authenticating-with-auth_key",
+                  "docs/getting-started/breaking-changes/november-2025-deprecation-of-legacy-auth-methods"
+                ]
+              }
             ]
           }
         ]
