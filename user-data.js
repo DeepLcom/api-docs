@@ -1,15 +1,8 @@
-/* Encapsulate user-data helpers in a single namespace to avoid polluting
- * the global scope. Other scripts can call DeepLUser helpers.
- */
+/* Expose the minimal client-state helpers needed by the docs popup. */
 window.DeepLUser = (() => {
   const API_BASE_URL = 'https://w.deepl.com/web';
   const API_PARAMS = 'request_type=jsonrpc&il=en&method=getClientState';
   const apiUrl = `${API_BASE_URL}?${API_PARAMS}`;
-
-  /* Following the standards of deepl.com, we place the request parameters in both the URL and the body,
-   * although this may not be necessary.
-   * TODO: Complete error handling, for cases when the user is not logged in, there is no user, etc.
-   */
 
   async function getClientState() {
     try {
@@ -47,7 +40,7 @@ window.DeepLUser = (() => {
     return clientState?.loginState?.accountId;
   }
 
-  return { getClientState, getApiSubscription, getAccountId };
+  return { getClientState, getAccountId };
 })();
 
 window.getDeepLClientStateNow = function getDeepLClientStateNow() {
