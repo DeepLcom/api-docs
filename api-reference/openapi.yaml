@@ -2521,7 +2521,7 @@ paths:
       security:
       - auth_header: []
     patch:
-      summary: Update a style rule list
+      summary: Update a style rule list's name
       operationId: updateStyleRuleList
       parameters:
         - name: style_id
@@ -4481,19 +4481,19 @@ components:
         name:
           $ref: '#/components/schemas/StyleRuleName'
         creation_time:
-          description: 'The creation time of the style rule in the ISO 8601-1:2019 format
+          description: 'The creation time of the style rule list in the ISO 8601-1:2019 format
             (e.g.: `2021-08-03T14:16:18.329Z`).'
           type: string
           format: date-time
         updated_time:
-          description: 'The time of the style rule when it was last updated in the ISO 8601-1:2019 format
+          description: 'The time of the style rule list when it was last updated in the ISO 8601-1:2019 format
             (e.g.: `2022-08-03T14:16:18.329Z`).'
           type: string
           format: date-time
         language:
           $ref: '#/components/schemas/StyleRuleLanguage'
         version:
-          description: The version of the style rule. Incremented when the style rule is updated.
+          description: The version of the style rule list. Incremented when the style rule list is updated.
           type: integer
           example: 13
         configured_rules:
@@ -4506,10 +4506,10 @@ components:
             $ref: '#/components/schemas/CustomInstruction'
     StyleId:
       type: string
-      description: A unique ID assigned to a style rule.
+      description: A unique ID assigned to a style rule list.
       example: "bd0a38f3-1831-440b-a8dd-2c702e2325ab"
     StyleRuleLanguage:
-      description: The language that the style rules are applied to.
+      description: The language that the style rule list is applied to.
       type: string
       enum:
       - de
@@ -4521,7 +4521,7 @@ components:
       - ko
       - zh
     StyleRuleName:
-      description: Name associated with the style rule.
+      description: Name associated with the style rule list.
       type: string
     DocumentTranslationError:
       type: object
