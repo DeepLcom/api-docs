@@ -6,6 +6,17 @@ window.DeepLUser = (() => {
   const API_PARAMS = 'request_type=jsonrpc&il=en&method=getClientState';
   const apiUrl = `${API_BASE_URL}?${API_PARAMS}`;
 
+  function extractAccountId(apiSubscription) {
+    if (!apiSubscription) return undefined;
+
+    return (
+      apiSubscription.accountId
+      || apiSubscription.accountID
+      || apiSubscription.account_id
+      || apiSubscription.account?.id
+    );
+  }
+
   /* Following the standards of deepl.com, we place the request parameters in both the URL and the body,
    * although this may not be necessary.
    * TODO: Complete error handling, for cases when the user is not logged in, there is no user, etc.
@@ -37,5 +48,10 @@ window.DeepLUser = (() => {
     }
   }
 
-  return { getApiSubscription };
+  async function getAccountId() {
+    const apiSubscription = await getApiSubscription();
+    return extractAccountId(apiSubscription);
+  }
+
+  return { getApiSubscription, getAccountId };
 })();
