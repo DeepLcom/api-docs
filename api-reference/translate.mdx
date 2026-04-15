@@ -180,7 +180,7 @@ Note that we do not include examples for our client libraries in every single se
   Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be specified multiple times and translations are returned in the same order as they are requested. Each of the parameter values may contain multiple sentences. Up to 50 texts can be sent for translation in one request.
 
   <Warning>
-    Each text in the array is translated independently — texts do not share context with each other. If one text provides context that would help translate another (e.g. a headline and its article body), either combine them into a single text or use the <code>context</code> parameter to provide shared context.
+    Each text in the array is translated independently — texts do not share context with each other. If one text provides context that would help translate another (e.g. a headline and its article body), either combine them into a single text or use the <a href="#request-body-descriptions"><code>context</code></a> parameter to provide shared context.
   </Warning>
 </ParamField>
 <ParamField body="source_lang" type="string">
@@ -206,6 +206,8 @@ Note that we do not include examples for our client libraries in every single se
   <p>If you send a request with multiple <code>text</code> parameters, the <code>context</code> parameter will be applied to each one.</p>
 
   <p>Characters included in the <code>context</code> parameter will not be counted toward billing (i.e., there is no additional cost for using the <code>context</code> parameter, and only characters sent in the <code>text</code> parameter(s) will be counted toward billing for text translation even when the <code>context</code> parameter is included in a request).</p>
+
+  <p>See <a href="/docs/learning-how-tos/examples-and-guides/how-to-use-context-parameter">How to Use the Context Parameter Effectively</a> for examples and best practices.</p>
 </ParamField>
 <ParamField body="model_type" type="enum">
   Specifies which DeepL model should be used for translation.
