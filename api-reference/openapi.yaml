@@ -405,7 +405,8 @@ paths:
                   description: |-
                     Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be specified
                     many times in a single request, within the request size limit (128KiB). Translations are returned
-                    in the same order as they are requested.
+                    in the same order as they are requested. Each text in the array is translated independently — texts
+                    do not share context with each other.
                   type: array
                   items:
                     type: string
@@ -496,7 +497,8 @@ paths:
                 text:
                   description: Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be
                     specified many times in a single request, within the request size limit (128KiB). Translations are
-                    returned in the same order as they are requested.
+                    returned in the same order as they are requested. Each text in the array is translated independently
+                    — texts do not share context with each other.
                   type: array
                   items:
                     type: string
