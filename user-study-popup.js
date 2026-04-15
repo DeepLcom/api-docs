@@ -10,6 +10,26 @@
   const INITIAL_DELAY_MS = 2000;
   const RETRY_DELAY_MS = 1000;
 
+  function buildSignupUrl(accountId) {
+    const signupUrl = new URL(SIGNUP_URL);
+
+    if (accountId) {
+      signupUrl.searchParams.set('acc_id', accountId);
+    }
+
+    return signupUrl.toString();
+  }
+
+  async function getSignupUrl() {
+    try {
+      const accountId = await window.DeepLUser?.getAccountId?.();
+      return buildSignupUrl(accountId);
+    } catch (error) {
+      console.error('Error building customer research signup URL:', error);
+      return buildSignupUrl();
+    }
+  }
+
   function hasResolvedCookieBanner() {
     const consent = localStorage.getItem(CONSENT_KEY);
     return consent === CONSENT_ACCEPTED || consent === CONSENT_REJECTED;
@@ -39,6 +59,8 @@
   function renderPopup() {
     if (document.getElementById('user-study-popup')) return;
 
+    const signupUrlPromise = getSignupUrl();
+
     const popup = document.createElement('div');
     popup.id = 'user-study-popup';
     popup.innerHTML = `
@@ -57,6 +79,10 @@
 
     document.body.appendChild(popup);
 
+    signupUrlPromise.then((signupUrl) => {
+      popup.querySelector('#user-study-cta')?.setAttribute('href', signupUrl);
+    });
+
     window.setTimeout(() => {
       popup.querySelector('#user-study-card')?.classList.add('slide-in');
     }, 50);
@@ -66,9 +92,14 @@
       removePopup(popup);
     });
 
-    popup.querySelector('#user-study-cta')?.addEventListener('click', () => {
+    popup.querySelector('#user-study-cta')?.addEventListener('click', async (event) => {
+      event.preventDefault();
+
       markPopupState(USER_STUDY_CLICKED);
       removePopup(popup);
+
+      const signupUrl = await signupUrlPromise;
+      window.open(signupUrl, '_blank', 'noopener,noreferrer');
     });
   }
 
@@ -88,6 +119,17 @@
   function initUserStudyPopup() {
     window.setTimeout(maybeShowUserStudyPopup, INITIAL_DELAY_MS);
   }
+
+  window.getUserStudySignupUrlNow = getSignupUrl;
+  window.showUserStudyPopupNow = function showUserStudyPopupNow() {
+    localStorage.removeItem(USER_STUDY_KEY);
+
+    if (!hasResolvedCookieBanner()) {
+      localStorage.setItem(CONSENT_KEY, CONSENT_ACCEPTED);
+    }
+
+    renderPopup();
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initUserStudyPopup);
