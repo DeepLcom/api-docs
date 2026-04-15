@@ -44,7 +44,7 @@ window.DeepLUser = (() => {
 
   async function getAccountId() {
     const clientState = await getClientState();
-    return clientState?.accountId;
+    return clientState?.loginState?.accountId;
   }
 
   return { getClientState, getApiSubscription, getAccountId };
