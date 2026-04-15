@@ -121,6 +121,15 @@
   }
 
   window.getUserStudySignupUrlNow = getSignupUrl;
+  window.showUserStudyPopupNow = function showUserStudyPopupNow() {
+    localStorage.removeItem(USER_STUDY_KEY);
+
+    if (!hasResolvedCookieBanner()) {
+      localStorage.setItem(CONSENT_KEY, CONSENT_ACCEPTED);
+    }
+
+    renderPopup();
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initUserStudyPopup);
