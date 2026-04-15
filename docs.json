@@ -50,8 +50,7 @@
                   "docs/getting-started/deepl-developer-community",
                   "docs/getting-started/open-api-spec"
                 ]
-              },
-              "docs/getting-started/regional-endpoints"
+              }
             ]
           },
           {
@@ -75,33 +74,13 @@
                   "docs/translate-api/text-translation/detect-languages"
                 ]
               },
-              {
-                "group": "Document Translation",
-                "pages": [
-                  "docs/translate-api/document-translation/handle-errors-and-large-files"
-                ]
-              },
+              "docs/translate-api/handle-errors-and-large-files",
               {
                 "group": "Customizations",
                 "pages": [
-                  {
-                    "group": "Glossaries",
-                    "pages": [
-                      "docs/translate-api/customizations/glossaries/set-up-a-glossary"
-                    ]
-                  },
-                  {
-                    "group": "Custom instructions",
-                    "pages": [
-                      "docs/translate-api/customizations/custom-instructions/write-effective-instructions"
-                    ]
-                  },
-                  {
-                    "group": "Translation memories",
-                    "pages": [
-                      "docs/translate-api/customizations/translation-memories/use-translation-memories"
-                    ]
-                  }
+                  "docs/translate-api/customizations/set-up-a-glossary",
+                  "docs/translate-api/customizations/write-effective-instructions",
+                  "docs/translate-api/customizations/use-translation-memories"
                 ]
               },
               {
@@ -126,6 +105,7 @@
           {
             "group": "Going to Production",
             "pages": [
+              "docs/getting-started/regional-endpoints",
               "docs/going-to-production/pre-production-checklist",
               "docs/going-to-production/error-handling",
               "docs/going-to-production/solve-cors-errors",
@@ -380,8 +360,10 @@
 
     {"source": "/docs/best-practices/cors-requests", "destination": "/docs/going-to-production/solve-cors-errors"},
     {"source": "/docs/best-practices/cost-control", "destination": "/docs/admin-api/control-costs"},
-    {"source": "/docs/best-practices/custom-instructions", "destination": "/docs/translate-api/customizations/custom-instructions/write-effective-instructions"},
-    {"source": "/docs/best-practices/document-translations", "destination": "/docs/translate-api/document-translation/handle-errors-and-large-files"},
+    {"source": "/docs/best-practices/custom-instructions", "destination": "/docs/translate-api/customizations/write-effective-instructions"},
+    {"source": "/docs/translate-api/customizations/custom-instructions/write-effective-instructions", "destination": "/docs/translate-api/customizations/write-effective-instructions"},
+    {"source": "/docs/best-practices/document-translations", "destination": "/docs/translate-api/handle-errors-and-large-files"},
+    {"source": "/docs/translate-api/document-translation/handle-errors-and-large-files", "destination": "/docs/translate-api/handle-errors-and-large-files"},
     {"source": "/docs/best-practices/error-handling", "destination": "/docs/going-to-production/error-handling"},
     {"source": "/docs/best-practices/language-detection", "destination": "/docs/translate-api/text-translation/detect-languages"},
     {"source": "/docs/best-practices/pre-production-checklist", "destination": "/docs/going-to-production/pre-production-checklist"},
@@ -390,9 +372,11 @@
 
     {"source": "/docs/learning-how-tos/examples-and-guides/translation-beginners-guide", "destination": "/docs/translate-api/text-translation/translate-text"},
     {"source": "/docs/learning-how-tos/examples-and-guides/deepl-mcp-server-how-to-build-and-use-translation-in-llm-applications", "destination": "/docs/cookbooks/use-deepl-with-llm-agents-mcp"},
-    {"source": "/docs/learning-how-tos/examples-and-guides/glossaries-in-the-real-world", "destination": "/docs/translate-api/customizations/glossaries/set-up-a-glossary"},
+    {"source": "/docs/learning-how-tos/examples-and-guides/glossaries-in-the-real-world", "destination": "/docs/translate-api/customizations/set-up-a-glossary"},
+    {"source": "/docs/translate-api/customizations/glossaries/set-up-a-glossary", "destination": "/docs/translate-api/customizations/set-up-a-glossary"},
     {"source": "/docs/learning-how-tos/examples-and-guides/how-to-use-context-parameter", "destination": "/docs/translate-api/text-translation/use-context-for-better-results"},
-    {"source": "/docs/learning-how-tos/examples-and-guides/how-to-use-translation-memories", "destination": "/docs/translate-api/customizations/translation-memories/use-translation-memories"},
+    {"source": "/docs/learning-how-tos/examples-and-guides/how-to-use-translation-memories", "destination": "/docs/translate-api/customizations/use-translation-memories"},
+    {"source": "/docs/translate-api/customizations/translation-memories/use-translation-memories", "destination": "/docs/translate-api/customizations/use-translation-memories"},
     {"source": "/docs/learning-how-tos/examples-and-guides/placeholder-tags", "destination": "/docs/translate-api/text-translation/use-placeholder-tags"},
     {"source": "/docs/learning-how-tos/examples-and-guides/translating-between-variants", "destination": "/docs/translate-api/text-translation/translate-between-variants"},
     {"source": "/docs/learning-how-tos/examples-and-guides/enable-beta-languages", "destination": "/docs/translate-api/languages/enable-beta-languages"},
@@ -433,7 +417,7 @@
     {"source": "/docs/resources/breaking-changes-change-notices", "destination": "/docs/getting-started/breaking-changes"},
     {"source": "/docs/resources/breaking-changes-change-notices/:page*", "destination": "/docs/getting-started/breaking-changes/:page*"},
 
-    {"source": "/api-reference/translation-memory", "destination": "/docs/translate-api/customizations/translation-memories/use-translation-memories"}
+    {"source": "/api-reference/translation-memory", "destination": "/docs/translate-api/customizations/use-translation-memories"}
   ],
   "integrations": {
     "cookies": {
