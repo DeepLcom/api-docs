@@ -153,7 +153,7 @@ When translating names in headlines or short snippets, the same name might be tr
 
 ### Example
 
-Content is not shared between `text` parameters. This results in different transliterations for the name "Sergej".
+As noted in the [`text` field reference](/api-reference/translate#request-body-descriptions), each text in the array is translated independently and texts do not share context with each other. This results in different transliterations for the name "Sergej".
 
 ```sh
 curl -X POST 'https://api.deepl.com/v2/translate' \
@@ -253,7 +253,7 @@ There is no size limit for the `context` parameter itself, but the request body 
 
 ### Multi-`text` requests
 
-Content is not shared between multiple `text` parameters sent in one request. Each text parameter is translated independently.
+As noted in the [`text` field reference](/api-reference/translate#request-body-descriptions), each text in the array is translated independently — they do not share context with each other.
 
 In this example, "Tor" might be translated as "gate" instead of "goal" because the first `text` doesn't have access to the second one's content.
 

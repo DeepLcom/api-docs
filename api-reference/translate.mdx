@@ -178,6 +178,10 @@ Note that we do not include examples for our client libraries in every single se
 
 <ParamField body="text" type="array[string]" required>
   Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be specified multiple times and translations are returned in the same order as they are requested. Each of the parameter values may contain multiple sentences. Up to 50 texts can be sent for translation in one request.
+
+  <Warning>
+    Each text in the array is translated independently — texts do not share context with each other. If one text provides context that would help translate another (e.g. a headline and its article body), either combine them into a single text or use the <code>context</code> parameter to provide shared context.
+  </Warning>
 </ParamField>
 <ParamField body="source_lang" type="string">
   Language of the text to be translated. If omitted, the API will attempt to detect the language of the text and translate it. You can find supported source languages <a href="/docs/getting-started/supported-languages#translation-source-languages">here</a>.
