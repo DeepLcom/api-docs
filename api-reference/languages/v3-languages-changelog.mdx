@@ -47,6 +47,17 @@ the documentation for each product.
 
 ---
 
+### Breaking: remove `/v3/languages/exceptions`
+
+The `/v3/languages/exceptions` endpoint will be removed. We no longer expect any language pairs to have
+feature support that differs from what can be predicted from individual language feature support, so the
+endpoint will have no data to return.
+
+*Migration*: remove any calls to this endpoint. The normal per-language `features` arrays from
+`GET /v3/languages` are sufficient to determine feature support for all pairs.
+
+---
+
 ### New: language `status` field
 
 Language objects returned by `GET /v3/languages` will include an optional `status` field for languages not yet in general availability:
