@@ -227,7 +227,7 @@ The v3 language endpoints are designed to be forward-compatible:
 - Existing fields will not be removed or changed in backwards-incompatible ways
 
 <Info>
-  Build your integration to gracefully handle new BCP 47 `lang` codes and new values in the `features` array.
+  Build your integration to gracefully handle new BCP 47 `lang` codes and new values in the `features` array. Do not hardcode assumptions about the format of language codes -- see [Language codes follow BCP 47](/docs/resources/language-release-process#language-codes-follow-bcp-47) for details.
 </Info>
 
 ## Best practices
@@ -236,6 +236,6 @@ The v3 language endpoints are designed to be forward-compatible:
 
 2. **Check features**: Always check the `features` array on language objects rather than assuming support (e.g. for formality, glossary use, or writing style).
 
-3. **Handle forward compatibility**: Ignore unknown values in the `features` array and unknown `lang` codes to remain compatible as new languages and capabilities are added.
+3. **Handle forward compatibility**: New languages and features may be added at any time. Build your integration to dynamically accept new `lang` codes and `features` values instead of maintaining a hardcoded allowlist.
 
 4. **Use specific variants**: For target languages, prefer specific regional variants (e.g., `"en-US"`, `"en-GB"`) when the distinction matters to your users.
