@@ -5,9 +5,27 @@ rss: true
 ---
 
 <Update label="In active development">
-- Add more events to audit logs for Pro API customers (API key management, cost control and usage limit changes)
-- Translation Memory via API
+- Support for uploading, modifying, and deleting [translation memories](/docs/learning-how-tos/examples-and-guides/how-to-use-translation-memories) via API
 - `v3/languages` endpoint with improved language code handling and additional functionality
+- API key-level endpoint restrictions
+- Usage reporting by custom tag and language pair
+</Update>
+
+<Update label="April 2026">
+## April 17 - New Language Variants: German (Swiss) and French (Canadian)
+- Added support for two new target language variants: `de-CH` (German, Swiss) and `fr-CA` (French, Canadian) for text translation. These variants are now generally available.
+- Use these language codes as `target_lang` values to produce translations tailored to Swiss German and Canadian French.
+- Document translation support for these variants will follow in a future release.
+- See [supported languages](../getting-started/supported-languages) for the complete language list.
+
+## April 15 - Voice API General Availability
+- The [Voice API](/api-reference/voice) is now available to all DeepL customers with a paid API subscription. This API provides real-time speech transcription and translation and can be used with existing DeepL API keys.
+
+## April 9 - Translation Memory API
+- Added support for [translation memories](/docs/learning-how-tos/examples-and-guides/how-to-use-translation-memories) in the DeepL API. Translation memories store previously translated segments so the same source text produces consistent output across projects .
+- New `translation_memory_id` and `translation_memory_threshold` parameters on the [text translation endpoint](/api-reference/translate/request-translation) — pass a translation memory ID to apply stored translations, and set a threshold (0-100) to control how closely source text must match a stored segment.
+- New [`GET /v3/translation_memories`](/api-reference/translation-memory/list-translation-memories) endpoint to retrieve translation memories associated with your account.
+- Support for uploading, modifying, and deleting translation memories via the API will follow.
 </Update>
 
 <Update label="March 2026">
@@ -74,6 +92,7 @@ See [here](../getting-started/supported-languages) for the complete language lis
 - Added support for new language: TH (Thai). For this release, this language will only support text translation. See [here](../getting-started/supported-languages) for more information.
 - Added support for new languages: HE (Hebrew) and VI (Vietnamese). For this release, these languages will be available for Pro v2 API in next-gen models only. See [here](../getting-started/supported-languages) for more information.
 - Added improvements to API glossaries, including the ability to edit glossaries and create multilingual glossaries. Learn more [here](/api-reference/multilingual-glossaries/).
+- Added new events to audit logs for Pro API customers (API key management, cost control and usage limit changes)
 - Improvements to the `/usage` endpoint for Pro API customers ([API reference](/api-reference/usage-and-quota/))
 - Improvements to key-level usage reporting, making it possible to pull reports with a custom date range and to group data by calendar day. Learn more [here](../getting-started/managing-api-keys#get-api-key-level-usage).
 

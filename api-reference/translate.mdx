@@ -13,6 +13,8 @@ To learn more about context in DeepL API translations, see our [context paramete
 
 For more detail about request body parameters, see the [Request Body Descriptions](/api-reference/translate#request-body-descriptions) section further down on the page.
 
+See [Translation memories](/docs/learning-how-tos/examples-and-guides/how-to-use-translation-memories) for a guide on using translation memories in your translations.
+
 We also provide a spec that is auto-generated from DeepL's OpenAPI file. [You can find it here](/api-reference/translate/request-translation).
 
 <Info>
@@ -110,7 +112,7 @@ print(result.text)  # "Bonjour, le monde !"
 <Tab title="PHP">
 ```php Example request: text translation (without glossary)
 $authKey = "f63c02c5-f056-..."; // Replace with your key
-$deeplClient = new \DeepL\DeepLClient($authKey);
+$deeplClient = new DeepL\DeepLClient($authKey);
 
 $result = $deeplClient->translateText('Hello, world!', null, 'fr');
 echo $result->text; // Bonjour, le monde!
@@ -176,6 +178,10 @@ Note that we do not include examples for our client libraries in every single se
 
 <ParamField body="text" type="array[string]" required>
   Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be specified multiple times and translations are returned in the same order as they are requested. Each of the parameter values may contain multiple sentences. Up to 50 texts can be sent for translation in one request.
+
+  <Warning>
+    Each text in the array is translated independently — texts do not share context with each other. If one text provides context that would help translate another (e.g. a headline and its article body), either combine them into a single text or use the <a href="#request-body-descriptions"><code>context</code></a> parameter to provide shared context.
+  </Warning>
 </ParamField>
 <ParamField body="source_lang" type="string">
   Language of the text to be translated. If omitted, the API will attempt to detect the language of the text and translate it. You can find supported source languages <a href="/docs/getting-started/supported-languages#translation-source-languages">here</a>.
@@ -200,6 +206,8 @@ Note that we do not include examples for our client libraries in every single se
   <p>If you send a request with multiple <code>text</code> parameters, the <code>context</code> parameter will be applied to each one.</p>
 
   <p>Characters included in the <code>context</code> parameter will not be counted toward billing (i.e., there is no additional cost for using the <code>context</code> parameter, and only characters sent in the <code>text</code> parameter(s) will be counted toward billing for text translation even when the <code>context</code> parameter is included in a request).</p>
+
+  <p>See <a href="/docs/learning-how-tos/examples-and-guides/how-to-use-context-parameter">How to Use the Context Parameter Effectively</a> for examples and best practices.</p>
 </ParamField>
 <ParamField body="model_type" type="enum">
   Specifies which DeepL model should be used for translation.
@@ -295,6 +303,15 @@ error.
 
     Any request with the `custom_instructions` parameter enabled will default to use the `quality_optimized` model type. Requests combining `custom_instructions` and `model_type: latency_optimized` will be rejected. You can find best practices on how to write custom instructions [here](/docs/best-practices/custom-instructions).
   </Info>
+</ParamField>
+<ParamField body="translation_memory_id" type="string">
+  The [translation memory](/api-reference/translation-memory/list-translation-memories) to use for the translation. The value should be the UUID of a translation memory associated with your account.
+  <Info>
+    Requests with the `translation_memory_id` parameter must use the `quality_optimized` model type. Requests combining `translation_memory_id` and `model_type: latency_optimized` will be rejected.
+  </Info>
+</ParamField>
+<ParamField body="translation_memory_threshold" type="integer">
+  The minimum matching percentage required for a translation memory segment to be applied (recommended to be 75% or higher). Accepts values from 0 to 100. Default: `75`.
 </ParamField>
 <ParamField body="show_billed_characters" type="boolean">
   When <code>true</code>, the response will include an additional key-value pair with the key <code>billed_characters</code> and a value that is an integer showing the number of characters from the request that will be counted by DeepL for billing purposes.
