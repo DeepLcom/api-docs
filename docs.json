@@ -236,7 +236,6 @@
                       "api-reference/languages/language-feature-use-cases",
                       "api-reference/languages/retrieve-languages-by-product",
                       "api-reference/languages/retrieve-products",
-                      "api-reference/languages/retrieve-language-pair-exceptions",
                       "api-reference/languages/migrate-from-v2-languages",
                       "api-reference/languages/v3-languages-changelog"
                     ]

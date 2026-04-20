@@ -17,6 +17,13 @@ This section will list dated changes to the API since the initial beta release.
 
 Initial beta release.
 
+### 17 April 2026
+
+**Removed: `/v3/languages/exceptions`** — this endpoint has been removed. We no longer have any language
+pairs where feature support differs from what can be predicted from the individual language objects, so
+the endpoint had no data to return. Remove any calls to this endpoint; the per-language `features` arrays
+from `GET /v3/languages` are sufficient to determine feature support for all pairs.
+
 ## Planned changes
 
 The following changes are planned before general availability. They are not yet live.
@@ -44,17 +51,6 @@ The `endpoints` array will be removed from each product object in the `/v3/langu
 
 *Reasoning*: endpoint information is not useful programmatically. The applicable endpoints will still be described in
 the documentation for each product.
-
----
-
-### Breaking: remove `/v3/languages/exceptions`
-
-The `/v3/languages/exceptions` endpoint will be removed. We no longer expect any language pairs to have
-feature support that differs from what can be predicted from individual language feature support, so the
-endpoint will have no data to return.
-
-*Migration*: remove any calls to this endpoint. The normal per-language `features` arrays from
-`GET /v3/languages` are sufficient to determine feature support for all pairs.
 
 ---
 

@@ -9,13 +9,6 @@ as pseudocode and are product-agnostic unless otherwise noted.
 For background on how features and feature dependency types work, see the
 [overview](/api-reference/languages/retrieve-supported-languages-by-product).
 
-<Note>
-    The examples below do not account for language pair exceptions. For most integrations this is fine — exceptions
-    are rare and the API handles them gracefully by disabling the unsupported feature rather than failing. If you
-    need precise feature support for specific language pairs, see
-    [Handling language pair exceptions](#handling-language-pair-exceptions) at the end of this page.
-</Note>
-
 ---
 
 ## Populate source and target language dropdowns
@@ -158,33 +151,3 @@ for feature in product.features:
         supported = false
 ```
 
----
-
-## Handling language pair exceptions
-
-In rare cases, feature support for a specific pair differs from what the individual language objects indicate.
-The `/v3/languages/exceptions` endpoint exposes these cases. When an exception exists for a pair, its `features`
-array is authoritative — use it directly instead of intersecting the individual language `features` arrays.
-
-The example below shows a full glossary pair check that accounts for exceptions:
-
-```
-GET /v3/languages?product=translate_text
-GET /v3/languages/exceptions?product=translate_text
-
-languages = first response
-exceptions = second response
-
-exception = exceptions.find(e => e.source_lang == source_lang && e.target_lang == target_lang)
-
-if exception:
-    features = exception.features
-else:
-    source = languages.find(l => l.lang == source_lang)
-    target = languages.find(l => l.lang == target_lang)
-    features = intersect(source.features, target.features)
-
-glossary_allowed = features.includes("glossary")
-```
-
-The same pattern applies to any feature check — replace `"glossary"` with the feature you are checking.
