@@ -22,7 +22,6 @@ Get information about all currently supported languages across all DeepL API pro
 We also provide auto-generated API specs from DeepL's OpenAPI file, for use with API clients and code generation tools:
 - [Retrieve languages](/api-reference/languages/retrieve-languages-by-product)
 - [Retrieve products](/api-reference/languages/retrieve-products)
-- [Retrieve language pair exceptions](/api-reference/languages/retrieve-language-pair-exceptions)
 
 To understand how we'll update these endpoints when we add translation support for a new language or language variant, please see [this article](/docs/resources/language-release-process).
 
@@ -175,48 +174,6 @@ curl -X GET 'https://api.deepl.com/v3/languages/products' \
   }
 ]
 ```
-
-## Language pair exceptions
-
-In rare cases, feature support for a specific language pair may differ from the feature support returned for the source
-and target languages individually. This occurs due to intricacies and language-specifics of DeepL's AI models.
-
-A hypothetical example: text translation formality is supported for source language Ukrainian, and it is also supported
-for target language Russian. However, translating specifically from Ukrainian to Russian does *not* support formality.
-
-When a request uses a feature that is unsupported for the specific language pair, the API attempts to complete the
-request by disabling the unsupported feature rather than failing. However, in some cases information about these
-exceptions may be useful, so this section explains how to retrieve it.
-
-### Retrieving language pair exceptions directly
-
-Language pair exceptions are available directly via the `/v3/languages/exceptions` endpoint. The `product` query
-parameter is required to specify the product for which you want to retrieve exceptions.
-
-The response includes a list of language pairs for which exceptions exist, with their actual feature support.
-
-Continuing the hypothetical example, querying exceptions for text translation shows that Ukrainian-Russian does not
-support formality:
-
-```sh
-curl -X GET 'https://api.deepl.com/v3/languages/exceptions?product=translate_text' \
---header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
-```
-
-```json Example exceptions response (truncated)
-[
-  {
-    "source_lang": "uk",
-    "target_lang": "ru",
-    "features": ["tag_handling", "glossary"]
-  }
-]
-```
-
-You can apply these exceptions in client logic. The exception's `features` array is the authoritative feature list
-for that pair — it replaces the individual language `features` arrays entirely for that combination, regardless of
-whether a feature is target-only or source-and-target. Skip the normal intersection logic and use the exception
-`features` directly.
 
 ## API stability
 
