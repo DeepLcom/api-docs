@@ -9,34 +9,38 @@ public: true
 
 Style rules let you customize DeepL translations in a wide variety of ways.
 
-[Glossaries](https://developers.deepl.com/api-reference/multilingual-glossaries) let you set specific translations for words or short phrases. [Translation memories](https://developers.deepl.com/docs/learning-how-tos/examples-and-guides/how-to-use-translation-memories) let you save and apply a whole database of translations. Style rules let you customize style, tone, grammar, punctuation conventions, numbers and currencies, and much more.
+[Glossaries](https://developers.deepl.com/api-reference/multilingual-glossaries) let you set specific translations for words or short phrases. [Translation memories](https://developers.deepl.com/docs/learning-how-tos/examples-and-guides/how-to-use-translation-memories) allow you to save and apply a whole database of translations. Style rules are more flexible, letting you customize style, tone, grammar, punctuation conventions, numbers and currencies, and much more.
 
 DeepL supports two types of style rules:
 
-* **predefined rules**, a DeepL-provided set of rules to make common formatting, punctuation, and stylistic choices
+* **predefined rules**, a set of rules DeepL provides to enforce common formatting, punctuation, and stylistic choices
 * **custom instructions**, rules you write yourself
 
 <Tip>
 DeepL also refers to predefined rules as "configured rules". The two are the same.
 </Tip>
 
-All style rules live in **style rule lists**. Style rule lists can contain preset rules, custom instructions, or both.
+All style rules live in **style rule lists**. A style rule list can contain predefined rules, custom instructions, or both:
+<div style={{width: "300px", margin: "0 auto"}}>
+  <img className="block dark:hidden" src="/_assets/images/style-rule-list-light.jpg" alt="Diagram showing predefined rules and custom instructions inside a style rule list"/>
+  <img className="hidden dark:block" src="/_assets/images/style-rule-list-dark.jpg" alt="Diagram showing predefined rules and custom instructions inside a style rule list"/>
+</div>
 
-If you use the [DeepL Translator](https://www.deepl.com), you can also make style rule lists, predefined rules, and custom instructions in its [style rules page](https://www.deepl.com/en/custom-rules/f5dd1adb-93e5-4013-813d-e20568edabfd?tab=predefined&section=style-tone).
+If you use the [DeepL Translator](https://www.deepl.com), you can also make style rule lists, predefined rules, and custom instructions on its [style rules page](https://www.deepl.com/en/custom-rules/f5dd1adb-93e5-4013-813d-e20568edabfd?tab=predefined&section=style-tone).
 
 <Tip>
-Style rules are currently only available to users with [a paid plan](https://www.deepl.com/en/pro/change-plan#developer).
+Style rules are currently available only to users with [a paid plan](https://www.deepl.com/en/pro/change-plan#developer).
 </Tip>
 
-## Working with the API
+## API overview
 
 The Style Rules API lets you create, retrieve, edit, and delete style rule lists.
 
-Create, retrieve, and delete operations deal with entire lists. When you modify the rules in a list, the API treats predefined rules and custom instructions separately.
+Create, retrieve, and delete operations deal with entire lists. When modifying the rules in a list, the API treats predefined rules and custom instructions separately, with dedicated sections for each.
 
 ## Creating a list
 
-Let's say we want to translate content into French, while following certain conventions used in Canadian French, also known as Québécois. (The DeepL API already supports Canadian French, but let's just conveniently ignore that for now.) To this end, we want to follow certain conventions:
+Let's say we want to translate content into French, while following certain conventions used in Canadian French, also known as Québécois. (The DeepL API already supports Canadian French, but we'll conveniently ignore that for now.)
 
 * Don't use a space before punctuation marks like "?", "!", and ":"
 * Use French chevrons ("guillemets") for quotation marks
@@ -47,37 +51,53 @@ How do we do this? Style rules, of course!
 To make a new style rule list, we need to pass the API:
 
 * the list's `name`
-* the list's `language`, which is the target language for translations where we want this rule to be applied
+* the list's `language` - the target language for translations where we want this rule to apply
 
-While creating a new list, we have the option to include:
+When creating a new list, you have the option to include:
 
 * a set of predefined rules
 * a set of custom instructions
 * both of these
 * neither
 
-In other words, we can create an empty list, or we can populate our new list with predefined rules and/or custom instructions.
+In short, you can create an empty list, or you can populate our new list with predefined rules and/or custom instructions.
 
 ### Discovering predefined rules
 
-As it happens, DeepL's predefined rules include each of our three conventions. You can find them in the Reference for API endpoints which let you change the predefined rules in a list. For example, go to [Create a style rule list](https://developers.deepl.com/api-reference/style-rules/create-style-rule). Look at [the `configured_rules` parameter](https://developers.deepl.com/api-reference/style-rules/create-style-rule#body-configured-rules) in the Body section. There, you will see all the available categories - like [`dates_and_times`](https://developers.deepl.com/api-reference/style-rules/update-configured-rules#body-dates-and-times) and [`punctuation`](https://developers.deepl.com/api-reference/style-rules/update-configured-rules#body-punctuation). Expand one of those categories, and you'll see all the options.
+To find whether DeepL provides predefined rules for the three Québécois guidelines we need, we can check the API Reference for any method that changes the predefined rules in a list. Let's try this with the [Create a style rule list](https://developers.deepl.com/api-reference/style-rules/create-style-rule) method, looking for a rule that matches our first guideline: 'Don't use a space before punctuation marks like "?", "!", and ":"'.
 
-We can find rules for each of these, noting the section, name, and desired option for each:
+Scanning through the `Body` section, we find [the `configured_rules` parameter](https://developers.deepl.com/api-reference/style-rules/create-style-rule#body-configured-rules). Expanding that reveals the available categories of predefined rules, including [`configured_rules.punctuation`](/api-reference/style-rules/create-style-rule#body-configured-rules-punctuation). Expand the "child attributes" section and scroll down to find the [`spacing_and_punctuation`](/api-reference/style-rules/create-style-rule#body-configured-rules-punctuation-spacing-and-punctuation) rule, with the option `do_not_use_space`. That's just what we need!
+
+Use this method to find rules for each of our three guidelines, noting the category, rule name, and desired option for each:
 
 * **Don't use a space before punctuation marks like "?", "!", and ":"**
-  * "punctuation" -> "spacing_and_punctuation" -> "do_not_use_space"
+  * `punctuation` → `spacing_and_punctuation` → `do_not_use_space`
 * **Use French chevrons ("guillemets") for quotation marks**
-  * "punctuation" -> "quotation mark" -> "use_guillemets"
+  * `punctuation` → `quotation_mark` → `use_guillemets`
 * **Use accents and cedillas, even on capital letters**
-  * "spelling_and_grammar" -> "accents_and_cedillas" -> "use_even_on_capital_letters"
+  * `spelling_and_grammar` → `accents_and_cedillas` → `use_even_on_capital_letters`
+
+In the API, predefined rules go into a `configured_rules` object: a dictionary where each key is a category, and each value is a dictionary of rule names mapped to options. For our three rules, that looks like this:
+
+```json
+  "configured_rules": {
+    "punctuation": {
+      "spacing_and_punctuation": "do_not_use_space",
+      "quotation_mark": "use_guillemets"
+    },
+    "spelling_and_grammar": {
+      "accents_and_cedillas": "use_even_on_capital_letters"
+    }
+  }
+```
 
 ### Making a list with predefined rules
 
-To create our new Québécois style rules list, we'll need to pass the API:
+To create our new Québécois style rules list, we'll need to send the API:
 
-* the `name` "Québécois"
-* the `language`, which is "fr" for French
-* and our predefined rules, which here we call `configured_rules` or `configuredRules`, depending on the conventions of your programming language
+* the `name`: `"Québécois"`
+* the `language`: `"fr"` for French
+* our predefined rules dictionary, which here we call `configured_rules` or `configuredRules`, depending on the conventions of your programming language
 
 
 <Tabs defaultTabIndex={2}>
@@ -269,22 +289,23 @@ To create our new Québécois style rules list, we'll need to pass the API:
     ```csharp Request
     using DeepL;
     using DeepL.Model;
-    using System.Collections.Generic;
 
     var authKey = "{YOUR_API_KEY}"; // replace with your key
     var client = new DeepLClient(authKey);
 
-    var configuredRules = new ConfiguredRules(
-        punctuation: new Dictionary<string, string> {
-            ["spacing_and_punctuation"] = "do_not_use_space",
-            ["quotation_mark"] = "use_guillemets"
-        },
-        spellingAndGrammar: new Dictionary<string, string> {
-            ["accents_and_cedillas"] = "use_even_on_capital_letters"
-        }
+    var result = await client.CreateStyleRuleAsync(
+        "Québécois",
+        "fr",
+        new ConfiguredRules(
+            punctuation: new Dictionary<string, string> {
+                ["spacing_and_punctuation"] = "do_not_use_space",
+                ["quotation_mark"] = "use_guillemets"
+            },
+            spellingAndGrammar: new Dictionary<string, string> {
+                ["accents_and_cedillas"] = "use_even_on_capital_letters"
+            }
+        )
     );
-
-    var result = await client.CreateStyleRuleAsync("Québécois", "fr", configuredRules);
 
     Console.WriteLine($"Yay, we made a new style rule list named '{result.Name}' with the id '{result.StyleId}'");
     ```
@@ -335,13 +356,13 @@ To create our new Québécois style rules list, we'll need to pass the API:
   </Tab>
 </Tabs>
 
-The API returns everything in the new style rules list, including the `style_id` which DeepL has assigned it. You'll need this id later to refer to the list.
+The API returns everything in the new style rules list, including the `style_id` which DeepL has assigned it. You'll need this id to reference the list later.
 
 ### Including custom instructions
 
 What if we forgot a rule? In French Canadian, numbers below 10 are usually written out, unless the sentence contains other numbers. As the API presently has no predefined rule for that, this is a fine candidate for a custom instruction.
 
-Let's make a new style rule list which has the predefined rules above plus this custom instruction, which should cover most cases: "Write out any integer below 10, in any sentence that only contains one number, unless that integer is part of a date, time, percentage, or currency"
+Let's make a new style rule list with the predefined rules above plus this custom instruction, which should cover most cases: "Write out any integer below 10, in any sentence that only contains one number, unless that integer is part of a date, time, percentage, or currency"
 
 For clarity, in the client library code samples below, we create `configured_objects` and `custom_instructions` objects first, then pass those to `createStyleRule()`.
 
@@ -618,9 +639,9 @@ For clarity, in the client library code samples below, we create `configured_obj
   </Tab>
 </Tabs>
 
-### Client library Tips
+### Client library tips
 
-Tip that, in the client libraries, `StyleRule` refers to a style rule list. So, for example, to create a style rule list, depending on your language, you'd use something like `create_style_rule` or `CreateStyleRule`.
+In the client libraries, `StyleRule` refers to a style rule list, not a single style rule. So, for example, to create a style rule list, depending on your language, you'd use something like `create_style_rule` or `CreateStyleRule`.
 
 In some client libraries, it is simpler to first make a `configuredRules` object, then create a new style rule list object containing those `configuredRules`.
 
@@ -648,7 +669,7 @@ Let's try our style rule list in an actual translation! To do so, we simply add 
       "translations": [
         {
           "detected_source_language": "EN",
-          "text": "Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE ! »"
+          "text": "Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE! »"
         }
       ]
     }
@@ -675,7 +696,7 @@ Let's try our style rule list in an actual translation! To do so, we simply add 
       "translations": [
         {
           "detected_source_language": "EN",
-          "text": "Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE ! »"
+          "text": "Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE! »"
         }
       ]
     }
@@ -690,7 +711,7 @@ Let's try our style rule list in an actual translation! To do so, we simply add 
     ```
 
     ```text Output
-    Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE ! »
+    Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE! »
     ```
   </Tab>
   <Tab title="JavaScript">
@@ -704,7 +725,7 @@ Let's try our style rule list in an actual translation! To do so, we simply add 
     ```
 
     ```text Output
-    Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE ! »
+    Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE! »
     ```
   </Tab>
   <Tab title="PHP">
@@ -723,7 +744,7 @@ Let's try our style rule list in an actual translation! To do so, we simply add 
     ```
 
     ```text Output
-    Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE ! »
+    Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE! »
     ```
   </Tab>
   <Tab title="C#">
@@ -736,7 +757,7 @@ Let's try our style rule list in an actual translation! To do so, we simply add 
     ```
 
     ```text Output
-    Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE ! »
+    Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE! »
     ```
   </Tab>
   <Tab title="Java">
@@ -757,20 +778,20 @@ Let's try our style rule list in an actual translation! To do so, we simply add 
     ```
 
     ```text Output
-    Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE ! »
+    Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE! »
     ```
   </Tab>
 </Tabs>
 
-Notice that the translation includes French chevrons, the number "six" is spelled out, the circumflex accent is included on "ARRÊTE", and there's no space before final exclamation points.
+Notice that the translation includes French chevrons, the number "six" is spelled out, the circumflex accent is included on "ARRÊTE", and there's no space before final exclamation points. 
 
-## Details
+## Additional details
 
-### Sharing lists with the app
-In certain cases, you can share these rules between the [DeepL Translator](https://www.deepl.com) and the API. See the [style rules reference](/api-reference/style-rules) for details.
-The API often many predefined rules that are unavailable in the DeepL Translator. Sometimes it’s good to be a programmer.
+### Sharing lists with DeepL Translator
+In certain cases, you can share these rules between the [DeepL Translator](https://www.deepl.com) and the API. See the [style rules reference](/api-reference/style-rules) for current information.
+The API provides many predefined rules that are unavailable in the DeepL Translator. Sometimes it’s good to be a programmer.
 
-### Languages
+### Language support
 Predefined rules can only be applied to specific languages. If you try to add a predefined rule to a list for a language where it is not supported, the API will throw an error.
 
 ## Keep exploring
