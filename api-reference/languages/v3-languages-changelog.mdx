@@ -13,17 +13,6 @@ description: 'Changes and planned updates to the v3/languages endpoints during t
 
 This section will list dated changes to the API since the initial beta release.
 
-### 19 March 2026
-
-Initial beta release.
-
-### 17 April 2026
-
-**Removed: `/v3/languages/exceptions`** — this endpoint has been removed. We no longer have any language
-pairs where feature support differs from what can be predicted from the individual language objects, so
-the endpoint had no data to return. Remove any calls to this endpoint; the per-language `features` arrays
-from `GET /v3/languages` are sufficient to determine feature support for all pairs.
-
 ### 22 April 2026
 
 **Breaking: renamed `required_on_source` / `required_on_target`** — the feature dependency flags on
@@ -42,6 +31,17 @@ from each product object. The applicable endpoints are still described in the do
 **New: `auto_detection` feature** — a new `auto_detection` feature has been added across multiple products
 to indicate whether a language can be auto-detected as the source. This is a source-only feature
 (`needs_source_support: true`, `needs_target_support: false`).
+
+### 17 April 2026
+
+**Removed: `/v3/languages/exceptions`** — this endpoint has been removed. We no longer have any language
+pairs where feature support differs from what can be predicted from the individual language objects, so
+the endpoint had no data to return. Remove any calls to this endpoint; the per-language `features` arrays
+from `GET /v3/languages` are sufficient to determine feature support for all pairs.
+
+### 19 March 2026
+
+Initial beta release.
 
 ## Planned changes
 
