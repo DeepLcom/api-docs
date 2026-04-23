@@ -65,7 +65,7 @@ If you see an empty list, make sure you've uploaded at least one translation mem
 
 ## Step 2: Translate text with a translation memory
 
-Now let's use that translation memory in a translation request. Add the `translation_memory_id` parameter to your call to the [text translation endpoint](/api-reference/translate/request-translation#body-translation-memory-id).
+Now let's use that translation memory in a translation request. Add the `translation_memory_id` parameter to your call to the [text translation endpoint](/api-reference/translate/request-translation).
 
 ```sh
 curl -X POST 'https://api.deepl.com/v2/translate' \
@@ -173,5 +173,5 @@ You've learned how to:
 ## See also
 
 - [List translation memories](/api-reference/translation-memory/list-translation-memories) — API reference
-- [Text translation endpoint](/api-reference/translate/request-translation#body-translation-memory-id) — `translation_memory_id` and `translation_memory_threshold` parameter reference
+- [Text translation endpoint](/api-reference/translate/request-translation) — `translation_memory_id` and `translation_memory_threshold` parameter reference
 - [Supported languages](/docs/getting-started/supported-languages) — check which languages support translation memories
