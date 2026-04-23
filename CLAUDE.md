@@ -6,7 +6,7 @@ Source for [developers.deepl.com](https://developers.deepl.com/), built on [Mint
 
 ### Voice and Tone
 
-Write like a knowledgeable colleague, not a textbook. Clear, direct, and friendly. Use second person ("you") to address the reader. Active voice, present tense ("returns" not "will return," per the Google Developer Documentation Style Guide). Be concise: every sentence earns its place. Cut filler and throat-clearing.
+Write like a knowledgeable colleague, not a textbook. Clear, direct, and friendly. Use second person ("you") to address the reader. "We" is fine both for DeepL as a company ("We recommend...") and as inclusive "you and I" in tutorials ("Let's configure..."). Active voice, present tense ("returns" not "will return," per the Google Developer Documentation Style Guide). Be concise: every sentence earns its place. Cut filler and throat-clearing.
 
 Avoid jargon unless the audience already knows it. Define technical terms on first use. Don't be overly formal ("hereafter", "aforementioned") or overly casual ("gonna", "super easy").
 
@@ -55,9 +55,9 @@ In migration guides and technical sections, prefer concise technical bullets ove
 ### Lists and Bullets
 
 Avoid excessive use of bulleted lists. When you do use them:
-- Bullet points start with capital letters and end without periods (unless multi-sentence)
+- Bullet points end without periods (unless multi-sentence). Capitalize standalone items; lowercase is fine when bullets complete a stem sentence
 - All items in a list follow the same grammatical structure (parallel construction)
-- Use `-` for unordered lists, numbers for sequential steps
+- Use `-` or `*` for unordered lists (either is fine, but be consistent within a page), numbers for sequential steps
 
 ### Cross-references and Links
 
@@ -65,7 +65,7 @@ Use relative links for internal docs. Link text should be descriptive: "See [Man
 
 ### Formatting
 
-No em-dashes. Use commas, periods, or parentheses. No curly/smart quotes; use straight quotes. Consistent list markers within a page (prefer `-`).
+No em-dashes. Use commas, periods, or parentheses. No curly/smart quotes; use straight quotes. Consistent list markers within a page (`-` or `*`, either is fine).
 
 ## Code Examples
 
@@ -170,6 +170,8 @@ Use the `docs-review` orchestrator agent to review any doc:
     Use the docs-review agent on [filename]
 
 This runs editorial and Diataxis reviews in parallel, deduplicates findings, and writes a single review to `reviews/`. You don't need to invoke the sub-agents separately.
+
+**Review priority ordering**: Structural and Diataxis issues (type mixing, missing tutorial structure, wrong doc type) are always the highest-priority findings. Lead the summary and must-fix list with these. Formatting and style issues (tab order, list markers, capitalization) are important but secondary.
 
 ## File Conventions
 

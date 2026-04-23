@@ -92,9 +92,10 @@ Validate progress with affirmative confirmation: "You have built a secure, three
 
 ## Review Checklist
 
-Structure and Purpose:
-- Clearly states what learners will build/accomplish
+Structure and Purpose (missing any of these is a must-fix):
+- Has a "What you'll learn" section with clear learning outcomes
 - Lists honest prerequisites
+- Clearly states what learners will build/accomplish
 - Follows logical progression from start to finish
 - Summarizes what was learned at the end
 - Provides clear next steps
@@ -379,20 +380,40 @@ When asked to review a document:
 
 ## Process
 
-1. Read the target document
-2. Determine the document's type from two angles:
-   - **Intended type**: What does the document claim to be? Check frontmatter, title, opening paragraph. If the document states its purpose ("This guide shows you how to..."), use that. If the title is a topic label rather than a goal, that's already a finding.
-   - **Actual type**: What does it read like based on voice, structure, and content?
-3. If these don't match, that's a finding. If the page doesn't clearly commit to any single type, say so directly: "This page is mixed" and identify the types present.
-4. Scan section by section for type mixing. For each major section, identify which Diataxis type it actually is.
-5. If the page has significant type mixing, provide a concrete split recommendation (see below).
-6. Check against the type-specific review checklist above.
+**CRITICAL: You MUST complete the section-by-section map (step 2) BEFORE classifying the page. Do NOT decide the type first and then scan for mixing — that leads to confirmation bias where you rubber-stamp sections that don't fit. Evidence first, classification second.**
+
+1. Read the target document.
+
+2. **Map every section to a Diataxis type.** Go through each heading (H2, H3) and classify it independently. For each section, ask: "If this section were a standalone page, what Diataxis type would it be?" Write out the map:
+   - Lines X-Y: `<heading>` — <type> (because: <1-sentence reason>)
+   - Lines Y-Z: `<heading>` — <type> (because: <1-sentence reason>)
+   - ...
+
+   Be honest. A section titled "What are X?" that explains concepts is Explanation, even if it's at the top of a tutorial. A section describing API structure is Reference. A section walking through steps is Tutorial or How-to. Label each section for what it IS, not what you wish it were.
+
+3. **Derive the classification from your map.** Look at your section map and determine:
+   - **Intended type**: What does the document claim to be? Check frontmatter, title, directory path, opening paragraph.
+   - **Actual type**: What do the section labels say? If all sections are the same type, it's that type. If sections span multiple types, the page is mixed.
+   - If sections span 2+ types, the classification is "Mixed (<type A> + <type B>)", period. Do NOT force-classify it as one type. Even a single section of the wrong type means the page is mixed.
+
+4. If the page is mixed, provide a concrete split recommendation (see "When a Page Is Mixed" below). This is always finding #1.
+
+5. Check against the type-specific review checklist above for the dominant type.
 
 ## When a Page Is Mixed
 
-Many pages in this repo mix types, especially reference content (parameter tables, limits, supported formats) embedded in how-to guides. When you find significant mixing:
+**Type mixing is a must-fix, not a recommendation.** A page that mixes Diataxis types is fundamentally broken and must be split or rewritten. This is always the #1 finding when present.
 
-1. **State it plainly.** Say "This page is mixed: it contains [type A] and [type B] content." Don't describe it as "a how-to guide with some reference material" if it's genuinely half and half. Call it what it is.
+**Common patterns to watch for:**
+- "What is X?" / "Overview" / "Background" sections at the top of tutorials or how-to guides — these are Explanation content, not tutorial content. A tutorial teaches through doing, not through explaining concepts first.
+- API structure descriptions, parameter tables, or CRUD operation summaries embedded in tutorials — these are Reference content.
+- Step-by-step instructions embedded in reference pages — these are How-to or Tutorial content.
+
+Do NOT dismiss introductory concept sections as "just context." If a section explains what something is, how it compares to alternatives, or how an API is structured, that is Explanation or Reference content regardless of where it appears on the page.
+
+Many pages in this repo mix types, especially reference content (parameter tables, limits, supported formats) embedded in how-to guides, and explanatory introductions bolted onto tutorials. When you find mixing:
+
+1. **State it plainly as a must-fix.** Say "This page is mixed: it contains [type A] and [type B] content." Don't describe it as "a how-to guide with some reference material" if it's genuinely half and half. Call it what it is. This is always a must-fix, never a recommendation.
 
 2. **Map each section to its type.** Produce a brief table or list showing which sections belong to which type, e.g.:
    - Lines 1-30: How-to (workflow overview)
@@ -410,10 +431,16 @@ Many pages in this repo mix types, especially reference content (parameter table
 
 ## Output Format
 
-Start with a type classification line, then findings grouped by severity:
+**Always include the section map.** This is mandatory — it is the evidence for your classification. Start with the map, then the classification, then findings:
 
 ```
-Type: <classification>
+### Section Map
+
+- Lines X-Y: `<heading>` — <type> (<reason>)
+- Lines Y-Z: `<heading>` — <type> (<reason>)
+- ...
+
+Type: <classification derived from the map above>
 
 If mixed: "Mixed (<type A> + <type B>). Recommend splitting into [description]."
 If clean match: "<type> [MATCH]"
@@ -427,7 +454,7 @@ If mismatch: "Claims <type A>, reads as <type B> [MISMATCH]"
 ```
 
 Severity guide:
-- **Must fix**: page is significantly mixed, major type mismatch, fundamentally wrong structure, sections that clearly belong in a different doc type
+- **Must fix**: page is mixed (always #1 finding when present), major type mismatch, fundamentally wrong structure, sections that clearly belong in a different doc type, missing required structural elements for the type (e.g., tutorials without "What you'll learn" or prerequisites)
 - **Consider**: minor voice/tone mismatches, opportunities to better match the type
 
 Omit empty sections. Do not write files. No preamble beyond the type classification line.
