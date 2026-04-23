@@ -28,10 +28,6 @@ All style rules live in **style rule lists**. A style rule list can contain pred
 
 If you use the [DeepL Translator](https://www.deepl.com), you can also make style rule lists, predefined rules, and custom instructions on its [style rules page](https://www.deepl.com/en/custom-rules/f5dd1adb-93e5-4013-813d-e20568edabfd?tab=predefined&section=style-tone).
 
-<Tip>
-Style rules are currently available only to users with [a paid plan](https://www.deepl.com/en/pro/change-plan#developer).
-</Tip>
-
 ## API overview
 
 The Style Rules API lets you create, retrieve, edit, and delete style rule lists.
@@ -146,7 +142,7 @@ To create our new Québécois style rules list, we'll need to send the API:
   </Tab>
   <Tab title="cURL">
     ```sh Set the API key
-    export API_KEY={YOUR_API_KEY}
+    export DEEPL_API_KEY={YOUR_API_KEY}
     ```
 
     ```sh Request
@@ -364,7 +360,7 @@ What if we forgot a rule? In French Canadian, numbers below 10 are usually writt
 
 Let's make a new style rule list with the predefined rules above plus this custom instruction, which should cover most cases: "Write out any integer below 10, in any sentence that only contains one number, unless that integer is part of a date, time, percentage, or currency"
 
-For clarity, in the client library code samples below, we create `configured_objects` and `custom_instructions` objects first, then pass those to `createStyleRule()`.
+For clarity, in the client library code samples below, we create `configured_rules` and `custom_instructions` objects first, then pass those to `createStyleRule()`.
 
 <Tabs defaultTabIndex={2}>
   <Tab title="HTTP Request">
@@ -424,7 +420,7 @@ For clarity, in the client library code samples below, we create `configured_obj
   </Tab>
   <Tab title="cURL">
     ```sh Set the API key
-    export API_KEY={YOUR_API_KEY}
+    export DEEPL_API_KEY={YOUR_API_KEY}
     ```
 
     ```sh Request
@@ -557,12 +553,12 @@ For clarity, in the client library code samples below, we create `configured_obj
         'spelling_and_grammar' => [
             'accents_and_cedillas' => 'use_even_on_capital_letters'
         ]
-    ]
+    ];
 
     $custom_instructions = [
         'label' => 'one-digit numbers',
         'prompt' => 'Write out any integer below 10, in any sentence that only contains one number, unless that integer is part of a date, time, percentage, or currency'
-    ]
+    ];
 
     $result = $deeplClient->createStyleRule('Québécois++', 'fr', $configured_rules, $custom_instructions);
 
@@ -677,7 +673,7 @@ Let's try our style rule list in an actual translation! To do so, we simply add 
   </Tab>
   <Tab title="cURL">
     ```sh Set the API key
-    export API_KEY={YOUR_API_KEY}
+    export DEEPL_API_KEY={YOUR_API_KEY}
     ```
 
     ```sh Request
