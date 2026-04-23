@@ -122,10 +122,10 @@ These examples are for demonstration purposes only. In production code, the auth
 **Note:** the `model_type` parameter is not supported for API document translation and is only supported for [text translation](/api-reference/translate#about-the-model_type-parameter). It’s possible to submit a document translation request that includes the parameter, but the parameter will be ignored and will not have an effect on translation results.
 
 <ParamField body="source_lang" type="string">
-  Language of the text to be translated. If omitted, the API will attempt to detect the language of the text and translate it. You can find supported languages <a href="/docs/getting-started/supported-languages#translation-target-languages">here</a>.
+  Language of the text to be translated. If omitted, the API will attempt to detect the language of the text and translate it. You can find supported languages <a href="/docs/getting-started/supported-languages">here</a>.
 </ParamField>
 <ParamField body="target_lang" type="string" required>
-  The language into which the text should be translated. You can find supported languages <a href="/docs/getting-started/supported-languages#translation-target-languages">here</a>.
+  The language into which the text should be translated. You can find supported languages <a href="/docs/getting-started/supported-languages">here</a>.
 </ParamField>
 <ParamField body="file" type="binary" required>
   The document file to be translated. The file name should be included in this part's content disposition. As an alternative, the filename parameter can be used.
