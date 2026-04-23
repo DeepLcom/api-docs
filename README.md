@@ -56,30 +56,29 @@ When creating new documentation, the skill will:
 
 ### Subagents (Available to Everyone)
 
-Three subagents in `.claude/agents/` are automatically available to anyone who clones this repo:
+Agents in `.claude/agents/` are automatically available to anyone who clones this repo:
 
 | Agent | Purpose | When to use |
 |-------|---------|-------------|
-| `docs-writer` | Drafts/rewrites pages with developer empathy, DeepL conventions, and Diataxis awareness | Writing new content or rewriting existing pages |
-| `docs-reviewer` | Reviews for conventions, IA placement, audience, redundancy, cross-references | Before opening a PR, or reviewing someone else's PR |
-| `diataxis-reviewer` | Checks that a page commits to one Diataxis quadrant | When a page feels unfocused or tries to do too much |
+| `docs-review` | Orchestrator that runs editorial + Diataxis reviews in parallel and writes a single report | Before opening a PR, or reviewing someone else's PR |
+| `diataxis` | Full Diataxis framework expert for both writing and reviewing | Writing new content or checking type adherence |
+| `editorial-reviewer` | Checks style, structure, code examples against CLAUDE.md | Called by `docs-review` (you don't need to invoke directly) |
 
 ### Recommended Workflow
 
 **Writing new content:**
 ```
-Use the docs-writer to create a how-to guide for [topic]
+Use the diataxis agent to help me write a how-to guide for [topic]
 ```
 
 **Before opening a PR:**
 ```
-Use the docs-reviewer on [filename]
-Use the diataxis-reviewer on [filename]
+Use the docs-review agent on [filename]
 ```
 
 **Check for broken links:**
 ```
-mint broken-links
-mint broken-links --check-anchors
+mintlify broken-links
+mintlify broken-links --check-anchors
 ```
 
