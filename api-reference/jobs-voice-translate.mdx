@@ -1,0 +1,374 @@
+---
+title: "Translate Audio Files"
+sidebarTitle: "Overview"
+description: "Translate pre-recorded audio files into text or audio in other languages using asynchronous jobs."
+public: true
+---
+
+<Warning>
+  **Experimental.** This API may change without notice. To request access, [submit a support request](https://support.deepl.com/hc/en-us/requests/new). See [alpha and beta features](/docs/resources/alpha-and-beta-features) for details.
+</Warning>
+
+The Voice Translate API provides asynchronous translation of audio files into text or audio in other languages.
+
+Unlike the [real-time Voice API](/api-reference/voice), which streams audio over a WebSocket connection, the Voice Translate API processes entire audio files asynchronously. This makes it suitable for pre-recorded content such as podcasts, meeting recordings, or media files up to 1 GB.
+
+Each job can produce multiple translation targets simultaneously. For example, a single English podcast can be translated into German text and Spanish audio in one job.
+
+For full request and response schemas, see the [Create Job](/api-reference/jobs-voice-translate/create-voice-translate-job) and [Get Job Status](/api-reference/jobs-voice-translate/get-voice-translate-job-status) endpoint references.
+
+## Workflow
+
+Translating an audio file is a four-step process:
+
+<Steps>
+  <Step>
+    ### Create Job
+    Make a `POST` request to `/v1/jobs/voice/translate` with file metadata, processing parameters, and translation targets.
+
+    The response includes a `job_id`, an `upload_url`, and a `signature` for authenticating the upload.
+
+    <Tabs>
+      <Tab title="cURL">
+        The examples below use our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
+
+        ```sh Example request
+        curl -X POST 'https://api.deepl.com/v1/jobs/voice/translate' \
+        --header 'Authorization: DeepL-Auth-Key [yourAuthKey]' \
+        --header 'Content-Type: application/json' \
+        --data '{
+          "source_file": {
+            "name": "podcast-episode-42.mp3",
+            "content_type": "audio/mpeg",
+            "content_length": 15728640
+          },
+          "parameters": {
+            "source_language": "en"
+          },
+          "targets": [
+            { "language": "de", "type": "text/plain" },
+            { "language": "es", "type": "audio/pcm;encoding=s16le;rate=16000" }
+          ]
+        }'
+        ```
+
+        ```json Example response
+        {
+          "job_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+          "upload_url": "https://assets.deepl.com/collections/a74d88fb-.../assets/b1c2d3e4-...",
+          "signature": "eyJhbGciOiJIUzI1NiIs..."
+        }
+        ```
+      </Tab>
+      <Tab title="HTTP Request">
+        The examples below use our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
+
+        ```http Example request
+        POST /v1/jobs/voice/translate HTTP/2
+        Host: api.deepl.com
+        Authorization: DeepL-Auth-Key [yourAuthKey]
+        Content-Type: application/json
+
+        {
+          "source_file": {
+            "name": "podcast-episode-42.mp3",
+            "content_type": "audio/mpeg",
+            "content_length": 15728640
+          },
+          "parameters": {
+            "source_language": "en"
+          },
+          "targets": [
+            { "language": "de", "type": "text/plain" },
+            { "language": "es", "type": "audio/pcm;encoding=s16le;rate=16000" }
+          ]
+        }
+        ```
+
+        ```json Example response
+        {
+          "job_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+          "upload_url": "https://assets.deepl.com/collections/a74d88fb-.../assets/b1c2d3e4-...",
+          "signature": "eyJhbGciOiJIUzI1NiIs..."
+        }
+        ```
+      </Tab>
+    </Tabs>
+
+    See the [Create Job endpoint reference](/api-reference/jobs-voice-translate/create-voice-translate-job) for the full request and response schema.
+  </Step>
+  <Step>
+    ### Upload File
+    Upload the source audio file to the `upload_url` returned in step 1.
+
+    <Tabs>
+      <Tab title="cURL">
+        ```sh Upload with authorization header (recommended)
+        curl -X PUT '{upload_url}' \
+        --header 'Authorization: DeepL-Signature {signature}' \
+        --header 'Content-Type: application/octet-stream' \
+        --data-binary @podcast-episode-42.mp3
+        ```
+      </Tab>
+      <Tab title="HTTP Request">
+        ```http Upload with authorization header (recommended)
+        PUT {upload_url} HTTP/2
+        Authorization: DeepL-Signature {signature}
+        Content-Type: application/octet-stream
+
+        [binary audio data]
+        ```
+      </Tab>
+    </Tabs>
+
+    See [Choosing an authentication method](#choosing-an-authentication-method) for details on the two upload options.
+  </Step>
+  <Step>
+    ### Poll Status
+    Poll `GET /v1/jobs/voice/translate/{job_id}` until all targets reach a terminal status (`complete`, `downloaded`, or `failed`). We recommend polling every 5 seconds.
+
+    <Tabs>
+      <Tab title="cURL">
+        The examples below use our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
+
+        ```sh Example request
+        curl 'https://api.deepl.com/v1/jobs/voice/translate/a74d88fb-ed2a-4943-a664-a4512398b994' \
+        --header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
+        ```
+
+        ```json Example response: processing
+        {
+          "job_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+          "product": "voice",
+          "operation": "translate",
+          "created_at": "2026-10-01T01:03:03.444Z",
+          "updated_at": "2026-10-01T04:03:03.333Z",
+          "usage": { "storage_used": 31457280 },
+          "source_file": {
+            "name": "podcast-episode-42.mp3",
+            "content_type": "audio/mpeg",
+            "content_length": 15728640
+          },
+          "parameters": { "source_language": "en" },
+          "targets": [
+            { "language": "de", "type": "text/plain" },
+            { "language": "es", "type": "audio/pcm;encoding=s16le;rate=16000" }
+          ],
+          "results": [
+            { "status": "processing" },
+            { "status": "processing" }
+          ]
+        }
+        ```
+
+        ```json Example response: complete with mixed results
+        {
+          "job_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+          "product": "voice",
+          "operation": "translate",
+          "created_at": "2026-10-01T01:03:03.444Z",
+          "updated_at": "2026-10-01T04:03:03.333Z",
+          "usage": { "storage_used": 31457280 },
+          "source_file": {
+            "name": "podcast-episode-42.mp3",
+            "content_type": "audio/mpeg",
+            "content_length": 15728640
+          },
+          "parameters": { "source_language": "en" },
+          "targets": [
+            { "language": "de", "type": "text/plain" },
+            { "language": "es", "type": "audio/pcm;encoding=s16le;rate=16000" }
+          ],
+          "results": [
+            {
+              "status": "complete",
+              "download_url": "https://assets.deepl.com/collections/a74d88fb/assets/c3d4e5f6",
+              "signature": "eyJhbGciOiJIUzI1NiIs..."
+            },
+            {
+              "status": "failed",
+              "error": { "message": "processing failed" }
+            }
+          ]
+        }
+        ```
+      </Tab>
+      <Tab title="HTTP Request">
+        The examples below use our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update your requests to use `https://api-free.deepl.com` instead.
+
+        ```http Example request
+        GET /v1/jobs/voice/translate/a74d88fb-ed2a-4943-a664-a4512398b994 HTTP/2
+        Host: api.deepl.com
+        Authorization: DeepL-Auth-Key [yourAuthKey]
+        ```
+
+        ```json Example response: processing
+        {
+          "job_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+          "product": "voice",
+          "operation": "translate",
+          "created_at": "2026-10-01T01:03:03.444Z",
+          "updated_at": "2026-10-01T04:03:03.333Z",
+          "usage": { "storage_used": 31457280 },
+          "source_file": {
+            "name": "podcast-episode-42.mp3",
+            "content_type": "audio/mpeg",
+            "content_length": 15728640
+          },
+          "parameters": { "source_language": "en" },
+          "targets": [
+            { "language": "de", "type": "text/plain" },
+            { "language": "es", "type": "audio/pcm;encoding=s16le;rate=16000" }
+          ],
+          "results": [
+            { "status": "processing" },
+            { "status": "processing" }
+          ]
+        }
+        ```
+
+        ```json Example response: complete with mixed results
+        {
+          "job_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+          "product": "voice",
+          "operation": "translate",
+          "created_at": "2026-10-01T01:03:03.444Z",
+          "updated_at": "2026-10-01T04:03:03.333Z",
+          "usage": { "storage_used": 31457280 },
+          "source_file": {
+            "name": "podcast-episode-42.mp3",
+            "content_type": "audio/mpeg",
+            "content_length": 15728640
+          },
+          "parameters": { "source_language": "en" },
+          "targets": [
+            { "language": "de", "type": "text/plain" },
+            { "language": "es", "type": "audio/pcm;encoding=s16le;rate=16000" }
+          ],
+          "results": [
+            {
+              "status": "complete",
+              "download_url": "https://assets.deepl.com/collections/a74d88fb/assets/c3d4e5f6",
+              "signature": "eyJhbGciOiJIUzI1NiIs..."
+            },
+            {
+              "status": "failed",
+              "error": { "message": "processing failed" }
+            }
+          ]
+        }
+        ```
+      </Tab>
+    </Tabs>
+
+    See the [Get Job Status endpoint reference](/api-reference/jobs-voice-translate/get-voice-translate-job-status) for the full response schema.
+  </Step>
+  <Step>
+    ### Download Result
+    Download completed results using the `download_url` and `signature` from the poll response.
+
+    <Tabs>
+      <Tab title="cURL">
+        ```sh Download with authorization header (recommended)
+        curl '{download_url}' \
+        --header 'Authorization: DeepL-Signature {signature}' \
+        --output translated-output.txt
+        ```
+      </Tab>
+      <Tab title="HTTP Request">
+        ```http Download with authorization header (recommended)
+        GET {download_url} HTTP/2
+        Authorization: DeepL-Signature {signature}
+        ```
+      </Tab>
+    </Tabs>
+
+    After a result is downloaded, its status changes to `downloaded` and the assets are marked for deletion. See [Choosing an authentication method](#choosing-an-authentication-method) for details on the two download options.
+  </Step>
+</Steps>
+
+## Choosing an authentication method
+
+By default, the API returns an unsigned `upload_url` and `download_url`. Use the `Authorization: DeepL-Signature {signature}` header to authenticate uploads and downloads. Both methods use time-limited credentials.
+
+If you need to delegate uploads or downloads to browsers, mobile clients, or other systems that cannot set custom headers, pass `?include=signed_url` to the create or poll request to get pre-signed URLs instead.
+
+<Tip>
+  Use the `Authorization` header by default. A leaked signed URL could allow an attacker to upload malicious content to your job or download your results.
+</Tip>
+
+For a full comparison of authentication methods, see the [Create Job endpoint reference](/api-reference/jobs-voice-translate/create-voice-translate-job).
+
+## Result Status Lifecycle
+
+Each target result progresses through the following statuses independently:
+
+`pending` -> `uploaded` -> `processing` -> `complete` -> `downloaded`
+
+A target may transition to `failed` at any point during processing. When a target fails, the `error` field contains a description of the failure.
+
+Jobs must be uploaded within 5 minutes of creation, and results must be downloaded within 1 hour of upload. After all results are downloaded or the job expires, the job is deleted and returns `404`.
+
+## Limits
+
+| **Limit** | **Value** |
+| :--- | :--- |
+| Maximum file size | 1 GB (1,073,741,824 bytes) |
+| Time to upload after job creation | 5 minutes |
+| Time to download results after upload | 1 hour |
+| Maximum concurrent jobs per customer | 10 |
+| Maximum concurrent jobs per customer (files > 100 MB) | 2 |
+| Maximum targets per job | No limit (constrained by storage quota) |
+
+Usage is billed based on the duration of the source audio.
+
+## Supported Source Audio Formats
+
+| **MIME type** |
+| :--- |
+| `audio/mpeg` |
+| `audio/wav` |
+| `audio/ogg` |
+| `audio/flac` |
+| `audio/mp4` |
+| `audio/webm` |
+
+## Supported Languages
+
+Source and target languages are the same as those supported by the [real-time Voice API](/api-reference/voice#supported-languages).
+
+<Info>
+  `source_language` is optional. If omitted, the language is detected automatically.
+</Info>
+
+## Supported Output Formats
+
+Each target specifies a `type` for the desired output format.
+
+| **Type** | **Description** |
+| :--- | :--- |
+| `text/plain` | Plain text transcript |
+| `audio/opus` | Opus audio |
+| `audio/flac` | FLAC audio |
+| `audio/pcm;encoding=s16le;rate=16000` | PCM 16-bit signed LE, 16 kHz |
+| `audio/pcm;encoding=s16le;rate=24000` | PCM 16-bit signed LE, 24 kHz |
+| `audio/pcm;encoding=ulaw;rate=8000` | PCM u-law, 8 kHz |
+| `audio/pcm;encoding=alaw;rate=8000` | PCM A-law, 8 kHz |
+| `audio/x-matroska;codecs=aac` | Matroska with AAC |
+| `audio/x-matroska;codecs=flac` | Matroska with FLAC |
+| `audio/x-matroska;codecs=opus` | Matroska with Opus |
+| `audio/x-matroska;codecs=pcm_s16le;rate=16000` | Matroska with PCM 16 kHz |
+| `audio/x-matroska;codecs=pcm_s16le;rate=24000` | Matroska with PCM 24 kHz |
+| `video/mp2t;codecs=aac` | MPEG-TS with AAC |
+| `video/mp2t;codecs=opus` | MPEG-TS with Opus |
+| `audio/ogg;codecs=flac` | Ogg with FLAC |
+| `audio/ogg;codecs=opus` | Ogg with Opus |
+| `audio/webm;codecs=opus` | WebM with Opus |
+
+## Next steps
+
+Now that you understand how to translate audio files asynchronously:
+
+- **Create a job:** Review the [Create Job endpoint reference](/api-reference/jobs-voice-translate/create-voice-translate-job) for the full request and response schema
+- **Poll job status:** Review the [Get Job Status endpoint reference](/api-reference/jobs-voice-translate/get-voice-translate-job-status) for the full response schema
+- **Try realtime translation:** Use the [Voice API](/api-reference/voice) for streaming audio translation over WebSocket instead of batch processing

@@ -1,0 +1,620 @@
+openapi: 3.0.3
+info:
+  title: DeepL Voice Translate API
+  description: |-
+    **Experimental.** This API may change without notice. Breaking changes will be communicated via the changelog. To request access, [submit a support request](https://support.deepl.com/hc/en-us/requests/new).
+
+    The Voice Translate API provides asynchronous translation of audio files into text or audio in other languages.
+
+    ## Workflow
+
+    Translating an audio file is a four-step process:
+
+    1. **Create Job** (`POST /v1/jobs/voice/translate`): Submit file metadata, processing parameters, and translation targets. The response includes the `job_id`, an `upload_url`, and a `signature`. If `?include=signed_url` is specified, a `signed_upload_url` is also returned.
+    2. **Upload File** (`PUT {upload_url}`): Upload the audio file directly to the storage service. Use one of:
+       - `PUT {upload_url}` with header `Authorization: DeepL-Signature {signature}` and `Content-Type: application/octet-stream`
+       - `PUT {signed_upload_url}` with `Content-Type: application/octet-stream` (no authorization header needed)
+    3. **Poll Status** (`GET /v1/jobs/voice/translate/{job_id}`): Check the job status. Each target has its own status. When a target reaches `complete`, the response includes a `download_url` and `signature` for that target. If `?include=signed_url` is specified, a `signed_download_url` is also returned.
+    4. **Download Result** (`GET {download_url}`): Retrieve the translated output directly from the storage service. Use one of:
+       - `GET {download_url}` with header `Authorization: DeepL-Signature {signature}`
+       - `GET {signed_download_url}` (no authorization header needed)
+
+    Upload and download URLs are opaque and returned by the API. Do not construct them manually.
+
+    ## Choosing an Authentication Method
+
+    The API supports two ways to authenticate uploads and downloads. Both methods use time-limited credentials.
+
+    - **Authorization header (recommended)**: Use the `upload_url` or `download_url` with the header `Authorization: DeepL-Signature {signature}`. This keeps credentials out of the URL, preventing leaks through server logs, browser history, or referrer headers. It also protects against man-in-the-middle interception; a leaked signed URL could allow an attacker to upload malicious content to your job.
+    - **Signed URL**: Request a pre-signed URL by adding `?include=signed_url` to the create or poll request. The returned `signed_upload_url` or `signed_download_url` embeds the credential in the URL itself, so no authorization header is needed. This is useful when delegating uploads or downloads to browsers, mobile clients, or third-party systems that cannot set custom headers.
+
+    Use the authorization header by default. Use signed URLs only when the consuming system cannot set custom HTTP headers.
+
+    ## Result Status Lifecycle
+
+    Each target result progresses through the following statuses:
+
+    `pending` -> `uploaded` -> `processing` -> `complete` -> `downloaded`
+
+    A target may also transition to `failed` at any point during processing. After a result is downloaded, its assets are marked for deletion and the status becomes `downloaded`. Once all results are downloaded or the job expires, the job itself is deleted and returns `404`.
+  version: "1.0.0"
+  termsOfService: https://www.deepl.com/pro-license
+  contact:
+    name: DeepL - Contact us
+    url: https://www.deepl.com/contact-us
+
+servers:
+  - url: https://api.deepl.com
+    description: DeepL API Pro
+  - url: https://api-free.deepl.com
+    description: DeepL API Free
+
+tags:
+  - name: VoiceTranslate
+    description: "**Experimental.** Async voice translation jobs. This API may change without notice."
+
+paths:
+  /v1/jobs/voice/translate:
+    post:
+      tags:
+        - VoiceTranslate
+      operationId: createVoiceTranslateJob
+      summary: Create a voice translation job
+      description: |-
+        Creates an async voice translation job. The response includes an upload URL for the source audio file.
+
+        The request body is validated against the voice/translate schema. Invalid parameters or unsupported target types return `400`.
+      security:
+        - auth_header: []
+      parameters:
+        - $ref: '#/components/parameters/IncludeParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateJobRequest'
+            example:
+              source_file:
+                name: "podcast-episode-42.mp3"
+                content_type: "audio/mpeg"
+                content_length: 15728640
+              parameters:
+                source_language: "en"
+              targets:
+                - language: "de"
+                  type: "text/plain"
+                - language: "es"
+                  type: "audio/pcm;encoding=s16le;rate=16000"
+      responses:
+        "201":
+          description: Job created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateJobResponse'
+              example:
+                job_id: "a74d88fb-ed2a-4943-a664-a4512398b994"
+                upload_url: "https://assets.deepl.com/collections/a74d88fb-ed2a-4943-a664-a4512398b994/assets/b1c2d3e4-f5a6-7890-abcd-ef1234567890"
+                signature: "eyJhbGciOiJIUzI1NiIs..."
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/Forbidden'
+        "404":
+          description: Invalid product/operation combination.
+        "429":
+          $ref: '#/components/responses/TooManyRequests'
+
+  /v1/jobs/voice/translate/{job_id}:
+    get:
+      tags:
+        - VoiceTranslate
+      operationId: getVoiceTranslateJobStatus
+      summary: Get voice translation job status
+      description: |-
+        Returns the current status of a voice translation job, including per-target result statuses.
+
+        When a target's status is `complete`, the response includes a `download_url` and `signature` for that target. Results are returned in the same order as the targets in the create request.
+      security:
+        - auth_header: []
+      parameters:
+        - $ref: '#/components/parameters/JobIdParam'
+        - $ref: '#/components/parameters/IncludeParam'
+      responses:
+        "200":
+          description: Job status retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusResponse'
+              examples:
+                processing:
+                  summary: Job still processing
+                  value:
+                    job_id: "a74d88fb-ed2a-4943-a664-a4512398b994"
+                    product: "voice"
+                    operation: "translate"
+                    created_at: "2026-10-01T01:03:03.444Z"
+                    updated_at: "2026-10-01T04:03:03.333Z"
+                    usage:
+                      storage_used: 31457280
+                    source_file:
+                      name: "podcast-episode-42.mp3"
+                      content_type: "audio/mpeg"
+                      content_length: 15728640
+                    parameters:
+                      source_language: "en"
+                    targets:
+                      - language: "de"
+                        type: "text/plain"
+                      - language: "es"
+                        type: "audio/pcm;encoding=s16le;rate=16000"
+                    results:
+                      - status: "processing"
+                      - status: "processing"
+                complete:
+                  summary: Job with mixed results
+                  value:
+                    job_id: "a74d88fb-ed2a-4943-a664-a4512398b994"
+                    product: "voice"
+                    operation: "translate"
+                    created_at: "2026-10-01T01:03:03.444Z"
+                    updated_at: "2026-10-01T04:03:03.333Z"
+                    usage:
+                      storage_used: 31457280
+                    source_file:
+                      name: "podcast-episode-42.mp3"
+                      content_type: "audio/mpeg"
+                      content_length: 15728640
+                    parameters:
+                      source_language: "en"
+                    targets:
+                      - language: "de"
+                        type: "text/plain"
+                      - language: "es"
+                        type: "audio/pcm;encoding=s16le;rate=16000"
+                    results:
+                      - status: "complete"
+                        download_url: "https://assets.deepl.com/collections/a74d88fb/assets/c3d4e5f6"
+                        signature: "eyJhbGciOiJIUzI1NiIs..."
+                      - status: "failed"
+                        error:
+                          message: "processing failed"
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "429":
+          $ref: '#/components/responses/TooManyRequests'
+
+components:
+  securitySchemes:
+    auth_header:
+      type: apiKey
+      description: >-
+        Authentication with `Authorization` header and `DeepL-Auth-Key`
+        authentication scheme. Value format: `DeepL-Auth-Key YOUR_API_KEY`
+      name: Authorization
+      in: header
+
+  parameters:
+    JobIdParam:
+      name: job_id
+      in: path
+      required: true
+      description: The unique identifier of the job, returned by the create job endpoint.
+      schema:
+        type: string
+        format: uuid
+        example: "a74d88fb-ed2a-4943-a664-a4512398b994"
+
+    IncludeParam:
+      name: include
+      in: query
+      required: false
+      description: |-
+        Additional fields to include in the response.
+        - `signed_url`: Include pre-signed URLs (`signed_upload_url` on create, `signed_download_url` on status) that can be used without an authorization header.
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - signed_url
+      style: form
+      explode: true
+
+  headers:
+    Retry-After:
+      description: Number of seconds to wait before retrying the request.
+      schema:
+        type: integer
+        example: 5
+
+  responses:
+    BadRequest:
+      description: Bad request. Check the error message and request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: "/targets/0/type: Value is not valid"
+
+    Unauthorized:
+      description: Authorization failed. Please supply a valid `DeepL-Auth-Key` via the `Authorization` header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: "Invalid Authorization header"
+
+    Forbidden:
+      description: Access denied. Your API key does not have permission to use this feature.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: "Forbidden"
+
+    NotFound:
+      description: The requested resource could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: "Not found"
+
+    TooManyRequests:
+      description: Too many requests. Wait for the duration indicated by the `Retry-After` header before retrying.
+      headers:
+        Retry-After:
+          $ref: '#/components/headers/Retry-After'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: "Too many requests"
+
+  schemas:
+    ErrorResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: A human-readable description of the error.
+
+    SourceContentType:
+      type: string
+      description: The MIME type of the source audio file.
+      enum:
+        - audio/mpeg
+        - audio/wav
+        - audio/ogg
+        - audio/flac
+        - audio/mp4
+        - audio/webm
+
+    SourceFile:
+      type: object
+      description: Metadata about the source audio file to be uploaded.
+      required:
+        - name
+        - content_type
+        - content_length
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: The file name of the source audio file.
+          example: "podcast-episode-42.mp3"
+        content_type:
+          $ref: '#/components/schemas/SourceContentType'
+        content_length:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 1073741824
+          description: The size of the source audio file in bytes. Maximum 1 GB (1,073,741,824 bytes).
+          example: 15728640
+
+    SourceLanguage:
+      type: string
+      description: BCP-47 language code of the source audio.
+      enum:
+        - ar
+        - cs
+        - de
+        - en
+        - es
+        - fr
+        - id
+        - it
+        - ja
+        - ko
+        - nl
+        - pl
+        - pt
+        - ro
+        - ru
+        - sv
+        - tr
+        - uk
+
+    TargetLanguage:
+      type: string
+      description: BCP-47 language code of the translation target.
+      enum:
+        - ar
+        - bg
+        - bn
+        - cs
+        - da
+        - de
+        - el
+        - en
+        - en-GB
+        - en-US
+        - es
+        - et
+        - fi
+        - fr
+        - ga
+        - he
+        - hr
+        - hu
+        - id
+        - it
+        - ja
+        - ko
+        - lt
+        - lv
+        - mt
+        - nb
+        - nl
+        - pl
+        - pt
+        - pt-BR
+        - pt-PT
+        - ro
+        - ru
+        - sk
+        - sl
+        - sv
+        - th
+        - tl
+        - tr
+        - uk
+        - vi
+        - zh-Hans
+        - zh-Hant
+
+    TargetOutputType:
+      type: string
+      description: The desired output format for the translation target.
+      enum:
+        - text/plain
+        - audio/opus
+        - audio/flac
+        - "audio/pcm;encoding=s16le;rate=16000"
+        - "audio/pcm;encoding=s16le;rate=24000"
+        - "audio/pcm;encoding=ulaw;rate=8000"
+        - "audio/pcm;encoding=alaw;rate=8000"
+        - "audio/x-matroska;codecs=aac"
+        - "audio/x-matroska;codecs=flac"
+        - "audio/x-matroska;codecs=opus"
+        - "audio/x-matroska;codecs=pcm_s16le;rate=16000"
+        - "audio/x-matroska;codecs=pcm_s16le;rate=24000"
+        - "video/mp2t;codecs=aac"
+        - "video/mp2t;codecs=opus"
+        - "audio/ogg;codecs=flac"
+        - "audio/ogg;codecs=opus"
+        - "audio/webm;codecs=opus"
+
+    JobParameters:
+      type: object
+      description: Processing parameters for the voice translation job.
+      properties:
+        source_language:
+          allOf:
+            - $ref: '#/components/schemas/SourceLanguage'
+            - description: Language of the source audio. If omitted, the language is detected automatically.
+
+    Target:
+      type: object
+      description: A translation target specifying the desired output language and format.
+      required:
+        - language
+        - type
+      properties:
+        language:
+          $ref: '#/components/schemas/TargetLanguage'
+        type:
+          $ref: '#/components/schemas/TargetOutputType'
+
+    CreateJobRequest:
+      type: object
+      required:
+        - source_file
+        - targets
+      properties:
+        source_file:
+          $ref: '#/components/schemas/SourceFile'
+        parameters:
+          $ref: '#/components/schemas/JobParameters'
+        targets:
+          type: array
+          minItems: 1
+          description: One or more translation targets. Each target produces a separate result.
+          items:
+            $ref: '#/components/schemas/Target'
+
+    CreateJobResponse:
+      type: object
+      required:
+        - job_id
+        - upload_url
+        - signature
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          description: The unique identifier of the created job.
+        upload_url:
+          type: string
+          format: uri
+          description: |-
+            The URL to upload the source audio file to via `PUT` with `Content-Type: application/octet-stream`.
+            Requires the `Authorization: DeepL-Signature {signature}` header.
+            See [Upload File](/api-reference/jobs-voice-translate#upload-file) for details.
+        signature:
+          type: string
+          description: >-
+            A short-lived token used to authorize the file upload.
+            Pass it via the `Authorization` header as `DeepL-Signature {signature}` when uploading to the `upload_url`.
+        signed_upload_url:
+          type: string
+          format: uri
+          description: A pre-signed upload URL that does not require an authorization header. Only present when `?include=signed_url` is specified.
+
+    SourceFileInfo:
+      type: object
+      description: Metadata about the uploaded source file.
+      required:
+        - name
+        - content_type
+        - content_length
+      properties:
+        name:
+          type: string
+          description: The file name of the source audio file.
+        content_type:
+          type: string
+          description: The MIME type of the source audio file.
+        content_length:
+          type: integer
+          format: int64
+          description: The size of the source audio file in bytes.
+
+    Usage:
+      type: object
+      properties:
+        storage_used:
+          type: integer
+          format: int64
+          description: Total storage used by this job in bytes, including source and output files.
+
+    ResultStatus:
+      type: string
+      description: |-
+        The processing status of a target result.
+        - `pending`: Job created, awaiting file upload.
+        - `uploaded`: File uploaded, awaiting processing.
+        - `processing`: Translation in progress.
+        - `complete`: Translation complete, result available for download.
+        - `downloaded`: Result has been downloaded. Assets are marked for deletion.
+        - `failed`: Processing failed. See the `error` field for details.
+      enum:
+        - pending
+        - uploaded
+        - processing
+        - complete
+        - downloaded
+        - failed
+
+    TargetError:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: A human-readable description of the processing error.
+
+    TargetResult:
+      type: object
+      description: The processing result for a single translation target.
+      required:
+        - status
+      properties:
+        status:
+          $ref: '#/components/schemas/ResultStatus'
+        download_url:
+          type: string
+          format: uri
+          description: |-
+            The URL to download the translated result via `GET`.
+            Requires the `Authorization: DeepL-Signature {signature}` header.
+            Only present when `status` is `complete`.
+            See [Download Result](/api-reference/jobs-voice-translate#download-result) for details.
+        signature:
+          type: string
+          description: A short-lived token used to authorize the result download. Only present when `status` is `complete`.
+        signed_download_url:
+          type: string
+          format: uri
+          description: A pre-signed download URL that does not require an authorization header. Only present when `status` is `complete` and `?include=signed_url` is specified.
+        error:
+          allOf:
+            - $ref: '#/components/schemas/TargetError'
+          description: Details about the processing failure. Only present when `status` is `failed`.
+
+    JobStatusResponse:
+      type: object
+      required:
+        - job_id
+        - product
+        - operation
+        - created_at
+        - updated_at
+        - usage
+        - source_file
+        - parameters
+        - targets
+        - results
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          description: The unique identifier of the job.
+        product:
+          type: string
+          description: The product identifier.
+          example: "voice"
+        operation:
+          type: string
+          description: The operation identifier.
+          example: "translate"
+        created_at:
+          type: string
+          format: date-time
+          description: When the job was created (ISO 8601).
+        updated_at:
+          type: string
+          format: date-time
+          description: When the job was last updated (ISO 8601).
+        usage:
+          $ref: '#/components/schemas/Usage'
+        source_file:
+          $ref: '#/components/schemas/SourceFileInfo'
+        parameters:
+          $ref: '#/components/schemas/JobParameters'
+        targets:
+          type: array
+          description: The translation targets as specified in the create request.
+          items:
+            $ref: '#/components/schemas/Target'
+        results:
+          type: array
+          description: Per-target processing results, in the same order as the `targets` array.
+          items:
+            $ref: '#/components/schemas/TargetResult'
