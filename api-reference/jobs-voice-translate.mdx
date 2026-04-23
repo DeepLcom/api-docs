@@ -9,9 +9,9 @@ public: true
   **Alpha.** This API may change without notice. To request access, [submit a support request](https://support.deepl.com/hc/en-us/requests/new). See [alpha and beta features](/docs/resources/alpha-and-beta-features) for details.
 </Warning>
 
-The Voice Translate API provides asynchronous translation of audio files into text or audio in other languages.
+The Voice Translate Job API provides asynchronous translation of audio files into text or audio in other languages.
 
-Unlike the [real-time Voice API](/api-reference/voice), which streams audio over a WebSocket connection, the Voice Translate API processes entire audio files asynchronously. This makes it suitable for pre-recorded content such as podcasts, meeting recordings, or media files up to 1 GB.
+Unlike the [real-time Voice API](/api-reference/voice), which streams audio over a WebSocket connection, the Voice Translate Job API processes entire audio files asynchronously. This makes it suitable for pre-recorded content such as podcasts, meeting recordings, or media files up to 1 GB.
 
 Each job can produce multiple translation targets simultaneously. For example, a single English podcast can be translated into German text and Spanish audio in one job.
 
