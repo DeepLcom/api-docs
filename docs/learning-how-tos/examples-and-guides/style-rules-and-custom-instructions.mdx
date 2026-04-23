@@ -556,8 +556,10 @@ For clarity, in the client library code samples below, we create `configured_rul
     ];
 
     $custom_instructions = [
-        'label' => 'one-digit numbers',
-        'prompt' => 'Write out any integer below 10, in any sentence that only contains one number, unless that integer is part of a date, time, percentage, or currency'
+        [
+            'label' => 'one-digit numbers',
+            'prompt' => 'Write out any integer below 10, in any sentence that only contains one number, unless that integer is part of a date, time, percentage, or currency'
+        ]
     ];
 
     $result = $deeplClient->createStyleRule('Québécois++', 'fr', $configured_rules, $custom_instructions);
