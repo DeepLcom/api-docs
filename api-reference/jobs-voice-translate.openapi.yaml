@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: DeepL Voice Translate API
   description: |-
-    **Experimental.** This API may change without notice. Breaking changes will be communicated via the changelog. To request access, [submit a support request](https://support.deepl.com/hc/en-us/requests/new).
+    **Alpha.** This API may change without notice. Breaking changes will be communicated via the changelog. To request access, [submit a support request](https://support.deepl.com/hc/en-us/requests/new).
 
     The Voice Translate API provides asynchronous translation of audio files into text or audio in other languages.
 
@@ -51,7 +51,7 @@ servers:
 
 tags:
   - name: VoiceTranslate
-    description: "**Experimental.** Async voice translation jobs. This API may change without notice."
+    description: "**Alpha.** Async voice translation jobs. This API may change without notice."
 
 paths:
   /v1/jobs/voice/translate:

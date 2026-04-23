@@ -265,14 +265,6 @@
                   "api-reference/voice/websocket-streaming",
                   "api-reference/voice/reconnect-session"
                 ]
-              },
-              {
-                "group": "Translate Audio Files",
-                "pages": [
-                  "api-reference/jobs-voice-translate",
-                  "api-reference/jobs-voice-translate/create-voice-translate-job",
-                  "api-reference/jobs-voice-translate/get-voice-translate-job-status"
-                ]
               }
             ]
           }
