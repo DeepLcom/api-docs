@@ -145,9 +145,9 @@ target = languages.find(l => l.lang == target_lang)
 
 for feature in product.features:
     supported = true
-    if feature.required_on_source and not source.features.includes(feature.name):
+    if feature.needs_source_support and not source.features.includes(feature.name):
         supported = false
-    if feature.required_on_target and not target.features.includes(feature.name):
+    if feature.needs_target_support and not target.features.includes(feature.name):
         supported = false
 ```
 

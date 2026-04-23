@@ -1970,10 +1970,10 @@ paths:
       summary: Retrieve Language Products
       operationId: getLanguageProducts
       description: |-
-        Returns all DeepL API products, including the API endpoints they expose, and the features they support.
+        Returns all DeepL API products and the features they support.
 
         For each feature, the response indicates which languages must support it for the feature to be
-        available — source only (`required_on_source`), target only (`required_on_target`), or both.
+        available — source only (`needs_source_support`), target only (`needs_target_support`), or both.
         This allows clients to determine feature availability for a language pair by checking the
         appropriate language's `features` array returned by `GET /v3/languages`.
       responses:
@@ -1990,7 +1990,6 @@ paths:
                   type: object
                   required:
                     - name
-                    - endpoints
                     - features
                   properties:
                     name:
@@ -2004,13 +2003,6 @@ paths:
                         - write
                         - style_rules
                       example: translate_text
-                    endpoints:
-                      description: API endpoints associated with this product.
-                      type: array
-                      items:
-                        type: string
-                      example:
-                        - v2/translate
                     features:
                       description: |-
                         Features supported by this product. Each feature indicates which languages
@@ -2031,37 +2023,34 @@ paths:
                               - glossary
                               - writing_style
                               - tone
-                          required_on_source:
+                              - auto_detection
+                          needs_source_support:
                             description: If `true`, the source language must support this feature for it to be available. Defaults to `false` if absent.
                             type: boolean
-                          required_on_target:
+                          needs_target_support:
                             description: If `true`, the target language must support this feature for it to be available. Defaults to `false` if absent.
                             type: boolean
               example:
                 - name: translate_text
-                  endpoints:
-                    - v2/translate
                   features:
                     - name: formality
-                      required_on_target: true
+                      needs_target_support: true
                     - name: custom_instructions
-                      required_on_target: true
+                      needs_target_support: true
                     - name: tag_handling
-                      required_on_source: true
-                      required_on_target: true
+                      needs_source_support: true
+                      needs_target_support: true
                     - name: glossary
-                      required_on_source: true
-                      required_on_target: true
+                      needs_source_support: true
+                      needs_target_support: true
+                    - name: auto_detection
+                      needs_source_support: true
                 - name: voice
-                  endpoints:
-                    - v3/voice/realtime
                   features:
                     - name: glossary
-                      required_on_source: true
-                      required_on_target: true
+                      needs_source_support: true
+                      needs_target_support: true
                 - name: style_rules
-                  endpoints:
-                    - v3/style_rules
                   features: []
         400:
           $ref: '#/components/responses/BadRequest'

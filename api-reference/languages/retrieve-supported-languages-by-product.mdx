@@ -150,25 +150,28 @@ curl -X GET 'https://api.deepl.com/v3/languages/products' \
 [
   {
     "name": "translate_text",
-    "endpoints": ["v2/translate"],
     "features": [
       {
         "name": "formality",
-        "required_on_target": true
+        "needs_target_support": true
       },
       {
         "name": "custom_instructions",
-        "required_on_target": true
+        "needs_target_support": true
       },
       {
         "name": "tag_handling",
-        "required_on_source": true,
-        "required_on_target": true
+        "needs_source_support": true,
+        "needs_target_support": true
       },
       {
         "name": "glossary",
-        "required_on_source": true,
-        "required_on_target": true
+        "needs_source_support": true,
+        "needs_target_support": true
+      },
+      {
+        "name": "auto_detection",
+        "needs_source_support": true
       }
     ]
   }

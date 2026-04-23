@@ -24,33 +24,28 @@ pairs where feature support differs from what can be predicted from the individu
 the endpoint had no data to return. Remove any calls to this endpoint; the per-language `features` arrays
 from `GET /v3/languages` are sufficient to determine feature support for all pairs.
 
-## Planned changes
+### 22 April 2026
 
-The following changes are planned before general availability. They are not yet live.
+**Breaking: renamed `required_on_source` / `required_on_target`** — the feature dependency flags on
+`/v3/languages/products` have been renamed:
 
----
-
-### Breaking: rename `required_on_source` / `required_on_target`
-
-The feature dependency flags on `/v3/languages/products` will be renamed:
-
-| Current name | New name |
+| Old name | New name |
 |---|---|
 | `required_on_source` | `needs_source_support` |
 | `required_on_target` | `needs_target_support` |
 
-The semantics are unchanged — only the field names differ. Update any code that reads these fields.
+Semantics are unchanged. Update any code that reads these fields.
 
-*Reasoning*: "required" reads like a JSON schema constraint (mandatory field) rather than a language support check.
+**Breaking: removed `endpoints` from `/v3/languages/products`** — the `endpoints` array has been removed
+from each product object. The applicable endpoints are still described in the documentation for each product.
 
----
+**New: `auto_detection` feature** — a new `auto_detection` feature has been added across multiple products
+to indicate whether a language can be auto-detected as the source. This is a source-only feature
+(`needs_source_support: true`, `needs_target_support: false`).
 
-### Breaking: remove `endpoints` from `/v3/languages/products`
+## Planned changes
 
-The `endpoints` array will be removed from each product object in the `/v3/languages/products` response.
-
-*Reasoning*: endpoint information is not useful programmatically. The applicable endpoints will still be described in
-the documentation for each product.
+The following changes are planned before general availability. They are not yet live.
 
 ---
 
@@ -70,13 +65,6 @@ Language objects returned by `GET /v3/languages` will include an optional `statu
 ```
 
 Possible values: `"beta"`, `"early_access"`. Languages in GA omit this field entirely.
-
----
-
-### New: `auto_detection` feature across multiple products
-
-An `auto_detection` feature will be added to indicate whether a language can be auto-detected as the source.
-This is a source-only feature (`needs_source_support: true`, `needs_target_support: false`).
 
 ---
 
