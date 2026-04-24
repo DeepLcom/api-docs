@@ -183,7 +183,7 @@ This runs editorial and Diataxis reviews in parallel, deduplicates findings, and
 
 ## Local Development
 
-    npm i -g mintlify
-    mintlify dev
+    npm i -g mint
+    mint dev
 
-After making changes, run `mintlify broken-links` and `mintlify broken-links --check-anchors` to verify links.
+After making changes, run `mint broken-links` and `mint broken-links --check-anchors` to verify links.
