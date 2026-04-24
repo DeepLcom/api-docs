@@ -161,41 +161,8 @@
                   "api-reference/document/download-translated-document"
                 ]
               },
-              {
-                "group": "Detect Language",
-                "tag": "BETA",
-                "pages": [
-                  "api-reference/detect-language/detect-language-beta"
-                ]
-              },
-              {
-                "group": "Quality Estimation",
-                "tag": "ALPHA",
-                "pages": [
-                  "api-reference/quality-estimation/quality-estimation-alpha"
-                ]
-              }
-            ]
-          },
-          {
-            "group": "Voice API",
-            "pages": [
-              "api-reference/voice",
-              "api-reference/voice/request-session",
-              "api-reference/voice/websocket-streaming",
-              "api-reference/voice/reconnect-session"
-            ]
-          },
-          {
-            "group": "Write API",
-            "pages": [
-              "api-reference/improve-text",
-              "api-reference/improve-text/request-text-improvement"
-            ]
-          },
-          {
-            "group": "Customizations API",
-            "pages": [
+              "api-reference/detect-language/detect-language-beta",
+              "api-reference/quality-estimation/quality-estimation-alpha",
               {
                 "group": "Glossaries",
                 "pages": [
@@ -246,6 +213,22 @@
                   "api-reference/translation-memory/list-translation-memories"
                 ]
               }
+            ]
+          },
+          {
+            "group": "Voice API",
+            "pages": [
+              "api-reference/voice",
+              "api-reference/voice/request-session",
+              "api-reference/voice/websocket-streaming",
+              "api-reference/voice/reconnect-session"
+            ]
+          },
+          {
+            "group": "Write API",
+            "pages": [
+              "api-reference/improve-text",
+              "api-reference/improve-text/request-text-improvement"
             ]
           },
           {
