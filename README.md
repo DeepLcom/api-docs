@@ -4,16 +4,26 @@ This repo is home to the [DeepL Developer Docs](https://developers.deepl.com/).
 
 ## Development
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the documentation changes locally. To install, use the following command
+Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview the documentation changes locally. To install, use the following command
 
 ```
-npm i -g mintlify
+npm i -g mint
 ```
 
 Run the following command at the root of your documentation (where docs.json is)
 
 ```
-mintlify dev
+mint dev
+```
+
+### Migrating from the old `mintlify` CLI
+
+If you have the deprecated `mintlify` package installed, replace it with `mint`:
+
+```
+npm uninstall -g mintlify
+npm cache clean --force
+npm i -g mint
 ```
 
 ### Publishing Changes
@@ -22,7 +32,7 @@ Install our Github App to auto propagate changes from your repo to your deployme
 
 #### Troubleshooting
 
-- Mintlify dev isn't running - Run `mintlify install` it'll re-install dependencies.
+- Mint dev isn't running - Run `mint install` to re-install dependencies.
 - Page loads as a 404 - Make sure you are running in a folder with `docs.json`
 
 ## AI Workflow
@@ -78,7 +88,7 @@ Use the docs-review agent on [filename]
 
 **Check for broken links:**
 ```
-mintlify broken-links
-mintlify broken-links --check-anchors
+mint broken-links
+mint broken-links --check-anchors
 ```
 
