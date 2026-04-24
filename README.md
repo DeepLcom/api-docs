@@ -16,6 +16,16 @@ Run the following command at the root of your documentation (where docs.json is)
 mint dev
 ```
 
+### Migrating from the old `mintlify` CLI
+
+If you have the deprecated `mintlify` package installed, replace it with `mint`:
+
+```
+npm uninstall -g mintlify
+npm cache clean --force
+npm i -g mint
+```
+
 ### Publishing Changes
 
 Install our Github App to auto propagate changes from your repo to your deployment. Changes will be deployed to production automatically after pushing to the default branch. Find the link to install on your dashboard.
