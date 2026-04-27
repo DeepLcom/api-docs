@@ -1,0 +1,796 @@
+---
+title: "Style rules and custom instructions"
+description: "Fine-tune your translations using style rules, style rule lists, and custom instructions"
+sidebarTitle: "Style rules and custom instructions"
+public: true
+---
+
+## What are style rules?
+
+Style rules let you customize DeepL translations in a wide variety of ways.
+
+[Glossaries](/api-reference/multilingual-glossaries) let you set specific translations for words or short phrases. [Translation memories](/docs/learning-how-tos/examples-and-guides/how-to-use-translation-memories) let you save preferred translations for automatic reuse. Style rules are more flexible, letting you customize style, tone, grammar, punctuation conventions, numbers and currencies, and much more.
+
+DeepL supports two types of style rules:
+
+* **predefined rules**, a set of rules DeepL provides to enforce common formatting, punctuation, and stylistic choices
+* **custom instructions**, rules you write yourself
+
+<Tip>
+DeepL also refers to predefined rules as "configured rules". The two are the same.
+</Tip>
+
+All style rules live in **style rule lists**. A style rule list can contain predefined rules, custom instructions, or both:
+<div style={{width: "300px", margin: "0 auto"}}>
+  <img className="block dark:hidden" src="/_assets/images/style-rule-list-light.jpg" alt="Diagram showing predefined rules and custom instructions inside a style rule list"/>
+  <img className="hidden dark:block" src="/_assets/images/style-rule-list-dark.jpg" alt="Diagram showing predefined rules and custom instructions inside a style rule list"/>
+</div>
+
+If you use the [DeepL Translator](https://www.deepl.com), you can also make style rule lists, predefined rules, and custom instructions on its [style rules page](https://www.deepl.com/custom-rules/).
+
+## API overview
+
+The Style Rules API lets you create, retrieve, edit, and delete style rule lists.
+
+Create, retrieve, and delete operations work on entire lists. To update the rules within a list, you’ll need to manage predefined rules and instructions separately, using different API methods for each.
+
+## Creating a list
+
+Let's say we want to translate content into French, while following certain conventions used in Canadian French, also known as Québécois. (The DeepL API already supports Canadian French, but we'll conveniently ignore that for now.)
+
+* Don't use a space before punctuation marks like "?", "!", and ":"
+* Use French chevrons ("guillemets") for quotation marks
+* Use accents and cedillas, even on capital letters
+
+How do we do this? Style rules, of course!
+
+To make a new style rule list, we need to pass the API:
+
+* the list's `name`
+* the list's `language` - the target language for translations where we want this rule to apply
+
+When creating a new list, you have the option to include:
+
+* a set of predefined rules
+* a set of custom instructions
+* both of these
+* neither
+
+In short, you can create an empty list, or you can populate a new list with predefined rules and/or custom instructions.
+
+### Discovering predefined rules
+
+To find whether DeepL provides predefined rules for the three Québécois guidelines we need, we can check the API Reference for any method that changes the predefined rules in a list. Let's try this with the [Create a style rule list](/api-reference/style-rules/create-style-rule) method, looking for a rule that matches our first guideline: 'Don't use a space before punctuation marks like "?", "!", and ":"'.
+
+Scanning through the `Body` section, we find [the `configured_rules` parameter](/api-reference/style-rules/create-style-rule#body-configured-rules). Expanding that reveals the available categories of predefined rules, including [`configured_rules.punctuation`](/api-reference/style-rules/create-style-rule#body-configured-rules-punctuation). Expand the "child attributes" section and scroll down to find the [`spacing_and_punctuation`](/api-reference/style-rules/create-style-rule#body-configured-rules-punctuation-spacing-and-punctuation) rule, with the option `do_not_use_space`. That's just what we need!
+
+Use this method to find rules for each of our three guidelines, noting the category, rule name, and desired option for each:
+
+* **Don't use a space before punctuation marks like "?", "!", and ":"**
+  * `punctuation` → `spacing_and_punctuation` → `do_not_use_space`
+* **Use French chevrons ("guillemets") for quotation marks**
+  * `punctuation` → `quotation_mark` → `use_guillemets`
+* **Use accents and cedillas, even on capital letters**
+  * `spelling_and_grammar` → `accents_and_cedillas` → `use_even_on_capital_letters`
+
+In the API, predefined rules go into a `configured_rules` object: a dictionary where each key is a category, and each value is a dictionary of rule names mapped to options. For our three rules, that looks like this:
+
+```json
+  "configured_rules": {
+    "punctuation": {
+      "spacing_and_punctuation": "do_not_use_space",
+      "quotation_mark": "use_guillemets"
+    },
+    "spelling_and_grammar": {
+      "accents_and_cedillas": "use_even_on_capital_letters"
+    }
+  }
+```
+
+### Making a list with predefined rules
+
+To create our new Québécois style rules list, we'll need to send the API:
+
+* the `name`: `"Québécois"`
+* the `language`: `"fr"` for French
+* our predefined rules dictionary, which here we call `configured_rules` or `configuredRules`, depending on the conventions of your programming language
+
+
+<Tabs defaultTabIndex={2}>
+  <Tab title="HTTP Request">
+    ```http Request
+    POST /v3/style_rules HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey]
+    Content-Type: application/json
+
+    {
+      "name": "Québécois",
+      "language": "fr",
+      "configured_rules": {
+        "punctuation": {
+          "spacing_and_punctuation": "do_not_use_space",
+          "quotation_mark": "use_guillemets"
+        },
+        "spelling_and_grammar": {
+          "accents_and_cedillas": "use_even_on_capital_letters"
+        }
+      }
+    }
+    ```
+
+    ```json Response
+    {
+      "style_id": "635073ee-dad3-4aaf-b1e9-2bc6f6ec314f",
+      "name": "Québécois",
+      "creation_time": "2026-04-16T18:20:33.773611Z",
+      "updated_time": "2026-04-16T18:20:33.773912Z",
+      "language": "fr",
+      "version": 1,
+      "custom_instructions": [],
+      "configured_rules": {
+        "punctuation": {
+          "quotation_mark": "use_guillemets",
+          "spacing_and_punctuation": "do_not_use_space"
+        },
+        "spelling_and_grammar": {
+          "accents_and_cedillas": "use_even_on_capital_letters"
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="cURL">
+    ```sh Set the API key
+    export DEEPL_API_KEY={YOUR_API_KEY}
+    ```
+
+    ```sh Request
+      curl -X POST https://api.deepl.com/v3/style_rules \
+        --header "Content-Type: application/json" \
+        --header "Authorization: DeepL-Auth-Key $DEEPL_API_KEY" \
+        --data '
+        {
+          "name": "Québécois",
+          "language": "fr",
+          "configured_rules": {
+            "punctuation": {
+              "spacing_and_punctuation": "do_not_use_space",
+              "quotation_mark": "use_guillemets"
+            },
+            "spelling_and_grammar": {
+              "accents_and_cedillas": "use_even_on_capital_letters"
+            }
+          }
+        }'
+    ```
+
+    ```json Response
+    {
+      "style_id": "635073ee-dad3-4aaf-b1e9-2bc6f6ec314f",
+      "name": "Québécois",
+      "creation_time": "2026-04-16T18:20:33.773611Z",
+      "updated_time": "2026-04-16T18:20:33.773912Z",
+      "language": "fr",
+      "version": 1,
+      "custom_instructions": [],
+      "configured_rules": {
+        "punctuation": {
+          "quotation_mark": "use_guillemets",
+          "spacing_and_punctuation": "do_not_use_space"
+        },
+        "spelling_and_grammar": {
+          "accents_and_cedillas": "use_even_on_capital_letters"
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```py Request
+    import deepl
+
+    auth_key = "{YOUR_API_KEY}" # replace with your key
+    deepl_client = deepl.DeepLClient(auth_key)
+
+    result = deepl_client.create_style_rule(
+        name="Québécois",
+        language="fr",
+        configured_rules={
+            "punctuation": {
+                "spacing_and_punctuation": "do_not_use_space",
+                "quotation_mark": "use_guillemets"
+            },
+            "spelling_and_grammar": {
+                "accents_and_cedillas": "use_even_on_capital_letters"
+            }
+        }
+    )
+
+    print(f"Yay, we made a new style rule list named '{result.name}' with the id '{result.style_id}'.")
+    ```
+
+    ```text Output
+    Yay, we made a new style rule list named 'Québécois' with the id '635073ee-dad3-4aaf-b1e9-2bc6f6ec314f'
+    ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="JavaScript">
+    ```javascript Request
+    const deepl = require('deepl-node');
+
+    const authKey = "{YOUR_API_KEY}"; // replace with your key
+    const deeplClient = new deepl.DeepLClient(authKey);
+
+    (async () => {
+        const result = await deeplClient.createStyleRule({
+            name: 'Québécois',
+            language: 'fr',
+            configured_rules: {
+                punctuation: {
+                    spacing_and_punctuation: 'do_not_use_space',
+                    quotation_mark: 'use_guillemets'
+                },
+                spelling_and_grammar: {
+                    accents_and_cedillas: 'use_even_on_capital_letters'
+                }
+            }
+        });
+
+        console.log(`Yay, we made a new style rule list named '${result.name}' with the id '${result.styleId}'`);
+    })();
+    ```
+
+    ```text Output
+    Yay, we made a new style rule list named 'Québécois' with the id '635073ee-dad3-4aaf-b1e9-2bc6f6ec314f'
+    ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="PHP">
+    ```php Request
+    require_once 'vendor/autoload.php';
+    use DeepL\Client;
+
+    $authKey = "{YOUR_API_KEY}"; // replace with your key
+    $deeplClient = new DeepL\DeepLClient($authKey);
+
+    $result = $deeplClient->createStyleRule('Québécois', 'fr', [
+        'punctuation' => [
+            'spacing_and_punctuation' => 'do_not_use_space',
+            'quotation_mark' => 'use_guillemets'
+        ],
+        'spelling_and_grammar' => [
+            'accents_and_cedillas' => 'use_even_on_capital_letters'
+        ]
+    ]);
+
+    echo "Yay, we made a new style rule list named '{$result->name}' with the id '{$result->styleId}'";
+    ```
+
+    ```text Output
+    Yay, we made a new style rule list named 'Québécois' with the id '635073ee-dad3-4aaf-b1e9-2bc6f6ec314f'
+    ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="C#">
+    ```csharp Request
+    using DeepL;
+    using DeepL.Model;
+
+    var authKey = "{YOUR_API_KEY}"; // replace with your key
+    var client = new DeepLClient(authKey);
+
+    var result = await client.CreateStyleRuleAsync(
+        "Québécois",
+        "fr",
+        new ConfiguredRules(
+            punctuation: new Dictionary<string, string> {
+                ["spacing_and_punctuation"] = "do_not_use_space",
+                ["quotation_mark"] = "use_guillemets"
+            },
+            spellingAndGrammar: new Dictionary<string, string> {
+                ["accents_and_cedillas"] = "use_even_on_capital_letters"
+            }
+        )
+    );
+
+    Console.WriteLine($"Yay, we made a new style rule list named '{result.Name}' with the id '{result.StyleId}'");
+    ```
+
+    ```text Output
+    Yay, we made a new style rule list named 'Québécois' with the id '635073ee-dad3-4aaf-b1e9-2bc6f6ec314f'
+    ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+  <Tab title="Java">
+    ```java Request
+    import com.deepl.api.*;
+    import java.util.HashMap;
+    import java.util.Map;
+
+    public class Main {
+        public static void main(String[] args) throws DeepLException, InterruptedException {
+            String authKey = "{YOUR_API_KEY}"; // replace with your key
+            DeepLClient client = new DeepLClient(authKey);
+
+            Map<String, String> punctuation = new HashMap<>();
+            punctuation.put("spacing_and_punctuation", "do_not_use_space");
+            punctuation.put("quotation_mark", "use_guillemets");
+
+            Map<String, String> spellingAndGrammar = new HashMap<>();
+            spellingAndGrammar.put("accents_and_cedillas", "use_even_on_capital_letters");
+
+            ConfiguredRules configuredRules = new ConfiguredRules(
+                null, null, null, punctuation, spellingAndGrammar, null, null);
+
+            StyleRuleInfo result = client.createStyleRule("Québécois", "fr", configuredRules, null);
+
+            System.out.println("Yay, we made a new style rule list named '" + result.getName() + "' with the id '" + result.getStyleId() + "'");
+        }
+    }
+    ```
+
+    ```text Output
+    Yay, we made a new style rule list named 'Québécois' with the id '635073ee-dad3-4aaf-b1e9-2bc6f6ec314f'
+    ```
+
+    <Tip>
+      In production code, it's safer to store your API key in an environment variable.
+    </Tip>
+  </Tab>
+</Tabs>
+
+The API returns everything in the new style rules list, including the `style_id` which DeepL has assigned it. You'll need this id to reference the list later.
+
+### Including custom instructions
+
+What if we forgot a rule? In French Canadian, numbers below 10 are usually written out, unless the sentence contains other numbers. As the API presently has no predefined rule for that, this is a fine candidate for a custom instruction.
+
+Let's make a new style rule list with the predefined rules above plus this custom instruction, which should cover most cases: "Write out any integer below 10, in any sentence that only contains one number, unless that integer is part of a date, time, percentage, or currency"
+
+For clarity, in the client library code samples below, we create `configured_rules` and `custom_instructions` objects first, then pass those to `createStyleRule()`.
+
+<Tabs defaultTabIndex={2}>
+  <Tab title="HTTP Request">
+    ```http Request
+    POST /v3/style_rules HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey]
+    Content-Type: application/json
+
+    {
+      "name": "Québécois++",
+      "language": "fr",
+      "configured_rules": {
+        "punctuation": {
+          "spacing_and_punctuation": "do_not_use_space",
+          "quotation_mark": "use_guillemets"
+        },
+        "spelling_and_grammar": {
+          "accents_and_cedillas": "use_even_on_capital_letters"
+        }
+      },
+      "custom_instructions": [
+        {
+          "label": "one-digit numbers",
+          "prompt": "Write out any integer below 10, in any sentence that only contains one number, unless that integer is part of a date, time, percentage, or currency"
+        }
+      ]
+    }
+    ```
+
+    ```json Response
+    {
+      "style_id": "7f0a3b2c-1d4e-5f6a-9b8c-0d2e4f6a8b0c",
+      "name": "Québécois++",
+      "creation_time": "2026-04-16T18:45:12.123456Z",
+      "updated_time": "2026-04-16T18:45:12.234567Z",
+      "language": "fr",
+      "version": 1,
+      "custom_instructions": [
+        {
+          "id": "ci-aabbccdd-1122-3344-5566-778899aabbcc",
+          "label": "one-digit numbers",
+          "prompt": "Write out any integer below 10, in any sentence that only contains one number, unless that integer is part of a date, time, percentage, or currency"
+        }
+      ],
+      "configured_rules": {
+        "punctuation": {
+          "quotation_mark": "use_guillemets",
+          "spacing_and_punctuation": "do_not_use_space"
+        },
+        "spelling_and_grammar": {
+          "accents_and_cedillas": "use_even_on_capital_letters"
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="cURL">
+    ```sh Set the API key
+    export DEEPL_API_KEY={YOUR_API_KEY}
+    ```
+
+    ```sh Request
+    curl -X POST https://api.deepl.com/v3/style_rules \
+      --header "Content-Type: application/json" \
+      --header "Authorization: DeepL-Auth-Key $DEEPL_API_KEY" \
+      --data '{
+        "name": "Québécois++",
+        "language": "fr",
+        "configured_rules": {
+          "punctuation": {
+            "spacing_and_punctuation": "do_not_use_space",
+            "quotation_mark": "use_guillemets"
+          },
+          "spelling_and_grammar": {
+            "accents_and_cedillas": "use_even_on_capital_letters"
+          }
+        },
+        "custom_instructions": [
+          {
+            "label": "one-digit numbers",
+            "prompt": "Write out any integer below 10, in any sentence that only contains one number, unless that integer is part of a date, time, percentage, or currency"
+          }
+        ]
+      }'
+    ```
+
+    ```json Response
+    {
+      "style_id": "7f0a3b2c-1d4e-5f6a-9b8c-0d2e4f6a8b0c",
+      "name": "Québécois++",
+      "creation_time": "2026-04-16T18:45:12.123456Z",
+      "updated_time": "2026-04-16T18:45:12.234567Z",
+      "language": "fr",
+      "version": 1,
+      "custom_instructions": [
+        {
+          "id": "ci-aabbccdd-1122-3344-5566-778899aabbcc",
+          "label": "one-digit numbers",
+          "prompt": "Write out any integer below 10, in any sentence that only contains one number, unless that integer is part of a date, time, percentage, or currency"
+        }
+      ],
+      "configured_rules": {
+        "punctuation": {
+          "quotation_mark": "use_guillemets",
+          "spacing_and_punctuation": "do_not_use_space"
+        },
+        "spelling_and_grammar": {
+          "accents_and_cedillas": "use_even_on_capital_letters"
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```py Request
+    configured_rules={
+        "punctuation": {
+            "spacing_and_punctuation": "do_not_use_space",
+            "quotation_mark": "use_guillemets"
+        },
+        "spelling_and_grammar": {
+            "accents_and_cedillas": "use_even_on_capital_letters"
+        }
+    }
+
+    custom_instructions=[
+        {
+            "label": "one-digit numbers",
+            "prompt": "Write out any integer below 10, in any sentence that only contains one number, unless that integer is part of a date, time, percentage, or currency"
+        }
+    ]
+
+    result = deepl_client.create_style_rule(
+        name="Québécois++",
+        language="fr",
+        configured_rules=configured_rules,
+        custom_instructions=custom_instructions
+    )
+
+    print(f"Yay, we made a new style rule list named '{result.name}' with the id '{result.style_id}'.")
+    ```
+
+    ```text Output
+    Yay, we made a new style rule list named 'Québécois++' with the id '7f0a3b2c-1d4e-5f6a-9b8c-0d2e4f6a8b0c'
+    ```
+  </Tab>
+  <Tab title="JavaScript">
+    ```javascript Request
+    const configuredRules =  {
+        punctuation: {
+            spacing_and_punctuation: 'do_not_use_space',
+            quotation_mark: 'use_guillemets'
+        },
+        spelling_and_grammar: {
+            accents_and_cedillas: 'use_even_on_capital_letters'
+        }
+    }
+
+    const customInstructions = [
+        {
+            label: 'one-digit numbers',
+            prompt: 'Write out any integer below 10, in any sentence that only contains one number, unless that integer is part of a date, time, percentage, or currency'
+        }
+    ]
+
+    (async () => {
+        const result = await deeplClient.createStyleRule({
+            name: 'Québécois++',
+            language: 'fr',
+            configuredRules,
+            customInstructions
+        });
+
+        console.log(`Yay, we made a new style rule list named '${result.name}' with the id '${result.styleId}'`);
+    })();
+    ```
+
+    ```text Output
+    Yay, we made a new style rule list named 'Québécois++' with the id '7f0a3b2c-1d4e-5f6a-9b8c-0d2e4f6a8b0c'
+    ```
+  </Tab>
+  <Tab title="PHP">
+    ```php Request
+    $configured_rules = [
+        'punctuation' => [
+            'spacing_and_punctuation' => 'do_not_use_space',
+            'quotation_mark' => 'use_guillemets'
+        ],
+        'spelling_and_grammar' => [
+            'accents_and_cedillas' => 'use_even_on_capital_letters'
+        ]
+    ];
+
+    $custom_instructions = [
+        [
+            'label' => 'one-digit numbers',
+            'prompt' => 'Write out any integer below 10, in any sentence that only contains one number, unless that integer is part of a date, time, percentage, or currency'
+        ]
+    ];
+
+    $result = $deeplClient->createStyleRule('Québécois++', 'fr', $configured_rules, $custom_instructions);
+
+    echo "Yay, we made a new style rule list named '{$result->name}' with the id '{$result->styleId}'";
+    ```
+
+    ```text Output
+    Yay, we made a new style rule list named 'Québécois++' with the id '7f0a3b2c-1d4e-5f6a-9b8c-0d2e4f6a8b0c'
+    ```
+  </Tab>
+  <Tab title="C#">
+    ```csharp Request
+    var configuredRules = new ConfiguredRules(
+        punctuation: new Dictionary<string, string> {
+            ["spacing_and_punctuation"] = "do_not_use_space",
+            ["quotation_mark"] = "use_guillemets"
+        },
+        spellingAndGrammar: new Dictionary<string, string> {
+            ["accents_and_cedillas"] = "use_even_on_capital_letters"
+        }
+    );
+
+    var customInstructions = new List<CustomInstruction> {
+        new CustomInstruction(
+            label: "one-digit numbers",
+            prompt: "Write out any integer below 10, in any sentence that only contains one number, unless that integer is part of a date, time, percentage, or currency"
+        )
+    };
+
+    var result = await client.CreateStyleRuleAsync("Québécois++", "fr", configuredRules, customInstructions);
+
+    Console.WriteLine($"Yay, we made a new style rule list named '{result.Name}' with the id '{result.StyleId}'");
+    ```
+
+    ```text Output
+    Yay, we made a new style rule list named 'Québécois++' with the id '7f0a3b2c-1d4e-5f6a-9b8c-0d2e4f6a8b0c'
+    ```
+  </Tab>
+  <Tab title="Java">
+    ```java Request
+    public class Main {
+        public static void main(String[] args) throws DeepLException, InterruptedException {
+            String authKey = "{YOUR_API_KEY}"; // replace with your key
+            DeepLClient client = new DeepLClient(authKey);
+
+            Map<String, String> punctuation = new HashMap<>();
+            punctuation.put("spacing_and_punctuation", "do_not_use_space");
+            punctuation.put("quotation_mark", "use_guillemets");
+
+            Map<String, String> spellingAndGrammar = new HashMap<>();
+            spellingAndGrammar.put("accents_and_cedillas", "use_even_on_capital_letters");
+
+            ConfiguredRules configuredRules = new ConfiguredRules(
+                null, null, null, punctuation, spellingAndGrammar, null, null);
+
+            List<CustomInstruction> customInstructions = List.of(
+                new CustomInstruction(
+                    "one-digit numbers",
+                    "Write out any integer below 10, in any sentence that only contains one number, unless that integer is part of a date, time, percentage, or currency",
+                    null
+                )
+            );
+
+            StyleRuleInfo result = client.createStyleRule("Québécois++", "fr", configuredRules, customInstructions);
+
+            System.out.println("Yay, we made a new style rule list named '" + result.getName() + "' with the id '" + result.getStyleId() + "'");
+        }
+    }
+    ```
+
+    ```text Output
+    Yay, we made a new style rule list named 'Québécois++' with the id '7f0a3b2c-1d4e-5f6a-9b8c-0d2e4f6a8b0c'
+    ```
+  </Tab>
+</Tabs>
+
+### Client library tips
+
+In the client libraries, `StyleRule` refers to a style rule list, not a single style rule. So, for example, to create a style rule list, depending on your language, you'd use something like `create_style_rule` or `CreateStyleRule`.
+
+In some client libraries, it is simpler to first make a `configuredRules` object, then create a new style rule list object containing those `configuredRules`.
+
+## Using style rules in translation
+
+Let's try our style rule list in an actual translation! To do so, we simply add our list's `style_id` to a translation request, like this:
+
+<Tabs defaultTabIndex={2}>
+  <Tab title="HTTP Request">
+    ```http Request
+    POST /v2/translate HTTP/2
+    Host: api.deepl.com
+    Authorization: DeepL-Auth-Key [yourAuthKey]
+    Content-Type: application/json
+
+    {
+      "text": ["He said, \"I ate 6 burritos all at once!\" She responded, \"STOP!\""],
+      "target_lang": "fr",
+      "style_id": "7f0a3b2c-1d4e-5f6a-9b8c-0d2e4f6a8b0c"
+    }
+    ```
+
+    ```json Response
+    {
+      "translations": [
+        {
+          "detected_source_language": "EN",
+          "text": "Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu: « ARRÊTE! »"
+        }
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="cURL">
+    ```sh Set the API key
+    export DEEPL_API_KEY={YOUR_API_KEY}
+    ```
+
+    ```sh Request
+    curl -X POST https://api.deepl.com/v2/translate \
+      --header "Content-Type: application/json" \
+      --header "Authorization: DeepL-Auth-Key $DEEPL_API_KEY" \
+      --data '{
+        "text": ["He said, \"I ate 6 burritos all at once!\" She responded, \"STOP!\""],
+        "target_lang": "fr",
+        "style_id": "7f0a3b2c-1d4e-5f6a-9b8c-0d2e4f6a8b0c"
+      }'
+    ```
+
+    ```json Response
+    {
+      "translations": [
+        {
+          "detected_source_language": "EN",
+          "text": "Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE! »"
+        }
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```py Request
+    text = 'He said, "I ate 6 burritos all at once!" She responded, "STOP!"'
+    result = deepl_client.translate_text(text, target_lang='fr', style_id='7f0a3b2c-1d4e-5f6a-9b8c-0d2e4f6a8b0c')
+
+    print(result.text)
+    ```
+
+    ```text Output
+    Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE! »
+    ```
+  </Tab>
+  <Tab title="JavaScript">
+    ```javascript Request
+    (async () => {
+        const text = 'He said, "I ate 6 burritos all at once!" She responded, "STOP!"';
+        const result = await deeplClient.translateText(text, null, 'fr', { styleId: '7f0a3b2c-1d4e-5f6a-9b8c-0d2e4f6a8b0c' });
+
+        console.log(result.text);
+    })();
+    ```
+
+    ```text Output
+    Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE! »
+    ```
+  </Tab>
+  <Tab title="PHP">
+    ```php Request
+    require_once 'vendor/autoload.php';
+    use DeepL\Client;
+
+    $authKey = "{YOUR_API_KEY}"; // replace with your key
+    $deeplClient = new DeepL\DeepLClient($authKey);
+
+    $text = 'He said, "I ate 6 burritos all at once!" She responded, "STOP!"';
+
+    $result = $deeplClient->translateText($text, null, 'fr', ['style_id' => '7f0a3b2c-1d4e-5f6a-9b8c-0d2e4f6a8b0c']);
+
+    echo $result->text;
+    ```
+
+    ```text Output
+    Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE! »
+    ```
+  </Tab>
+  <Tab title="C#">
+    ```csharp Request
+    var text = "He said, \"I ate 6 burritos all at once!\" She responded, \"STOP!\"";
+    var options = new TextTranslateOptions { StyleId = "7f0a3b2c-1d4e-5f6a-9b8c-0d2e4f6a8b0c" };
+    var result = await client.TranslateTextAsync(text, null, "fr", options);
+
+    Console.WriteLine(result.Text);
+    ```
+
+    ```text Output
+    Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE! »
+    ```
+  </Tab>
+  <Tab title="Java">
+    ```java Request
+    public class Main {
+        public static void main(String[] args) throws DeepLException, InterruptedException {
+            String authKey = "{YOUR_API_KEY}"; // replace with your key
+            DeepLClient client = new DeepLClient(authKey);
+
+            String text = "He said, \"I ate 6 burritos all at once!\" She responded, \"STOP!\"";
+            TextTranslateOptions options = new TextTranslateOptions().setStyleId("7f0a3b2c-1d4e-5f6a-9b8c-0d2e4f6a8b0c");
+
+            TextResult result = client.translateText(text, null, "fr", options);
+
+            System.out.println(result.getText());
+        }
+    }
+    ```
+
+    ```text Output
+    Il a dit: «J'ai mangé six burritos d'un coup!» Elle a répondu : « ARRÊTE! »
+    ```
+  </Tab>
+</Tabs>
+
+Notice that the translation includes French chevrons, the number "six" is spelled out, the circumflex accent is included on "ARRÊTE", and there's no space before final exclamation points. 
+
+## Additional details
+
+### Sharing lists with DeepL Translator
+In certain cases, you can share these rules between the [DeepL Translator](https://www.deepl.com) and the API. See the [style rules reference](/api-reference/style-rules) for current information.
+The API provides many predefined rules that are unavailable in the DeepL Translator. Sometimes it’s good to be a programmer.
+
+### Language support
+Predefined rules can only be applied to specific languages. If you try to add a predefined rule to a list for a language where it is not supported, the API will throw an error.
+
+## Keep exploring
+For information on retrieving style rule lists, deleting lists, or modifying the predefined rules or custom instructions in a list, see the Style Rules reference. Happy customization!
