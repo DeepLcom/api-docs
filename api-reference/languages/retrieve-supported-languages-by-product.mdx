@@ -38,6 +38,7 @@ are querying language support for:
 | `voice` | Speech transcription and translation via the `/v3/voice` endpoints |
 | `write` | Text improvement via the `/v2/write` endpoints |
 | `glossary` | Glossary management via the `/v2/` and `/v3/glossaries` endpoints |
+| `style_rules` | Style rules management via the `/v3/style_rules`endpoints |
 
 <Note>
     `glossary` is a product value indicating glossaries can be created for that language, and managed via the glossary
@@ -128,11 +129,28 @@ To use a feature, one or both languages in the pair must support it. For example
   present in the target language's `features` array.
 - **Source-and-target**: `tag_handling` and `glossary` must be supported by both languages. Check that the
   feature is present in *both* the source and target language's `features` arrays.
-
-Source-only features are also supported by the schema, and may be introduced in future products.
+- **Source-only**: `auto_detection` only needs to be supported by the source language.
 
 In the documentation for API features that are supported for only a subset of languages, we specify
 which language feature value to check, and whether to check the source language, target language, or both.
+
+### Product feature reference
+
+The table below lists all feature values that can appear in a language's `features` array.
+
+| Feature                      | Check language support on | Products                                                 | Description                                                                                                                                                                |
+|------------------------------|---------------------------|----------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `auto_detection`             | source                    | `translate_text`, `translate_document`, `voice`, `write` | Language can be automatically detected as the source language.                                                                                                             |
+| `custom_instructions`        | target                    | `translate_text`                                         | Language supports custom instructions that guide how DeepL translates text.                                                                                                |
+| `formality`                  | target                    | `translate_text`, `translate_document`                   | Language supports formality control — adjusting the output to use formal or informal register.                                                                             |
+| `glossary`                   | source + target           | `translate_text`, `translate_document`, `voice`          | Language can be used with a glossary to enforce specific terminology. Both the source and target language must support this for a glossary to be usable with a given pair. |
+| `tag_handling`               | source + target           | `translate_text`, `translate_document`                   | Language supports tag-aware translation, preserving markup structure (e.g. HTML, XML) in the output.                                                                       |
+| `transcription`              | source                    | `voice`                                                  | Language supports transcription from audio to text.                                                                                                                        |
+| `transcription_external`     | source                    | `voice`                                                  | Like `transcription`, but relies on using external service providers.                                                                                                      |
+| `translated_speech`          | target                    | `voice`                                                  | Language supports conversion from translated text to audio output.                                                                                                         |
+| `translated_speech_external` | target                    | `voice`                                                  | Like `translated_speech`, but relies on using external service providers.                                                                                                  |
+| `tone`                       | target                    | `write`                                                  | Language supports tone selection (e.g. confident, diplomatic, enthusiastic).                                                                                               |
+| `writing_style`              | target                    | `write`                                                  | Language supports writing style selection (e.g. academic, casual, business).                                                                                               |
 
 ## Retrieving products programmatically
 
@@ -150,25 +168,28 @@ curl -X GET 'https://api.deepl.com/v3/languages/products' \
 [
   {
     "name": "translate_text",
-    "endpoints": ["v2/translate"],
     "features": [
       {
         "name": "formality",
-        "required_on_target": true
+        "needs_target_support": true
       },
       {
         "name": "custom_instructions",
-        "required_on_target": true
+        "needs_target_support": true
       },
       {
         "name": "tag_handling",
-        "required_on_source": true,
-        "required_on_target": true
+        "needs_source_support": true,
+        "needs_target_support": true
       },
       {
         "name": "glossary",
-        "required_on_source": true,
-        "required_on_target": true
+        "needs_source_support": true,
+        "needs_target_support": true
+      },
+      {
+        "name": "auto_detection",
+        "needs_source_support": true
       }
     ]
   }
