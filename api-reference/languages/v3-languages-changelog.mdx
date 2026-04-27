@@ -68,6 +68,18 @@ Possible values: `"beta"`, `"early_access"`. Languages in GA omit this field ent
 
 ---
 
+### Breaking: rename `custom_instructions` feature to `style_rules`
+
+The `custom_instructions` feature value on `translate_text` will be renamed to `style_rules`:
+
+| Current value | New value |
+|---|---|
+| `custom_instructions` | `style_rules` |
+
+Update any code that checks for `"custom_instructions"` in a language's `features` array.
+
+---
+
 ### New: expanded Voice features
 
 The `voice` product will expose a richer set of features in `/v3/languages/products` and per-language `features` arrays,
