@@ -77,7 +77,7 @@
             ]
           },
           {
-            "group": "Customizations",
+            "group": "Customize",
             "pages": [
               "docs/learning-how-tos/examples-and-guides/glossaries-in-the-real-world",
               "docs/best-practices/custom-instructions",
@@ -144,7 +144,7 @@
         "tab": "API Reference",
         "groups": [
           {
-            "group": "Translate API",
+            "group": "Translate",
             "pages": [
               {
                 "group": "Translate Text",
@@ -162,7 +162,12 @@
                   "api-reference/document/download-translated-document"
                 ]
               },
-              "api-reference/detect-language/detect-language-beta",
+              "api-reference/detect-language/detect-language-beta"
+            ]
+          },
+          {
+            "group": "Customize",
+            "pages": [
               {
                 "group": "Glossaries",
                 "pages": [
@@ -216,7 +221,7 @@
             ]
           },
           {
-            "group": "Voice API",
+            "group": "Voice",
             "pages": [
               "api-reference/voice",
               "api-reference/voice/request-session",
@@ -225,14 +230,14 @@
             ]
           },
           {
-            "group": "Write API",
+            "group": "Write",
             "pages": [
               "api-reference/improve-text",
               "api-reference/improve-text/request-text-improvement"
             ]
           },
           {
-            "group": "Admin API",
+            "group": "Admin",
             "pages": [
               "api-reference/admin-api",
               "api-reference/admin-api/managing-admin-keys",
