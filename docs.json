@@ -37,98 +37,108 @@
           {
             "group": "Getting Started",
             "pages": [
-              "docs/getting-started/about",
               "docs/getting-started/quickstart",
+              "docs/getting-started/about",
               "docs/getting-started/client-libraries"
             ]
           },
           {
-            "group": "Essentials",
+            "group": "Languages",
             "pages": [
               "docs/getting-started/supported-languages",
-              "docs/getting-started/auth",
-              "docs/getting-started/managing-api-keys",
-              "docs/getting-started/test-your-api-requests-with-postman",
-              "docs/getting-started/regional-endpoints"
+              "docs/learning-how-tos/examples-and-guides/enable-beta-languages",
+              "docs/resources/language-release-process"
             ]
           },
           {
-            "group": "Learning & How Tos",
+            "group": "Translate",
             "pages": [
               {
-                "group": "Guides",
+                "group": "Text Translation",
                 "pages": [
-                  "docs/learning-how-tos/examples-and-guides/first-things-to-try-with-the-deepl-api",
                   "docs/learning-how-tos/examples-and-guides/translation-beginners-guide",
                   "docs/learning-how-tos/examples-and-guides/how-to-use-context-parameter",
                   "docs/learning-how-tos/examples-and-guides/translating-between-variants",
-                  "docs/learning-how-tos/examples-and-guides/glossaries-in-the-real-world",
                   "docs/learning-how-tos/examples-and-guides/placeholder-tags",
-                  "docs/learning-how-tos/examples-and-guides/deepl-mcp-server-how-to-build-and-use-translation-in-llm-applications",
-                  "docs/learning-how-tos/examples-and-guides/how-to-use-translation-memories"
-                ]
+                  "docs/best-practices/language-detection"
+                ],
+                "drilldown": false
               },
+              "docs/best-practices/document-translations",
               {
-                "group": "Cookbook",
+                "group": "XML & HTML",
                 "pages": [
-                  "docs/learning-how-tos/cookbook",
-                  "docs/learning-how-tos/cookbook/google-sheets",
-                  "docs/learning-how-tos/cookbook/automating-indie-game-localization-with-the-deepl-api-and-godot",
-                  "docs/learning-how-tos/cookbook/java-document-translator",
-                  "docs/learning-how-tos/cookbook/usage-analytics-dashboard",
-                  "docs/learning-how-tos/cookbook/nodejs-proxy"
-                ]
+                  "docs/xml-and-html-handling/xml",
+                  "docs/xml-and-html-handling/structured-content",
+                  "docs/xml-and-html-handling/html",
+                  "docs/xml-and-html-handling/customized-xml-outline-detection",
+                  "docs/xml-and-html-handling/tag-handling-v2"
+                ],
+                "drilldown": false
               }
+            ]
+          },
+          {
+            "group": "Customize",
+            "pages": [
+              "docs/learning-how-tos/examples-and-guides/glossaries-in-the-real-world",
+              "docs/best-practices/custom-instructions",
+              "docs/learning-how-tos/examples-and-guides/how-to-use-translation-memories"
+            ]
+          },
+          {
+            "group": "Admin",
+            "pages": [
+              "docs/getting-started/managing-api-keys"
+            ]
+          },
+          {
+            "group": "Going to Production",
+            "pages": [
+              "docs/getting-started/regional-endpoints",
+              "docs/best-practices/pre-production-checklist",
+              "docs/best-practices/error-handling",
+              "docs/best-practices/cost-control",
+              "docs/best-practices/cors-requests",
+              "docs/resources/usage-limits"
+            ]
+          },
+          {
+            "group": "Cookbooks",
+            "pages": [
+              "docs/learning-how-tos/cookbook/automating-indie-game-localization-with-the-deepl-api-and-godot",
+              "docs/learning-how-tos/cookbook/nodejs-proxy",
+              "docs/learning-how-tos/cookbook/java-document-translator",
+              "docs/learning-how-tos/cookbook/usage-analytics-dashboard",
+              "docs/learning-how-tos/examples-and-guides/deepl-mcp-server-how-to-build-and-use-translation-in-llm-applications",
+              "docs/learning-how-tos/cookbook/google-sheets"
             ]
           },
           {
             "group": "Developer Tools",
             "pages": [
-              "docs/getting-started/client-libraries-reference",
               "docs/getting-started/deepl-cli",
-              "docs/getting-started/deepl-mcp-server"
+              "docs/getting-started/deepl-mcp-server",
+              "docs/getting-started/test-your-api-requests-with-postman",
+              "docs/resources/deepl-developer-community",
+              "docs/resources/open-api-spec"
             ]
           },
           {
-            "group": "Best Practices",
-            "pages": [
-              "docs/best-practices/error-handling",
-              "docs/best-practices/cors-requests",
-              "docs/best-practices/document-translations",
-              "docs/best-practices/language-detection",
-              "docs/best-practices/cost-control",
-              "docs/best-practices/pre-production-checklist",
-              "docs/best-practices/custom-instructions"
-            ]
-          },
-          {
-            "group": "XML and HTML handling",
-            "pages": [
-              "docs/xml-and-html-handling/xml",
-              "docs/xml-and-html-handling/structured-content",
-              "docs/xml-and-html-handling/customized-xml-outline-detection",
-              "docs/xml-and-html-handling/html",
-              "docs/xml-and-html-handling/tag-handling-v2"
-            ]
-          },
-          {
-            "group": "Resources",
+            "group": "API Updates",
             "pages": [
               "docs/resources/roadmap-and-release-notes",
-              "docs/resources/usage-limits",
-              "docs/resources/deepl-developer-community",
+              "docs/resources/alpha-and-beta-features",
               {
-                "group": "Breaking changes (change notices)",
+                "group": "Breaking changes",
                 "pages": [
                   "docs/resources/breaking-changes-change-notices",
                   "docs/resources/breaking-changes-change-notices/july-2024-deprecation-of-insecure-cipher-suites",
                   "docs/resources/breaking-changes-change-notices/march-2025-deprecating-get-requests-to-translate-and-authenticating-with-auth_key",
                   "docs/resources/breaking-changes-change-notices/november-2025-deprecation-of-legacy-auth-methods"
-                ]
-              },
-              "docs/resources/language-release-process",
-              "docs/resources/alpha-and-beta-features",
-              "docs/resources/open-api-spec"
+                ],
+                "drilldown": false
+              }
             ]
           }
         ]
@@ -137,31 +147,32 @@
         "tab": "API Reference",
         "groups": [
           {
-            "group": "API Reference",
+            "group": "Translate",
             "pages": [
               {
-                "group": "Translate text",
+                "group": "Translate Text",
                 "pages": [
                   "api-reference/translate",
                   "api-reference/translate/request-translation"
-                ]
+                ],
+                "drilldown": false
               },
               {
-                "group": "Translate documents",
+                "group": "Translate Documents",
                 "pages": [
                   "api-reference/document",
                   "api-reference/document/upload-and-translate-a-document",
                   "api-reference/document/check-document-status",
                   "api-reference/document/download-translated-document"
-                ]
+                ],
+                "drilldown": false
               },
-              {
-                "group": "Improve text",
-                "pages": [
-                  "api-reference/improve-text",
-                  "api-reference/improve-text/request-text-improvement"
-                ]
-              },
+              "api-reference/detect-language/detect-language-beta"
+            ]
+          },
+          {
+            "group": "Customize",
+            "pages": [
               {
                 "group": "Glossaries",
                 "pages": [
@@ -176,7 +187,8 @@
                   "api-reference/multilingual-glossaries/deletes-the-dictionary-associated-with-the-given-language-pair-with-the-given-glossary-id",
                   "api-reference/multilingual-glossaries/replaces-or-creates-a-dictionary-in-the-glossary-with-the-specified-entries",
                   {
-                    "group": "Manage Monolingual Glossaries",
+                    "group": "Glossaries v2",
+                    "tag": "DEPRECATED",
                     "pages": [
                       "api-reference/glossaries",
                       "api-reference/glossaries/v2-vs-v3-endpoints",
@@ -185,18 +197,14 @@
                       "api-reference/glossaries/retrieve-glossary-details",
                       "api-reference/glossaries/retrieve-glossary-entries",
                       "api-reference/glossaries/delete-a-glossary"
-                    ]
+                    ],
+                    "drilldown": false
                   }
-                ]
+                ],
+                "drilldown": false
               },
               {
-                "group": "Translation memory",
-                "pages": [
-                  "api-reference/translation-memory/list-translation-memories"
-                ]
-              },
-              {
-                "group": "Style rules",
+                "group": "Style Rules",
                 "pages": [
                   "api-reference/style-rules",
                   "api-reference/style-rules/list-all-style-rules",
@@ -209,62 +217,86 @@
                   "api-reference/style-rules/get-custom-instruction",
                   "api-reference/style-rules/update-custom-instruction",
                   "api-reference/style-rules/delete-custom-instruction"
-                ]
+                ],
+                "drilldown": false
               },
               {
-                "group": "Retrieve usage and quota",
+                "group": "Translation Memory",
                 "pages": [
-                  "api-reference/usage-and-quota",
-                  "api-reference/usage-and-quota/check-usage-and-limits"
-                ]
-              },
+                  "api-reference/translation-memory/list-translation-memories"
+                ],
+                "drilldown": false
+              }
+            ]
+          },
+          {
+            "group": "Voice",
+            "pages": [
+              "api-reference/voice",
+              "api-reference/voice/request-session",
+              "api-reference/voice/websocket-streaming",
+              "api-reference/voice/reconnect-session"
+            ]
+          },
+          {
+            "group": "Write",
+            "pages": [
+              "api-reference/improve-text",
+              "api-reference/improve-text/request-text-improvement"
+            ]
+          },
+          {
+            "group": "Languages",
+            "pages": [
+              "api-reference/languages",
+              "api-reference/languages/retrieve-supported-languages",
               {
-                "group": "Detect language",
+                "group": "Languages By Product",
+                "tag": "BETA",
                 "pages": [
-                  "api-reference/detect-language/detect-language-beta"
-                ]
-              },
+                  "api-reference/languages/retrieve-supported-languages-by-product",
+                  "api-reference/languages/language-feature-use-cases",
+                  "api-reference/languages/retrieve-languages-by-product",
+                  "api-reference/languages/retrieve-products",
+                  "api-reference/languages/migrate-from-v2-languages",
+                  "api-reference/languages/v3-languages-changelog"
+                ],
+                "drilldown": false
+              }
+            ]
+          },
+          {
+            "group": "Admin",
+            "pages": [
+              "api-reference/admin-api",
+              "api-reference/admin-api/managing-admin-keys",
               {
-                "group": "Retrieve languages",
+                "group": "Managing Developer Keys",
                 "pages": [
-                  "api-reference/languages",
-                  "api-reference/languages/retrieve-supported-languages",
-                  {
-                    "group": "Retrieve supported languages by product (v3) [BETA]",
-                    "pages": [
-                      "api-reference/languages/retrieve-supported-languages-by-product",
-                      "api-reference/languages/language-feature-use-cases",
-                      "api-reference/languages/retrieve-languages-by-product",
-                      "api-reference/languages/retrieve-products",
-                      "api-reference/languages/migrate-from-v2-languages",
-                      "api-reference/languages/v3-languages-changelog"
-                    ]
-                  }
-                ]
-              },
-              {
-                "group": "Admin API",
-                "pages": [
-                  "api-reference/admin-api",
-                  "api-reference/admin-api/managing-admin-keys",
                   "api-reference/admin-api/managing-developer-keys",
                   "api-reference/admin-api/managing-developer-keys/create-key",
                   "api-reference/admin-api/managing-developer-keys/get-keys",
                   "api-reference/admin-api/managing-developer-keys/deactivate-key",
                   "api-reference/admin-api/managing-developer-keys/rename-key",
-                  "api-reference/admin-api/managing-developer-keys/set-usage-limits",
-                  "api-reference/admin-api/organization-usage-analytics",
-                  "api-reference/admin-api/get-usage-analytics"
-                ]
+                  "api-reference/admin-api/managing-developer-keys/set-usage-limits"
+                ],
+                "drilldown": false
               },
               {
-                "group": "Translate Speech in Realtime",
+                "group": "Usage & Quota",
                 "pages": [
-                  "api-reference/voice",
-                  "api-reference/voice/request-session",
-                  "api-reference/voice/websocket-streaming",
-                  "api-reference/voice/reconnect-session"
-                ]
+                  "api-reference/usage-and-quota",
+                  "api-reference/usage-and-quota/check-usage-and-limits"
+                ],
+                "drilldown": false
+              },
+              {
+                "group": "Organization Usage Analytics",
+                "pages": [
+                  "api-reference/admin-api/organization-usage-analytics",
+                  "api-reference/admin-api/get-usage-analytics"
+                ],
+                "drilldown": false
               }
             ]
           }
@@ -279,8 +311,12 @@
   "navbar": {
     "links": [
       {
-        "label": "DeepL Web Translator",
-        "href": "https://www.deepl.com/translator"
+        "label": "API Pricing",
+        "href": "https://www.deepl.com/pro-api#api-pricing"
+      },
+      {
+        "label": "Manage Keys",
+        "href": "https://www.deepl.com/your-account/keys"
       },
       {
         "label": "Contact Us",
@@ -303,7 +339,9 @@
   },
   "api": {
     "examples": {
-      "languages": ["curl"]
+      "languages": [
+        "curl"
+      ]
     },
     "playground": {
       "proxy": false
@@ -475,7 +513,13 @@
     }
   },
   "contextual": {
-    "options": ["copy", "chatgpt", "claude", "cursor", "vscode"]
+    "options": [
+      "copy",
+      "chatgpt",
+      "claude",
+      "cursor",
+      "vscode"
+    ]
   },
   "head": [
     {
