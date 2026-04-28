@@ -163,7 +163,6 @@
                 ]
               },
               "api-reference/detect-language/detect-language-beta",
-              "api-reference/quality-estimation/quality-estimation-alpha",
               {
                 "group": "Glossaries",
                 "pages": [
@@ -270,7 +269,7 @@
               "api-reference/languages",
               "api-reference/languages/retrieve-supported-languages",
               {
-                "group": "v3 By-Product Endpoints",
+                "group": "Languages By Product",
                 "tag": "BETA",
                 "pages": [
                   "api-reference/languages/retrieve-supported-languages-by-product",
