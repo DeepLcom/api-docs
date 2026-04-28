@@ -38,6 +38,7 @@
             "group": "Getting Started",
             "pages": [
               "docs/getting-started/quickstart",
+              "docs/getting-started/about",
               "docs/getting-started/client-libraries"
             ]
           },
