@@ -235,7 +235,7 @@ export const LanguageTable = () => {
                 {lang.isBeta && (
                     <span
                         className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-200"
-                        title="This language is currently in Beta. Characters translated into this language are not billed during the Beta phase."
+                        title="This language is currently in beta. Characters translated into this language are not billed during the beta phase."
                     >
                         Beta
                     </span>
