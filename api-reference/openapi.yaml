@@ -2940,7 +2940,6 @@ paths:
       description: |-
         Creates an async voice translation job. The response includes an upload URL for the source audio file.
 
-        Source audio must be at most 3 hours long. Longer recordings are rejected after upload with a `failed` result; split them into shorter segments and submit each as its own job.
       security:
         - auth_header: []
       parameters:
