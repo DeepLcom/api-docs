@@ -69,6 +69,16 @@ Possible values: `"beta"`, `"early_access"`. Languages in GA omit this field ent
 
 ---
 
+### Breaking: rename `product` to `resource`
+
+`resource` is a clearer name for what this is describing.
+
+This involves the following changes:
+- move the `GET /v3/languages/products` endpoint to `GET /v3/languages/resources`
+- rename the `GET /v3/languages` query parameter `product` to `resource`
+
+---
+
 ### Breaking: rename `custom_instructions` feature to `style_rules`
 
 The `custom_instructions` feature value on `translate_text` will be renamed to `style_rules`:
