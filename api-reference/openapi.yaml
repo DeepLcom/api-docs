@@ -464,11 +464,6 @@ paths:
                   $ref: '#/components/schemas/TagHandlingVersionOption'
                 outline_detection:
                   $ref: '#/components/schemas/OutlineDetectionOption'
-                enable_beta_languages:
-                  description: |-
-                    No languages are currently in beta. This parameter is maintained for backward compatibility and has no effect.
-                  type: boolean
-                  default: false
                 non_splitting_tags:
                   description: Comma-separated list of XML tags which never split sentences.
                   type: array
@@ -534,11 +529,6 @@ paths:
                   $ref: '#/components/schemas/TagHandlingOption'
                 outline_detection:
                   $ref: '#/components/schemas/OutlineDetectionOptionStr'
-                enable_beta_languages:
-                  description: |-
-                    No languages are currently in Beta. This parameter is maintained for backward compatibility and has no effect. Previously enabled 81 languages that are now part of the standard language list. See the [full list](/docs/getting-started/supported-languages).
-                  type: boolean
-                  default: false
                 non_splitting_tags:
                   description: Comma-separated list of XML tags which never split sentences.
                   type: array
@@ -681,11 +671,6 @@ paths:
                   $ref: '#/components/schemas/Formality'
                 glossary_id:
                   $ref: '#/components/schemas/GlossaryId'
-                enable_beta_languages:
-                  description: |-
-                    No languages are currently in Beta. This parameter is maintained for backward compatibility and has no effect. Previously enabled 81 languages that are now part of the standard language list. See the [full list](/docs/getting-started/supported-languages).
-                  type: boolean
-                  default: false
       responses:
         200:
           description: The document function returns a JSON object containing the
