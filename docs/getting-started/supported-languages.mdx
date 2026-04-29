@@ -12,9 +12,11 @@ The DeepL API supports the following languages. These can also be retrieved prog
 
 import { LanguageTable } from "/snippets/language-table.jsx"
 
-`de-CH` (German, Swiss) and `fr-CA` (French, Canadian) are currently in Beta (from April 30, 2026). During the Beta phase, characters translated into these languages are not billed and do not count against your character threshold. See [Alpha and beta features](/docs/resources/alpha-and-beta-features) for more information.
-
 <LanguageTable />
+
+<Info>
+  Currently, characters translated into beta languages are not billed. See [Alpha and beta features](/docs/resources/alpha-and-beta-features) for more information.
+</Info>
 
 <Info>
   Text improvement languages have not yet been added to the [`/languages` endpoint](/api-reference/languages/retrieve-supported-languages). For `/write/rephrase`, `writing_style` and `tone` currently work in `DE`, `EN-GB`, and `EN-US`.
