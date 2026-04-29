@@ -1,0 +1,73 @@
+---
+title: "Reference"
+sidebarTitle: "Reference"
+description: "Status lifecycle, limits, supported audio formats, languages, and output formats for the Voice Translate Job API."
+public: true
+---
+
+## Result Status Lifecycle
+
+Each target result progresses through these statuses independently:
+
+<Steps>
+  <Step title="pending">Job created; source file not yet uploaded.</Step>
+  <Step title="uploaded">Source file received; processing has not started.</Step>
+  <Step title="processing">Translation in progress.</Step>
+  <Step title="complete">Result is ready to download.</Step>
+  <Step title="downloaded">Result has been downloaded; assets marked for deletion.</Step>
+</Steps>
+
+A target can transition to `failed` from any non-terminal state. When a target fails, the `error` field contains a description of the failure.
+
+## Limits
+
+| **Limit**                                            |                       **Value** |
+| :--------------------------------------------------- | ------------------------------: |
+| Maximum file size                                    |     1 GB (1,073,741,824 bytes) |
+| Maximum source duration                              |                         3 hours |
+| Time to upload after job creation                    |                       5 minutes |
+| Time to download results after upload                |                          1 hour |
+| Maximum concurrent jobs per customer                 |                              10 |
+| Maximum concurrent jobs per customer (files > 100 MB) |                              2 |
+| Maximum targets per job                              | No limit (constrained by storage quota) |
+
+After all results are downloaded or the job expires, the job is deleted and returns `404`. Usage is billed based on the duration of the source audio.
+
+Source audio over 3 hours is rejected, even if the file is under 1 GB. For longer recordings, split the source into chunks and submit each as its own job.
+
+## Supported Source Audio Formats
+
+- `audio/mpeg`
+- `audio/wav`
+- `audio/ogg`
+- `audio/flac`
+- `audio/mp4`
+- `audio/webm`
+
+## Supported Languages
+
+Source and target languages match the [real-time Voice API](/api-reference/voice#supported-languages). `source_language` is optional; if omitted, the language is detected automatically.
+
+## Supported Output Formats
+
+Each target specifies a `type` for the desired output format.
+
+| **Type**                                       | **Description**                |
+| :--------------------------------------------- | :----------------------------- |
+| `text/plain`                                   | Plain text transcript          |
+| `audio/opus`                                   | Opus audio                     |
+| `audio/flac`                                   | FLAC audio                     |
+| `audio/pcm;encoding=s16le;rate=16000`          | PCM 16-bit signed LE, 16 kHz   |
+| `audio/pcm;encoding=s16le;rate=24000`          | PCM 16-bit signed LE, 24 kHz   |
+| `audio/pcm;encoding=ulaw;rate=8000`            | PCM u-law, 8 kHz               |
+| `audio/pcm;encoding=alaw;rate=8000`            | PCM A-law, 8 kHz               |
+| `audio/x-matroska;codecs=aac`                  | Matroska with AAC              |
+| `audio/x-matroska;codecs=flac`                 | Matroska with FLAC             |
+| `audio/x-matroska;codecs=opus`                 | Matroska with Opus             |
+| `audio/x-matroska;codecs=pcm_s16le;rate=16000` | Matroska with PCM 16 kHz       |
+| `audio/x-matroska;codecs=pcm_s16le;rate=24000` | Matroska with PCM 24 kHz       |
+| `video/mp2t;codecs=aac`                        | MPEG-TS with AAC               |
+| `video/mp2t;codecs=opus`                       | MPEG-TS with Opus              |
+| `audio/ogg;codecs=flac`                        | Ogg with FLAC                  |
+| `audio/ogg;codecs=opus`                        | Ogg with Opus                  |
+| `audio/webm;codecs=opus`                       | WebM with Opus                 |
