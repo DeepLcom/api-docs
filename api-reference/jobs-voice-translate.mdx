@@ -13,7 +13,7 @@ The Voice Translate Job API provides asynchronous translation of audio files int
 
 The Voice Translate Job API processes entire audio files asynchronously. This makes it suitable for pre-recorded content such as podcasts, meeting recordings, or other media files. For live audio, see the [real-time Voice API](/api-reference/voice).
 
-Each job can produce multiple translation targets simultaneously. For example, a single English podcast can be translated into German text and Spanish audio in one job.
+Each job can translate and transcribe audio into multiple languages. For example, a single English podcast can be translated into both German text and Spanish audio in one job.
 
 For full request and response schemas, see the [Create Job](/api-reference/jobs-voice-translate/create-voice-translate-job) and [Get Job Status](/api-reference/jobs-voice-translate/get-voice-translate-job-status) endpoint references. For status values, limits, supported formats, and supported languages, see the [Reference](/api-reference/jobs-voice-translate/reference).
 
@@ -299,7 +299,7 @@ for target, result in zip(status["targets"], status["results"]):
     print(f"{target['language']}: wrote {out_path}")
 ```
 
-Run it with `DEEPL_AUTH_KEY=... python complete_example.py`. API Free users should change `API_BASE` to `https://api-free.deepl.com`.
+Run it with `DEEPL_AUTH_KEY=... python complete_example.py`.
 
 ## Choosing an Authentication Method
 
