@@ -7,7 +7,7 @@ public: true
 
 The text-translation API currently consists of a single endpoint, `translate`, which is described below.
 
-For highest translation quality, we recommend using our next-gen models. For details, please see [here](/docs/api-reference/translate#about-the-model-type-parameter).
+For highest translation quality, we recommend using our next-gen models. For details, please see [here](/api-reference/translate#about-the-model_type-parameter).
 
 To learn more about context in DeepL API translations, see our [context parameter guide](/docs/learning-how-tos/examples-and-guides/how-to-use-context-parameter).
 
@@ -184,13 +184,10 @@ Note that we do not include examples for our client libraries in every single se
   </Warning>
 </ParamField>
 <ParamField body="source_lang" type="string">
-  Language of the text to be translated. If omitted, the API will attempt to detect the language of the text and translate it. You can find supported source languages <a href="/docs/getting-started/supported-languages#translation-source-languages">here</a>.
+  Language of the text to be translated. If omitted, the API will attempt to detect the language of the text and translate it. You can find supported source languages <a href="/docs/getting-started/supported-languages">here</a>.
 </ParamField>
 <ParamField body="target_lang" type="string" required>
-  The language into which the text should be translated. You can find supported target languages <a href="/docs/getting-started/supported-languages#translation-target-languages">here</a>.
-</ParamField>
-<ParamField body="enable_beta_languages" type="boolean">
-  No languages are currently in beta. This parameter is maintained for backward compatibility and has no effect.
+  The language into which the text should be translated. You can find supported target languages <a href="/docs/getting-started/supported-languages">here</a>.
 </ParamField>
 <ParamField body="context" type="string">
   The <code>context</code> parameter makes it possible to include additional context that can influence a translation but is not translated itself. This additional context can potentially improve translation quality when translating short, low-context source texts such as product names on an e-commerce website, article headlines on a news website, or UI elements.
@@ -229,7 +226,7 @@ Note that we do not include examples for our client libraries in every single se
 error.
   </Info>
 
-  See [About the model_type parameter](#about-the-model-type-parameter) for more details.
+  See [About the model_type parameter](#about-the-model_type-parameter) for more details.
 </ParamField>
 <ParamField body="split_sentences" type="string">
   Sets whether the translation engine should first split the input into sentences. For text translations where <code>tag_handling</code> is not set to <code>html</code>, the default value is <code>1</code>, meaning the engine splits on punctuation and on newlines.

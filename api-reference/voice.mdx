@@ -183,16 +183,16 @@ sequenceDiagram
 
 **Sending Source Audio**
 
-Continuously send audio using [source media chunk](/api-reference/voice/websocket-streaming#sourcemediachunk) messages.
+Continuously send audio using [source media chunk](/api-reference/voice/websocket-streaming) messages.
 Use smaller chunks to get a lower latency. The recommended chunk duration is 50-250 milliseconds for optimal performance.
-Send an [end of source media](/api-reference/voice/websocket-streaming#endofsourcemedia) message to signal that the
+Send an [end of source media](/api-reference/voice/websocket-streaming) message to signal that the
 audio stream is complete and to finalize the processing.
 
 **Receiving Transcripts and Translations**
 
 As the audio is processed, transcripts and translations are delivered incrementally in real-time via
-[source transcript updates](/api-reference/voice/websocket-streaming#sourcetranscriptupdate) and
-[target transcript updates](/api-reference/voice/websocket-streaming#targettranscriptupdate):
+[source transcript updates](/api-reference/voice/websocket-streaming) and
+[target transcript updates](/api-reference/voice/websocket-streaming):
 
 * **Concluded segments** - Finalized text that will not change. These segments are sent once and remain fixed.
 * **Tentative segments** - Preliminary text that may be refined as more audio context becomes available. These segments may be updated in subsequent messages.
@@ -203,7 +203,7 @@ provisional that will be updated.
  <Badge color="green">closed beta</Badge> **Receiving Translated Speech**
 
 Translated speech is delivered incrementally as speech-only audio via
-[target media chunks](/api-reference/voice/websocket-streaming#targetmediachunk). To save on bandwidth,
+[target media chunks](/api-reference/voice/websocket-streaming). To save on bandwidth,
 the audio stream contains only synthesized speech without silence or padding. Depending on the
 source audio content there will be pauses w/o data delivered.
 

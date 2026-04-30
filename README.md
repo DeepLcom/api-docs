@@ -4,16 +4,26 @@ This repo is home to the [DeepL Developer Docs](https://developers.deepl.com/).
 
 ## Development
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the documentation changes locally. To install, use the following command
+Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview the documentation changes locally. To install, use the following command
 
 ```
-npm i -g mintlify
+npm i -g mint
 ```
 
 Run the following command at the root of your documentation (where docs.json is)
 
 ```
-mintlify dev
+mint dev
+```
+
+### Migrating from the old `mintlify` CLI
+
+If you have the deprecated `mintlify` package installed, replace it with `mint`:
+
+```
+npm uninstall -g mintlify
+npm cache clean --force
+npm i -g mint
 ```
 
 ### Publishing Changes
@@ -22,71 +32,34 @@ Install our Github App to auto propagate changes from your repo to your deployme
 
 #### Troubleshooting
 
-- Mintlify dev isn't running - Run `mintlify install` it'll re-install dependencies.
+- Mint dev isn't running - Run `mint install` to re-install dependencies.
 - Page loads as a 404 - Make sure you are running in a folder with `docs.json`
 
 ## AI Workflow
 
-### Setting Up the DeepL Claude Code Marketplace (DeepL Internal Only)
+Agents in `.claude/agents/` are automatically available to anyone who clones this repo:
 
-**DeepL team members:** Install our internal Claude Code marketplace to access the `diataxis-documentation` plugin for structured technical writing:
+| Agent | Purpose | When to use |
+|-------|---------|-------------|
+| `diataxis` | Full Diataxis framework expert for both writing and reviewing | Writing new content or checking type adherence |
+| `docs-review` | Orchestrator that runs editorial + Diataxis reviews in parallel and writes a single report | Before opening a PR, or reviewing someone else's PR |
+| `editorial-reviewer` | Checks style, structure, code examples against CLAUDE.md | Called by `docs-review` (you don't need to invoke directly) |
 
-1. **Add the marketplace:**
+### Recommended Workflow
+
+**Writing new content:**
 ```
-/plugin marketplace add https://git.deepl.dev/deepl/devex/ai-tooling/claude-code-marketplace.git
+Use the diataxis agent to help me write a how-to guide for [topic]
 ```
 
-2. **Install the diataxis-documentation plugin:**
+**Before opening a PR:**
 ```
-/plugin install diataxis-documentation@deepl-claude-code-marketplace
+Use the docs-review agent on [filename]
 ```
 
-This gives you access to the Diátaxis framework for creating tutorials, how-to guides, references, and explanations.
-
-**The skill activates automatically** when you ask Claude to:
-- "write documentation", "create tutorial", "create guide"
-- "write how-to", "document this", "add documentation"
-- "review documentation", "improve docs", "check documentation quality"
-- Mention "technical writing", "reference docs", "explanation"
-
-When creating new documentation, the skill will:
-1. Help identify the correct documentation type (tutorial, how-to, reference, or explanation)
-2. Guide you through following Diátaxis writing principles
-3. Provide examples of good documentation structure
-
-### Subagents (Available to Everyone)
-
-We have a custom subagent in `.claude/agents/` that is **automatically available to anyone** who clones this repo (no installation required):
-
-- **`docs-reviewer.md`**: Designed to help edit our docs. Based on a sub-agent created by a GCP technical writer. (Read more in [this article](https://medium.com/google-cloud/supercharge-tech-writing-with-claude-code-subagents-and-agent-skills-44eb43e5a9b7), or [this repo](https://github.com/kazunori279/gcp-blogs/blob/main/.claude/agents/docs-reviewer.md).)
-
-### Recommended Documentation Review Workflow
-
-For the highest quality documentation, use both the diataxis plugin and docs-reviewer subagent together:
-
-1. **Write or update documentation** - Simply ask Claude naturally:
-   - "Create a tutorial for [feature]"
-   - "Write a how-to guide for [task]"
-   - "Document this API endpoint"
-
-   The diataxis skill will activate automatically and ensure your content follows the correct documentation type (tutorial, how-to, reference, or explanation).
-
-   If you prefer to write the documentation by hand, you can also say "Review this documentation".
-
-2. **Review with the docs-reviewer subagent:**
-   ```
-   Use the docs-reviewer subagent on [filename]
-   ```
-   This checks for style, clarity, and consistency with our documentation standards.
-
-This two-pass approach ensures both structural correctness (via diataxis) and editorial quality (via docs-reviewer).
-
-3. **Check for broken links:**
-
-Finally, you can run `mint broken-links` and `mint broken-links --check-anchors` to ensure all links are correct.
-
-### Future Plans
-
-- Add a subagent to search our codebase and backstage
-- Further customize subagents to match our writing style
+**Check for broken links:**
+```
+mint broken-links
+mint broken-links --check-anchors
+```
 
