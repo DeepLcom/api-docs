@@ -1966,21 +1966,21 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       security:
         - auth_header: [ ]
-  /v3/languages/products:
+  /v3/languages/resources:
     get:
       tags:
         - MetaInformation
         - beta
       x-beta: true
-      summary: Retrieve Language Products
-      operationId: getLanguageProducts
+      summary: Retrieve Language Resources
+      operationId: getLanguageResources
       description: |-
-        Returns all DeepL API products and the features they support.
+        Returns all DeepL API resources and the features they support.
 
         For each feature, the response indicates which languages must support it for the feature to be
         available — source only (`needs_source_support`), target only (`needs_target_support`), or both.
         This allows clients to determine feature availability for a language pair by checking the
-        appropriate language's `features` array returned by `GET /v3/languages`.
+        appropriate language's `features` object returned by `GET /v3/languages`.
       responses:
         200:
           description: JSON array where each item represents a DeepL API product.
@@ -1998,7 +1998,7 @@ paths:
                     - features
                   properties:
                     name:
-                      description: The product identifier.
+                      description: The resource identifier.
                       type: string
                       enum:
                         - translate_text
@@ -2010,7 +2010,7 @@ paths:
                       example: translate_text
                     features:
                       description: |-
-                        Features supported by this product. Each feature indicates which languages
+                        Features supported by this resource. Each feature indicates which languages
                         must support it for the feature to be available — source, target, or both.
                       type: array
                       items:
@@ -2019,11 +2019,11 @@ paths:
                           - name
                         properties:
                           name:
-                            description: The feature identifier, corresponding to values in the `features` array returned by `GET /v3/languages`.
+                            description: The feature identifier, corresponding to keys in the `features` object returned by `GET /v3/languages`.
                             type: string
                             enum:
                               - formality
-                              - custom_instructions
+                              - style_rules
                               - tag_handling
                               - glossary
                               - writing_style
@@ -2040,7 +2040,7 @@ paths:
                   features:
                     - name: formality
                       needs_target_support: true
-                    - name: custom_instructions
+                    - name: style_rules
                       needs_target_support: true
                     - name: tag_handling
                       needs_source_support: true
@@ -2080,11 +2080,11 @@ paths:
       summary: Retrieve Languages
       operationId: getLanguages
       description: |-
-        Returns languages supported by the specified DeepL API product. Each language indicates whether it can
+        Returns languages supported by the specified DeepL API resource. Each language indicates whether it can
         be used as a source language, a target language, or both, along with the features it supports for that
-        product.
+        resource.
       parameters:
-        - name: product
+        - name: resource
           in: query
           required: true
           schema:
@@ -2098,8 +2098,27 @@ paths:
               - style_rules
           example: translate_text
           description: |-
-            The product to retrieve languages for. Supported values: `translate_text`, `translate_document`,
+            The resource to retrieve languages for. Supported values: `translate_text`, `translate_document`,
             `glossary`, `voice`, `write`, `style_rules`.
+        - name: include
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - beta
+                - external
+          style: form
+          explode: true
+          description: |-
+            Controls which languages and features are included in the response. By default, only stable
+            languages and features are returned. Values can be combined with repeated parameters
+            (e.g. `?include=beta&include=external`).
+
+            - `beta`: Include languages and features in beta, in addition to stable
+            - `external`: Include features that rely on external providers (orthogonal to stability level)
       responses:
         200:
           description: JSON array where each item represents a supported language.
@@ -2118,6 +2137,7 @@ paths:
                     - usable_as_source
                     - usable_as_target
                     - features
+                    - status
                   properties:
                     lang:
                       description: The language code (BCP 47).
@@ -2128,31 +2148,46 @@ paths:
                       type: string
                       example: German
                     usable_as_source:
-                      description: Whether this language can be used as a source language with the specified product.
+                      description: Whether this language can be used as a source language with the specified resource.
                       type: boolean
                     usable_as_target:
-                      description: Whether this language can be used as a target language with the specified product.
+                      description: Whether this language can be used as a target language with the specified resource.
                       type: boolean
+                    status:
+                      description: Availability status of this language.
+                      type: string
+                      enum:
+                        - stable
+                        - beta
+                        - early_access
+                      example: stable
                     features:
                       description: |-
-                        Features supported for this language with the specified product. Always present;
-                        empty array if no optional features are supported. Consult `/v3/languages/products`
+                        Features supported for this language with the specified resource. Always present;
+                        empty object if no optional features are supported. Each key is a feature name;
+                        the value is an object with at least a `status` field. Consult `GET /v3/languages/resources`
                         to determine whether a feature must be present on the source language, target language,
-                        or both for a given product.
-                      type: array
-                      items:
-                        type: string
-                        enum:
-                          - formality
-                          - custom_instructions
-                          - tag_handling
-                          - glossary
-                          - writing_style
-                          - tone
+                        or both for a given resource.
+                      type: object
+                      additionalProperties:
+                        type: object
+                        required:
+                          - status
+                        properties:
+                          status:
+                            description: Availability status of this feature for this language.
+                            type: string
+                            enum:
+                              - stable
+                              - beta
+                              - early_access
                       example:
-                        - formality
-                        - tag_handling
-                        - glossary
+                        formality:
+                          status: stable
+                        tag_handling:
+                          status: stable
+                        glossary:
+                          status: stable
               examples:
                 translateTextLanguages:
                   summary: Languages for text translation
@@ -2161,24 +2196,34 @@ paths:
                       name: German
                       usable_as_source: true
                       usable_as_target: true
+                      status: stable
                       features:
-                        - formality
-                        - tag_handling
-                        - glossary
+                        formality:
+                          status: stable
+                        tag_handling:
+                          status: stable
+                        glossary:
+                          status: stable
                     - lang: en
                       name: English
                       usable_as_source: true
                       usable_as_target: false
+                      status: stable
                       features:
-                        - tag_handling
-                        - glossary
+                        tag_handling:
+                          status: stable
+                        glossary:
+                          status: stable
                     - lang: en-US
                       name: English (American)
                       usable_as_source: false
                       usable_as_target: true
+                      status: stable
                       features:
-                        - tag_handling
-                        - glossary
+                        tag_handling:
+                          status: stable
+                        glossary:
+                          status: stable
         400:
           $ref: '#/components/responses/BadRequest'
         401:

@@ -250,7 +250,7 @@
               "api-reference/languages",
               "api-reference/languages/retrieve-supported-languages",
               {
-                "group": "Languages By Product",
+                "group": "Languages By Resource",
                 "tag": "BETA",
                 "pages": [
                   "api-reference/languages/retrieve-supported-languages-by-product",

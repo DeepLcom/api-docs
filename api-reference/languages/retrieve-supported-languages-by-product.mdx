@@ -1,15 +1,15 @@
 ---
-title: 'Retrieve supported languages by product'
+title: 'Retrieve supported languages by resource'
 tag: "BETA"
 sidebarTitle: 'Overview'
-description: "API reference for retrieving supported languages with the DeepL API across all products."
+description: "API reference for retrieving supported languages with the DeepL API across all resources."
 ---
 
-Get information about all currently supported languages across all DeepL API products.
+Get information about all currently supported languages across all DeepL API resources.
 
 <Info>
     The `/v3/languages` endpoints provide a single source of truth for language and feature support across all DeepL
-    API products. They replace the `/v2/languages` and `/v2/glossary-language-pairs` endpoints.
+    API resources. They replace the `/v2/languages` and `/v2/glossary-language-pairs` endpoints.
 
     If you're currently using `/v2/languages` or `/v2/glossary-language-pairs`, see the
     [migration guide](/api-reference/languages/migrate-from-v2-languages)
@@ -17,19 +17,19 @@ Get information about all currently supported languages across all DeepL API pro
 
     **These endpoints are available for testing in BETA.** Breaking changes may be pushed with little or no advance
     notice, and we provide no guarantees of stability. Please do not use `/v3/languages` in production. See the
-    [changelog](/api-reference/languages/v3-languages-changelog) for planned changes.
+    [changelog](/api-reference/languages/v3-languages-changelog) for recent changes.
 </Info>
 
 We also provide auto-generated API specs from DeepL's OpenAPI file, for use with API clients and code generation tools:
 - [Retrieve languages](/api-reference/languages/retrieve-languages-by-product)
-- [Retrieve products](/api-reference/languages/retrieve-products)
+- [Retrieve resources](/api-reference/languages/retrieve-products)
 
 To understand how we'll update these endpoints when we add translation support for a new language or language variant, please see [this article](/docs/resources/language-release-process).
 
-## Products list
+## Resources list
 
-To retrieve language support, decide which DeepL product you're building for, then call `GET /v3/languages` with
-the appropriate `product` value. The `product` parameter is required and identifies which DeepL API product you
+To retrieve language support, decide which DeepL resource you're building for, then call `GET /v3/languages` with
+the appropriate `resource` value. The `resource` parameter is required and identifies which DeepL API resource you
 are querying language support for:
 
 | Value | Description |
@@ -39,20 +39,20 @@ are querying language support for:
 | `voice` | Speech transcription and translation via the `/v3/voice` endpoints |
 | `write` | Text improvement via the `/v2/write` endpoints |
 | `glossary` | Glossary management via the `/v2/` and `/v3/glossaries` endpoints |
-| `style_rules` | Style rules management via the `/v3/style_rules`endpoints |
+| `style_rules` | Style rules management via the `/v3/style_rules` endpoints |
 
 <Note>
-    `glossary` is a product value indicating glossaries can be created for that language, and managed via the glossary
+    `glossary` is a resource value indicating glossaries can be created for that language, and managed via the glossary
     management endpoints.
 
-    Support for glossaries within specific products (for example text translation) is indicated by the `glossary`
+    Support for glossaries within specific resources (for example text translation) is indicated by the `glossary`
     feature value, explained in a later section.
 </Note>
 
 ## Basic example
 
-Each language in the response includes a `features` array indicating which optional capabilities are available for that
-language — see the [Product features](#product-features) section below for details.
+Each language in the response includes a `features` object indicating which optional capabilities are available for that
+language — see the [Resource features](#resource-features) section below for details.
 
 The examples below use our API Pro endpoint `https://api.deepl.com`. If you're an API Free user, remember to update
 your requests to use `https://api-free.deepl.com` instead.
@@ -63,14 +63,14 @@ The following example responses are truncated; the full API responses can includ
 <Tab title="cURL">
 
 ```sh Example request: languages for text translation
-curl -X GET 'https://api.deepl.com/v3/languages?product=translate_text' \
+curl -X GET 'https://api.deepl.com/v3/languages?resource=translate_text' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
 ```
 </Tab>
 <Tab title="HTTP Request">
 
 ```http Example request: languages for text translation
-GET /v3/languages?product=translate_text HTTP/2
+GET /v3/languages?resource=translate_text HTTP/2
 Host: api.deepl.com
 Authorization: DeepL-Auth-Key [yourAuthKey]
 User-Agent: YourApp/1.2.3
@@ -85,31 +85,34 @@ User-Agent: YourApp/1.2.3
     "name": "German",
     "usable_as_source": true,
     "usable_as_target": true,
-    "features": [
-      "formality",
-      "tag_handling",
-      "glossary"
-    ]
+    "status": "stable",
+    "features": {
+      "formality": {"status": "stable"},
+      "tag_handling": {"status": "stable"},
+      "glossary": {"status": "stable"}
+    }
   },
   {
     "lang": "en",
     "name": "English",
     "usable_as_source": true,
     "usable_as_target": false,
-    "features": [
-      "tag_handling",
-      "glossary"
-    ]
+    "status": "stable",
+    "features": {
+      "tag_handling": {"status": "stable"},
+      "glossary": {"status": "stable"}
+    }
   },
   {
     "lang": "en-US",
     "name": "English (American)",
     "usable_as_source": false,
     "usable_as_target": true,
-    "features": [
-      "tag_handling",
-      "glossary"
-    ]
+    "status": "stable",
+    "features": {
+      "tag_handling": {"status": "stable"},
+      "glossary": {"status": "stable"}
+    }
   }
 ]
 ```
@@ -119,49 +122,79 @@ User-Agent: YourApp/1.2.3
 Language codes in the `lang` field follow [BCP 47](https://www.rfc-editor.org/rfc/rfc5646). The base language
 subtag is always present; script, region, and variant subtags are included where needed to distinguish variants. See [Language codes follow BCP 47](/docs/resources/language-release-process#language-codes-follow-bcp-47) for details.
 
-## Product features
+## Resource features
 
-Each language object includes a `features` array indicating which optional capabilities are supported for that language
-with the requested product.
+Each language object includes a `features` object indicating which optional capabilities are supported for that language
+with the requested resource. Each key is a feature name; the value is an object with at least a `status` field.
+
+To check whether a feature is supported, check that the key exists in the `features` object:
+
+```json
+// Feature supported:
+"features": { "formality": { "status": "stable" } }
+
+// Feature not supported:
+"features": {}
+```
 
 To use a feature, one or both languages in the pair must support it. For example, for text translation:
 
 - **Target-only**: `formality` only needs to be supported by the target language. Check that `"formality"` is
-  present in the target language's `features` array.
+  a key in the target language's `features` object.
 - **Source-and-target**: `tag_handling` and `glossary` must be supported by both languages. Check that the
-  feature is present in *both* the source and target language's `features` arrays.
+  feature key is present in *both* the source and target language's `features` objects.
 - **Source-only**: `auto_detection` only needs to be supported by the source language.
 
 In the documentation for API features that are supported for only a subset of languages, we specify
-which language feature value to check, and whether to check the source language, target language, or both.
+which language feature key to check, and whether to check the source language, target language, or both.
 
-### Product feature reference
+### Resource feature reference
 
-The table below lists all feature values that can appear in a language's `features` array.
+The table below lists all feature keys that can appear in a language's `features` object.
 
-| Feature                      | Check language support on | Products                                                 | Description                                                                                                                                                                |
-|------------------------------|---------------------------|----------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `auto_detection`             | source                    | `translate_text`, `translate_document`, `voice`, `write` | Language can be automatically detected as the source language.                                                                                                             |
-| `custom_instructions`        | target                    | `translate_text`                                         | Language supports custom instructions that guide how DeepL translates text.                                                                                                |
-| `formality`                  | target                    | `translate_text`, `translate_document`                   | Language supports formality control — adjusting the output to use formal or informal register.                                                                             |
-| `glossary`                   | source + target           | `translate_text`, `translate_document`, `voice`          | Language can be used with a glossary to enforce specific terminology. Both the source and target language must support this for a glossary to be usable with a given pair. |
-| `tag_handling`               | source + target           | `translate_text`, `translate_document`                   | Language supports tag-aware translation, preserving markup structure (e.g. HTML, XML) in the output.                                                                       |
-| `transcription`              | source                    | `voice`                                                  | Language supports transcription from audio to text.                                                                                                                        |
-| `transcription_external`     | source                    | `voice`                                                  | Like `transcription`, but relies on using external service providers.                                                                                                      |
-| `translated_speech`          | target                    | `voice`                                                  | Language supports conversion from translated text to audio output.                                                                                                         |
-| `translated_speech_external` | target                    | `voice`                                                  | Like `translated_speech`, but relies on using external service providers.                                                                                                  |
-| `tone`                       | target                    | `write`                                                  | Language supports tone selection (e.g. confident, diplomatic, enthusiastic).                                                                                               |
-| `writing_style`              | target                    | `write`                                                  | Language supports writing style selection (e.g. academic, casual, business).                                                                                               |
+| Feature                      | Check language support on | Resources                                                 | Description                                                                                                                                                                                                                |
+|------------------------------|---------------------------|-----------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `auto_detection`             | source                    | `translate_text`, `translate_document`, `voice`, `write`  | Language can be automatically detected as the source language.                                                                                                                                                             |
+| `style_rules`                | target                    | `translate_text`                                          | Language supports style rules that guide how DeepL translates text. Used with the `custom_instructions` and `style_id` parameters on the translate endpoint.                                                               |
+| `formality`                  | target                    | `translate_text`, `translate_document`                    | Language supports formality control — adjusting the output to use formal or informal register.                                                                                                                             |
+| `glossary`                   | source + target           | `translate_text`, `translate_document`, `voice`           | Language can be used with a glossary to enforce specific terminology. Both the source and target language must support this for a glossary to be usable with a given pair.                                                |
+| `tag_handling`               | source + target           | `translate_text`, `translate_document`                    | Language supports tag-aware translation, preserving markup structure (e.g. HTML, XML) in the output.                                                                                                                      |
+| `transcription`              | source                    | `voice`                                                   | Language supports transcription from audio to text.                                                                                                                                                                        |
+| `transcription_external`     | source                    | `voice`                                                   | Like `transcription`, but relies on external service providers.                                                                                                                                                            |
+| `translated_speech`          | target                    | `voice`                                                   | Language supports conversion from translated text to audio output.                                                                                                                                                         |
+| `translated_speech_external` | target                    | `voice`                                                   | Like `translated_speech`, but relies on external service providers.                                                                                                                                                        |
+| `tone`                       | target                    | `write`                                                   | Language supports tone selection (e.g. confident, diplomatic, enthusiastic).                                                                                                                                               |
+| `writing_style`              | target                    | `write`                                                   | Language supports writing style selection (e.g. academic, casual, business).                                                                                                                                               |
 
-## Retrieving products programmatically
+## Filtering by availability
 
-Use the `/v3/languages/products` endpoint to retrieve the list of products and their features programmatically.
+By default, `GET /v3/languages` returns only stable languages and features. Use the `include` query parameter
+to request additional languages and features based on their availability status:
+
+| Value | Effect |
+|---|---|
+| `beta` | Includes languages and features in beta, in addition to stable |
+| `external` | Includes features that rely on external providers (orthogonal to stability level) |
+
+Values can be combined with repeated parameters: `?include=beta&include=external`.
+
+The `status` field on each language object and each feature object indicates its availability:
+
+| Status | Meaning |
+|---|---|
+| `stable` | Generally available |
+| `beta` | Available for testing; may change |
+| `early_access` | Limited availability; may change |
+
+## Retrieving resources programmatically
+
+Use the `/v3/languages/resources` endpoint to retrieve the list of resources and their features programmatically.
 For each feature, the response indicates which languages must support it for the feature to be available —
 source only, target only, or both — allowing clients to determine feature availability for a language pair
-by checking the appropriate `features` arrays.
+by checking the appropriate `features` objects.
 
 ```sh
-curl -X GET 'https://api.deepl.com/v3/languages/products' \
+curl -X GET 'https://api.deepl.com/v3/languages/resources' \
 --header 'Authorization: DeepL-Auth-Key [yourAuthKey]'
 ```
 
@@ -175,7 +208,7 @@ curl -X GET 'https://api.deepl.com/v3/languages/products' \
         "needs_target_support": true
       },
       {
-        "name": "custom_instructions",
+        "name": "style_rules",
         "needs_target_support": true
       },
       {
@@ -201,7 +234,7 @@ curl -X GET 'https://api.deepl.com/v3/languages/products' \
 
 The v3 language endpoints are designed to be forward-compatible:
 
-- New features may be added to the `features` array
+- New feature keys may be added to the `features` object
 - New languages will be added as DeepL support expands
 - Existing fields will not be removed or changed in backwards-incompatible ways
 
@@ -210,15 +243,15 @@ to beta). When this happens, it will still be accessible via `?include=beta`. We
 build your integration to handle languages disappearing from the response gracefully.
 
 <Info>
-  Build your integration to gracefully handle new BCP 47 `lang` codes and new values in the `features` array. Do not hardcode assumptions about the format of language codes -- see [Language codes follow BCP 47](/docs/resources/language-release-process#language-codes-follow-bcp-47) for details.
+  Build your integration to gracefully handle new BCP 47 `lang` codes and new feature keys in the `features` object. Do not hardcode assumptions about the format of language codes -- see [Language codes follow BCP 47](/docs/resources/language-release-process#language-codes-follow-bcp-47) for details.
 </Info>
 
 ## Best practices
 
 1. **Cache responses**: Language support changes infrequently. Consider caching responses for up to 1 hour.
 
-2. **Check features**: Always check the `features` array on language objects rather than assuming support (e.g. for formality, glossary use, or writing style).
+2. **Check features**: Always check the `features` object on language objects rather than assuming support (e.g. for formality, glossary use, or writing style).
 
-3. **Handle forward compatibility**: New languages and features may be added at any time. Build your integration to dynamically accept new `lang` codes and `features` values instead of maintaining a hardcoded allowlist.
+3. **Handle forward compatibility**: New languages and features may be added at any time. Build your integration to dynamically accept new `lang` codes and new keys in the `features` object instead of maintaining a hardcoded allowlist.
 
 4. **Use specific variants**: For target languages, prefer specific regional variants (e.g., `"en-US"`, `"en-GB"`) when the distinction matters to your users.
