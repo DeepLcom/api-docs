@@ -61,25 +61,29 @@ print(result.text)
 # 我們重視每一位客戶。
 ```
 
-Glossaries are also useful for enforcing locale-specific terminology that DeepL wouldn't produce by default. Without a glossary, DeepL returns `"fatura"` for "invoice" in both `PT-BR` and `PT-PT`. In Brazil, the legally correct term is `"nota fiscal"` — a separate glossary per variant enforces the distinction:
+The following example uses different terms for "invoice" in Brazilian and European Portuguese:
 
 ```python
-# PT-BR glossary: enforce the Brazilian legal term
+import deepl
+
+translator = deepl.Translator("YOUR_AUTH_KEY")
+
+# Step 1: Create a separate glossary for each variant, both using the root code
 glossary_br = translator.create_glossary(
     "PT-BR Invoice Glossary",
     source_lang="EN",
-    target_lang="PT",        # root code
+    target_lang="PT",        # root code — not PT-BR
     entries={"invoice": "nota fiscal"}
 )
 
-# PT-PT glossary: keep the standard European term
 glossary_pt = translator.create_glossary(
     "PT-PT Invoice Glossary",
     source_lang="EN",
-    target_lang="PT",        # root code
+    target_lang="PT",        # root code — not PT-PT
     entries={"invoice": "fatura"}
 )
 
+# Step 2: Pass each glossary ID to its corresponding variant
 result_br = translator.translate_text(
     "Your invoice is ready to view.",
     source_lang="EN",
@@ -102,9 +106,20 @@ print(result_pt.text)  # A sua fatura está pronta a ser visualizada.
 
 ## Style rules
 
+[Style rules](/api-reference/style-rules) let you define writing preferences that are applied consistently across translations. They follow the same root-code constraint as glossaries.
+
 ### Creation: root codes only
 
-Style rules follow the same constraint — they cannot be created for variant codes. Attempting to create a style rule for `fr-CA`, `es-419`, or `de-CH` returns a "language not supported" error. Use the root code only. See the [style rules reference](/api-reference/style-rules) for supported languages.
+Style rules cannot be created for variant codes — the same root-code constraint applies as for glossaries. Attempting to create a style rule for a variant code (e.g. `fr-CA`, `es-419`) returns a "language not supported" error.
+
+| **Use this** | **Not this** |
+|:---|:---|
+| `fr` | `fr-CA`, `fr-CH` |
+| `es` | `es-ES`, `es-419` |
+| `de` | `de-CH` |
+| `pt` | `pt-BR`, `pt-PT` |
+
+See the [style rules reference](/api-reference/style-rules) for the full list of supported languages.
 
 ### Application: variants are supported
 
@@ -113,14 +128,30 @@ Once created under a root code, pass the style rule's `style_id` in a `/translat
 The following example applies a style rule created for `FR` when translating into `FR-CA`:
 
 ```python
+import deepl
+
+translator = deepl.Translator("YOUR_AUTH_KEY")
+
 result = translator.translate_text(
     "Please review the attached document.",
     source_lang="EN",
-    target_lang="FR-CA",      # variant target — root FR style rule applies
-    extra_params={"style_id": "your-style-rule-id"}
+    target_lang="FR-CA",           # variant target — root FR style rule applies
+    extra_params={"style_id": "your-style-rule-id"}  # style_id is a top-level API parameter
 )
+
+print(result.text)
+# Veuillez examiner le document ci-joint.
 ```
 
 <Note>
-Variant codes are not selectable in the style rule creation UI — only root codes appear. You'll need to map the correct root style rule ID to each variant target on your end.
+Only root codes appear in the style rule creation UI. You'll need to map the correct root style rule ID to each variant target on your end.
 </Note>
+
+---
+
+## Next steps
+
+- **Apply glossaries in practice:** See [Glossaries in the real world](/docs/learning-how-tos/examples-and-guides/glossaries-in-the-real-world) for a full worked example
+- **Translate between variants:** Learn about the Write API and style rules in [How to translate between language variants](/docs/learning-how-tos/examples-and-guides/translating-between-variants)
+- **Manage style rules:** Explore the [style rules API reference](/api-reference/style-rules) to create and retrieve style rules
+- **Improve translation quality:** See how [the context parameter](/docs/learning-how-tos/examples-and-guides/how-to-use-context-parameter) can further refine your translations
