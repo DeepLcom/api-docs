@@ -2,22 +2,13 @@
 title: 'Retrieve supported languages by resource'
 tag: "BETA"
 sidebarTitle: 'Overview'
-description: "API reference for retrieving supported languages with the DeepL API across all resources."
+description: "Learn how to retrieve supported language and feature data across all DeepL API resources using the v3/languages endpoints."
 ---
 
 Get information about all currently supported languages across all DeepL API resources.
 
 <Info>
-    The `/v3/languages` endpoints provide a single source of truth for language and feature support across all DeepL
-    API resources. They replace the `/v2/languages` and `/v2/glossary-language-pairs` endpoints.
-
-    If you're currently using `/v2/languages` or `/v2/glossary-language-pairs`, see the
-    [migration guide](/api-reference/languages/migrate-from-v2-languages)
-    for a full list of differences and code examples.
-
-    **These endpoints are available for testing in BETA.** Breaking changes may be pushed with little or no advance
-    notice, and we provide no guarantees of stability. Please do not use `/v3/languages` in production. See the
-    [changelog](/api-reference/languages/v3-languages-changelog) for recent changes.
+    These **BETA** endpoints replace `/v2/languages` and `/v2/glossary-language-pairs` (see the [migration guide](/api-reference/languages/migrate-from-v2-languages)). Do not use them in production; breaking changes may be pushed without advance notice (see the [changelog](/api-reference/languages/v3-languages-changelog)).
 </Info>
 
 We also provide auto-generated API specs from DeepL's OpenAPI file, for use with API clients and code generation tools:
@@ -32,7 +23,7 @@ To retrieve language support, decide which DeepL resource you're building for, t
 the appropriate `resource` value. The `resource` parameter is required and identifies which DeepL API resource you
 are querying language support for:
 
-| Value | Description |
+| **Value** | **Description** |
 |---|---|
 | `translate_text` | Text translation via the `/v2/translate` endpoint |
 | `translate_document` | Document translation via the `/v2/document` endpoint |
@@ -129,7 +120,7 @@ with the requested resource. Each key is a feature name; the value is an object 
 
 To check whether a feature is supported, check that the key exists in the `features` object:
 
-```json
+```text
 // Feature supported:
 "features": { "formality": { "status": "stable" } }
 
@@ -152,7 +143,7 @@ which language feature key to check, and whether to check the source language, t
 
 The table below lists all feature keys that can appear in a language's `features` object.
 
-| Feature                      | Check language support on | Resources                                                 | Description                                                                                                                                                                                                                |
+| **Feature**                      | **Check language support on** | **Resources**                                                 | **Description**                                                                                                                                                                                                                |
 |------------------------------|---------------------------|-----------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `auto_detection`             | source                    | `translate_text`, `translate_document`, `voice`, `write`  | Language can be automatically detected as the source language.                                                                                                                                                             |
 | `style_rules`                | target                    | `translate_text`                                          | Language supports style rules that guide how DeepL translates text. Used with the `custom_instructions` and `style_id` parameters on the translate endpoint.                                                               |
@@ -171,7 +162,7 @@ The table below lists all feature keys that can appear in a language's `features
 By default, `GET /v3/languages` returns only stable languages and features. Use the `include` query parameter
 to request additional languages and features based on their availability status:
 
-| Value | Effect |
+| **Value** | **Effect** |
 |---|---|
 | `beta` | Includes languages and features in beta, in addition to stable |
 | `external` | Includes features that rely on external providers (orthogonal to stability level) |
@@ -180,7 +171,7 @@ Values can be combined with repeated parameters: `?include=beta&include=external
 
 The `status` field on each language object and each feature object indicates its availability:
 
-| Status | Meaning |
+| **Status** | **Meaning** |
 |---|---|
 | `stable` | Generally available |
 | `beta` | Available for testing; may change |
@@ -243,7 +234,7 @@ to beta). When this happens, it will still be accessible via `?include=beta`. We
 build your integration to handle languages disappearing from the response gracefully.
 
 <Info>
-  Build your integration to gracefully handle new BCP 47 `lang` codes and new feature keys in the `features` object. Do not hardcode assumptions about the format of language codes -- see [Language codes follow BCP 47](/docs/resources/language-release-process#language-codes-follow-bcp-47) for details.
+  Build your integration to gracefully handle new BCP 47 `lang` codes and new feature keys in the `features` object. Do not hardcode assumptions about the format of language codes. See [Language codes follow BCP 47](/docs/resources/language-release-process#language-codes-follow-bcp-47) for details.
 </Info>
 
 ## Best practices

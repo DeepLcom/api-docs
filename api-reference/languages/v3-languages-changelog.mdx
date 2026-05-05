@@ -12,7 +12,7 @@ description: 'Changes and planned updates to the v3/languages endpoints during t
 
 ## Changes since the initial beta release
 
-This section will list dated changes to the API since the initial beta release.
+This section lists dated changes to the API since the initial beta release.
 
 ### 5 May 2026
 
@@ -62,7 +62,7 @@ Possible values: `"stable"`, `"beta"`, `"early_access"`.
 **New: `include` query parameter** — `GET /v3/languages` now accepts an `include` query parameter.
 By default (no parameter), only stable languages and features are returned.
 
-| Value | Effect |
+| **Value** | **Effect** |
 |---|---|
 | `beta` | Includes languages and features in beta, in addition to stable |
 | `external` | Includes features that rely on external providers (orthogonal to stability level) |
@@ -72,7 +72,7 @@ Values are composable via repeated parameters: `?include=beta&include=external`.
 **Breaking: renamed `custom_instructions` feature to `style_rules`** — the `custom_instructions` feature
 value returned by `GET /v3/languages` has been renamed to `style_rules`:
 
-| Old value | New value |
+| **Old value** | **New value** |
 |---|---|
 | `custom_instructions` | `style_rules` |
 
@@ -87,7 +87,7 @@ is not affected by this change.
 **Breaking: renamed `required_on_source` / `required_on_target`** — the feature dependency flags on
 `/v3/languages/products` have been renamed:
 
-| Old name | New name |
+| **Old name** | **New name** |
 |---|---|
 | `required_on_source` | `needs_source_support` |
 | `required_on_target` | `needs_target_support` |

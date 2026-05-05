@@ -31,7 +31,7 @@ GET /v3/languages?resource=translate_text
 
 v2 languages are implicitly tied to text and document translation. v3 introduces an explicit `resource` parameter that applies across all DeepL API resources:
 
-| v2 | v3 `resource` value |
+| **v2** | **v3 `resource` value** |
 |---|---|
 | *(implicit, text/document translation only)* | `translate_text` |
 | *(implicit, text/document translation only)* | `translate_document` |
@@ -45,7 +45,7 @@ The v3 endpoints replace both `/v2/languages` and `/v2/glossary-language-pairs`.
 
 v2 target languages include a boolean `supports_formality` field. v3 replaces this with a `features` object that covers additional capabilities per resource:
 
-| v2 field | v3 equivalent |
+| **v2 field** | **v3 equivalent** |
 |---|---|
 | `"supports_formality": true` | `"formality"` key present in the language's `features` object |
 
@@ -90,7 +90,7 @@ See the [overview](/api-reference/languages/retrieve-supported-languages-by-prod
 
 ### Response field names
 
-| v2 field             | v3 field                                          |
+| **v2 field**             | **v3 field**                                          |
 |----------------------|---------------------------------------------------|
 | `language`           | `lang`                                            |
 | `name`               | `name` *(unchanged)*                              |
