@@ -11,7 +11,7 @@ DeepL supports regional language variants such as `PT-BR` vs `PT-PT`, or `FR-CA`
 - How to pass a customization when translating into a variant target (e.g. `pt-BR`, `fr-CA`)
 - A practical example of using variant-specific glossaries to enforce locale-appropriate terminology
 
-## Creating a customization for a language 
+## Creating a customization for a language
 
 DeepL distinguishes between root language codes (e.g. `pt`) and language variant codes (e.g. `pt-BR`). Customizations like glossaries and style rules must be created with the root code. Attempting to create one with a variant code will fail.
 
@@ -26,18 +26,13 @@ DeepL distinguishes between root language codes (e.g. `pt`) and language variant
 
 See [supported languages](/docs/getting-started/supported-languages) for the full list.
 
-## Applying a customization to a language variant
+The following example creates two glossaries to enforce different terms for "invoice" in Brazilian and European Portuguese. Both use the root language code `PT`:
 
-Once a customization is created with a root language code, pass its ID in the `/translate` call with a variant `target_lang`.
-
-The following example creates and applies 2 glossaries to use different terms for "invoice" in Brazilian and European Portuguese:
-
-```python
+```python Example: Create glossaries with root language codes
 import deepl
 
 translator = deepl.Translator("YOUR_AUTH_KEY")
 
-# Step 1: Create a separate glossary for each variant, both using the root code
 glossary_br = translator.create_glossary(
     "PT-BR Invoice Glossary",
     source_lang="EN",
@@ -51,8 +46,13 @@ glossary_pt = translator.create_glossary(
     target_lang="PT",        # root code — not PT-PT
     entries={"invoice": "fatura"}
 )
+```
 
-# Step 2: Pass each glossary ID to its corresponding variant
+## Applying a customization to a language variant
+
+Once a customization is created with a root language code, pass its ID in the `/translate` call with a variant `target_lang`:
+
+```python Example: Apply glossaries to variant targets
 result_br = translator.translate_text(
     "Your invoice is ready to view.",
     source_lang="EN",
@@ -71,7 +71,7 @@ print(result_br.text)  # Sua nota fiscal está pronta para ser visualizada.
 print(result_pt.text)  # A sua fatura está pronta a ser visualizada.
 ```
 
-## CAT Tools
+## CAT tools
 
 Some CAT tools may prevent applying a glossary or style rule linked to a root code language when the target language is a variant. This is an incorrect limitation that does not reflect the DeepL API's behavior. You'll need to reach out to your CAT tool provider to request this restriction is removed. 
 
