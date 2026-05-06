@@ -68,7 +68,7 @@ The examples below use our API Pro endpoint `https://api.deepl.com`. If you're a
 ```http Example request: text translation (without glossary)
 POST /v2/translate HTTP/2
 Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
+Authorization: DeepL-Auth-Key [yourAuthKey]
 User-Agent: YourApp/1.2.3
 Content-Length: 45
 Content-Type: application/json
@@ -79,7 +79,7 @@ Content-Type: application/json
 ```http Example request: text translation (with glossary)
 POST /v2/translate HTTP/2
 Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
+Authorization: DeepL-Auth-Key [yourAuthKey]
 User-Agent: YourApp/1.2.3
 Content-Length: 97
 Content-Type: application/json
@@ -169,8 +169,8 @@ These examples are for demonstration purposes only. In production code, the auth
 Note that we do not include examples for our client libraries in every single section of this reference, but our client libraries *do* support all use cases shown on this page.
 
 <Info>
-  Please note that the Translate API is intended to be used for translation between different languages, but requests with the same source and target language are still counted toward billing. 
-  
+  Please note that the Translate API is intended to be used for translation between different languages, but requests with the same source and target language are still counted toward billing.
+
   If trying to convert between variants of the same language (e.g. `EN-US` to `EN-GB`), please refer to [this guide](/docs/learning-how-tos/examples-and-guides/translating-between-variants). Translating between variants of the same language will result in no change to the text.
 </Info>
 
@@ -287,7 +287,7 @@ error.
 <ParamField body="style_id" type="string">
   Specify the style rule list to use for the translation which can be used to customize translations according to the selected formatting and style conventions.
   <Info>
-    The target language has to match the language of the style rule list. 
+    The target language has to match the language of the style rule list.
 
     Additionally, any request with the `style_id` parameter enabled will default to use the `quality_optimized` model type. Requests combining `style_id` and `model_type: latency_optimized` will be rejected.
   </Info>
@@ -295,7 +295,7 @@ error.
 <ParamField body="custom_instructions" type="array[string]">
   Specify a list of instructions to customize the translation behavior. Up to 10 custom instructions can be specified, each with a maximum of 300 characters.
 
-  <Info>  
+  <Info>
     The target language must be `de`, `en`, `es`, `fr`, `it`, `ja`, `ko`, `zh` or any variants of these languages.
 
     Any request with the `custom_instructions` parameter enabled will default to use the `quality_optimized` model type. Requests combining `custom_instructions` and `model_type: latency_optimized` will be rejected. You can find best practices on how to write custom instructions [here](/docs/best-practices/custom-instructions).
@@ -316,7 +316,7 @@ error.
   <p>For example: <code>"billed_characters": 42</code></p>
   <Info>
     At some point in the future, we intend to include <code>billed_characters</code> in the API response by default, at which point it will be necessary to set <code>show_billed_characters</code> to <code>false</code> in order for an API response not to include <code>billed_characters</code>. We will notify users in advance of making this change.
-    
+
     For requests sent as URL-encoded forms, boolean values should be specified as "1" or "0".
   </Info>
 </ParamField>
@@ -430,7 +430,7 @@ The example below uses our API Pro endpoint `https://api.deepl.com`. If you're a
 ```http Example request: multiple sentences
 POST /v2/translate HTTP/2
 Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
+Authorization: DeepL-Auth-Key [yourAuthKey]
 User-Agent: YourApp/1.2.3
 Content-Length: 71
 Content-Type: application/json
@@ -503,7 +503,7 @@ The example below uses our API Pro endpoint `https://api.deepl.com`. If you're a
 ```http Example request: large volumes of text
 POST /v2/translate HTTP/2
 Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
+Authorization: DeepL-Auth-Key [yourAuthKey]
 User-Agent: YourApp/1.2.3
 Content-Length: 120
 Content-Type: application/json

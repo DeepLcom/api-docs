@@ -55,7 +55,7 @@ curl -X POST 'https://api.deepl.com/v2/document' \
 --form 'source_lang=EN' \
 --form 'target_lang=DE' \
 --form 'file=@document.docx' \
---form 'glossary_id=[yourGlossaryId]' 
+--form 'glossary_id=[yourGlossaryId]'
 ```
 
 ```json Example response
@@ -71,38 +71,38 @@ The examples below use our API Pro endpoint `https://api.deepl.com`. If you're a
 ```http Example request: document upload (no glossary)
 POST /v2/document HTTP/2
 Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
+Authorization: DeepL-Auth-Key [yourAuthKey]
 User-Agent: YourApp/1.2.3
 Content-Length: [length]
 Content-Type: multipart/form-data;boundary="boundary"
 
 --boundary,Content-Disposition: form-data; name=target_lang
-          
+
 DE
 --boundary,Content-Disposition: form-data; name=file
-          
+
 @document.docx
 ```
 
 ```http Example request: document upload (with glossary)
 POST /v2/document HTTP/2
 Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
+Authorization: DeepL-Auth-Key [yourAuthKey]
 User-Agent: YourApp/1.2.3
 Content-Length: [length]
 Content-Type: multipart/form-data;boundary="boundary"
 
 --boundary,Content-Disposition: form-data; name=source_lang
-          
+
 EN
 --boundary,Content-Disposition: form-data; name=target_lang
-          
+
 DE
 --boundary,Content-Disposition: form-data; name=file
-          
+
 @document.docx
 --boundary,Content-Disposition: form-data; name=glossary_id
-          
+
 [yourGlossaryId]
 ```
 
@@ -156,7 +156,7 @@ These examples are for demonstration purposes only. In production code, the auth
   </ul>
 </ParamField>
 <ParamField body="glossary_id" type="string">
-  A unique ID assigned to a glossary.  
+  A unique ID assigned to a glossary.
 </ParamField>
 <ParamField body="output_format" type="string">
   File extension of desired format of translated file, for example: `pdf`. If unspecified, by default the translated file will be in the same format as the input file.
@@ -219,7 +219,7 @@ The example below uses our API Pro endpoint `https://api.deepl.com`. If you're a
 ```http Example request: check document status
 POST /v2/document/{document_id} HTTP/2
 Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
+Authorization: DeepL-Auth-Key [yourAuthKey]
 User-Agent: YourApp/1.2.3
 Content-Length: 83
 Content-Type: application/json
@@ -285,7 +285,7 @@ The example below uses our API Pro endpoint `https://api.deepl.com`. If you're a
 ```http Example request: download translated document
 POST /v2/document/{document_id}/result HTTP/2
 Host: api.deepl.com
-Authorization: DeepL-Auth-Key [yourAuthKey] 
+Authorization: DeepL-Auth-Key [yourAuthKey]
 User-Agent: YourApp/1.2.3
 Content-Length: 83
 Content-Type: application/json
@@ -312,4 +312,4 @@ The range of alternative output formats you can select are indicated in the tabl
 | Input document format | Alternative output document formats |
 | --- | --- |
 | PDF | `docx` - Microsoft Word Document |
-| Others | None | 
+| Others | None |
