@@ -1,0 +1,45 @@
+name: Sync OpenAPI specs to DeepLcom/openapi
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "api-reference/openapi.yaml"
+      - "api-reference/openapi.json"
+      - "api-reference/voice/voice.asyncapi.yaml"
+      - "api-reference/voice/voice.asyncapi.json"
+  workflow_dispatch:
+
+jobs:
+  sync-specs:
+    name: Sync specs to openapi repo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout api-docs
+        uses: actions/checkout@v4
+        with:
+          path: api-docs
+
+      - name: Checkout openapi repo
+        uses: actions/checkout@v4
+        with:
+          repository: DeepLcom/openapi
+          token: ${{ secrets.OPENAPI_SYNC_TOKEN }}
+          path: openapi
+
+      - name: Copy spec files
+        run: |
+          cp api-docs/api-reference/openapi.yaml openapi/openapi.yaml
+          cp api-docs/api-reference/openapi.json openapi/openapi.json
+          cp api-docs/api-reference/voice/voice.asyncapi.yaml openapi/voice.asyncapi.yaml
+          cp api-docs/api-reference/voice/voice.asyncapi.json openapi/voice.asyncapi.json
+
+      - name: Push changes
+        working-directory: openapi
+        run: |
+          git diff --quiet && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add openapi.yaml openapi.json voice.asyncapi.yaml voice.asyncapi.json
+          git commit -m "Sync API specs from api-docs"
+          git push
