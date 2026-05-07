@@ -12,17 +12,24 @@ jobs:
     name: Convert YAML specs to JSON
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: ${{ github.head_ref }}
 
-      - uses: mikefarah/yq@v4.44.3
-
-      - name: Convert openapi.yaml to JSON
-        run: yq -o=json '.' api-reference/openapi.yaml > api-reference/openapi.json
-
-      - name: Convert voice.asyncapi.yaml to JSON
-        run: yq -o=json '.' api-reference/voice/voice.asyncapi.yaml > api-reference/voice/voice.asyncapi.json
+      - name: Convert YAML specs to JSON
+        run: |
+          python3 -c "
+          import yaml, json, sys
+          for src, dst in [
+              ('api-reference/openapi.yaml', 'api-reference/openapi.json'),
+              ('api-reference/voice/voice.asyncapi.yaml', 'api-reference/voice/voice.asyncapi.json'),
+          ]:
+              with open(src) as f:
+                  data = yaml.safe_load(f)
+              with open(dst, 'w') as f:
+                  json.dump(data, f, indent=2, ensure_ascii=False)
+                  f.write('\n')
+          "
 
       - name: Commit updated JSON files
         uses: stefanzweifel/git-auto-commit-action@v5
