@@ -6,7 +6,6 @@ on:
     paths:
       - "api-reference/openapi.yaml"
       - "api-reference/voice/voice.asyncapi.yaml"
-  workflow_dispatch:
 
 jobs:
   convert_yaml_to_json:
