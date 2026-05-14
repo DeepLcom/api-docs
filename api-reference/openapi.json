@@ -2498,6 +2498,11 @@
                             "type": "string",
                             "example": "en"
                           },
+                          "target_language": {
+                            "description": "The target language specified by the request.",
+                            "type": "string",
+                            "example": "en-US"
+                          },
                           "text": {
                             "description": "The improved text.",
                             "type": "string",
