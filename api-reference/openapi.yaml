@@ -1690,7 +1690,7 @@ paths:
     post:
       tags:
         - RephraseText
-      summary: Request text improvement
+      summary: Improve text
       operationId: rephraseText
       requestBody:
         required: true

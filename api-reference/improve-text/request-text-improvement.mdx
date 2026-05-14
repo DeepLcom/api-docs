@@ -1,3 +1,9 @@
 ---
 openapi: post /v2/write/rephrase
+title: "Improve text"
+description: "Learn how to improve text by correcting spelling and grammar or rewriting for a target writing style or tone."
 ---
+
+Send one or more texts to `/v2/write/rephrase` to get them rewritten for clarity, style, or tone. The endpoint corrects spelling and grammar and may rephrase sentences to match the requested `writing_style` or `tone`. If you only want to fix mistakes without changing wording, use [`/v2/write/correct`](/api-reference/improve-text/correct-text) instead.
+
+See the [Improve text overview](/api-reference/improve-text) for the list of supported target languages, supported styles and tones, and request-size limits.
