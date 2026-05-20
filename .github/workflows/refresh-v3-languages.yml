@@ -1,0 +1,50 @@
+name: Refresh vended v3/languages responses
+
+on:
+  schedule:
+    # Top of every hour.
+    - cron: "0 * * * *"
+  # Allow the job to be triggered manually from the Actions tab.
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: refresh-v3-languages
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    name: Fetch and open PR on diff
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Fetch latest /v3/languages responses
+        env:
+          DEEPL_AUTH_KEY: ${{ secrets.DEEPL_API_KEY }}
+        run: python3 scripts/fetch_v3_languages.py
+
+      - name: Open or update refresh PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: chore/refresh-v3-languages
+          base: main
+          commit-message: "chore(v3-languages): refresh vended responses"
+          title: "chore(v3-languages): refresh vended responses"
+          body: |
+            Automated refresh of `data/v3-languages/` from `https://api.deepl.com/v3/languages`,
+            opened by the `refresh-v3-languages` workflow.
+
+            This PR is rewritten in place on each run: if the vended responses change again
+            before merge, the branch is force-pushed with a new single squashed commit so the
+            diff against `main` always reflects the latest API state. If a run finds the
+            responses identical to what is already on the branch, the branch is left untouched.
+            If a run finds the responses match `main` (e.g. the PR was merged), this PR is
+            closed and the branch deleted automatically.
+          add-paths: data/v3-languages/**
+          delete-branch: true
+          labels: automated, v3-languages
