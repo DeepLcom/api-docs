@@ -42,6 +42,10 @@ Each entry in `usage` includes:
 | `text_translation_characters` | Characters used for text translation |
 | `text_improvement_characters` | Characters used for text improvement (rephrasing) |
 
+<Warning>
+Custom tag data is supported only for text translation. Support for other request types will be added in a future update.
+</Warning>
+
 ## Pagination
 
 Results are paginated. If the response includes a non-null `next_page` value, pass it as the `page` parameter in your next request to retrieve the following page. Continue until `next_page` is `null`.

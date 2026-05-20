@@ -12,7 +12,7 @@ rss: true
 
 <Update label="May 2026">
 ## May 20 - Custom Tag Usage Analytics
-- Added [`GET /v2/admin/analytics/custom-tags`](/api-reference/admin-api/custom-tag-usage-analytics) to the Admin API, allowing admins to retrieve usage statistics broken down by custom tags.
+- Added [`GET /v2/admin/analytics/custom-tags`](/api-reference/admin-api/organization-usage-analytics) to the Admin API, allowing admins to retrieve usage statistics broken down by custom tags.
 - Supports `aggregate_by=period` (default) to aggregate usage over the full date range, or `aggregate_by=day` for daily breakdowns.
 - Results are paginated; use the `next_page` integer from the response as the `page` parameter in subsequent requests.
 
