@@ -231,7 +231,6 @@
           },
           {
             "group": "Voice",
-            "hidden": true,
             "pages": [
               "api-reference/voice",
               "api-reference/voice/request-session",
