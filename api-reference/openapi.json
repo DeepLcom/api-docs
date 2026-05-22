@@ -8,7 +8,7 @@
       "name": "DeepL - Contact us",
       "url": "https://www.deepl.com/contact-us"
     },
-    "version": "3.9.0"
+    "version": "3.10.0"
   },
   "externalDocs": {
     "description": "DeepL Pro - Plans and pricing",
@@ -68,6 +68,10 @@
     {
       "name": "VoiceTranslateJob",
       "description": "**Alpha.** Async voice translation jobs. This API may change without notice."
+    },
+    {
+      "name": "AdminApi",
+      "description": "Endpoints for organization administrators to manage API keys and retrieve usage analytics."
     }
   ],
   "x-hideTryItPanel": true,
@@ -213,6 +217,193 @@
                     "summary": "Invalid group_by parameter value",
                     "value": {
                       "message": "Value for 'group_by' not supported. Allowed: '', 'key', 'key_and_day'."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "auth_header": []
+          }
+        ]
+      }
+    },
+    "/v2/admin/analytics/custom-tags": {
+      "get": {
+        "tags": [
+          "AdminApi"
+        ],
+        "summary": "Get custom tag usage statistics as an admin",
+        "operationId": "adminGetCustomTagAnalytics",
+        "description": "Retrieve usage statistics broken down by custom tags within a specified date range.\nOptionally aggregate results by day or over the entire period.\nResults are paginated; use the `page` parameter with the `next_page` value from\na previous response to retrieve subsequent pages.",
+        "parameters": [
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": true,
+            "description": "Start date for the usage report (ISO 8601 date format).",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2026-05-17"
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": true,
+            "description": "End date for the usage report (ISO 8601 date format).",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2026-05-18"
+          },
+          {
+            "name": "aggregate_by",
+            "in": "query",
+            "required": false,
+            "description": "Optional parameter to control aggregation of usage statistics. Possible values:\n * `period` - Aggregate usage over the entire date range (default)\n * `day` - Group usage by individual day",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "period",
+                "day"
+              ],
+              "default": "period"
+            },
+            "example": "day"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Page number for pagination. Use the integer value returned in `next_page` from\na previous response to retrieve the next page of results.",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The custom tag usage statistics for the specified date range.",
+            "headers": {
+              "X-Trace-ID": {
+                "$ref": "#/components/headers/X-Trace-ID"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomTagUsageReport"
+                },
+                "examples": {
+                  "aggregateByPeriod": {
+                    "summary": "Usage report aggregated over the full period",
+                    "value": {
+                      "custom_tag_usage_report": {
+                        "aggregate_by": "period",
+                        "start_date": "2026-05-03T00:00:00",
+                        "end_date": "2026-05-05T00:00:00",
+                        "next_page": null,
+                        "usage": [
+                          {
+                            "custom_tag": "example-custom-tag",
+                            "breakdown": {
+                              "total_characters": 380,
+                              "text_translation_characters": 380,
+                              "text_improvement_characters": 0
+                            }
+                          },
+                          {
+                            "custom_tag": "example-custom-tag-2",
+                            "breakdown": {
+                              "total_characters": 475,
+                              "text_translation_characters": 475,
+                              "text_improvement_characters": 0
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "aggregateByDay": {
+                    "summary": "Usage report aggregated by day",
+                    "value": {
+                      "custom_tag_usage_report": {
+                        "aggregate_by": "day",
+                        "start_date": "2026-05-03T00:00:00",
+                        "end_date": "2026-05-15T00:00:00",
+                        "next_page": null,
+                        "usage": [
+                          {
+                            "custom_tag": "example-custom-tag",
+                            "usage_date": "2026-05-04T00:00:00Z",
+                            "breakdown": {
+                              "total_characters": 380,
+                              "text_translation_characters": 380,
+                              "text_improvement_characters": 0
+                            }
+                          },
+                          {
+                            "custom_tag": "example-custom-tag",
+                            "usage_date": "2026-05-11T00:00:00Z",
+                            "breakdown": {
+                              "total_characters": 595,
+                              "text_translation_characters": 595,
+                              "text_improvement_characters": 0
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Please check error message and your parameters.",
+            "headers": {
+              "X-Trace-ID": {
+                "$ref": "#/components/headers/X-Trace-ID"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message describing the issue."
+                    }
+                  }
+                },
+                "examples": {
+                  "dateRangeExceeded": {
+                    "summary": "Date range exceeds maximum allowed",
+                    "value": {
+                      "message": "Bad request. Reason: Date range cannot exceed 366 days"
+                    }
+                  },
+                  "invalidAggregateBy": {
+                    "summary": "Invalid aggregate_by parameter value",
+                    "value": {
+                      "message": "Value for 'aggregate_by' not supported. Allowed: '', 'period', 'day'."
                     }
                   }
                 }
@@ -589,7 +780,7 @@
                     "example": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7"
                   },
                   "style_id": {
-                    "description": "Specify the [style rule list](/api-reference/style-rules) to use for the translation. \n\n**Important:**  The target language has to match the language of the style rule list. \n\n**Note:** Any request with the `style_id` parameter enabled will use `quality_optimized` models. Requests combining `style_id` and `model_type: latency_optimized` will be rejected.",
+                    "description": "Specify the [style rule list](/api-reference/style-rules) to use for the translation.\n\n**Important:**  The target language has to match the language of the style rule list.\n\n**Note:** Any request with the `style_id` parameter enabled will use `quality_optimized` models. Requests combining `style_id` and `model_type: latency_optimized` will be rejected.",
                     "type": "string",
                     "example": "7ff9bfd6-cd85-4190-8503-d6215a321519"
                   },
@@ -1224,11 +1415,12 @@
     },
     "/v2/glossary-language-pairs": {
       "get": {
+        "deprecated": true,
         "tags": [
           "ManageGlossaries"
         ],
         "summary": "List Language Pairs Supported by Glossaries",
-        "description": "Retrieve the list of language pairs supported by the glossary feature.",
+        "description": "**Deprecated.** Use `GET /v3/languages?resource=glossary` instead, which returns per-language\navailability including source and target roles.\n\nRetrieve the list of language pairs supported by the glossary feature.",
         "operationId": "listGlossaryLanguages",
         "responses": {
           "200": {
@@ -2761,11 +2953,13 @@
     },
     "/v2/languages": {
       "get": {
+        "deprecated": true,
         "tags": [
           "MetaInformation"
         ],
         "summary": "Retrieve Supported Languages",
-        "operationId": "getLanguages",
+        "description": "**Deprecated.** Use `GET /v3/languages?resource=translate_text` (or the appropriate resource)\ninstead. See the [migration guide](https://developers.deepl.com/api-reference/languages/migrate-from-v2-languages)\nfor details.",
+        "operationId": "getLanguagesV2",
         "parameters": [
           {
             "name": "type",
@@ -3002,10 +3196,8 @@
     "/v3/languages/resources": {
       "get": {
         "tags": [
-          "MetaInformation",
-          "beta"
+          "MetaInformation"
         ],
-        "x-beta": true,
         "summary": "Retrieve Language Resources",
         "operationId": "getLanguageResources",
         "description": "Returns all DeepL API resources and the features they support.\n\nFor each feature, the response indicates which languages must support it for the feature to be\navailable — source only (`needs_source_support`), target only (`needs_target_support`), or both.\nThis allows clients to determine feature availability for a language pair by checking the\nappropriate language's `features` object returned by `GET /v3/languages`.",
@@ -3152,10 +3344,8 @@
     "/v3/languages": {
       "get": {
         "tags": [
-          "MetaInformation",
-          "beta"
+          "MetaInformation"
         ],
-        "x-beta": true,
         "summary": "Retrieve Languages",
         "operationId": "getLanguages",
         "description": "Returns languages supported by the specified DeepL API resource. Each language indicates whether it can\nbe used as a source language, a target language, or both, along with the features it supports for that\nresource.",
@@ -4303,6 +4493,9 @@
                   "target_media_voice": {
                     "$ref": "#/components/schemas/VoiceTargetMediaVoice"
                   },
+                  "spoken_terms_id": {
+                    "$ref": "#/components/schemas/SpokenTermsId"
+                  },
                   "glossary_id": {
                     "$ref": "#/components/schemas/GlossaryId"
                   },
@@ -4327,7 +4520,7 @@
                   }
                 },
                 "with_glossary": {
-                  "summary": "With glossary and formality",
+                  "summary": "With glossary and formality to customize translation",
                   "value": {
                     "source_media_content_type": "audio/pcm; encoding=s16le; rate=16000",
                     "source_language": "en",
@@ -4339,6 +4532,18 @@
                     "message_format": "msgpack",
                     "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
                     "formality": "formal"
+                  }
+                },
+                "with_spoken_terms": {
+                  "summary": "With spoken terms to inform transcription",
+                  "value": {
+                    "source_media_content_type": "audio/pcm; encoding=s16le; rate=16000",
+                    "source_language": "en",
+                    "source_language_mode": "fixed",
+                    "target_languages": [
+                      "de"
+                    ],
+                    "spoken_terms_id": "7c4f1080-cfe2-41d4-8269-0e6ec15a0354"
                   }
                 },
                 "with_tts": {
@@ -4924,7 +5129,7 @@
     "securitySchemes": {
       "auth_header": {
         "type": "apiKey",
-        "description": "Authentication with `Authorization` header and  `DeepL-Auth-Key` authentication scheme. Example:  `DeepL-Auth-Key <api-key>`\n",
+        "description": "Authentication with `Authorization` header and `DeepL-Auth-Key` authentication scheme. Example: `DeepL-Auth-Key <api-key>`\n",
         "name": "Authorization",
         "in": "header",
         "x-default": "DeepL-Auth-Key "
@@ -6700,7 +6905,7 @@
         }
       },
       "Formality": {
-        "description": "Sets whether the translated text should lean towards formal or informal language.\nThis feature is only available for certain target languages. Setting this parameter \nwith a target language that does not support formality will fail, unless one of the \n`prefer_...` options are used.\nPossible options are:\n  * `default` (default)\n  * `more` - for a more formal language\n  * `less` - for a more informal language\n  * `prefer_more` - for a more formal language if available, otherwise fallback to default formality\n  * `prefer_less` - for a more informal language if available, otherwise fallback to default formality",
+        "description": "Sets whether the translated text should lean towards formal or informal language.\nThis feature is only available for certain target languages. Setting this parameter\nwith a target language that does not support formality will fail, unless one of the\n`prefer_...` options are used.\nPossible options are:\n  * `default` (default)\n  * `more` - for a more formal language\n  * `less` - for a more informal language\n  * `prefer_more` - for a more formal language if available, otherwise fallback to default formality\n  * `prefer_less` - for a more informal language if available, otherwise fallback to default formality",
         "type": "string",
         "enum": [
           "default",
@@ -6838,6 +7043,12 @@
         ],
         "example": "de"
       },
+      "SpokenTermsId": {
+        "type": "string",
+        "format": "uuid",
+        "description": "(beta) The ID of a spoken terms list used to inform transcription.",
+        "example": "7c4f1080-cfe2-41d4-8269-0e6ec15a0354"
+      },
       "ModelType": {
         "type": "string",
         "description": "Specifies which DeepL model should be used for translation.",
@@ -6965,12 +7176,12 @@
         }
       },
       "OutlineDetectionOption": {
-        "description": "Disable the automatic detection of XML structure by setting the `outline_detection` parameter \nto `false` and selecting the tags that should be considered structure tags. This will split sentences \nusing the `splitting_tags` parameter.",
+        "description": "Disable the automatic detection of XML structure by setting the `outline_detection` parameter\nto `false` and selecting the tags that should be considered structure tags. This will split sentences\nusing the `splitting_tags` parameter.",
         "type": "boolean",
         "default": true
       },
       "OutlineDetectionOptionStr": {
-        "description": "Disable the automatic detection of XML structure by setting the `outline_detection` parameter \nto `false` and selecting the tags that should be considered structure tags. This will split sentences \nusing the `splitting_tags` parameter.",
+        "description": "Disable the automatic detection of XML structure by setting the `outline_detection` parameter\nto `false` and selecting the tags that should be considered structure tags. This will split sentences\nusing the `splitting_tags` parameter.",
         "type": "string",
         "default": "1",
         "enum": [
@@ -6993,12 +7204,12 @@
         }
       },
       "PreserveFormattingOption": {
-        "description": "Sets whether the translation engine should respect the original formatting, even if it would usually \ncorrect some aspects.",
+        "description": "Sets whether the translation engine should respect the original formatting, even if it would usually\ncorrect some aspects.",
         "type": "boolean",
         "default": false
       },
       "PreserveFormattingOptionStr": {
-        "description": "Sets whether the translation engine should respect the original formatting, even if it would usually \ncorrect some aspects.",
+        "description": "Sets whether the translation engine should respect the original formatting, even if it would usually\ncorrect some aspects.",
         "type": "string",
         "enum": [
           "0",
@@ -7007,11 +7218,11 @@
         "default": "0"
       },
       "ShowBilledCharacters": {
-        "description": "When true, the response will include the billed_characters parameter, giving the \nnumber of characters from the request that will be counted by DeepL for billing purposes.",
+        "description": "When true, the response will include the billed_characters parameter, giving the\nnumber of characters from the request that will be counted by DeepL for billing purposes.",
         "type": "boolean"
       },
       "SplitSentencesOption": {
-        "description": "Sets whether the translation engine should first split the input into sentences. \n\nPossible values are:\n  * 0 - no splitting at all, whole input is treated as one sentence\n  * 1 (default when tag_handling is not set to html) - splits on punctuation and on newlines\n  * nonewlines (default when tag_handling=html) - splits on punctuation only, ignoring newlines",
+        "description": "Sets whether the translation engine should first split the input into sentences.\n\nPossible values are:\n  * 0 - no splitting at all, whole input is treated as one sentence\n  * 1 (default when tag_handling is not set to html) - splits on punctuation and on newlines\n  * nonewlines (default when tag_handling=html) - splits on punctuation only, ignoring newlines",
         "type": "string",
         "enum": [
           "0",
@@ -7023,7 +7234,7 @@
       },
       "SourceLanguage": {
         "type": "string",
-        "description": "Language of the text to be translated. If this parameter is omitted, the API will attempt to\ndetect the language of the text and translate it.\n\nFor the full list of supported source languages, see [supported languages](https://developers.deepl.com/docs/getting-started/supported-languages) or query the [`GET /v3/languages` endpoint](https://developers.deepl.com/api-reference/languages/retrieve-supported-languages-by-resource) (beta).",
+        "description": "Language of the text to be translated. If this parameter is omitted, the API will attempt to\ndetect the language of the text and translate it.\n\nFor the full list of supported source languages, see [supported languages](https://developers.deepl.com/docs/getting-started/supported-languages) or query the [`GET /v3/languages` endpoint](https://developers.deepl.com/api-reference/languages/retrieve-supported-languages-by-resource).",
         "example": "EN"
       },
       "TranslationMemory": {
@@ -7197,7 +7408,7 @@
       },
       "TargetLanguage": {
         "type": "string",
-        "description": "The language into which the text should be translated.\n\nFor the full list of supported target languages, see [supported languages](https://developers.deepl.com/docs/getting-started/supported-languages) or query the [`GET /v3/languages` endpoint](https://developers.deepl.com/api-reference/languages/retrieve-supported-languages-by-resource) (beta).",
+        "description": "The language into which the text should be translated.\n\nFor the full list of supported target languages, see [supported languages](https://developers.deepl.com/docs/getting-started/supported-languages) or query the [`GET /v3/languages` endpoint](https://developers.deepl.com/api-reference/languages/retrieve-supported-languages-by-resource).",
         "example": "DE"
       },
       "TargetLanguageWrite": {
@@ -7339,7 +7550,7 @@
         "example": "json"
       },
       "VoiceTargetMediaVoice": {
-        "description": "(EAP) Target audio voice selection for synthesized speech. The default voice is language dependent.",
+        "description": "(closed beta) Target audio voice selection for synthesized speech. The default voice is language dependent.",
         "type": "string",
         "enum": [
           "male",
@@ -7491,7 +7702,7 @@
       },
       "VoiceTargetMediaLanguages": {
         "type": "array",
-        "description": "(EAP) List of target languages for which to generate synthesized audio. Languages specified here will automatically be added to target_languages if not already present, ensuring you receive both text translation and audio synthesis for these languages. If omitted, only text transcription and translation will be provided (no audio synthesis). The maximum allowed target media languages per stream is 5. Language identifiers must comply with IETF BCP 47.\nNote: Some translated audio languages are provided through external service partners. See the [supported languages table](/api-reference/voice#show-supported-languages) for details.\n",
+        "description": "(closed beta) List of target languages for which to generate synthesized audio. Languages specified here will automatically be added to target_languages if not already present, ensuring you receive both text translation and audio synthesis for these languages. If omitted, only text transcription and translation will be provided (no audio synthesis). The maximum allowed target media languages per stream is 5. Language identifiers must comply with IETF BCP 47.\nNote: Some translated audio languages are provided through external service partners. See the [supported languages table](/api-reference/voice#show-supported-languages) for details.\n",
         "items": {
           "type": "string",
           "enum": [
@@ -7539,7 +7750,7 @@
       },
       "VoiceTargetMediaContentType": {
         "type": "string",
-        "description": " (EAP) The audio format for synthesized target media streaming.\n Specifies container, codec, and encoding parameters for the audio returned in target_media_chunk messages.\n If not specified, defaults to audio/webm;codecs=opus.\n Only applies when target_media_languages is specified.\n \n | Content Type | Container | Codec |\n | :--- | :--- | :--- |\n | `audio/flac` | FLAC (flac) | FLAC 24000 Hz |\n | `video/mp2t;codecs=aac` | MPEG Transport Stream (Audio only) | AAC 70 kbit/s |\n | `video/mp2t;codecs=opus` | MPEG Transport Stream (Audio only) | OPUS 32 kbit/s |\n | `audio/ogg` | Ogg (ogg/oga) | OPUS 32 kbit/s |\n | `audio/ogg;codecs=flac` | Ogg (ogg/oga) | FLAC 24000 Hz |\n | `audio/ogg;codecs=opus` | Ogg (ogg/oga) | OPUS 32 kbit/s |\n | `audio/opus` | - | OPUS 32 kbit/s |\n | `audio/pcm;encoding=alaw;rate=8000` | - | PCM A-Law 8000 Hz (G.711) |\n | `audio/pcm;encoding=ulaw;rate=8000` | - | PCM µ-Law 8000 Hz (G.711) |\n | `audio/pcm;encoding=s16le;rate=16000` | - | PCM signed 16-bit little-endian 16000 Hz |\n | `audio/pcm;encoding=s16le;rate=24000` | - | PCM signed 16-bit little-endian 24000 Hz |\n | `audio/webm` | WebM (webm) | OPUS 32 kbit/s  |\n | `audio/webm;codecs=opus` | WebM (webm) | OPUS 32 kbit/s |\n | `audio/x-matroska;codecs=aac` | Matroska (mkv/mka) | AAC 70 kbit/s |\n | `audio/x-matroska;codecs=flac` | Matroska (mkv/mka) | FLAC 24000 Hz |\n | `audio/x-matroska;codecs=opus` | Matroska (mkv/mka) | OPUS 32 kbit/s |\n \n We recommend the following formats as good tradeoffs between quality and bandwidth:\n - OPUS (WebM): 32 kbps, recommended for low bandwidth scenarios (default)\n - PCM 24kHz: 384 kbps, high quality",
+        "description": " (closed beta) The audio format for synthesized target media streaming.\n Specifies container, codec, and encoding parameters for the audio returned in target_media_chunk messages.\n If not specified, defaults to audio/webm;codecs=opus.\n Only applies when target_media_languages is specified.\n \n | Content Type | Container | Codec |\n | :--- | :--- | :--- |\n | `audio/flac` | FLAC (flac) | FLAC 24000 Hz |\n | `video/mp2t;codecs=aac` | MPEG Transport Stream (Audio only) | AAC 70 kbit/s |\n | `video/mp2t;codecs=opus` | MPEG Transport Stream (Audio only) | OPUS 32 kbit/s |\n | `audio/ogg` | Ogg (ogg/oga) | OPUS 32 kbit/s |\n | `audio/ogg;codecs=flac` | Ogg (ogg/oga) | FLAC 24000 Hz |\n | `audio/ogg;codecs=opus` | Ogg (ogg/oga) | OPUS 32 kbit/s |\n | `audio/opus` | - | OPUS 32 kbit/s |\n | `audio/pcm;encoding=alaw;rate=8000` | - | PCM A-Law 8000 Hz (G.711) |\n | `audio/pcm;encoding=ulaw;rate=8000` | - | PCM µ-Law 8000 Hz (G.711) |\n | `audio/pcm;encoding=s16le;rate=16000` | - | PCM signed 16-bit little-endian 16000 Hz |\n | `audio/pcm;encoding=s16le;rate=24000` | - | PCM signed 16-bit little-endian 24000 Hz |\n | `audio/webm` | WebM (webm) | OPUS 32 kbit/s  |\n | `audio/webm;codecs=opus` | WebM (webm) | OPUS 32 kbit/s |\n | `audio/x-matroska;codecs=aac` | Matroska (mkv/mka) | AAC 70 kbit/s |\n | `audio/x-matroska;codecs=flac` | Matroska (mkv/mka) | FLAC 24000 Hz |\n | `audio/x-matroska;codecs=opus` | Matroska (mkv/mka) | OPUS 32 kbit/s |\n \n We recommend the following formats as good tradeoffs between quality and bandwidth:\n - OPUS (WebM): 32 kbps, recommended for low bandwidth scenarios (default)\n - PCM 24kHz: 384 kbps, high quality",
         "enum": [
           "audio/flac",
           "video/mp2t;codecs=aac",
@@ -7740,6 +7951,96 @@
           },
           "usage": {
             "$ref": "#/components/schemas/UsageBreakdown"
+          }
+        }
+      },
+      "CustomTagUsageReport": {
+        "type": "object",
+        "description": "The response for admin custom tag usage statistics.",
+        "properties": {
+          "custom_tag_usage_report": {
+            "$ref": "#/components/schemas/CustomTagUsageReportData"
+          }
+        }
+      },
+      "CustomTagUsageReportData": {
+        "type": "object",
+        "description": "Contains the detailed custom tag usage statistics for the specified date range.",
+        "properties": {
+          "aggregate_by": {
+            "type": "string",
+            "description": "The aggregation method used.",
+            "enum": [
+              "period",
+              "day"
+            ],
+            "example": "period"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Start date of the usage report period.",
+            "example": "2026-05-03T00:00:00"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "End date of the usage report period.",
+            "example": "2026-05-05T00:00:00"
+          },
+          "next_page": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Cursor for the next page of results. Null if there are no further pages.",
+            "example": 2
+          },
+          "usage": {
+            "type": "array",
+            "description": "List of custom tag usage entries.",
+            "items": {
+              "$ref": "#/components/schemas/CustomTagUsageItem"
+            }
+          }
+        }
+      },
+      "CustomTagUsageItem": {
+        "type": "object",
+        "description": "Usage statistics for a specific custom tag.",
+        "properties": {
+          "custom_tag": {
+            "type": "string",
+            "description": "The custom tag identifier.",
+            "example": "example-custom-tag"
+          },
+          "usage_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The day the usage was recorded. Only returned when `aggregate_by` is `day`.",
+            "example": "2026-05-04T00:00:00Z"
+          },
+          "breakdown": {
+            "$ref": "#/components/schemas/CustomTagBreakdown"
+          }
+        }
+      },
+      "CustomTagBreakdown": {
+        "type": "object",
+        "description": "Breakdown of character usage by category for a custom tag.",
+        "properties": {
+          "total_characters": {
+            "type": "integer",
+            "description": "Total number of characters used.",
+            "example": 380
+          },
+          "text_translation_characters": {
+            "type": "integer",
+            "description": "Number of characters used for text translation.",
+            "example": 380
+          },
+          "text_improvement_characters": {
+            "type": "integer",
+            "description": "Number of characters used for text improvement.",
+            "example": 0
           }
         }
       },

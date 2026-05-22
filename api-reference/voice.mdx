@@ -8,7 +8,9 @@ public: true
 The Voice API provides real-time voice transcription and translation services using a WebSocket connection.
 
 <Info>
-    Speech transcription and translation are available to all customers with a paid DeepL API subscription. Translated speech is in <Badge color="green">closed beta</Badge> and subject to change.
+    The Voice API provides **speech-to-text** capabilities: real-time transcription and text translation of spoken audio. These features are available to all customers with a paid DeepL API subscription.
+
+    **Speech-to-speech** (producing translated TTS output) is a separate capability currently in <Badge color="green">closed beta</Badge> and not included in standard API subscriptions.
 
     Please note that the existing provisions applying to customers' DeepL API Enterprise subscription also apply to
     DeepL Voice API speech to text with the following applicable additions to the
@@ -92,9 +94,11 @@ All source languages can be translated into any target language.
 </Accordion>
 
 <Warning>
-    Language auto-detection is not yet supported for transcription provided by external service partners. For languages marked with ⎋
-    you must explicitly specify the source language.
+    Transcription provided by external service partners (marked with ⎋) cannot yet auto-detect the source language,
+    which you must therefore specify explicitly. [Spoken terms](#customization) are also not yet supported.
 </Warning>
+
+To retrieve supported languages and feature availability programmatically, call [`GET /v3/languages?resource=voice`](/api-reference/languages/retrieve-supported-languages-by-resource) and check for the `transcription` and `translated_speech` feature keys. The external flag on these features indicates if they are provided by an external service partner.
 
 ## Supported Audio Formats
 
@@ -112,6 +116,13 @@ For supported output audio formats refer to
 | FLAC                         | FLAC / Matroska / Ogg               | 256 kbps (16kHz)                                     |
 | MP3                          | MPEG / Matroska                     | 128 kbps                                             |
 
+
+## Customization
+
+Two optional features let you tailor transcription and translation to your domain:
+
+* <Badge color="blue">beta</Badge> **Spoken terms** — Improve transcription of frequently used terms like company-specific terminology, acronyms, product names, and team member names. Manage in [DeepL Home](https://www.deepl.com/en/voice/spoken-terms); management via API coming soon.
+* **Glossaries** — Enforce specific translations for terms in the target language. Manage in [DeepL Home](https://www.deepl.com/en/glossary) or programmatically with the [Glossaries API](/api-reference/multilingual-glossaries).
 
 ## Connecting
 
@@ -131,7 +142,7 @@ The Voice API uses a two-step flow to initiate a session.
 
     This step handles:
     * Authentication and authorization
-    * Main configuration options (audio formats, languages, glossaries, message encoding, etc.)
+    * Main configuration options (audio formats, languages, glossaries, spoken terms, message encoding, etc.)
 
     <Note>
       URL and token are valid for one-time use only.
