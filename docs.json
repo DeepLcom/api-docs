@@ -345,7 +345,7 @@
         "title": "Resources",
         "items": [
           { "label": "API Status", "href": "https://api-status.deepl.com" },
-          { "label": "DeepL Status (all services)", "href": "https://www.deeplstatus.com" }
+          { "label": "DeepL Status", "href": "https://www.deeplstatus.com" }
         ]
       }
     ],
