@@ -123,6 +123,7 @@
             "pages": [
               "docs/getting-started/deepl-cli",
               "docs/getting-started/deepl-mcp-server",
+              "docs/getting-started/docs-mcp-server",
               "docs/getting-started/test-your-api-requests-with-postman",
               "docs/resources/deepl-developer-community",
               "docs/resources/open-api-spec"

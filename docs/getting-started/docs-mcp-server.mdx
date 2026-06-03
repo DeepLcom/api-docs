@@ -1,0 +1,102 @@
+---
+title: "Docs MCP Server"
+description: "Connect your AI tools to the DeepL developer documentation for source-grounded answers about the DeepL API."
+---
+
+**This page shows you:**
+- What the DeepL Docs MCP Server is and how it differs from the [DeepL MCP Server](/docs/getting-started/deepl-mcp-server)
+- How to connect it to Claude, Cursor, VS Code, and other AI tools
+
+The DeepL developer documentation site exposes a [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server at `https://developers.deepl.com/mcp`. This lets AI tools search and read our documentation directly, so they can give you accurate, up-to-date answers about the DeepL API without relying on training data.
+
+<Note>
+This is different from the [DeepL MCP Server](/docs/getting-started/deepl-mcp-server), which gives AI agents the ability to *call* the DeepL API (translate text, manage glossaries, etc.). The Docs MCP Server provides read-only access to the documentation itself.
+</Note>
+
+## What it provides
+
+When connected, your AI tool gets two capabilities:
+
+- **Search**: Find relevant documentation pages by keyword, returning snippets with titles and links
+- **Read**: Navigate and read full pages from the documentation site
+
+Your AI tool decides when to use each capability based on the conversation context. For example, if you ask "How do I use glossaries with the DeepL API?", the tool can search the docs, pull up the relevant pages, and give you an answer grounded in the actual documentation.
+
+## Setup
+
+<Tabs>
+<Tab title="Claude Desktop">
+
+1. Open Claude Desktop and go to **Settings > Connectors**
+2. Click **Add custom connector**
+3. Enter a name (e.g., "DeepL Docs") and the URL: `https://developers.deepl.com/mcp`
+4. In any chat, click the attachments icon and select the connector to activate it
+
+</Tab>
+<Tab title="Claude Code">
+
+Run this command to add the server:
+
+```bash
+claude mcp add --transport http deepl-docs https://developers.deepl.com/mcp
+```
+
+Claude Code can now search and reference DeepL documentation during your sessions.
+
+</Tab>
+<Tab title="Cursor">
+
+Open Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`), search for "Open MCP Settings", and add the following to your `mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "deepl-docs": {
+      "url": "https://developers.deepl.com/mcp"
+    }
+  }
+}
+```
+
+</Tab>
+<Tab title="VS Code">
+
+Create a `.vscode/mcp.json` file in your project root:
+
+```json
+{
+  "servers": {
+    "deepl-docs": {
+      "type": "http",
+      "url": "https://developers.deepl.com/mcp"
+    }
+  }
+}
+```
+
+</Tab>
+<Tab title="Other MCP clients">
+
+Any MCP-compatible client can connect using the server URL:
+
+```
+https://developers.deepl.com/mcp
+```
+
+Refer to your client's documentation for how to add remote MCP servers.
+
+</Tab>
+</Tabs>
+
+No API key or authentication is required.
+
+## Example prompts
+
+Once connected, try asking your AI tool questions like:
+
+- "How do I translate a document using the DeepL API?"
+- "What parameters does the text translation endpoint accept?"
+- "How do glossaries work in DeepL?"
+- "What are the rate limits for the DeepL API?"
+
+The AI tool will search the documentation and return answers with references to specific pages.
