@@ -8676,12 +8676,12 @@
             "properties": {
               "source_language": {
                 "type": "string",
-                "description": "Language code of the source text. See [Supported language pairs](/api-reference/quality-evaluation#supported-language-pairs).",
+                "description": "Language code of the source text. See [Supported language pairs](/api-reference/quality-evaluation/submit#supported-language-pairs).",
                 "example": "en"
               },
               "target_language": {
                 "type": "string",
-                "description": "Language code of the translated text. See [Supported language pairs](/api-reference/quality-evaluation#supported-language-pairs).",
+                "description": "Language code of the translated text. See [Supported language pairs](/api-reference/quality-evaluation/submit#supported-language-pairs).",
                 "example": "de"
               }
             }
@@ -8888,7 +8888,7 @@
         "properties": {
           "type": {
             "type": "string",
-            "description": "Top-level category of the issue. See [Type and sub-type values](/api-reference/quality-evaluation#type-and-sub-type-values).",
+            "description": "Top-level category of the issue. See [Type and sub-type values](/api-reference/quality-evaluation/poll#type-and-sub-type-values).",
             "enum": [
               "Accuracy",
               "Fluency",
@@ -8899,7 +8899,7 @@
           },
           "sub_type": {
             "type": "string",
-            "description": "Finer-grained category within `type`. See [Type and sub-type values](/api-reference/quality-evaluation#type-and-sub-type-values).",
+            "description": "Finer-grained category within `type`. See [Type and sub-type values](/api-reference/quality-evaluation/poll#type-and-sub-type-values).",
             "enum": [
               "Addition",
               "Omission",
@@ -8920,7 +8920,7 @@
           },
           "severity": {
             "type": "string",
-            "description": "How serious the issue is. See [Severity values](/api-reference/quality-evaluation#severity-values).",
+            "description": "How serious the issue is. See [Severity values](/api-reference/quality-evaluation/poll#severity-values).",
             "enum": [
               "Critical",
               "Major",
@@ -8935,14 +8935,14 @@
           },
           "source_spans": {
             "type": "array",
-            "description": "Spans on the segment's source text where this issue applies. Empty if no source-side highlight. See [About span ranges](/api-reference/quality-evaluation#about-span-ranges).",
+            "description": "Spans on the segment's source text where this issue applies. Empty if no source-side highlight. See [About span ranges](/api-reference/quality-evaluation/poll#about-span-ranges).",
             "items": {
               "$ref": "#/components/schemas/QualityEvaluationSpan"
             }
           },
           "target_spans": {
             "type": "array",
-            "description": "Spans on the segment's target text where this issue applies. Empty if no target-side highlight. See [About span ranges](/api-reference/quality-evaluation#about-span-ranges).",
+            "description": "Spans on the segment's target text where this issue applies. Empty if no target-side highlight. See [About span ranges](/api-reference/quality-evaluation/poll#about-span-ranges).",
             "items": {
               "$ref": "#/components/schemas/QualityEvaluationSpan"
             }
@@ -8955,7 +8955,7 @@
           "start",
           "end"
         ],
-        "description": "A half-open `[start, end)` range of Unicode code points within a segment's source or target text. See [About span ranges](/api-reference/quality-evaluation#about-span-ranges).",
+        "description": "A half-open `[start, end)` range of Unicode code points within a segment's source or target text. See [About span ranges](/api-reference/quality-evaluation/poll#about-span-ranges).",
         "properties": {
           "start": {
             "type": "integer",
