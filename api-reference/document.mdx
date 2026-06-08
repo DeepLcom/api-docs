@@ -158,6 +158,18 @@ These examples are for demonstration purposes only. In production code, the auth
 <ParamField body="glossary_id" type="string">
   A unique ID assigned to a glossary. To check glossary support for a language pair, call <a href="/api-reference/languages/retrieve-supported-languages-by-resource"><code>GET /v3/languages?resource=translate_document</code></a> and verify the <code>glossary</code> feature key is present on both the source and target language.
 </ParamField>
+<ParamField body="style_id" type="string">
+  Specify the style rule list to use for the translation which can be used to customize translations according to the selected formatting and style conventions.
+  <Info>
+    The target language has to match the language of the style rule list.
+  </Info>
+</ParamField>
+<ParamField body="translation_memory_id" type="string">
+  The [translation memory](/api-reference/translation-memory/list-translation-memories) to use for the translation. The value should be the UUID of a translation memory associated with your account.
+</ParamField>
+<ParamField body="translation_memory_threshold" type="integer">
+  The minimum matching percentage required for a translation memory segment to be applied (recommended to be 75% or higher). Accepts values from 0 to 100. Default: `75`.
+</ParamField>
 <ParamField body="output_format" type="string">
   File extension of desired format of translated file, for example: `pdf`. If unspecified, by default the translated file will be in the same format as the input file.
   Note: Not all combinations of input file and translation file extensions are permitted. See <a href="/api-reference/document#document-format-conversions">Document format conversions</a> for the permitted combinations.
