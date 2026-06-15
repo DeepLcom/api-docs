@@ -221,9 +221,7 @@ Note that we do not include examples for our client libraries in every single se
   </Warning>
 
   <Info>
-    [Tag handling v2](/docs/xml-and-html-handling/tag-handling-v2) is compatible only with next-gen models and implicitly sets
-`model_type` to `quality_optimized`. Setting both `model_type=latency_optimized` and `tag_handling_version=v2` will return an
-error.
+    [Tag handling v2](/docs/xml-and-html-handling/tag-handling-v2) uses next-gen models and is compatible with all `model_type` values.
   </Info>
 
   See [About the model_type parameter](#about-the-model_type-parameter) for more details.
@@ -290,7 +288,7 @@ error.
   <Info>
     The target language has to match the language of the style rule list.
 
-    Additionally, any request with the `style_id` parameter enabled will default to use the `quality_optimized` model type. Requests combining `style_id` and `model_type: latency_optimized` will be rejected.
+    When no `model_type` is specified, requests with the `style_id` parameter default to `quality_optimized`. All `model_type` values are supported.
   </Info>
 </ParamField>
 <ParamField body="custom_instructions" type="array[string]">
@@ -299,14 +297,14 @@ error.
   <Info>
     The target language must be `de`, `en`, `es`, `fr`, `it`, `ja`, `ko`, `zh` or any variants of these languages.
 
-    Any request with the `custom_instructions` parameter enabled will default to use the `quality_optimized` model type. Requests combining `custom_instructions` and `model_type: latency_optimized` will be rejected. You can find best practices on how to write custom instructions [here](/docs/best-practices/custom-instructions).
+    When no `model_type` is specified, requests with `custom_instructions` default to `quality_optimized`. All `model_type` values are supported. You can find best practices on how to write custom instructions [here](/docs/best-practices/custom-instructions).
   </Info>
   To check language support dynamically, call <a href="/api-reference/languages/retrieve-supported-languages-by-resource"><code>GET /v3/languages?resource=translate_text</code></a> and check for the <code>style_rules</code> feature key on the target language.
 </ParamField>
 <ParamField body="translation_memory_id" type="string">
   The [translation memory](/api-reference/translation-memory/list-translation-memories) to use for the translation. The value should be the UUID of a translation memory associated with your account.
   <Info>
-    Requests with the `translation_memory_id` parameter must use the `quality_optimized` model type. Requests combining `translation_memory_id` and `model_type: latency_optimized` will be rejected.
+    When no `model_type` is specified, requests with `translation_memory_id` default to `quality_optimized`. All `model_type` values are supported.
   </Info>
 </ParamField>
 <ParamField body="translation_memory_threshold" type="integer">

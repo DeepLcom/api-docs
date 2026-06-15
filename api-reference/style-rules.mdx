@@ -936,5 +936,5 @@ curl -X POST 'https://api.deepl.com/v2/translate' \
 ```
 
 <Info>
-  Any request with the `style_id` parameter enabled will use `quality_optimized` models. Requests combining `style_id` and `model_type: latency_optimized` will be rejected.
+  When no `model_type` is specified, requests with the `style_id` parameter default to `quality_optimized`. All `model_type` values are supported.
 </Info>
