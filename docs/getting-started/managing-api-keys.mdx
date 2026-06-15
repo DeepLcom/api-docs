@@ -5,8 +5,7 @@ public: true
 ---
 
 <Info>
-This page describes managing API keys in the self-admin area. Additionally, an Admin API for API key management is 
-available to a limited set of Pro API customers. Learn more [here](/api-reference/admin-api).
+This page describes managing API keys in the self-admin area. An [Admin API](/api-reference/admin-api) for API key management is also available to all API Growth and API Enterprise subscribers, and to a limited set of Pro API subscribers.
 </Info>
 
 ### Get started
@@ -65,7 +64,7 @@ Both active and deactivated keys can be renamed.
 
 **Copy key**
 
-Copies the API key to your clipboard. For security reasons, we do not show the full key in the table in the “API Keys” tab. Both active and revoked keys can be copied.
+Copies the API key to your clipboard. For security reasons, we do not show the full key in the table in the “API Keys & Limits” tab. Both active and revoked keys can be copied.
 
 <Frame caption="Copy an API key">
 ![](/_assets/images/copy-api-key.png)
@@ -106,13 +105,24 @@ It's possible to set an API key-level limit to 0, which means the API key will n
 
 ### API key permissions
 
+<Warning>
+  **Private beta.** This feature is currently available to select customers only. To request access, contact your customer success manager or [DeepL support](https://support.deepl.com/hc/en-us/requests/new).
+</Warning>
+
 API key permissions let you limit what a developer API key can do. Instead of one key with full access to every endpoint, you can issue keys that are scoped to specific operations, for example a key that can only translate text or a key that can only read glossaries.
 
 Permissions are implemented as scopes. Each scope groups a set of related operations into a single capability you can grant to a key. This section uses "permissions" for the user-facing feature and "scopes" for the technical mechanism.
 
 Permissions are currently supported only for developer API keys. An account can hold any mix of scoped and unrestricted developer keys.
 
-#### How scopes work
+**When to use scoped keys**
+
+| **Key Type** | **Choose When** |
+| --- | --- |
+| **Unrestricted** | A key can access any endpoint and doesn't need to be limited in any way. |
+| **Scoped** | A key should have access only to specific endpoints, for example to prevent glossaries from being modified inadvertently. |
+
+**How scopes work**
 
 Developer keys can be turned into scoped keys by assigning them one or more scopes. Once a key is scoped:
 
@@ -120,11 +130,9 @@ Developer keys can be turned into scoped keys by assigning them one or more scop
 - Every other endpoint returns `403 Forbidden`, including any endpoint that has no scope requirement of its own.
 - Some endpoints require more than one scope. A key must hold all of them; if any is missing, the request is denied and the response lists the missing scopes.
 
-<Info>
 Scopes are enforced only on scoped keys. Unrestricted keys retain full access to every endpoint. Existing keys remain unrestricted by default, but you can assign them scopes at any time.
-</Info>
 
-#### Available scopes
+**Available scopes**
 
 <AccordionGroup>
   <Accordion title="Translate text (translate:text)">
@@ -213,7 +221,11 @@ Scopes are enforced only on scoped keys. Unrestricted keys retain full access to
   </Accordion>
 </AccordionGroup>
 
-#### Create a scoped key
+<Info>
+  **Voice API support is coming.** Permissions don't yet cover the Voice API, so there's no Voice scope to assign. Because a scoped key is blocked from every endpoint its scopes don't cover, a scoped key can't currently reach the Voice API at all. Use an unrestricted key for any workload that needs Voice until Voice scopes ship in a future update.
+</Info>
+
+**Create a scoped key**
 
 Open the ["API Keys & Limits" tab](https://www.deepl.com/your-account/keys) in your account. Click "Create key" and optionally name the key.
 
@@ -225,7 +237,7 @@ Click "Create key" to confirm. The key is created with the chosen scopes and sho
 ![](/_assets/images/api-key-permissions-create.png)
 </Frame>
 
-#### Edit scopes on an existing key
+**Edit scopes on an existing key**
 
 You can change scopes on any existing developer API key, including keys that were originally unrestricted.
 
@@ -239,7 +251,7 @@ In the API keys table, open the key's menu and select "Edit permissions". Choose
 ![](/_assets/images/api-key-permissions-edit-dialog.png)
 </Frame>
 
-#### Identify scoped and unrestricted keys
+**Identify scoped and unrestricted keys**
 
 The API keys table includes a column showing each key's permissions. Hover over the badge to view the assigned scopes.
 
@@ -251,6 +263,15 @@ The API keys table includes a column showing each key's permissions. Hover over 
 ![](/_assets/images/api-key-permissions-badge-hover.png)
 </Frame>
 
-#### Error responses
+**Error responses**
 
-When a scoped key calls an endpoint outside its scopes, the API returns a `403 Forbidden` response. To resolve it, call an endpoint covered by the key's scopes, or add the missing scope to the key.
+When a scoped key calls an endpoint outside its scopes, the API returns a `403 Forbidden` response. The `detail` field lists the scopes the key is missing:
+
+```json
+{
+  "message": "Forbidden",
+  "detail": "Missing required scope(s): glossaries:write"
+}
+```
+
+To resolve it, call an endpoint covered by the key's scopes, or add the missing scope to the key.
