@@ -788,7 +788,7 @@
                     "example": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7"
                   },
                   "style_id": {
-                    "description": "Specify the [style rule list](/api-reference/style-rules) to use for the translation.\n\n**Important:**  The target language has to match the language of the style rule list.\n\nWhen no `model_type` is specified, requests with the `style_id` parameter default to `quality_optimized`. All `model_type` values are supported.",
+                    "description": "Specify the [style rule list](/api-reference/style-rules) to use for the translation.\n\n**Important:**  The target language has to match the language of the style rule list.",
                     "type": "string",
                     "example": "7ff9bfd6-cd85-4190-8503-d6215a321519"
                   },
@@ -799,7 +799,7 @@
                     "$ref": "#/components/schemas/TranslationMemoryThreshold"
                   },
                   "custom_instructions": {
-                    "description": "Specify a list of instructions to customize the translation behavior. Up to 10 custom instructions can be specified, each with a maximum of 300 characters.\n\n**Important:**  The target language must be `de`, `en`, `es`, `fr`, `it`, `ja`, `ko`, `zh` or any variants of these languages.\n\nWhen no `model_type` is specified, requests with `custom_instructions` default to `quality_optimized`. All `model_type` values are supported.",
+                    "description": "Specify a list of instructions to customize the translation behavior. Up to 10 custom instructions can be specified, each with a maximum of 300 characters.\n\n**Important:**  The target language must be `de`, `en`, `es`, `fr`, `it`, `ja`, `ko`, `zh` or any variants of these languages.",
                     "type": "array",
                     "items": {
                       "type": "string",
@@ -7685,7 +7685,7 @@
       "TranslationMemoryId": {
         "type": "string",
         "format": "uuid",
-        "description": "A unique ID assigned to a translation memory.\n\nWhen no `model_type` is specified, requests with `translation_memory_id` default to `quality_optimized`. All `model_type` values are supported.",
+        "description": "A unique ID assigned to a translation memory.",
         "example": "a74d88fb-ed2a-4943-a664-a4512398b994"
       },
       "TranslationMemorySourceLanguage": {

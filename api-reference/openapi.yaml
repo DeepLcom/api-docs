@@ -586,7 +586,7 @@ paths:
 
                     **Important:**  The target language has to match the language of the style rule list.
 
-                    When no `model_type` is specified, requests with the `style_id` parameter default to `quality_optimized`. All `model_type` values are supported.
+                    All `model_type` values are supported.
                   type: string
                   example: 7ff9bfd6-cd85-4190-8503-d6215a321519
                 translation_memory_id:
@@ -598,8 +598,6 @@ paths:
                     Specify a list of instructions to customize the translation behavior. Up to 10 custom instructions can be specified, each with a maximum of 300 characters.
 
                     **Important:**  The target language must be `de`, `en`, `es`, `fr`, `it`, `ja`, `ko`, `zh` or any variants of these languages.
-
-                    When no `model_type` is specified, requests with `custom_instructions` default to `quality_optimized`. All `model_type` values are supported.
                   type: array
                   items:
                     type: string
@@ -5517,8 +5515,6 @@ components:
       format: uuid
       description: |-
         A unique ID assigned to a translation memory.
-
-        When no `model_type` is specified, requests with `translation_memory_id` default to `quality_optimized`. All `model_type` values are supported.
       example: a74d88fb-ed2a-4943-a664-a4512398b994
     TranslationMemorySourceLanguage:
       description: The source language of the translation memory.
