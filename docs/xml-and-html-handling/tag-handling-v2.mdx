@@ -112,18 +112,12 @@ Only XML is strictly parsed. HTML is not strictly parsed.
 
 ## Compatibility
 
-Tag handling v2 is currently only compatible with the `quality_optimized` model type. Support for `latency_optimized` will be added in a future update.
+Tag handling v2 is compatible with all model types.
 
 | Model Type | v1 Support | v2 Support |
 |------------|:----------:|:----------:|
 | `quality_optimized` | ✅ | ✅ |
-| `latency_optimized` | ✅ | ❌ |
-
-When you set `tag_handling_version` to `v2`, the `model_type` is implicitly set to `quality_optimized`.
-
-<Warning>
-  Requests that specify both `model_type=latency_optimized` and `tag_handling_version=v2` will return an error.
-</Warning>
+| `latency_optimized` | ✅ | ✅ |
 
 ## Migration Guide
 

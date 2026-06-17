@@ -85,11 +85,7 @@ When using custom instructions, keep these constraints in mind:
 - **Maximum instructions**: Up to 10 custom instructions per request
 - **Character limit**: Each instruction can contain a maximum of 300 characters
 - **Supported target languages**: `de`, `en`, `es`, `fr`, `it`, `ja`, `ko`, `zh`, or any variants of these languages
-- **Model requirement**: Requests with `custom_instructions` automatically use the `quality_optimized` model type
-
-<Warning>
-Combining `custom_instructions` with `model_type: latency_optimized` will result in an error. Custom instructions require the quality-optimized model.
-</Warning>
+- **Model compatibility**: Custom instructions are compatible with all `model_type` values.
 
 ## Related documentation
 

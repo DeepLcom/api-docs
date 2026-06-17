@@ -10,6 +10,15 @@ rss: true
 </Update>
 
 <Update label="June 2026">
+## June 17 - `latency_optimized` Now Supported for All Features
+- The `latency_optimized` model type is now fully compatible with all Translate API features, including:
+  - [Tag handling v2](/docs/xml-and-html-handling/tag-handling-v2) (`tag_handling_version=v2`)
+  - [Style rules](/api-reference/style-rules) (`style_id`)
+  - [Custom instructions](/docs/best-practices/custom-instructions) (`custom_instructions`)
+  - [Translation memories](/docs/learning-how-tos/examples-and-guides/how-to-use-translation-memories) (`translation_memory_id`)
+  - All language pairs, including languages previously restricted to `quality_optimized`
+- Previously, combining `model_type=latency_optimized` with these features would return an error. These restrictions have been removed.
+
 ## June 15 - API Key Permissions (Private Beta)
 - Developer API keys can now be scoped to specific endpoints, so a key can be limited to, for example, translating text or reading glossaries. See [API key permissions](/docs/getting-started/managing-api-keys#api-key-permissions).
 - Assign one or more scopes when [creating or editing a key](https://www.deepl.com/your-account/keys). A scoped key returns `403 Forbidden` on any endpoint its scopes don't cover.
@@ -133,7 +142,7 @@ Use the `DeepL-Auth-Key` header instead.
 
 ## January 8 - 81 New Languages in GA
 - Promoted all 81 beta languages to standard language support. These languages are now part of the main source and target language lists.
-- Note that these languages only work with `quality_optimized` model or when no model is specified, and are not compatible with `latency_optimized` requests.
+- These languages are compatible with all `model_type` values including `latency_optimized`.
 - The `enable_beta_languages` parameter is maintained for backward compatibility but has no effect.
 
 See [here](../getting-started/supported-languages) for the complete language list.
