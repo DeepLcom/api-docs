@@ -10,6 +10,11 @@ rss: true
 </Update>
 
 <Update label="June 2026">
+## June 30 - Voice Usage Now Reported in Minutes
+- The [`/v2/usage` endpoint](/api-reference/usage-and-quota) now reports speech-to-text consumption in minutes instead of milliseconds. New response fields: `speech_to_text_minutes_count` and `speech_to_text_minutes_limit`.
+- The previous `speech_to_text_milliseconds_count` and `speech_to_text_milliseconds_limit` fields are deprecated and always return `0`. Update any code that reads these fields to use the new minutes-based fields instead.
+- In the `products` array, the `billing_unit` for speech-to-text usage is now `minutes` (previously `milliseconds`).
+
 ## June 24 - API Key Permissions General Availability
 - [API key permissions](/docs/getting-started/managing-api-keys#api-key-permissions) are now generally available. Scope a developer API key to specific endpoints so it can perform only the operations you allow.
 - Available on the API Pro, API Developer, API Growth, and API Enterprise plans.
